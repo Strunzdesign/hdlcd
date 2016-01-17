@@ -1,0 +1,23 @@
+    static bool s_once = true;
+    if (s_once) {
+        s_once = false;
+        std::vector<unsigned char> l_Payload(17);
+        l_Payload[ 0] = 0x00;
+        l_Payload[ 1] = 0x00;
+        l_Payload[ 2] = 0x40;
+        l_Payload[ 3] = 0x01;
+        l_Payload[ 4] = 0x3F;
+        l_Payload[ 5] = 0xF7;
+        l_Payload[ 6] = 0x00;
+        l_Payload[ 7] = 0x00;
+        l_Payload[ 8] = 0x10;
+        l_Payload[ 9] = 0x00;
+        l_Payload[10] = 0x04;
+        l_Payload[11] = 0x06;
+        l_Payload[12] = 0x02;
+        l_Payload[13] = 0x00;
+        l_Payload[14] = 0x80;
+        l_Payload[15] = 0x02;
+        l_Payload[16] = 0x01;
+        m_ComPortHandler->DeliverPayloadToHDLC(l_Payload);
+    }

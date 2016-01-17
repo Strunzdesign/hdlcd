@@ -1,5 +1,5 @@
 # hdlc-tools
-A deamon that implements the HDLC protocol to easily talk to devices connected via serial communications
+The hdlc-tools implement the HDLC protocol to easily talk to devices connected via serial communications
 
 This package offers the system deamon "hdlcd" that implements the "high-Level data link" protocol. The purpose of
 this deamon is to easily use serial devices that make use of the HDLC protocol for communication.
