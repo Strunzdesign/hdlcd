@@ -30,28 +30,29 @@ std::string Frame::GetReadableDescription() const {
     } else if (IsSFrame()) {
         l_Output << "HDLC frame, Addr=" << (int)GetAddress() << ", ";
         l_Output << "S-Frame: ";
-	switch (GetHDLCFrameType()) {
-	    case Frame::HDLC_FRAMETYPE_S_RR: {
-	        l_Output << "RR";
-		break;
-	    }
-	    case Frame::HDLC_FRAMETYPE_S_RNR: {
-	        l_Output << "RNR";
-		break;
-	    }
-	    case Frame::HDLC_FRAMETYPE_S_REJ: {
-	        l_Output << "REJ";
-		break;
-	    }
-	    case Frame::HDLC_FRAMETYPE_S_SREJ: {
-	        l_Output << "SREJ";
-		break;
-	    }
-	    default: {
-	        break;
-	    }
-	} // switch
-	l_Output << ", PF=" << IsPF() << ", RSeq=" << (int)GetRSeq();
+        switch (GetHDLCFrameType()) {
+            case Frame::HDLC_FRAMETYPE_S_RR: {
+                l_Output << "RR";
+                break;
+            }
+            case Frame::HDLC_FRAMETYPE_S_RNR: {
+                l_Output << "RNR";
+                break;
+            }
+            case Frame::HDLC_FRAMETYPE_S_REJ: {
+                l_Output << "REJ";
+                break;
+            }
+            case Frame::HDLC_FRAMETYPE_S_SREJ: {
+                l_Output << "SREJ";
+                break;
+            }
+            default: {
+                break;
+            }
+        } // switch
+
+        l_Output << ", PF=" << IsPF() << ", RSeq=" << (int)GetRSeq();
     } else if (IsUFrame()) {
         l_Output << "HDLC frame, Addr=" << (int)GetAddress() << ", ";
         l_Output << "U-Frame, PF=" << IsPF();
