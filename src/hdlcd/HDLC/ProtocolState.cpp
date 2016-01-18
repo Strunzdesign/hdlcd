@@ -92,11 +92,15 @@ void ProtocolState::InterpretDeserializedFrame(const Frame& a_Frame) {
             // Now we know the start of the window the receiver expects and which segments it allows us to send
             m_RSeqOutgoing = a_Frame.GetRSeq();
         } else if (a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_S_RNR) {
-            
+            // The peer wants us to stop sending subsequent data
+            // TODO: not implemented yet
         } else if (a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_S_REJ) {
-            
+            // The peer requests for go-back-N. We have to retransmit all affected packets
+            // TODO: not implemented yet
         } else {
             assert(a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_S_SREJ);
+            // The peer requests for the retransmission of a single segment with a specific sequence number
+            // TODO: not implemented yet
         } // else
     } // if
 }
