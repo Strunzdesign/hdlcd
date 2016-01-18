@@ -28,8 +28,7 @@ std::string Frame::GetReadableDescription() const {
         l_Output << "HDLC frame, Addr=" << (int)GetAddress() << ", ";
         l_Output << "I-Frame, PF=" << IsPF() << ", SSeq=" << (int)GetSSeq() << ", RSeq=" << (int)GetRSeq();
     } else if (IsSFrame()) {
-        l_Output << "HDLC frame, Addr=" << (int)GetAddress() << ", ";
-        l_Output << "S-Frame: ";
+        l_Output << "HDLC frame, Addr=" << (int)GetAddress() << ", S-Frame: ";
         switch (GetHDLCFrameType()) {
             case Frame::HDLC_FRAMETYPE_S_RR: {
                 l_Output << "RR";
@@ -54,8 +53,58 @@ std::string Frame::GetReadableDescription() const {
 
         l_Output << ", PF=" << IsPF() << ", RSeq=" << (int)GetRSeq();
     } else if (IsUFrame()) {
-        l_Output << "HDLC frame, Addr=" << (int)GetAddress() << ", ";
-        l_Output << "U-Frame, PF=" << IsPF();
+        l_Output << "HDLC frame, Addr=" << (int)GetAddress() << ", U-Frame: ";
+        switch (GetHDLCFrameType()) {
+            case Frame::HDLC_FRAMETYPE_U_UI: {
+                l_Output << "UI";
+                break;
+            }
+            case Frame::HDLC_FRAMETYPE_U_SIM: {
+                l_Output << "SIM";
+                break;
+            }
+            case Frame::HDLC_FRAMETYPE_U_SARM: {
+                l_Output << "SARM";
+                break;
+            }
+            case Frame::HDLC_FRAMETYPE_U_UP: {
+                l_Output << "UP";
+                break;
+            }
+            case Frame::HDLC_FRAMETYPE_U_SABM: {
+                l_Output << "SABM";
+                break;
+            }
+            case Frame::HDLC_FRAMETYPE_U_DISC: {
+                l_Output << "DISC";
+                break;
+            }
+            case Frame::HDLC_FRAMETYPE_U_UA: {
+                l_Output << "UA";
+                break;
+            }
+            case Frame::HDLC_FRAMETYPE_U_SNRM: {
+                l_Output << "SNRM";
+                break;
+            }
+            case Frame::HDLC_FRAMETYPE_U_CMDR: {
+                l_Output << "FRMR/CMDR";
+                break;
+            }
+            case Frame::HDLC_FRAMETYPE_U_TEST: {
+                l_Output << "TEST";
+                break;
+            }
+            case Frame::HDLC_FRAMETYPE_U_XID: {
+                l_Output << "XID";
+                break;
+            }
+            default: {
+                break;
+            }
+        } // switch
+        
+        l_Output << ", PF=" << IsPF();
     } else {
         l_Output << "Unparseable HDLC frame";
     } // else
