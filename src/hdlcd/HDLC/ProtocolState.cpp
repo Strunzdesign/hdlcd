@@ -73,7 +73,7 @@ void ProtocolState::AddReceivedRawBytes(const char* a_Buffer, size_t a_Bytes) {
     m_FrameParser->AddReceivedRawBytes(a_Buffer, a_Bytes);
 }
 
-void ProtocolState::DeliverDeserializedFrame(const Frame& a_Frame) {
+void ProtocolState::InterpretDeserializedFrame(const Frame& a_Frame) {
     std::cout << "Received " << a_Frame.GetReadableDescription() << std::endl;
     if (a_Frame.HasPayload()) {
         // I-Frame or U-Frame with UI

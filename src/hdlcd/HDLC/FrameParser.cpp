@@ -133,7 +133,7 @@ void FrameParser::RemoveEscapeCharacters() {
     std::cout << std::endl;
     
     if (l_FrameIsValid) {
-        m_ProtocolState->DeliverDeserializedFrame(DeserializeFrame());
+        m_ProtocolState->InterpretDeserializedFrame(DeserializeFrame());
     } // if
     
     // Remove consumed frame
