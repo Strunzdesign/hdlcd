@@ -26,8 +26,10 @@
 
 ProtocolState::ProtocolState(std::shared_ptr<ComPortHandler> a_ComPortHandler, boost::asio::io_service& a_IOService) {
     m_bSendQueueEmpty = true;
-    m_SSEQ = 0;
-    m_RSEQ = 0;
+    m_SSeqOutgoing = 0;
+    m_RSeqOutgoing = 0;
+    m_SSeqIncoming = 0;
+    m_RSeqIncoming = 0;
     m_HDLCType = HDLC_TYPE_UNKNOWN;
     m_ComPortHandler = a_ComPortHandler;
 }
@@ -49,15 +51,15 @@ void ProtocolState::SendPayload(const std::vector<unsigned char> &a_Payload) {
         l_Frame.SetAddress(0x30);
         l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_I);
         l_Frame.SetPF(false);
-        l_Frame.SetSSeq(m_SSEQ);
-        l_Frame.SetRSeq(m_RSEQ);
+        l_Frame.SetSSeq(m_SSeqOutgoing);
+        l_Frame.SetRSeq(m_RSeqIncoming);
         l_Frame.SetPayload(std::move(a_Payload));
 
         std::cout << "Sending " << l_Frame.GetReadableDescription() << std::endl;
         m_ComPortHandler->DeliverHDLCFrame(FrameGenerator::SerializeFrame(l_Frame));
         
-        // Increase SSeq
-        m_SSEQ = ((m_SSEQ + 1) & 0x07);
+        // Increase outgoing SSeq
+        m_SSeqOutgoing = ((m_SSeqOutgoing + 1) & 0x07);
     } // if
     
 }
@@ -74,6 +76,27 @@ void ProtocolState::AddReceivedRawBytes(const char* a_Buffer, size_t a_Bytes) {
 void ProtocolState::DeliverDeserializedFrame(const Frame& a_Frame) {
     std::cout << "Received " << a_Frame.GetReadableDescription() << std::endl;
     if (a_Frame.HasPayload()) {
+        // I-Frame or U-Frame with UI
         m_ComPortHandler->DeliverPayloadToClients(a_Frame.GetPayload());
+        
+        // If it is an I-Frame, the data may have to be acked
+        if (a_Frame.IsIFrame()) {
+            // FIXME: may be a repeated packet
+            m_RSeqIncoming = a_Frame.GetSSeq();
+        } // if
+    } // if
+    
+    // Check the various types of ACKs and NACKs
+    if ((a_Frame.IsIFrame()) || (a_Frame.IsSFrame())) {
+        if ((a_Frame.IsIFrame()) || (a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_S_RR)) {
+            // Now we know the start of the window the receiver expects and which segments it allows us to send
+            m_RSeqOutgoing = a_Frame.GetRSeq();
+        } else if (a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_S_RNR) {
+            
+        } else if (a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_S_REJ) {
+            
+        } else {
+            assert(a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_S_SREJ);
+        } // else
     } // if
 }
