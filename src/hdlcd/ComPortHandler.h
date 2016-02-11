@@ -29,7 +29,6 @@
 #include <vector>
 #include <deque>
 #include <algorithm>
-#include <mutex>
 #include <assert.h>
 #include <boost/asio.hpp>
 #include <string.h>
@@ -68,7 +67,6 @@ private:
     enum { max_length = 1024 };
     char data_[max_length];
      
-    std::mutex m_SendMutex;
     std::deque<std::vector<unsigned char>> m_SendBufferList;
     bool m_CurrentlySending;
 };

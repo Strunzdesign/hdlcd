@@ -109,7 +109,6 @@ void ComPortHandler::DeliverHDLCFrame(const std::vector<unsigned char> &a_Payloa
     
     std::cout << std::endl;
 
-    std::lock_guard<std::mutex> l_MutexLock(m_SendMutex);
     m_SendBufferList.push_back(a_Payload);
     if (m_CurrentlySending == false) {
         m_CurrentlySending = true;
@@ -131,12 +130,10 @@ void ComPortHandler::do_read() {
 }
 
 void ComPortHandler::do_write() {
-    // The SendMutex was already locked here!
     auto self(shared_from_this());
     m_SerialPort.async_write_some(boost::asio::buffer(&(m_SendBufferList.front()[0]), m_SendBufferList.front().size()),[this, self](boost::system::error_code ec, std::size_t length) {
         bool l_bQueryForSubsequentFrames = false;
         if (!ec) {
-            std::lock_guard<std::mutex> l_MutexLock(m_SendMutex);
             if (m_SendBufferList.front().size() == length) {
                 std::cout << "SERIAL Completely written: " << length << " bytes" << std::endl;
             } else {
@@ -158,7 +155,6 @@ void ComPortHandler::do_write() {
             Stop();
         } // else
         
-        // Here, the mutex is not locked anymore
         if (l_bQueryForSubsequentFrames) {
             m_ProtocolState->SendQueueIsEmpty();
         } // if

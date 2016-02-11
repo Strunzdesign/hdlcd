@@ -29,11 +29,11 @@
 #include <deque>
 #include <vector>
 #include <algorithm>
-#include <mutex>
 #include <assert.h>
 #include <boost/asio.hpp>
 class ComPortHandler;
 class ComPortHandlerCollection;
+class StreamFrame;
 using boost::asio::ip::tcp;
 
 class ClientHandler: public std::enable_shared_from_this<ClientHandler> {
@@ -58,8 +58,7 @@ private:
     enum { max_length = 1024 };
     char data_[max_length];
     
-    std::mutex m_SendMutex;
-    std::deque<std::vector<unsigned char>> m_SendBufferList;
+    std::deque<StreamFrame> m_StreamFrameQueue;
     bool m_CurrentlySending;
 };
 

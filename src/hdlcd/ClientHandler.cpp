@@ -22,6 +22,7 @@
 #include "ClientHandler.h"
 #include "ComPortHandlerCollection.h"
 #include "ComPortHandler.h"
+#include "../hdlc-hexchange/StreamFrame.h"
 
 ClientHandler::ClientHandler(boost::asio::ip::tcp::socket a_TCPSocket): m_TCPSocket(std::move(a_TCPSocket)) {
     m_Registered = true;
@@ -34,8 +35,11 @@ ClientHandler::~ClientHandler() {
 }
 
 void ClientHandler::DeliverPayloadToClients(const std::vector<unsigned char> &a_Payload) {
-    std::lock_guard<std::mutex> l_MutexLock(m_SendMutex);
-    m_SendBufferList.push_back(a_Payload);
+    StreamFrame l_StreamFrame;
+    l_StreamFrame.body_length(a_Payload.size());
+    std::memcpy(l_StreamFrame.body(), &a_Payload[0], l_StreamFrame.body_length());
+    l_StreamFrame.encode_header();
+    m_StreamFrameQueue.push_back(l_StreamFrame);
     if (m_CurrentlySending == false) {
         m_CurrentlySending = true;
         do_write();
@@ -53,7 +57,8 @@ void ClientHandler::Stop() {
         m_Registered = false;
         m_ComPortHandler.reset();
         std::cout << "TCP CLOSE" << std::endl;
-        m_TCPSocket.shutdown(m_TCPSocket.shutdown_both);
+        //m_TCPSocket.shutdown(m_TCPSocket.shutdown_both);
+        m_TCPSocket.close();
     } // if
 }
 
@@ -64,36 +69,6 @@ void ClientHandler::do_read() {
             std::cout << "TCP read " << length << " Bytes" << std::endl;
             std::vector<unsigned char> l_Buffer(length);
             memcpy(&(l_Buffer[0]), data_, length);
-            
-            
-            
-            /*
-            std::vector<unsigned char> l_Payload(17);
-            l_Payload[ 0] = 0x00;
-            l_Payload[ 1] = 0x00;
-            l_Payload[ 2] = 0x40;
-            l_Payload[ 3] = 0x01;
-            l_Payload[ 4] = 0x3F;
-            l_Payload[ 5] = 0xF7;
-            l_Payload[ 6] = 0x00;
-            l_Payload[ 7] = 0x00;
-            l_Payload[ 8] = 0x10;
-            l_Payload[ 9] = 0x00;
-            l_Payload[10] = 0x04;
-            l_Payload[11] = 0x06;
-            l_Payload[12] = 0x02;
-            l_Payload[13] = 0x00;
-            l_Payload[14] = 0x80;
-            l_Payload[15] = 0x02;
-            l_Payload[16] = 0x01;
-            m_ComPortHandler->DeliverPayloadToHDLC(std::move(l_Payload));
-            */
-            
-            
-            
-            
-            
-            
             m_ComPortHandler->DeliverPayloadToHDLC(std::move(l_Buffer));
             do_read();
         } else {
@@ -104,20 +79,13 @@ void ClientHandler::do_read() {
 } 
 
 void ClientHandler::do_write() {
-    // The SendMutex was already locked here!
     auto self(shared_from_this());
-    m_TCPSocket.async_write_some(boost::asio::buffer(&(m_SendBufferList.front()[0]), m_SendBufferList.front().size()),[this, self](boost::system::error_code ec, std::size_t length) {
+    boost::asio::async_write(m_TCPSocket, boost::asio::buffer(m_StreamFrameQueue.front().data(), m_StreamFrameQueue.front().length()),
+                                 [this](boost::system::error_code ec, std::size_t /*length*/) {
         if (!ec) {
-            std::lock_guard<std::mutex> l_MutexLock(m_SendMutex);
-            if (m_SendBufferList.front().size() == length) {
-            } else {
-                std::cout << "TCP Partly written: " << length << " of " << m_SendBufferList.front().size() << " bytes" << std::endl;
-                assert(false);
-            } // else
-            
             // More to write?
-            m_SendBufferList.pop_front();
-            if (m_SendBufferList.empty() == false) {
+            m_StreamFrameQueue.pop_front();
+            if (!m_StreamFrameQueue.empty()) {
                 do_write();
             } else {
                 m_CurrentlySending = false;
