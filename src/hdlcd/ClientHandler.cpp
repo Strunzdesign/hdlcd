@@ -99,7 +99,7 @@ void ClientHandler::do_readSessionHeader1() {
     m_TCPSocket.async_read_some(boost::asio::buffer(data_, 3),[this, self](boost::system::error_code ec, std::size_t length) {
         if (!ec) {
             if ((data_[1] & 0xF0) == 0x00) {
-                m_bDeliverDissectedHDLC = true;
+                m_bDeliverPayload = true;
             } else if ((data_[1] & 0xF0) == 0x30) {
                 m_bDeliverRawHDLC = true;
             } else if ((data_[1] & 0xF0) == 0x40) {
