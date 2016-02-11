@@ -74,7 +74,7 @@ void ProtocolState::AddReceivedRawBytes(const char* a_Buffer, size_t a_Bytes) {
 }
 
 void ProtocolState::InterpretDeserializedFrame(const Frame& a_Frame) {
-    std::cout << "Received " << a_Frame.GetReadableDescription() << std::endl;
+    m_ComPortHandler->DeliverDissectedFrameToClients("Received " + a_Frame.GetReadableDescription());
     if (a_Frame.HasPayload()) {
         // I-Frame or U-Frame with UI
         m_ComPortHandler->DeliverPayloadToClients(a_Frame.GetPayload());

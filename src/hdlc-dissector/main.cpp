@@ -32,7 +32,7 @@
 #include <deque>
 #include <iostream>
 #include <boost/asio.hpp>
-#include "StreamFrame.h"
+#include "../libFrame/StreamFrame.h"
 #include "StreamEndpoint.h"
 using boost::asio::ip::tcp;
 

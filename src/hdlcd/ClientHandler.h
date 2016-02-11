@@ -40,7 +40,9 @@ class ClientHandler: public std::enable_shared_from_this<ClientHandler> {
 public:
     ClientHandler(boost::asio::ip::tcp::socket a_TCPSocket);
     ~ClientHandler();
-    void DeliverPayloadToClients(const std::vector<unsigned char> &a_Payload);
+    void DeliverRawPayloadToClient(const std::vector<unsigned char> &a_Payload);
+    void DeliverRawFrameToClient(const std::vector<unsigned char> &a_RawFrame);
+    void DeliverDissectedFrameToClient(const std::string& a_DissectedFrame);
     
     void Start(std::shared_ptr<ComPortHandlerCollection> a_ComPortHandlerCollection);
     void Stop();
@@ -63,6 +65,11 @@ private:
     
     std::deque<StreamFrame> m_StreamFrameQueue;
     bool m_CurrentlySending;
+    
+    // SAP specification
+    bool m_bDeliverRawHDLC;
+    bool m_bDeliverDissectedHDLC;
+    bool m_bDeliverPayload;
 };
 
 #endif // CLIENTHANDLER_H

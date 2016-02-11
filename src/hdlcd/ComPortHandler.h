@@ -44,7 +44,11 @@ public:
     
     void AddClientHandler(std::shared_ptr<ClientHandler> a_ClientHandler);
     void DeliverPayloadToHDLC(const std::vector<unsigned char> &a_Payload);
+    
     void DeliverPayloadToClients(const std::vector<unsigned char> &a_Payload);
+    void DeliverRawFrameToClients(const std::vector<unsigned char> &a_RawFrame);
+    void DeliverDissectedFrameToClients(const std::string& a_DissectedFrame);
+    
     void Start();
     void Stop();
     

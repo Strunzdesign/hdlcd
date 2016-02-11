@@ -26,3 +26,14 @@
           SSA       SSA   
     
 00 00 40 01 3F F4 00 00 10 00 04 06 02 00 80 02 01
+
+
+
+
+
+
+
+                // Print string
+                std::string l_DissectedHDLC;
+                l_DissectedHDLC.append((const char*)m_StreamFrame.body(), m_StreamFrame.body_length());
+                std::cout << l_DissectedHDLC << std::endl;

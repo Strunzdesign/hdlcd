@@ -27,7 +27,7 @@
 #include <iostream>
 #include <thread>
 #include <boost/asio.hpp>
-#include "StreamFrame.h"
+#include "../libFrame/StreamFrame.h"
 #include "../libFrame/IBufferSink.h"
 #include <iomanip> 
 
@@ -63,6 +63,7 @@ private:
         boost::asio::async_connect(m_Socket, a_EndpointIterator,
                                    [this](boost::system::error_code ec, tcp::resolver::iterator) {
             if (!ec) {
+                do_writeSessionHeader();
                 do_read_header();
             }
         });
@@ -86,43 +87,16 @@ private:
             if (!ec) {
                 auto l_Buffer = std::vector<unsigned char>(m_StreamFrame.body_length());
                 std::memcpy(&(l_Buffer[0]), m_StreamFrame.body(), m_StreamFrame.body_length());
+
                 
                 
                 
+                // Print string
+                std::string l_DissectedHDLC;
+                l_DissectedHDLC.append((const char*)m_StreamFrame.body(), m_StreamFrame.body_length());
+                std::cout << l_DissectedHDLC << std::endl;
                 
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                //RawFrameSink::RawFrameReceived(l_Buffer);
-                for (size_t i = 0; i < l_Buffer.size(); ++i) {
-                    std::cout << std::hex << std::setw(2) << std::setfill('0') << int(l_Buffer[i]) << " ";
-                }
-        
-                std::cout << std::endl;
-                //std::cout.write(&(a_RawFrame[0]), a_RawFrame.size());
-                //std::cout << "\n";
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
+
                 
                 
                 
@@ -131,6 +105,37 @@ private:
                   std::cout << "TCP read error!" << std::endl;
                   m_Socket.close();
               }
+        });
+    }
+    
+    void do_writeSessionHeader() {
+        unsigned char l_SessionHeader[15];
+        l_SessionHeader[ 0] = 0x00; // Version
+        l_SessionHeader[ 1] = 0x43; // SAP: HDLC dissected RO, RX and TX   RECV_CTRL
+        l_SessionHeader[ 2] = 0x0c; // 12 bytes following for "/dev/ttyUSB0"
+        l_SessionHeader[ 3] = 0x2f;
+        l_SessionHeader[ 4] = 0x64;
+        l_SessionHeader[ 5] = 0x65;
+        l_SessionHeader[ 6] = 0x76;
+        l_SessionHeader[ 7] = 0x2f;
+        l_SessionHeader[ 8] = 0x74;
+        l_SessionHeader[ 9] = 0x74;
+        l_SessionHeader[10] = 0x79;
+        l_SessionHeader[11] = 0x55;
+        l_SessionHeader[12] = 0x53;
+        l_SessionHeader[13] = 0x42;
+        l_SessionHeader[14] = 0x30;
+        
+        boost::asio::async_write(m_Socket, boost::asio::buffer(l_SessionHeader, 15),
+                                 [this](boost::system::error_code ec, std::size_t /*length*/) {
+            if (!ec) {
+                if (!m_StreamFrameQueue.empty()) {
+                    do_write();
+                }
+            } else {
+                std::cout << "TCP write error!" << std::endl;
+                m_Socket.close();
+            }
         });
     }
 

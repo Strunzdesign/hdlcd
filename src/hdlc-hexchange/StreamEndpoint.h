@@ -27,7 +27,7 @@
 #include <iostream>
 #include <thread>
 #include <boost/asio.hpp>
-#include "StreamFrame.h"
+#include "../libFrame/StreamFrame.h"
 #include "../libFrame/IBufferSink.h"
 #include <iomanip> 
 
@@ -115,7 +115,7 @@ private:
     void do_writeSessionHeader() {
         unsigned char l_SessionHeader[15];
         l_SessionHeader[ 0] = 0x00; // Version
-        l_SessionHeader[ 1] = 0x00; // SAP
+        l_SessionHeader[ 1] = 0x00; // SAP: Payload Raw RW
         l_SessionHeader[ 2] = 0x0c; // 12 bytes following for "/dev/ttyUSB0"
         l_SessionHeader[ 3] = 0x2f;
         l_SessionHeader[ 4] = 0x64;

@@ -49,7 +49,25 @@ void ComPortHandler::DeliverPayloadToHDLC(const std::vector<unsigned char> &a_Pa
 void ComPortHandler::DeliverPayloadToClients(const std::vector<unsigned char> &a_Payload) {
     for (auto it = m_ClientHandlerVector.begin(); it != m_ClientHandlerVector.end(); ++it) {
         if (auto l_ClientHandler = it->lock()) {
-            l_ClientHandler->DeliverPayloadToClients(a_Payload);
+            l_ClientHandler->DeliverRawPayloadToClient(a_Payload);
+        } // if
+        // TODO: REMOVE IF INVALID
+    } // for
+}
+
+void ComPortHandler::DeliverRawFrameToClients(const std::vector<unsigned char> &a_RawFrame) {
+    for (auto it = m_ClientHandlerVector.begin(); it != m_ClientHandlerVector.end(); ++it) {
+        if (auto l_ClientHandler = it->lock()) {
+            l_ClientHandler->DeliverRawFrameToClient(a_RawFrame);
+        } // if
+        // TODO: REMOVE IF INVALID
+    } // for
+}
+
+void ComPortHandler::DeliverDissectedFrameToClients(const std::string& a_DissectedFrame) {
+    for (auto it = m_ClientHandlerVector.begin(); it != m_ClientHandlerVector.end(); ++it) {
+        if (auto l_ClientHandler = it->lock()) {
+            l_ClientHandler->DeliverDissectedFrameToClient(a_DissectedFrame);
         } // if
         // TODO: REMOVE IF INVALID
     } // for

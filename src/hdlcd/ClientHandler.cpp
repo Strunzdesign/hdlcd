@@ -22,11 +22,14 @@
 #include "ClientHandler.h"
 #include "ComPortHandlerCollection.h"
 #include "ComPortHandler.h"
-#include "../hdlc-hexchange/StreamFrame.h"
+#include "../libFrame/StreamFrame.h"
 
 ClientHandler::ClientHandler(boost::asio::ip::tcp::socket a_TCPSocket): m_TCPSocket(std::move(a_TCPSocket)) {
     m_Registered = true;
     m_CurrentlySending = false;
+    m_bDeliverRawHDLC = false;
+    m_bDeliverDissectedHDLC = false;
+    m_bDeliverPayload = false;
     std::cout << "CTOR ClientHandler" << std::endl;
 }
 
@@ -34,15 +37,45 @@ ClientHandler::~ClientHandler() {
     std::cout << "DTOR ClientHandler" << std::endl;
 }
 
-void ClientHandler::DeliverPayloadToClients(const std::vector<unsigned char> &a_Payload) {
-    StreamFrame l_StreamFrame;
-    l_StreamFrame.body_length(a_Payload.size());
-    std::memcpy(l_StreamFrame.body(), &a_Payload[0], l_StreamFrame.body_length());
-    l_StreamFrame.encode_header();
-    m_StreamFrameQueue.push_back(l_StreamFrame);
-    if (m_CurrentlySending == false) {
-        m_CurrentlySending = true;
-        do_write();
+void ClientHandler::DeliverRawPayloadToClient(const std::vector<unsigned char> &a_Payload) {
+    if (m_bDeliverPayload) {
+        StreamFrame l_StreamFrame;
+        l_StreamFrame.body_length(a_Payload.size());
+        std::memcpy(l_StreamFrame.body(), &a_Payload[0], l_StreamFrame.body_length());
+        l_StreamFrame.encode_header();
+        m_StreamFrameQueue.push_back(l_StreamFrame);
+        if (m_CurrentlySending == false) {
+            m_CurrentlySending = true;
+            do_write();
+        } // if
+    } // if
+}
+
+void ClientHandler::DeliverRawFrameToClient(const std::vector<unsigned char> &a_RawFrame) {
+    if (m_bDeliverRawHDLC) {
+        StreamFrame l_StreamFrame;
+        l_StreamFrame.body_length(a_RawFrame.size());
+        std::memcpy(l_StreamFrame.body(), &a_RawFrame[0], l_StreamFrame.body_length());
+        l_StreamFrame.encode_header();
+        m_StreamFrameQueue.push_back(l_StreamFrame);
+        if (m_CurrentlySending == false) {
+            m_CurrentlySending = true;
+            do_write();
+        } // if
+    } // if
+}
+
+void ClientHandler::DeliverDissectedFrameToClient(const std::string& a_DissectedFrame) {
+    if (m_bDeliverDissectedHDLC) {
+        StreamFrame l_StreamFrame;
+        l_StreamFrame.body_length(a_DissectedFrame.size());
+        std::memcpy(l_StreamFrame.body(), a_DissectedFrame.c_str(), l_StreamFrame.body_length());
+        l_StreamFrame.encode_header();
+        m_StreamFrameQueue.push_back(l_StreamFrame);
+        if (m_CurrentlySending == false) {
+            m_CurrentlySending = true;
+            do_write();
+        } // if
     } // if
 }
 
@@ -65,6 +98,16 @@ void ClientHandler::do_readSessionHeader1() {
     auto self(shared_from_this());
     m_TCPSocket.async_read_some(boost::asio::buffer(data_, 3),[this, self](boost::system::error_code ec, std::size_t length) {
         if (!ec) {
+            if ((data_[1] & 0xF0) == 0x00) {
+                m_bDeliverDissectedHDLC = true;
+            } else if ((data_[1] & 0xF0) == 0x30) {
+                m_bDeliverRawHDLC = true;
+            } else if ((data_[1] & 0xF0) == 0x40) {
+                m_bDeliverDissectedHDLC = true;
+            } // if
+            
+            // TODO: missing error management
+            
             do_readSessionHeader2(data_[2]);
         } else {
             std::cout << "TCP READ ERROR HEADER1:" << ec << std::endl;
