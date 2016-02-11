@@ -1,0 +1,46 @@
+Description of the hdlcd access protocol
+
+1.) Connect a TCP socket to the listener port of the hdlcd (currently 10000)
+2.) Send a session header describing the type of data exchange
+3.) Send and receive encapsulated packets as well as control packets describing the state of the hdlc protocol
+
+Session header format:
+---
+The session header must and can only be sent once after initiation of the TCP socket
+
+
+1 Byte  | 1 Byte | 1 Byte                         | x Byte
+Version | SAP    | Length of USB port description | USB port path string
+
+Version: 0x00 is currently the only supported version
+SAP: 0x00: Payload RW                 RECV_CTRL   SEND_CTRL 
+     0x11: Payload RO, RX only        RECV_CTRL
+     0x12: Payload RO, TX only        RECV_CTRL
+     0x13: Payload RO, RX and TX      RECV_CTRL
+     0x21: HDLC RO, RX only           RECV_CTRL
+     0x22: HDLC RO, TX only           RECV_CTRL
+     0x23: HDLC RO, RX and TX         RECV_CTRL
+     0x31: Port status, RX only       RECV_CTRL   SEND_CTRL 
+     0x32: Port status, TX only       RECV_CTRL   SEND_CTRL 
+     0x33: Port status, RX and TX     RECV_CTRL   SEND_CTRL 
+Length: 0 up to 255 bytes are allowed. However, not all lengths make sense :-)
+USB path: file name of the USB port without NULL termination
+
+On any error, the TCP socket is closed immediately without any notification!
+
+An exemplary session header to open /dev/ttyUSB0 for Payload read / write:
+00 00 0c 2f 64 65 76 2f 74 74 79 55 53 42 30
+
+
+
+
+
+Packet header format:
+---
+Packets can be control packets or data packets
+
+1 Byte |
+Type   |
+
+Type: 0x00 Data packet
+      0x01 Control packet

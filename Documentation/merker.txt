@@ -8,9 +8,6 @@
         l_Payload[ 3] = 0x01;
         l_Payload[ 4] = 0x3F;
         l_Payload[ 5] = 0xF7;
-        
-        
-        
         l_Payload[ 6] = 0x00;
         l_Payload[ 7] = 0x00;
         l_Payload[ 8] = 0x10;
@@ -29,5 +26,3 @@
           SSA       SSA   
     
 00 00 40 01 3F F4 00 00 10 00 04 06 02 00 80 02 01
-
-00 10 40 01 3F F7 00 00 10 00 04 06 02 00 80

@@ -47,9 +47,8 @@ void ClientHandler::DeliverPayloadToClients(const std::vector<unsigned char> &a_
 }
 
 void ClientHandler::Start(std::shared_ptr<ComPortHandlerCollection> a_ComPortHandlerCollection) {
-    m_ComPortHandlerStopper = a_ComPortHandlerCollection->GetComPortHandler("/dev/ttyUSB0", shared_from_this());
-    m_ComPortHandler = (*m_ComPortHandlerStopper.get());
-    do_read();
+    m_ComPortHandlerCollection = a_ComPortHandlerCollection;
+    do_readSessionHeader1();
 }
 
 void ClientHandler::Stop() {
@@ -60,6 +59,35 @@ void ClientHandler::Stop() {
         //m_TCPSocket.shutdown(m_TCPSocket.shutdown_both);
         m_TCPSocket.close();
     } // if
+}
+
+void ClientHandler::do_readSessionHeader1() {
+    auto self(shared_from_this());
+    m_TCPSocket.async_read_some(boost::asio::buffer(data_, 3),[this, self](boost::system::error_code ec, std::size_t length) {
+        if (!ec) {
+            do_readSessionHeader2(data_[2]);
+        } else {
+            std::cout << "TCP READ ERROR HEADER1:" << ec << std::endl;
+            Stop();
+        } // else
+    });
+}
+
+void ClientHandler::do_readSessionHeader2(unsigned char a_BytesUSB) {
+    auto self(shared_from_this());
+    m_TCPSocket.async_read_some(boost::asio::buffer(data_, max_length),[this, self](boost::system::error_code ec, std::size_t length) {
+        if (!ec) {
+            // Now we know the USB port
+            std::string l_UsbPortString;
+            l_UsbPortString.append(data_, length);
+            m_ComPortHandlerStopper = m_ComPortHandlerCollection->GetComPortHandler(l_UsbPortString, shared_from_this());
+            m_ComPortHandler = (*m_ComPortHandlerStopper.get());
+            do_read();
+        } else {
+            std::cout << "TCP READ ERROR:" << ec << std::endl;
+            Stop();
+        } // else
+    });
 }
 
 void ClientHandler::do_read() {
@@ -76,7 +104,7 @@ void ClientHandler::do_read() {
             Stop();
         } // else
     });
-} 
+}
 
 void ClientHandler::do_write() {
     auto self(shared_from_this());

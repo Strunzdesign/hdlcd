@@ -47,12 +47,15 @@ public:
     
 private:
     // Helpers
+    void do_readSessionHeader1();
+    void do_readSessionHeader2(unsigned char a_BytesUSB);
     void do_read();
     void do_write();
 
     // Members
     bool m_Registered;
     boost::asio::ip::tcp::socket m_TCPSocket;
+    std::shared_ptr<ComPortHandlerCollection> m_ComPortHandlerCollection;
     std::shared_ptr<std::shared_ptr<ComPortHandler>> m_ComPortHandlerStopper;
     std::shared_ptr<ComPortHandler> m_ComPortHandler;
     enum { max_length = 1024 };
