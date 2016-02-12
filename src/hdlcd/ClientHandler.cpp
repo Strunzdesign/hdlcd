@@ -20,6 +20,7 @@
  */
 
 #include "ClientHandler.h"
+#include <iomanip>
 #include "ComPortHandlerCollection.h"
 #include "ComPortHandler.h"
 #include "../libFrame/StreamFrame.h"
@@ -138,8 +139,23 @@ void ClientHandler::do_read() {
     m_TCPSocket.async_read_some(boost::asio::buffer(data_, max_length),[this, self](boost::system::error_code ec, std::size_t length) {
         if (!ec) {
             std::cout << "TCP read " << length << " Bytes" << std::endl;
-            std::vector<unsigned char> l_Buffer(length);
-            memcpy(&(l_Buffer[0]), data_, length);
+            std::vector<unsigned char> l_Buffer(length - 2);
+            memcpy(&(l_Buffer[0]), &(data_[2]), length - 2);
+	    
+	    
+	    
+	    
+	        for (size_t i = 0; i < l_Buffer.size(); ++i) {
+                    std::cout << std::hex << std::setw(2) << std::setfill('0') << int(l_Buffer[i]) << " ";
+                }
+        
+                std::cout << std::endl;
+
+	    
+	    
+	    
+	    
+	    
             m_ComPortHandler->DeliverPayloadToHDLC(std::move(l_Buffer));
             do_read();
         } else {

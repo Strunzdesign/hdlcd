@@ -32,7 +32,6 @@
 #include <deque>
 #include <iostream>
 #include <thread>
-#include <bitset>    // for std::bitset
 #include <boost/asio.hpp>
 #include "../libFrame/StreamFrame.h"
 #include "StreamEndpoint.h"
@@ -58,10 +57,10 @@ int main(int argc, char* argv[]) {
         while (std::cin.getline(l_HexLine, l_HexLineLength)) {
             std::istringstream stream_in(l_HexLine);
             stream_in >> std::hex;
-            std::vector<std::bitset<8>> memory;
+            std::vector<unsigned char> memory;
             memory.reserve(65536);
             memory.insert(memory.end(),std::istream_iterator<unsigned int>(stream_in), {});
-            
+
             // Put everything into the stream frame
             StreamFrame l_StreamFrame;
             l_StreamFrame.body_length(memory.size());

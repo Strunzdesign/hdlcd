@@ -41,7 +41,6 @@ const std::vector<unsigned char> FrameGenerator::SerializeFrame(const Frame& a_F
     switch (a_Frame.GetHDLCFrameType()) {
         case Frame::HDLC_FRAMETYPE_I: {
             l_ControlField = (((a_Frame.GetSSeq() & 0x07) << 1) | ((a_Frame.GetRSeq() & 0x07) << 5)); // I-Frame, PF=0
-            assert(a_Frame.GetPayload().size() > 0);
             memcpy(&l_HDLCFrame[3], &(a_Frame.GetPayload())[0], a_Frame.GetPayload().size());
             l_Offset = (a_Frame.GetPayload().size() + 2);
             break;
