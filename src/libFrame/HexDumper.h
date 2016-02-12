@@ -30,9 +30,8 @@ class HexDumper: public IBufferSink {
 private:
     void BufferReceived(const std::vector<unsigned char> &a_Buffer) {
         // Print a hexdump of the provided data buffer. It should contain packet to be printed in one line.
-        std::cout << std::hex << std::setw(2) << std::setfill('0');
         for (size_t i = 0; i < a_Buffer.size(); ++i) {
-            std::cout << int(a_Buffer[i]) << " ";
+            std::cout << std::hex << std::setw(2) << std::setfill('0') << int(a_Buffer[i]) << " ";
         } // for
 
         std::cout << std::endl;
