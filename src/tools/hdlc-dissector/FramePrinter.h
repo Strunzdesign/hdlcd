@@ -1,5 +1,5 @@
 /**
- * \file IBufferSink.h
+ * \file FramePrinter.h
  * \brief 
  *
  * The hdlc-tools implement the HDLC protocol to easily talk to devices connected via serial communications
@@ -19,15 +19,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef I_BUFFER_SINK_H
-#define I_BUFFER_SINK_H
+#ifndef FRAME_PRINTER_H
+#define FRAME_PRINTER_H
 
-#include <vector>
+#include "../../libFrame/IBufferSink.h"
+#include <iostream>
+#include <string>
 
-class IBufferSink {
-public:
-    virtual ~IBufferSink(){}
-    virtual void BufferReceived(const std::vector<unsigned char> &a_Buffer) = 0;
+class FramePrinter: public IBufferSink {
+private:
+    void BufferReceived(const std::vector<unsigned char> &a_Buffer) {
+        // Print dissected HDLC frame
+        std::string l_DissectedHDLCFrame;
+        l_DissectedHDLCFrame.append((const char*)a_Buffer.data(), a_Buffer.size());
+        std::cout << l_DissectedHDLCFrame << std::endl;
+    }
 };
 
-#endif // I_BUFFER_SINK_H
+#endif // FRAME_PRINTER_H

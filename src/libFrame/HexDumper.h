@@ -1,5 +1,5 @@
 /**
- * \file IBufferSink.h
+ * \file HexDumper.h
  * \brief 
  *
  * The hdlc-tools implement the HDLC protocol to easily talk to devices connected via serial communications
@@ -19,15 +19,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef I_BUFFER_SINK_H
-#define I_BUFFER_SINK_H
+#ifndef HEX_DUMPER_H
+#define HEX_DUMPER_H
 
-#include <vector>
+#include "../libFrame/IBufferSink.h"
+#include <iostream>
+#include <iomanip> 
 
-class IBufferSink {
-public:
-    virtual ~IBufferSink(){}
-    virtual void BufferReceived(const std::vector<unsigned char> &a_Buffer) = 0;
+class HexDumper: public IBufferSink {
+private:
+    void BufferReceived(const std::vector<unsigned char> &a_Buffer) {
+        // Print a hexdump of the provided data buffer. It should contain packet to be printed in one line.
+        std::cout << std::hex << std::setw(2) << std::setfill('0');
+        for (size_t i = 0; i < a_Buffer.size(); ++i) {
+            std::cout << int(a_Buffer[i]) << " ";
+        } // for
+
+        std::cout << std::endl;
+    }
 };
 
-#endif // I_BUFFER_SINK_H
+#endif // HEX_DUMPER_H

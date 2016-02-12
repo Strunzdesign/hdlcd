@@ -20,30 +20,19 @@
  */
 
 #include <iostream>
-#include <memory>
-#include <string>
-#include <map>
-#include <vector>
-#include <algorithm>
-#include <mutex>
-#include <assert.h>
 #include <boost/asio.hpp>
-#include <cstdlib>
-#include <deque>
-#include <iostream>
-#include <boost/asio.hpp>
-#include "../libFrame/StreamFrame.h"
-#include "StreamEndpoint.h"
-using boost::asio::ip::tcp;
+#include "../../libFrame/StreamEndpoint.h"
+#include "../../libFrame/HexDumper.h"
 
 int main(int argc, char* argv[]) {
     try {
-        std::cerr << "HDLC payload dumper\n";
+        std::cerr << "HDLC protocol dumper\n";
         if (argc != 4) {
-            std::cerr << "Usage: hdlc-hexdump-payload <host> <port> <usb-device>\n";
+            std::cerr << "Usage: hdlc-hexdump-hdlc <host> <port> <usb-device>\n";
             return 1;
         } // if
 
+        // Install signal handlers
         boost::asio::io_service io_service;
         boost::asio::signal_set signals_(io_service);
         signals_.add(SIGINT);
@@ -53,13 +42,18 @@ int main(int argc, char* argv[]) {
         // Resolve destination
         tcp::resolver resolver(io_service);
         auto endpoint_iterator = resolver.resolve({ argv[1], argv[2] });
-        StreamEndpoint l_StreamEndpoint(io_service, endpoint_iterator, argv[3]);
+        
+        // Prepare output
+        HexDumper l_HexDumper;
+
+        // SAP: 0x33 = HDLC Raw RO, RX and TX, RECV_CTRL
+        StreamEndpoint l_StreamEndpoint(io_service, endpoint_iterator, argv[3], &l_HexDumper, 0x33);
+        
+        // Start event processing
         io_service.run();
     } catch (std::exception& e) {
         std::cerr << "Exception: " << e.what() << "\n";
-    }
-    
-    std::cout << "FINISHED!" << std::endl;
+    } // catch
 
     return 0;
 }

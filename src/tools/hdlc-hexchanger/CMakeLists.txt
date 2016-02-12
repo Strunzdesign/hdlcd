@@ -6,16 +6,16 @@ INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
 
 find_package(Threads)
 
-add_executable(hdlc-hexchange
+add_executable(hdlc-hexchanger
 main.cpp
 )
 
-set_property(TARGET hdlc-hexchange PROPERTY CXX_STANDARD 11)
+set_property(TARGET hdlc-hexchanger PROPERTY CXX_STANDARD 11)
 
-target_link_libraries(hdlc-hexchange
+target_link_libraries(hdlc-hexchanger
 ${Boost_LIBRARIES}
 ${CMAKE_THREAD_LIBS_INIT}
 )
 
-install(TARGETS hdlc-hexchange RUNTIME DESTINATION bin)
+install(TARGETS hdlc-hexchanger RUNTIME DESTINATION bin)
 

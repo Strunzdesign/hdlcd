@@ -20,22 +20,11 @@
  */
 
 #include <iostream>
-#include <memory>
-#include <string>
-#include <map>
-#include <vector>
-#include <algorithm>
-#include <mutex>
-#include <assert.h>
-#include <boost/asio.hpp>
-#include <cstdlib>
-#include <deque>
-#include <iostream>
 #include <thread>
+#include <vector>
 #include <boost/asio.hpp>
-#include "../libFrame/StreamFrame.h"
-#include "StreamEndpoint.h"
-using boost::asio::ip::tcp;
+#include "../../libFrame/StreamEndpoint.h"
+#include "../../libFrame/HexDumper.h"
 
 int main(int argc, char* argv[]) {
     try {
@@ -48,10 +37,14 @@ int main(int argc, char* argv[]) {
         boost::asio::io_service io_service;
         tcp::resolver resolver(io_service);
         auto endpoint_iterator = resolver.resolve({ argv[1], argv[2] });
-        StreamEndpoint l_StreamEndpoint(io_service, endpoint_iterator, argv[3]);
+        
+        // Prepare output
+        HexDumper l_HexDumper;
+        
+        // SAP: 0x00 = Payload Raw RW
+        StreamEndpoint l_StreamEndpoint(io_service, endpoint_iterator, argv[3], &l_HexDumper, 0x00);
 
         std::thread t([&io_service](){ io_service.run(); });
-
         size_t l_HexLineLength = ((StreamFrame::E_MAX_BODY_LENGTH * 3) + 1);
         char l_HexLine[l_HexLineLength];
         while (std::cin.getline(l_HexLine, l_HexLineLength)) {
@@ -73,10 +66,8 @@ int main(int argc, char* argv[]) {
         t.join();
     } catch (std::exception& e) {
         std::cerr << "Exception: " << e.what() << "\n";
-    }
+    } // catch
     
-    std::cout << "FINISHED!" << std::endl;
-
     return 0;
 }
 

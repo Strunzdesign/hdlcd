@@ -22,10 +22,8 @@
 #ifndef STREAM_ENDPOINT_H
 #define STREAM_ENDPOINT_H
 
-#include <cstdlib>
 #include <deque>
 #include <iostream>
-#include <thread>
 #include <boost/asio.hpp>
 #include "../libFrame/StreamFrame.h"
 #include "../libFrame/IBufferSink.h"
@@ -37,9 +35,12 @@ typedef std::deque<StreamFrame> StreamFrameQueue;
 
 class StreamEndpoint {
 public:
-    StreamEndpoint(boost::asio::io_service& a_IoService, tcp::resolver::iterator a_EndpointIterator, std::string a):
+    StreamEndpoint(boost::asio::io_service& a_IoService, tcp::resolver::iterator a_EndpointIterator, std::string a_ComPortString, IBufferSink* a_pBufferSink, unsigned char a_SAP):
         m_IoService(a_IoService),
-        m_Socket(a_IoService) {
+        m_Socket(a_IoService),
+        m_ComPortString(a_ComPortString),
+        m_pBufferSink(a_pBufferSink),
+        m_SAP(a_SAP) {
         do_connect(a_EndpointIterator);
     }
 
@@ -87,44 +88,22 @@ private:
             if (!ec) {
                 auto l_Buffer = std::vector<unsigned char>(m_StreamFrame.body_length());
                 std::memcpy(&(l_Buffer[0]), m_StreamFrame.body(), m_StreamFrame.body_length());
-
-                
-                
-                
-                // Print string
-                std::string l_DissectedHDLC;
-                l_DissectedHDLC.append((const char*)m_StreamFrame.body(), m_StreamFrame.body_length());
-                std::cout << l_DissectedHDLC << std::endl;
-                
-
-                
-                
-                
+                m_pBufferSink->BufferReceived(l_Buffer);
                 do_read_header();
-              } else {
-                  std::cout << "TCP read error!" << std::endl;
-                  m_Socket.close();
-              }
+            } else {
+                std::cout << "TCP read error!" << std::endl;
+                m_Socket.close();
+            } // else
         });
     }
     
     void do_writeSessionHeader() {
-        unsigned char l_SessionHeader[15];
-        l_SessionHeader[ 0] = 0x00; // Version
-        l_SessionHeader[ 1] = 0x43; // SAP: HDLC dissected RO, RX and TX   RECV_CTRL
-        l_SessionHeader[ 2] = 0x0c; // 12 bytes following for "/dev/ttyUSB0"
-        l_SessionHeader[ 3] = 0x2f;
-        l_SessionHeader[ 4] = 0x64;
-        l_SessionHeader[ 5] = 0x65;
-        l_SessionHeader[ 6] = 0x76;
-        l_SessionHeader[ 7] = 0x2f;
-        l_SessionHeader[ 8] = 0x74;
-        l_SessionHeader[ 9] = 0x74;
-        l_SessionHeader[10] = 0x79;
-        l_SessionHeader[11] = 0x55;
-        l_SessionHeader[12] = 0x53;
-        l_SessionHeader[13] = 0x42;
-        l_SessionHeader[14] = 0x30;
+        // Prepare session header
+        unsigned char l_SessionHeader[3 + m_ComPortString.size()];
+        l_SessionHeader[0] = 0x00; // Version 0
+        l_SessionHeader[1] = m_SAP;
+        l_SessionHeader[2] = m_ComPortString.size();
+        std::memcpy(&l_SessionHeader[3], m_ComPortString.data(), m_ComPortString.size());
         
         boost::asio::async_write(m_Socket, boost::asio::buffer(l_SessionHeader, 15),
                                  [this](boost::system::error_code ec, std::size_t /*length*/) {
@@ -156,6 +135,9 @@ private:
 
 private:
     boost::asio::io_service& m_IoService;
+    IBufferSink* m_pBufferSink;
+    std::string m_ComPortString;
+    unsigned char m_SAP;
     tcp::socket m_Socket;
     StreamFrame m_StreamFrame;
     StreamFrameQueue m_StreamFrameQueue;
