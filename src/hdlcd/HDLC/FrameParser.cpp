@@ -25,8 +25,11 @@
 
 FrameParser::FrameParser(std::shared_ptr<ProtocolState> a_ProtocolState) {
     m_ProtocolState = a_ProtocolState;
-    m_Bytes = 0;
     m_bStartTokenSeen = false;
+    
+    // Prepare assembly buffer
+    m_Buffer.reserve(max_length);
+    m_Buffer.emplace_back(0x7E);
 }
 
 void FrameParser::AddReceivedRawBytes(const char* a_Buffer, size_t a_Bytes) {
@@ -39,19 +42,16 @@ void FrameParser::AddReceivedRawBytes(const char* a_Buffer, size_t a_Bytes) {
 
 size_t FrameParser::AddChunk(const char* a_Buffer, size_t a_Bytes) {
     if (m_bStartTokenSeen == false) {
-        // No start token seen yet. 
-        assert(m_Bytes == 0);
-        
-        // Check if there is the start token available in the input buffer.
+        // No start token seen yet. Check if there is the start token available in the input buffer.
         const void* l_pStartTokenPtr = memchr((const void*)a_Buffer, 0x7E, a_Bytes);
         if (l_pStartTokenPtr) {
             // The start token was found in the input buffer. 
             m_bStartTokenSeen = true;
             if (l_pStartTokenPtr == a_Buffer) {
-                // The start token is at the beginning of the buffer. Just clip the start token.
+                // The start token is at the beginning of the buffer. Clip it.
                 return 1;
             } else {
-                // Clip front of buffer including the start token.
+                // Clip front of buffer containing junk, including the start token.
                 return ((const char*)l_pStartTokenPtr - a_Buffer + 1);
             } // else
         } else {
@@ -59,51 +59,59 @@ size_t FrameParser::AddChunk(const char* a_Buffer, size_t a_Bytes) {
             return a_Bytes;
         } // else
     } else {
+        // TODO: The range check is still missing. The buffer can be overwritten!
         // We already have seen the start token. Check if there is the end token available in the input buffer.
         const void* l_pEndTokenPtr = memchr((const void*)a_Buffer, 0x7E, a_Bytes);
         if (l_pEndTokenPtr) {
-            // The end token was found in the input buffer. Copy all bytes excluding the end token.
-            size_t l_NbrOfBytes = ((const char*)l_pEndTokenPtr - a_Buffer);
-            memcpy(&m_Buffer[m_Bytes], a_Buffer, l_NbrOfBytes);
-            m_Bytes += l_NbrOfBytes;
-            RemoveEscapeCharacters();
-            return (l_NbrOfBytes + 1); // Including the consumed end token
+            // The end token was found in the input buffer. Copy all bytes including the end token.
+            size_t l_NbrOfBytes = ((const char*)l_pEndTokenPtr - a_Buffer + 1);
+            m_Buffer.insert(m_Buffer.end(), a_Buffer, a_Buffer + l_NbrOfBytes);
+            if (RemoveEscapeCharacters()) {
+                // The complete frame was valid and was consumed.
+                m_bStartTokenSeen = false;
+            } // if
+
+            m_Buffer.resize(1); // Already contains start token 0x7E
+            return (l_NbrOfBytes);
         } else {
             // No end token found. Copy all bytes.
-            memcpy(&m_Buffer[m_Bytes], a_Buffer, a_Bytes);
-            m_Bytes += a_Bytes;
+            m_Buffer.insert(m_Buffer.end(), a_Buffer, a_Buffer + a_Bytes);
             return a_Bytes;
         } // else
     } // else
 }
 
-void FrameParser::RemoveEscapeCharacters() {
+bool FrameParser::RemoveEscapeCharacters() {
     // Checks
-    assert(m_Bytes != 0x7E);
-    assert(m_Buffer[m_Bytes - 1] != 0x7E);
-    if (m_Bytes == 0) {
-        return;
+    assert(m_Buffer[0] == 0x7E);
+    assert(m_Buffer[m_Buffer.size() - 1] == 0x7E);
+    assert(m_Buffer.size() >= 2);
+    assert(m_bStartTokenSeen == true);
+
+    if (m_Buffer.size() == 2) {
+        // Remove junk, start again
+        return false;
     } // if
     
     // Check for illegal escape sequence at the end of the buffer
     bool l_bMessageValid = true;
-    if (m_Buffer[m_Bytes - 1] == 0x7D) {
+    if (m_Buffer[m_Buffer.size() - 2] == 0x7D) {
         l_bMessageValid = false;
     } // if
 
     if (l_bMessageValid) {
         // Remove escape sequences
-        for (size_t l_Index = 0; l_Index < (m_Bytes - 1); ++l_Index) {
+        for (size_t l_Index = 1; l_Index < (m_Buffer.size() - 2); ++l_Index) {
             if (m_Buffer[l_Index] == 0x7D) {
                 char l_Byte = m_Buffer[l_Index + 1];
                 if (l_Byte == 0x5E) {
                     m_Buffer[l_Index] = 0x7E;
-                    memmove(&m_Buffer[l_Index + 1], &m_Buffer[l_Index + 2], (m_Bytes - l_Index - 2));
-                    --m_Bytes;
+                    std::memmove(&m_Buffer[l_Index + 1], &m_Buffer[l_Index + 2], (m_Buffer.size() - l_Index - 2));
+                    m_Buffer.pop_back();
                 } else if (l_Byte == 0x5D) {
                     m_Buffer[l_Index] = 0x7D;
-                    memmove(&m_Buffer[l_Index + 1], &m_Buffer[l_Index + 2], (m_Bytes - l_Index - 2));
-                    --m_Bytes;
+                    std::memmove(&m_Buffer[l_Index + 1], &m_Buffer[l_Index + 2], (m_Buffer.size() - l_Index - 2));
+                    m_Buffer.pop_back();
                 } else {
                     l_bMessageValid = false;
                     break;
@@ -111,49 +119,29 @@ void FrameParser::RemoveEscapeCharacters() {
             } // if
         } // for
     } // if
-    
-    bool l_FrameIsValid = (pppfcs16(PPPINITFCS16, m_Buffer, m_Bytes) == PPPGOODFCS16);
-    if (l_FrameIsValid) {
-        std::cout << "GOOD ";
-    } else {
-        std::cout << "BAD ";
-    } // else
-    
-    // Dump
+
     if (l_bMessageValid) {
-        std::cout << "read " << m_Bytes << " Bytes: ";
-    } else {
-        std::cout << "read " << m_Bytes << " DEFECTIVE Bytes: ";
-    } // else
-    
-    for (size_t l_Index = 0; l_Index < m_Bytes; ++l_Index) {
-        std::cout << int(m_Buffer[l_Index]) << " ";
-    } // for
-    
-    std::cout << std::endl;
-    
-    if (l_FrameIsValid) {
-        m_ProtocolState->InterpretDeserializedFrame(DeserializeFrame());
+        // Check FCS
+        l_bMessageValid = (pppfcs16(PPPINITFCS16, (m_Buffer.data() + 1), (m_Buffer.size() - 2)) == PPPGOODFCS16);
     } // if
-    
-    // Remove consumed frame
-    m_Bytes = 0;
-    m_bStartTokenSeen = false;
+
+    m_ProtocolState->InterpretDeserializedFrame(m_Buffer, DeserializeFrame(), l_bMessageValid);
+    return l_bMessageValid;
 }
 
 Frame FrameParser::DeserializeFrame() const {
     // Parse byte buffer to get the HDLC frame
     Frame l_Frame;
-    l_Frame.SetAddress(m_Buffer[0]);
-    unsigned char l_ucCtrl = m_Buffer[1];
+    l_Frame.SetAddress(m_Buffer[1]);
+    unsigned char l_ucCtrl = m_Buffer[2];
     l_Frame.SetPF((l_ucCtrl & 0x10) >> 4);
     if ((l_ucCtrl & 0x01) == 0) {
         // I-Frame
         l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_I);
         l_Frame.SetSSeq((l_ucCtrl & 0x0E) >> 1);
         l_Frame.SetRSeq((l_ucCtrl & 0xE0) >> 5);
-        std::vector<unsigned char> l_Payload(m_Bytes - 4);
-        memcpy(&l_Payload[0], &m_Buffer[2], (m_Bytes - 4));
+        std::vector<unsigned char> l_Payload(m_Buffer.size() - 6);
+        std::memcpy(&l_Payload[0], &m_Buffer[3], (m_Buffer.size() - 6));
         l_Frame.SetPayload(std::move(l_Payload));
     } else {
         // S-Frame or U-Frame
@@ -181,8 +169,8 @@ Frame FrameParser::DeserializeFrame() const {
                 case 0b00000: {
                     // Unnumbered information (UI)
                     l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_U_UI);
-                    std::vector<unsigned char> l_Payload(m_Bytes - 4);
-                    memcpy(&l_Payload[0], &m_Buffer[2], (m_Bytes - 4));
+                    std::vector<unsigned char> l_Payload(m_Buffer.size() - 6);
+                    std::memcpy(&l_Payload[0], &m_Buffer[3], (m_Buffer.size() - 6));
                     l_Frame.SetPayload(std::move(l_Payload));
                     break;
                 }

@@ -43,6 +43,10 @@ public:
         m_SAP(a_SAP) {
         do_connect(a_EndpointIterator);
     }
+    
+    void SetOnClosedCallback(std::function<void()> a_OnClosedCallback) {
+        m_OnClosedCallback = a_OnClosedCallback;
+    }
 
     void write(const StreamFrame& a_StreamFrame) {
         m_IoService.post([this, a_StreamFrame]() {
@@ -55,8 +59,10 @@ public:
     }
 
     void close() {
-        std::cout << "StreamEndpoint close() called!" << std::endl;
-        m_IoService.post([this]() { m_Socket.close(); });
+        m_Socket.close();
+        if (m_OnClosedCallback) {
+            m_OnClosedCallback();
+        } // if
     }
 
 private:
@@ -77,7 +83,7 @@ private:
                 do_read_body();
             } else {
                 std::cout << "Decode header failed, socket closed!" << std::endl;
-                m_Socket.close();
+                close();
             }
         });
     }
@@ -92,7 +98,7 @@ private:
                 do_read_header();
             } else {
                 std::cout << "TCP read error!" << std::endl;
-                m_Socket.close();
+                close();
             } // else
         });
     }
@@ -113,7 +119,7 @@ private:
                 }
             } else {
                 std::cout << "TCP write error!" << std::endl;
-                m_Socket.close();
+                close();
             }
         });
     }
@@ -128,7 +134,7 @@ private:
                 }
             } else {
                 std::cout << "TCP write error!" << std::endl;
-                m_Socket.close();
+                close();
             }
         });
     }
@@ -138,6 +144,8 @@ private:
     IBufferSink* m_pBufferSink;
     std::string m_ComPortString;
     unsigned char m_SAP;
+    
+    std::function<void()> m_OnClosedCallback;
     tcp::socket m_Socket;
     StreamFrame m_StreamFrame;
     StreamFrameQueue m_StreamFrameQueue;

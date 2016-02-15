@@ -43,6 +43,7 @@ int main(int argc, char* argv[]) {
         
         // SAP: 0x00 = Payload Raw RW
         StreamEndpoint l_StreamEndpoint(io_service, endpoint_iterator, argv[3], &l_HexDumper, 0x00);
+        l_StreamEndpoint.SetOnClosedCallback([&io_service](){io_service.stop();});
 
         std::thread t([&io_service](){ io_service.run(); });
         size_t l_HexLineLength = ((StreamFrame::E_MAX_BODY_LENGTH * 3) + 1);
@@ -62,7 +63,7 @@ int main(int argc, char* argv[]) {
             l_StreamEndpoint.write(l_StreamFrame);
         } // while
 
-        l_StreamEndpoint.close();
+        io_service.post([&l_StreamEndpoint]() { l_StreamEndpoint.close(); });
         t.join();
     } catch (std::exception& e) {
         std::cerr << "Exception: " << e.what() << "\n";

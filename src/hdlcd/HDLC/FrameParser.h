@@ -43,7 +43,7 @@ public:
 private:
     // Interal helpers
     size_t AddChunk(const char* a_Buffer, size_t a_Bytes);
-    void RemoveEscapeCharacters();
+    bool RemoveEscapeCharacters();
     Frame DeserializeFrame() const;
     
     /*
@@ -70,8 +70,7 @@ private:
     std::shared_ptr<ProtocolState> m_ProtocolState;
 
     enum { max_length = 1024 };
-    unsigned char m_Buffer[1024];
-    size_t m_Bytes;
+    std::vector<unsigned char> m_Buffer;
     bool m_bStartTokenSeen;
 };
 

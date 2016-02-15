@@ -119,14 +119,8 @@ void ComPortHandler::Stop() {
     } // if
 }
 
-void ComPortHandler::DeliverHDLCFrame(const std::vector<unsigned char> &a_Payload) {
-    // DUMP
-    for (size_t l_Index = 0; l_Index < a_Payload.size(); ++l_Index) {
-        std::cout << int(a_Payload[l_Index]) << " ";
-    } // for
-    
-    std::cout << std::endl;
-
+void ComPortHandler::DeliverHDLCFrame(const std::vector<unsigned char> &a_Payload, const Frame& a_Frame) {
+    // Queue buffer holding the excaped HDLC frame for transmission via the serial interface
     m_SendBufferList.push_back(a_Payload);
     if (m_CurrentlySending == false) {
         m_CurrentlySending = true;
@@ -152,12 +146,10 @@ void ComPortHandler::do_write() {
     m_SerialPort.async_write_some(boost::asio::buffer(&(m_SendBufferList.front()[0]), m_SendBufferList.front().size()),[this, self](boost::system::error_code ec, std::size_t length) {
         bool l_bQueryForSubsequentFrames = false;
         if (!ec) {
-            if (m_SendBufferList.front().size() == length) {
-                std::cout << "SERIAL Completely written: " << length << " bytes" << std::endl;
-            } else {
+            if (m_SendBufferList.front().size() != length) {
                 std::cout << "SERIAL Partly written: " << length << " of " << m_SendBufferList.front().size() << " bytes" << std::endl;
                 assert(false);
-            } // else
+            } // if
             
             // More to write?
             m_SendBufferList.pop_front();

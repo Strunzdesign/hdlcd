@@ -37,11 +37,11 @@ class FrameGenerator {
 public:
     FrameGenerator();
     static const std::vector<unsigned char> SerializeFrame(const Frame& a_Frame);
-    
+    static std::vector<unsigned char> EscapeFrame(const std::vector<unsigned char> &a_HDLCFrame);
+
 private:
     // Internal Helpers
-    static void ApplyFCS(std::vector<unsigned char> &a_HDLCFrame, size_t a_NbrOfBytes);
-    static void EscapeCharactersAndAddFE(std::vector<unsigned char> &a_HDLCFrame, size_t a_NbrOfBytesToEscapeMax);
+    static void ApplyFCS(std::vector<unsigned char> &a_HDLCFrame);
 };
 
 #endif // HDLC_FRAME_GENERATOR_H

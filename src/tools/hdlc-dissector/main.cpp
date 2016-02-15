@@ -48,6 +48,7 @@ int main(int argc, char* argv[]) {
         
         // SAP: 0x43 = HDLC dissected RO, RX and TX, RECV_CTRL
         StreamEndpoint l_StreamEndpoint(io_service, endpoint_iterator, argv[3], &l_FramePrinter, 0x43);
+        l_StreamEndpoint.SetOnClosedCallback([&io_service](){io_service.stop();});
         
         // Start event processing
         io_service.run();

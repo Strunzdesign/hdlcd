@@ -32,6 +32,7 @@
 #include <assert.h>
 #include <boost/asio.hpp>
 #include <string.h>
+#include "HDLC/Frame.h"
 class ComPortHandlerCollection;
 class ClientHandler;
 class ProtocolState;
@@ -53,7 +54,7 @@ public:
     void Stop();
     
     // Do not use from external, only by the ProtocolState
-    void DeliverHDLCFrame(const std::vector<unsigned char> &a_Payload);
+    void DeliverHDLCFrame(const std::vector<unsigned char> &a_Payload, const Frame& a_Frame);
 
 private:
     // Internal helpers

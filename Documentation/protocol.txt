@@ -49,3 +49,26 @@ Type   | Payload size | Payload
 
 Type: 0x00 Data packet
       0x01 Control packet
+
+      
+      
+Port status messages
+---
+There are two types of port status messages: requests and indications
+
+Requests:
+---
+Port suspend
+Port resume
+Port restart
+Port reset
+
+
+Indications:
+---
+Port is open (???)
+Port is suspended, flags: by self, by other
+Port was resumed
+Port was restarted
+Port was resetted
+

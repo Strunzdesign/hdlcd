@@ -54,14 +54,16 @@ void ProtocolState::SendPayload(const std::vector<unsigned char> &a_Payload) {
         l_Frame.SetSSeq(m_SSeqOutgoing);
         l_Frame.SetRSeq(m_RSeqIncoming);
         l_Frame.SetPayload(std::move(a_Payload));
-
-        std::cout << "Sending " << l_Frame.GetReadableDescription() << std::endl;
-        m_ComPortHandler->DeliverHDLCFrame(FrameGenerator::SerializeFrame(l_Frame));
+        
+        // Deliver unescaped frame to clients that have interest
+        const std::vector<unsigned char> l_HDLCFrameBuffer = FrameGenerator::SerializeFrame(l_Frame);
+        m_ComPortHandler->DeliverRawFrameToClients(l_HDLCFrameBuffer); // not escaped
+        m_ComPortHandler->DeliverDissectedFrameToClients("Sent     " + l_Frame.GetReadableDescription());
+        m_ComPortHandler->DeliverHDLCFrame(std::move(FrameGenerator::EscapeFrame(l_HDLCFrameBuffer)), l_Frame);
         
         // Increase outgoing SSeq
         m_SSeqOutgoing = ((m_SSeqOutgoing + 1) & 0x07);
     } // if
-    
 }
 
 void ProtocolState::SendQueueIsEmpty() {
@@ -73,8 +75,12 @@ void ProtocolState::AddReceivedRawBytes(const char* a_Buffer, size_t a_Bytes) {
     m_FrameParser->AddReceivedRawBytes(a_Buffer, a_Bytes);
 }
 
-void ProtocolState::InterpretDeserializedFrame(const Frame& a_Frame) {
+void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> &a_Payload, const Frame& a_Frame, bool a_bMessageValid) {
+    // Deliver raw frame to clients that have interest
+    m_ComPortHandler->DeliverRawFrameToClients(a_Payload); // not escaped
     m_ComPortHandler->DeliverDissectedFrameToClients("Received " + a_Frame.GetReadableDescription());
+    
+    // 
     if (a_Frame.HasPayload()) {
         // I-Frame or U-Frame with UI
         m_ComPortHandler->DeliverPayloadToClients(a_Frame.GetPayload());

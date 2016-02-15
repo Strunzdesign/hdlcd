@@ -45,7 +45,7 @@ public:
     void SendPayload(const std::vector<unsigned char> &a_Payload);
     void SendQueueIsEmpty();
     void AddReceivedRawBytes(const char* a_Buffer, size_t a_Bytes);
-    void InterpretDeserializedFrame(const Frame& a_Frame);
+    void InterpretDeserializedFrame(const std::vector<unsigned char> &a_Payload, const Frame& a_Frame, bool a_bMessageValid);
 
 private:
     // Members
