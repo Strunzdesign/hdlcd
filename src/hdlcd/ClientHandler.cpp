@@ -38,7 +38,7 @@ ClientHandler::~ClientHandler() {
     std::cout << "DTOR ClientHandler" << std::endl;
 }
 
-void ClientHandler::DeliverRawPayloadToClient(const std::vector<unsigned char> &a_Payload) {
+void ClientHandler::DeliverRawPayloadToClient(const std::vector<unsigned char> &a_Payload, bool a_bReceived) {
     if (m_bDeliverPayload) {
         StreamFrame l_StreamFrame;
         l_StreamFrame.body_length(a_Payload.size());
@@ -52,7 +52,7 @@ void ClientHandler::DeliverRawPayloadToClient(const std::vector<unsigned char> &
     } // if
 }
 
-void ClientHandler::DeliverRawFrameToClient(const std::vector<unsigned char> &a_RawFrame) {
+void ClientHandler::DeliverRawFrameToClient(const std::vector<unsigned char> &a_RawFrame, bool a_bReceived, bool a_bValid) {
     if (m_bDeliverRawHDLC) {
         StreamFrame l_StreamFrame;
         l_StreamFrame.body_length(a_RawFrame.size());
@@ -66,7 +66,7 @@ void ClientHandler::DeliverRawFrameToClient(const std::vector<unsigned char> &a_
     } // if
 }
 
-void ClientHandler::DeliverDissectedFrameToClient(const std::string& a_DissectedFrame) {
+void ClientHandler::DeliverDissectedFrameToClient(const std::string& a_DissectedFrame, bool a_bReceived, bool a_bValid) {
     if (m_bDeliverDissectedHDLC) {
         StreamFrame l_StreamFrame;
         l_StreamFrame.body_length(a_DissectedFrame.size());

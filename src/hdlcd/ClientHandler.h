@@ -40,9 +40,9 @@ class ClientHandler: public std::enable_shared_from_this<ClientHandler> {
 public:
     ClientHandler(boost::asio::ip::tcp::socket a_TCPSocket);
     ~ClientHandler();
-    void DeliverRawPayloadToClient(const std::vector<unsigned char> &a_Payload);
-    void DeliverRawFrameToClient(const std::vector<unsigned char> &a_RawFrame);
-    void DeliverDissectedFrameToClient(const std::string& a_DissectedFrame);
+    void DeliverRawPayloadToClient(const std::vector<unsigned char> &a_Payload, bool a_bReceived);
+    void DeliverRawFrameToClient(const std::vector<unsigned char> &a_RawFrame, bool a_bReceived, bool a_bValid);
+    void DeliverDissectedFrameToClient(const std::string& a_DissectedFrame, bool a_bReceived, bool a_bValid);
     
     void Start(std::shared_ptr<ComPortHandlerCollection> a_ComPortHandlerCollection);
     void Stop();
