@@ -44,7 +44,11 @@ void ProtocolState::Stop() {
 }
 
 void ProtocolState::SendPayload(const std::vector<unsigned char> &a_Payload) {
-    // Fresh Payload to be sent is available. Queue it for later framing
+    // Fresh Payload to be sent is available.
+    m_ComPortHandler->DeliverPayloadToClients(a_Payload, false);
+    
+    // Queue it for later framing
+    // TODO: This logic still lacks the ability to store frames if an sending operation is ongoing!
     if (m_bSendQueueEmpty) {
         m_bSendQueueEmpty = false;
         Frame l_Frame;
@@ -57,8 +61,8 @@ void ProtocolState::SendPayload(const std::vector<unsigned char> &a_Payload) {
         
         // Deliver unescaped frame to clients that have interest
         const std::vector<unsigned char> l_HDLCFrameBuffer = FrameGenerator::SerializeFrame(l_Frame);
-        m_ComPortHandler->DeliverRawFrameToClients(l_HDLCFrameBuffer); // not escaped
-        m_ComPortHandler->DeliverDissectedFrameToClients("<<< Sent: " + l_Frame.GetReadableDescription());
+        m_ComPortHandler->DeliverRawFrameToClients(l_HDLCFrameBuffer, false, true); // not escaped
+        m_ComPortHandler->DeliverDissectedFrameToClients("<<< Sent: " + l_Frame.GetReadableDescription(), false, true);
         m_ComPortHandler->DeliverHDLCFrame(std::move(FrameGenerator::EscapeFrame(l_HDLCFrameBuffer)), l_Frame);
         
         // Increase outgoing SSeq
@@ -77,8 +81,8 @@ void ProtocolState::AddReceivedRawBytes(const char* a_Buffer, size_t a_Bytes) {
 
 void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> &a_Payload, const Frame& a_Frame, bool a_bMessageValid) {
     // Deliver raw frame to clients that have interest
-    m_ComPortHandler->DeliverRawFrameToClients(a_Payload); // not escaped
-    m_ComPortHandler->DeliverDissectedFrameToClients(">>> Rcvd: " + a_Frame.GetReadableDescription());
+    m_ComPortHandler->DeliverRawFrameToClients(a_Payload, true, a_bMessageValid); // not escaped
+    m_ComPortHandler->DeliverDissectedFrameToClients(">>> Rcvd: " + a_Frame.GetReadableDescription(), true, a_bMessageValid);
     
     // Stop here if the frame was considered broken
     if (a_bMessageValid == false) {
@@ -88,7 +92,7 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
     // Go ahead interpreting the frame we received
     if (a_Frame.HasPayload()) {
         // I-Frame or U-Frame with UI
-        m_ComPortHandler->DeliverPayloadToClients(a_Frame.GetPayload());
+        m_ComPortHandler->DeliverPayloadToClients(a_Frame.GetPayload(), true);
         
         // If it is an I-Frame, the data may have to be acked
         if (a_Frame.IsIFrame()) {
