@@ -132,8 +132,8 @@ bool FrameParser::RemoveEscapeCharacters() {
 Frame FrameParser::DeserializeFrame(const std::vector<unsigned char> &a_UnescapedBuffer) const {
     // Parse byte buffer to get the HDLC frame
     Frame l_Frame;
-    l_Frame.SetAddress(m_Buffer[1]);
-    unsigned char l_ucCtrl = m_Buffer[2];
+    l_Frame.SetAddress(a_UnescapedBuffer[1]);
+    unsigned char l_ucCtrl = a_UnescapedBuffer[2];
     l_Frame.SetPF((l_ucCtrl & 0x10) >> 4);
     bool l_bAppendPayload = false;
     if ((l_ucCtrl & 0x01) == 0) {
@@ -232,7 +232,7 @@ Frame FrameParser::DeserializeFrame(const std::vector<unsigned char> &a_Unescape
     // I-Frames and UI-Frames have additional payload
     if (l_bAppendPayload) {
         std::vector<unsigned char> l_Payload;
-        l_Payload.assign(&m_Buffer[3], (&m_Buffer[3] + (m_Buffer.size() - 6)));
+        l_Payload.assign(&a_UnescapedBuffer[3], (&a_UnescapedBuffer[3] + (a_UnescapedBuffer.size() - 6)));
         l_Frame.SetPayload(std::move(l_Payload));
     } // if
     
