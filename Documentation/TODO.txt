@@ -11,7 +11,8 @@ Urgent isses:
    - Implement the final specification of the TCP-based access protocol
 - Remove bloated bunch of unnecessary include statements (PARTLY DONE)
 - All tools have to handle direction of arrival flag and the validity flag, i.e., adjust their output messages
-
+- Use enums in the ClientHandler to specify the kinds of data to be delivered
+- Reduce code clones in ClientHandler.cpp
 
 
 
