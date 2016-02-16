@@ -43,29 +43,56 @@ An exemplary session header to open /dev/ttyUSB1 for RO dissected HDLC frames RX
 
 
 After the session header was transmitted, the TCP socket is used for exchange of packets.
+The kind of exchanged packets depends on the provided session header: not all packets are
+allowed / seen in each of the possible session types!
+
 
 Packets can be "control packets" or "data packets"
 
 Packet header format:
-+--------+----------------------
-| 1 Byte | ... depends on Type
-| Type   |
-+--------+----------------------
+++-----------------------------------------------++-------------------------
+|| 1 Byte Type                                   || 0...N subsequent bytes
+++------------+-----------+---------+------------++-------------------------
+|| Bits 7...4 | Bit 3     | Bit 2   | Bits 1...0 || 
+|| Type       | Direction | Invalid | Reserved   || Depends on type field
+++------------+-----------+---------+------------++-------------------------
 
-Type: 0x00 Data packet
-      0x01 Control packet
+Type: 0x0* Data packet
+      0x1* Control packet
+      
+
+
 
 Data packet format:
 +--------+--------------+---------+
 | 1 Byte | 2 Byte       | x Byte  |
-| 0x00   | Payload size | Payload |
+| 0x0*   | Payload size | Payload |
 +--------+--------------+---------+
+Data packets, if sent, must have:
+- The direction flag set to 0,
+- the invalid bit set to 0,
+- both reserved bits set to 0.
+==> Thus, the type byte _must_ be 0x00.
+
+Data packets, if received, have:
+- The direction flag set to 0, if the packet was received via HDLC (to the HDLC daemon),
+- the direction flag set to 1, if the packet was sent via HDLC (by the HDLC daemon),
+- the invalid bit set to 0 if the packet was ok, 1 of was damaged / invalid,
+- both reserved bits set to 0.
+==> The lower nibble of the type byte must be evaluated.
+
 
 Control packet format:
 +--------+---------+
 | 1 Byte | 1 Byte  |
-| 0x01   | Command |
-+--------+---------+      
+| 0x10   | Command |
++--------+---------+
+Control packets, either if received or sent, must have:
+- The direction flag set to 0,
+- the invalid bit set to 0,
+- both reserved bits set to 0.
+==> Thus, the type byte _must_ be 0x10.
+
       
       
 Control packet, list of commands:
