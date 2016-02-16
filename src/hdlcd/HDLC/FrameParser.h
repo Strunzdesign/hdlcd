@@ -44,7 +44,7 @@ private:
     // Interal helpers
     size_t AddChunk(const char* a_Buffer, size_t a_Bytes);
     bool RemoveEscapeCharacters();
-    Frame DeserializeFrame() const;
+    Frame DeserializeFrame(const std::vector<unsigned char> &a_UnescapedBuffer) const;
     
     /*
     void SendSABM() {

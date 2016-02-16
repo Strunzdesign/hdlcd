@@ -125,24 +125,23 @@ bool FrameParser::RemoveEscapeCharacters() {
         l_bMessageValid = (pppfcs16(PPPINITFCS16, (m_Buffer.data() + 1), (m_Buffer.size() - 2)) == PPPGOODFCS16);
     } // if
 
-    m_ProtocolState->InterpretDeserializedFrame(m_Buffer, DeserializeFrame(), l_bMessageValid);
+    m_ProtocolState->InterpretDeserializedFrame(m_Buffer, DeserializeFrame(m_Buffer), l_bMessageValid);
     return l_bMessageValid;
 }
 
-Frame FrameParser::DeserializeFrame() const {
+Frame FrameParser::DeserializeFrame(const std::vector<unsigned char> &a_UnescapedBuffer) const {
     // Parse byte buffer to get the HDLC frame
     Frame l_Frame;
     l_Frame.SetAddress(m_Buffer[1]);
     unsigned char l_ucCtrl = m_Buffer[2];
     l_Frame.SetPF((l_ucCtrl & 0x10) >> 4);
+    bool l_bAppendPayload = false;
     if ((l_ucCtrl & 0x01) == 0) {
         // I-Frame
         l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_I);
         l_Frame.SetSSeq((l_ucCtrl & 0x0E) >> 1);
         l_Frame.SetRSeq((l_ucCtrl & 0xE0) >> 5);
-        std::vector<unsigned char> l_Payload(m_Buffer.size() - 6);
-        std::memcpy(&l_Payload[0], &m_Buffer[3], (m_Buffer.size() - 6));
-        l_Frame.SetPayload(std::move(l_Payload));
+        l_bAppendPayload = true;
     } else {
         // S-Frame or U-Frame
         if ((l_ucCtrl & 0x02) == 0x00) {
@@ -169,9 +168,7 @@ Frame FrameParser::DeserializeFrame() const {
                 case 0b00000: {
                     // Unnumbered information (UI)
                     l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_U_UI);
-                    std::vector<unsigned char> l_Payload(m_Buffer.size() - 6);
-                    std::memcpy(&l_Payload[0], &m_Buffer[3], (m_Buffer.size() - 6));
-                    l_Frame.SetPayload(std::move(l_Payload));
+                    l_bAppendPayload = true;                    
                     break;
                 }
                 case 0b00001: {
@@ -231,6 +228,13 @@ Frame FrameParser::DeserializeFrame() const {
             } // switch
         } // else
     } // else
+    
+    // I-Frames and UI-Frames have additional payload
+    if (l_bAppendPayload) {
+        std::vector<unsigned char> l_Payload;
+        l_Payload.assign(&m_Buffer[3], (&m_Buffer[3] + (m_Buffer.size() - 6)));
+        l_Frame.SetPayload(std::move(l_Payload));
+    } // if
     
     return std::move(l_Frame);
 }
