@@ -77,7 +77,7 @@ Data packets, if sent, must have:
 Data packets, if received, have:
 - The direction flag set to 0, if the packet was received via HDLC (to the HDLC daemon),
 - the direction flag set to 1, if the packet was sent via HDLC (by the HDLC daemon),
-- the invalid bit set to 0 if the packet was ok, 1 of was damaged / invalid,
+- the invalid bit set to 0 if the packet was ok, 1 of was damaged / invalid (may happen only if direction is 0),
 - both reserved bits set to 0.
 ==> The lower nibble of the type byte must be evaluated.
 
