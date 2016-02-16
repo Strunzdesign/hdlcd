@@ -104,10 +104,7 @@ bool FrameParser::RemoveEscapeCharacters() {
         std::vector<unsigned char> l_UnescapedBuffer;
         l_UnescapedBuffer.reserve(m_Buffer.size());
         for (auto it = m_Buffer.begin(); it != m_Buffer.end(); ++it) {
-            if (*it == 0x7E) {
-                // Must be one of the two frame delimiters
-                l_UnescapedBuffer.emplace_back(0x7E);
-            } else if (*it == 0x7D) {
+            if (*it == 0x7D) {
                 // This was the escape character
                 ++it;
                 if (*it == 0x5E) {
@@ -120,7 +117,7 @@ bool FrameParser::RemoveEscapeCharacters() {
                     l_UnescapedBuffer.emplace_back(*it);
                 } // else
             } else {
-                // Normal non-escaped character
+                // Normal non-escaped character, or one of the frame delimiters
                 l_UnescapedBuffer.emplace_back(*it);
             } // else
         } // while
