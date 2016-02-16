@@ -122,7 +122,7 @@ bool FrameParser::RemoveEscapeCharacters() {
             } // else
         } // while
         
-        // Go ahead with the escaped buffer
+        // Go ahead with the unescaped buffer
         m_Buffer = std::move(l_UnescapedBuffer);
     } // if
 
