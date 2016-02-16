@@ -58,7 +58,7 @@ void ProtocolState::SendPayload(const std::vector<unsigned char> &a_Payload) {
         // Deliver unescaped frame to clients that have interest
         const std::vector<unsigned char> l_HDLCFrameBuffer = FrameGenerator::SerializeFrame(l_Frame);
         m_ComPortHandler->DeliverRawFrameToClients(l_HDLCFrameBuffer); // not escaped
-        m_ComPortHandler->DeliverDissectedFrameToClients("Sent     " + l_Frame.GetReadableDescription());
+        m_ComPortHandler->DeliverDissectedFrameToClients("<<< Sent: " + l_Frame.GetReadableDescription());
         m_ComPortHandler->DeliverHDLCFrame(std::move(FrameGenerator::EscapeFrame(l_HDLCFrameBuffer)), l_Frame);
         
         // Increase outgoing SSeq
@@ -78,7 +78,7 @@ void ProtocolState::AddReceivedRawBytes(const char* a_Buffer, size_t a_Bytes) {
 void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> &a_Payload, const Frame& a_Frame, bool a_bMessageValid) {
     // Deliver raw frame to clients that have interest
     m_ComPortHandler->DeliverRawFrameToClients(a_Payload); // not escaped
-    m_ComPortHandler->DeliverDissectedFrameToClients("Received " + a_Frame.GetReadableDescription());
+    m_ComPortHandler->DeliverDissectedFrameToClients(">>> Rcvd: " + a_Frame.GetReadableDescription());
     
     // Stop here if the frame was considered broken
     if (a_bMessageValid == false) {
