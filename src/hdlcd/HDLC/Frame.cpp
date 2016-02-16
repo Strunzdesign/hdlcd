@@ -21,10 +21,13 @@
 
 #include "Frame.h"
 #include <sstream>
+#include <iomanip> 
 
 std::string Frame::GetReadableDescription() const {
+    bool l_bHasPayload = false;
     std::stringstream l_Output;
     if (IsIFrame()) {
+        l_bHasPayload = true;
         l_Output << "HDLC frame, Addr=" << (int)GetAddress() << ", ";
         l_Output << "I-Frame, PF=" << IsPF() << ", SSeq=" << (int)GetSSeq() << ", RSeq=" << (int)GetRSeq();
     } else if (IsSFrame()) {
@@ -56,6 +59,7 @@ std::string Frame::GetReadableDescription() const {
         l_Output << "HDLC frame, Addr=" << (int)GetAddress() << ", U-Frame: ";
         switch (GetHDLCFrameType()) {
             case Frame::HDLC_FRAMETYPE_U_UI: {
+                l_bHasPayload = true;
                 l_Output << "UI";
                 break;
             }
@@ -108,6 +112,13 @@ std::string Frame::GetReadableDescription() const {
     } else {
         l_Output << "Unparseable HDLC frame";
     } // else
+    
+    if (l_bHasPayload) {
+        l_Output << ", with " << m_Payload.size() << " bytes payload:";
+        for (auto it = m_Payload.begin(); it != m_Payload.end(); ++it) {
+            l_Output << " " << std::hex << std::setw(2) << std::setfill('0') << int(*it);
+        } // for
+    } // if
 
     return l_Output.str();
 }
