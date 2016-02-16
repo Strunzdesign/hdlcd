@@ -7,8 +7,9 @@ Urgent isses:
 - Refactoring of the shared header files:
 -> - Requires dedicated access protocol entities for hdlcd and the client side.
    - Modular acceptor / connector logic
+   - Propagate direction of arrival flag and the validity flag via access protocol
 - Remove bloated bunch of unnecessary include statements (PARTLY DONE)
-
+- Handle, i.e., print out, direction of arrival flag and the validity flag at the tools
 
 
 
