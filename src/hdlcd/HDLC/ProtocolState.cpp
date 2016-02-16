@@ -80,7 +80,12 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
     m_ComPortHandler->DeliverRawFrameToClients(a_Payload); // not escaped
     m_ComPortHandler->DeliverDissectedFrameToClients("Received " + a_Frame.GetReadableDescription());
     
-    // 
+    // Stop here if the frame was considered broken
+    if (a_bMessageValid == false) {
+        return;
+    } // if
+    
+    // Go ahead interpreting the frame we received
     if (a_Frame.HasPayload()) {
         // I-Frame or U-Frame with UI
         m_ComPortHandler->DeliverPayloadToClients(a_Frame.GetPayload());
