@@ -6,11 +6,13 @@ Description of the hdlcd access protocol
 
 Session header format:
 ---
-The session header must and can only be sent once after initiation of the TCP socket
+The session header must and can only be sent once after initiation of the TCP socket.
 
-
-1 Byte  | 1 Byte | 1 Byte                         | x Byte
-Version | SAP    | Length of USB port description | USB port path string
+Session header format:
++---------+--------+--------------------------------+----------------------+
+| 1 Byte  | 1 Byte | 1 Byte                         | x Byte               |
+| Version | SAP    | Length of USB port description | USB port path string |
++---------+--------+--------------------------------+----------------------+
 
 Version: 0x00 is currently the only supported version
 SAP: 0x00: Payload Raw RW                 RECV_CTRL   SEND_CTRL 
@@ -30,7 +32,7 @@ SAP: 0x00: Payload Raw RW                 RECV_CTRL   SEND_CTRL
 Length: 0 up to 255 bytes are allowed. However, not all lengths make sense :-)
 USB path: file name of the USB port without NULL termination
 
-On any error, the TCP socket is closed immediately without any notification!
+General error handling: on any error, the TCP socket is closed immediately without any notification!
 
 An exemplary session header to open /dev/ttyUSB0 for Payload read / write:
 00 00 0c 2f 64 65 76 2f 74 74 79 55 53 42 30
@@ -40,35 +42,51 @@ An exemplary session header to open /dev/ttyUSB1 for RO dissected HDLC frames RX
 
 
 
-Packet header format:
----
-Packets can be control packets or data packets
+After the session header was transmitted, the TCP socket is used for exchange of packets.
 
-1 Byte | 2 Byte       | x Byte
-Type   | Payload size | Payload
+Packets can be "control packets" or "data packets"
+
+Packet header format:
++--------+----------------------
+| 1 Byte | ... depends on Type
+| Type   |
++--------+----------------------
 
 Type: 0x00 Data packet
       0x01 Control packet
 
+Data packet format:
++--------+--------------+---------+
+| 1 Byte | 2 Byte       | x Byte  |
+| 0x00   | Payload size | Payload |
++--------+--------------+---------+
+
+Control packet format:
++--------+---------+
+| 1 Byte | 1 Byte  |
+| 0x01   | Command |
++--------+---------+      
       
       
-Port status messages
+Control packet, list of commands:
 ---
-There are two types of port status messages: requests and indications
-
-Requests:
+1.) Requests:
 ---
-Port suspend
-Port resume
-Port restart
-Port reset
+Port suspend request
+Port resume request
+Port restart request
+Port reset request
+Echo request (checks the TCP socket and the TCP entity at the HDLC daemon)
 
-
-Indications:
+2.) Indications:
 ---
 Port is open (???)
 Port is suspended, flags: by self, by other
 Port was resumed
-Port was restarted
-Port was resetted
+Port was restarted, flags: by self, by other
+Port was resetted, flags: by self, by other
+Echo indication
 
+3.) Confirmations
+---
+Echo confirmation (reply to a previous echo request)
