@@ -229,8 +229,8 @@ Frame FrameParser::DeserializeFrame(const std::vector<unsigned char> &a_Unescape
         } // else
     } // else
     
-    // I-Frames and UI-Frames have additional payload
     if (l_bAppendPayload) {
+        // I-Frames and UI-Frames have additional payload
         std::vector<unsigned char> l_Payload;
         l_Payload.assign(&a_UnescapedBuffer[3], (&a_UnescapedBuffer[3] + (a_UnescapedBuffer.size() - 6)));
         l_Frame.SetPayload(std::move(l_Payload));
