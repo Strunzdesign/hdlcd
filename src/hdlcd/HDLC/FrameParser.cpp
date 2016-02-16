@@ -101,23 +101,32 @@ bool FrameParser::RemoveEscapeCharacters() {
 
     if (l_bMessageValid) {
         // Remove escape sequences
-        for (size_t l_Index = 1; l_Index < (m_Buffer.size() - 2); ++l_Index) {
-            if (m_Buffer[l_Index] == 0x7D) {
-                char l_Byte = m_Buffer[l_Index + 1];
-                if (l_Byte == 0x5E) {
-                    m_Buffer[l_Index] = 0x7E;
-                    std::memmove(&m_Buffer[l_Index + 1], &m_Buffer[l_Index + 2], (m_Buffer.size() - l_Index - 2));
-                    m_Buffer.pop_back();
-                } else if (l_Byte == 0x5D) {
-                    m_Buffer[l_Index] = 0x7D;
-                    std::memmove(&m_Buffer[l_Index + 1], &m_Buffer[l_Index + 2], (m_Buffer.size() - l_Index - 2));
-                    m_Buffer.pop_back();
+        std::vector<unsigned char> l_UnescapedBuffer;
+        l_UnescapedBuffer.reserve(m_Buffer.size());
+        for (auto it = m_Buffer.begin(); it != m_Buffer.end(); ++it) {
+            if (*it == 0x7E) {
+                // Must be one of the two frame delimiters
+                l_UnescapedBuffer.emplace_back(0x7E);
+            } else if (*it == 0x7D) {
+                // This was the escape character
+                ++it;
+                if (*it == 0x5E) {
+                    l_UnescapedBuffer.emplace_back(0x7E);
+                } else if (*it == 0x5D) {
+                    l_UnescapedBuffer.emplace_back(0x7D);
                 } else {
+                    // Invalid character. Go ahead with an invalid frame.
                     l_bMessageValid = false;
-                    break;
+                    l_UnescapedBuffer.emplace_back(*it);
                 } // else
-            } // if
-        } // for
+            } else {
+                // Normal non-escaped character
+                l_UnescapedBuffer.emplace_back(*it);
+            } // else
+        } // while
+        
+        // Go ahead with the escaped buffer
+        m_Buffer = std::move(l_UnescapedBuffer);
     } // if
 
     if (l_bMessageValid) {
