@@ -83,8 +83,8 @@ size_t FrameParser::AddChunk(const char* a_Buffer, size_t a_Bytes) {
 
 bool FrameParser::RemoveEscapeCharacters() {
     // Checks
-    assert(m_Buffer[0] == 0x7E);
-    assert(m_Buffer[m_Buffer.size() - 1] == 0x7E);
+    assert(m_Buffer.front() == 0x7E);
+    assert(m_Buffer.back()  == 0x7E);
     assert(m_Buffer.size() >= 2);
     assert(m_bStartTokenSeen == true);
 
