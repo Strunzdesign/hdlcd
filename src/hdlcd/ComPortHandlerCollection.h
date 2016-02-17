@@ -28,7 +28,6 @@
 #include <map>
 #include <vector>
 #include <algorithm>
-#include <mutex>
 #include <assert.h>
 #include <boost/asio.hpp>
 class ClientHandler;
@@ -46,7 +45,6 @@ private:
     // Members
     boost::asio::io_service& m_IOService;
     std::map<std::string, std::weak_ptr<std::shared_ptr<ComPortHandler>>> m_ComPortHandlerMap;
-    std::mutex m_Mutex;
 };
 
 #endif // COMPORTHANDLER_COLLECTION_H

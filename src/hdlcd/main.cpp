@@ -25,7 +25,6 @@
 #include <map>
 #include <vector>
 #include <algorithm>
-#include <mutex>
 #include <assert.h>
 #include <boost/asio.hpp>
 #include "ComPortHandlerCollection.h"

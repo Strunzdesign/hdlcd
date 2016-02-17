@@ -30,8 +30,6 @@ std::shared_ptr<std::shared_ptr<ComPortHandler>> ComPortHandlerCollection::GetCo
     std::shared_ptr<std::shared_ptr<ComPortHandler>> l_ComPortHandler;
     bool l_HasToBeStarted = false;
     {
-        // Lock scope
-        std::lock_guard<std::mutex> l_MutexLock(m_Mutex);
         auto& l_ComPortHandlerWeak(m_ComPortHandlerMap[a_ComPortName]);
         l_ComPortHandler = l_ComPortHandlerWeak.lock();
         if (l_ComPortHandler == NULL) {
@@ -53,7 +51,6 @@ std::shared_ptr<std::shared_ptr<ComPortHandler>> ComPortHandlerCollection::GetCo
 
 void ComPortHandlerCollection::DeregisterComPortHandler(std::shared_ptr<ComPortHandler> a_ComPortHandler) {
     assert(a_ComPortHandler);
-    std::lock_guard<std::mutex> l_MutexLock(m_Mutex);
     for (auto it = m_ComPortHandlerMap.begin(); it != m_ComPortHandlerMap.end(); ++it) {
         if (auto cph = it->second.lock()) {
             if (*(cph.get()) == a_ComPortHandler) {
