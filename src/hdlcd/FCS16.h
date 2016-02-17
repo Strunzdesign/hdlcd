@@ -1,7 +1,8 @@
 #ifndef FCS16_H
 #define FCS16_H
 
-#include <iostream>
+#include <stdint.h>
+#include <cstddef>
 
 #define PPPINITFCS16 0xffff
 #define PPPGOODFCS16 0xf0b8

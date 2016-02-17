@@ -22,14 +22,8 @@
 #ifndef HDLC_FRAME_H
 #define HDLC_FRAME_H
 
-#include <iostream>
-#include <memory>
 #include <string>
-#include <map>
 #include <vector>
-#include <algorithm>
-#include <assert.h>
-#include <boost/asio.hpp>
 
 class Frame {
 public:

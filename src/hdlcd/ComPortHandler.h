@@ -22,16 +22,11 @@
 #ifndef COMPORTHANDLER_H
 #define COMPORTHANDLER_H
 
-#include <iostream>
 #include <memory>
 #include <string>
-#include <map>
 #include <vector>
 #include <deque>
-#include <algorithm>
-#include <assert.h>
 #include <boost/asio.hpp>
-#include <string.h>
 #include "HDLC/Frame.h"
 class ComPortHandlerCollection;
 class ClientHandler;

@@ -22,15 +22,9 @@
 #ifndef HDLC_PROTOCOL_STATE_H
 #define HDLC_PROTOCOL_STATE_H
 
-#include <iostream>
-#include <memory>
-#include <string>
-#include <map>
 #include <vector>
-#include <algorithm>
-#include <assert.h>
 #include <boost/asio.hpp>
-#include <string.h>
+#include <memory>
 #include "Frame.h"
 class ComPortHandler;
 class FrameParser;

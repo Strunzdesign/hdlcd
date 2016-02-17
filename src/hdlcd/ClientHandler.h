@@ -25,11 +25,8 @@
 #include <iostream>
 #include <memory>
 #include <string>
-#include <map>
 #include <deque>
 #include <vector>
-#include <algorithm>
-#include <assert.h>
 #include <boost/asio.hpp>
 class ComPortHandler;
 class ComPortHandlerCollection;

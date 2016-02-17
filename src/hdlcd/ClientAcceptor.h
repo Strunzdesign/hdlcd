@@ -22,13 +22,6 @@
 #ifndef CLIENT_ACCEPTOR_H
 #define CLIENT_ACCEPTOR_H
 
-#include <iostream>
-#include <memory>
-#include <string>
-#include <map>
-#include <vector>
-#include <algorithm>
-#include <assert.h>
 #include <boost/asio.hpp>
 #include "ClientHandler.h"
 #include "ComPortHandlerCollection.h"

@@ -22,15 +22,8 @@
 #ifndef HDLC_FRAME_PARSER_H
 #define HDLC_FRAME_PARSER_H
 
-#include <iostream>
-#include <memory>
-#include <string>
-#include <map>
 #include <vector>
-#include <algorithm>
-#include <assert.h>
-#include <boost/asio.hpp>
-#include <string.h>
+#include <memory>
 #include "Frame.h"
 class ProtocolState;
 

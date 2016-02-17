@@ -22,13 +22,9 @@
 #ifndef COMPORTHANDLER_COLLECTION_H
 #define COMPORTHANDLER_COLLECTION_H
 
-#include <iostream>
 #include <memory>
 #include <string>
 #include <map>
-#include <vector>
-#include <algorithm>
-#include <assert.h>
 #include <boost/asio.hpp>
 class ClientHandler;
 class ComPortHandler;
