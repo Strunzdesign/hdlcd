@@ -31,6 +31,7 @@ ProtocolState::ProtocolState(std::shared_ptr<ComPortHandler> a_ComPortHandler, b
     m_RSeqOutgoing = 0;
     m_SSeqIncoming = 0;
     m_RSeqIncoming = 0;
+    m_bPeerRequiresAck = false;
     m_HDLCType = HDLC_TYPE_UNKNOWN;
     m_ComPortHandler = a_ComPortHandler;
 }
@@ -84,7 +85,11 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
         // If it is an I-Frame, the data may have to be acked
         if (a_Frame.IsIFrame()) {
             // FIXME: may be a repeated packet
-            m_RSeqIncoming = a_Frame.GetSSeq();
+            if (m_RSeqIncoming != a_Frame.GetSSeq()) {
+                // TODO: does not respect gaps yet
+                m_bPeerRequiresAck = true;
+                m_RSeqIncoming = a_Frame.GetSSeq();
+            } // if
         } // if
     } // if
     
@@ -105,6 +110,11 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
             // TODO: not implemented yet
         } // else
     } // if
+    
+    if (m_bAwaitsNextHDLCFrame) {
+        // Check if we have to send something now
+        OpportunityForTransmission();
+    } // if
 }
 
 void ProtocolState::OpportunityForTransmission() {
@@ -112,20 +122,19 @@ void ProtocolState::OpportunityForTransmission() {
     assert(m_bAwaitsNextHDLCFrame);
     
     // TODO: Here we can add all that neat retransmission / RR / REJ stuff :-)
-    if (m_PayloadWaitQueue.empty()) {
+    if ((m_PayloadWaitQueue.empty()) && (!m_bPeerRequiresAck)) {
         return;
     } // if
-    
-    m_bAwaitsNextHDLCFrame = false;
 
+    m_bAwaitsNextHDLCFrame = false;
     Frame l_Frame;
-    l_Frame.SetAddress(0x30);
-    l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_I);
-    l_Frame.SetPF(false);
-    l_Frame.SetSSeq(m_SSeqOutgoing);
-    l_Frame.SetRSeq(m_RSeqIncoming);
-    l_Frame.SetPayload(std::move(m_PayloadWaitQueue.front()));
-    m_PayloadWaitQueue.pop_front();
+    if (m_PayloadWaitQueue.empty() == false) {
+        l_Frame = PrepareIFrame();
+        m_bPeerRequiresAck = false;
+    } else {
+        l_Frame = PrepareSFrameRR();
+        m_bPeerRequiresAck = false;
+    } // else
     
     // Deliver unescaped frame to clients that have interest
     const std::vector<unsigned char> l_HDLCFrameBuffer = FrameGenerator::SerializeFrame(l_Frame);
@@ -135,4 +144,25 @@ void ProtocolState::OpportunityForTransmission() {
     
     // Increase outgoing SSeq
     m_SSeqOutgoing = ((m_SSeqOutgoing + 1) & 0x07);
+}
+
+Frame ProtocolState::PrepareIFrame() {
+    Frame l_Frame;
+    l_Frame.SetAddress(0x30);
+    l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_I);
+    l_Frame.SetPF(false);
+    l_Frame.SetSSeq(m_SSeqOutgoing);
+    l_Frame.SetRSeq(m_RSeqIncoming);
+    l_Frame.SetPayload(std::move(m_PayloadWaitQueue.front()));
+    m_PayloadWaitQueue.pop_front();
+    return(std::move(l_Frame));
+}
+
+Frame ProtocolState::PrepareSFrameRR() {
+    Frame l_Frame;
+    l_Frame.SetAddress(0x30);
+    l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_S_RR);
+    l_Frame.SetPF(false);
+    l_Frame.SetRSeq(m_RSeqIncoming);
+    return(std::move(l_Frame));
 }
