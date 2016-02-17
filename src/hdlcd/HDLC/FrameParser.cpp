@@ -59,23 +59,33 @@ size_t FrameParser::AddChunk(const char* a_Buffer, size_t a_Bytes) {
             return a_Bytes;
         } // else
     } else {
-        // TODO: The range check is still missing. The buffer can be overwritten!
         // We already have seen the start token. Check if there is the end token available in the input buffer.
         const void* l_pEndTokenPtr = memchr((const void*)a_Buffer, 0x7E, a_Bytes);
         if (l_pEndTokenPtr) {
-            // The end token was found in the input buffer. Copy all bytes including the end token.
+            // The end token was found in the input buffer. At first, check if we receive to much data.
             size_t l_NbrOfBytes = ((const char*)l_pEndTokenPtr - a_Buffer + 1);
-            m_Buffer.insert(m_Buffer.end(), a_Buffer, a_Buffer + l_NbrOfBytes);
-            if (RemoveEscapeCharacters()) {
-                // The complete frame was valid and was consumed.
-                m_bStartTokenSeen = false;
-            } // if
+            if ((m_Buffer.size() + l_NbrOfBytes) <= (2 * max_length)) {
+                // We did not exceed the maximum frame size yet. Copy all bytes including the end token.
+                m_Buffer.insert(m_Buffer.end(), a_Buffer, a_Buffer + l_NbrOfBytes);
+                if (RemoveEscapeCharacters()) {
+                    // The complete frame was valid and was consumed.
+                    m_bStartTokenSeen = false;
+                } // if
+            } // else
 
             m_Buffer.resize(1); // Already contains start token 0x7E
             return (l_NbrOfBytes);
         } else {
-            // No end token found. Copy all bytes.
-            m_Buffer.insert(m_Buffer.end(), a_Buffer, a_Buffer + a_Bytes);
+            // No end token found. Copy all bytes if we do not exceed the maximum frame size.
+            if ((m_Buffer.size() + a_Bytes) > (2 * max_length)) {
+                // Even if all these bytes were escaped, we have exceeded the maximum frame size.
+                m_bStartTokenSeen = false;
+                m_Buffer.resize(1); // Already contains start token 0x7E
+            } else {
+                // Add all bytes
+                m_Buffer.insert(m_Buffer.end(), a_Buffer, a_Buffer + a_Bytes);
+            } // else
+            
             return a_Bytes;
         } // else
     } // else
@@ -124,6 +134,12 @@ bool FrameParser::RemoveEscapeCharacters() {
         
         // Go ahead with the unescaped buffer
         m_Buffer = std::move(l_UnescapedBuffer);
+    } // if
+    
+    // We now have the unescaped frame at hand.
+    if ((m_Buffer.size() < 6) || (m_Buffer.size() > max_length)) {
+        // To short or too long for a valid HDLC frame. We consider it as junk.
+        return false;
     } // if
 
     if (l_bMessageValid) {
