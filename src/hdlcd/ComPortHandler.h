@@ -52,6 +52,7 @@ public:
 private:
     // Internal helpers
     void do_read();
+    void do_write();
     
     // Members
     bool m_Registered;
@@ -63,7 +64,9 @@ private:
     std::vector<std::weak_ptr<ClientHandler>> m_ClientHandlerVector;
     enum { max_length = 1024 };
     char data_[max_length];
+    
     std::vector<unsigned char> m_SendBuffer;
+    size_t m_SendBufferOffset;
 };
 
 #endif // COMPORTHANDLER_H

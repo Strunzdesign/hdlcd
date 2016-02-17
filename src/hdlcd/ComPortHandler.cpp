@@ -30,6 +30,7 @@ ComPortHandler::ComPortHandler(const std::string &a_ComPortName, std::shared_ptr
     m_Registered = true;
     m_ComPortName = a_ComPortName;
     m_ComPortHandlerCollection = a_ComPortHandlerCollection;
+    m_SendBufferOffset = 0;
 }
 
 ComPortHandler::~ComPortHandler() {
@@ -120,24 +121,11 @@ void ComPortHandler::Stop() {
 
 void ComPortHandler::DeliverHDLCFrame(const std::vector<unsigned char> &a_Payload) {
     // Copy buffer holding the excaped HDLC frame for transmission via the serial interface
+    assert(m_SendBufferOffset == 0);
     m_SendBuffer = std::move(a_Payload);
     
     // Trigger transmission
-    auto self(shared_from_this());
-    m_SerialPort.async_write_some(boost::asio::buffer(m_SendBuffer.data(), m_SendBuffer.size()),[this, self](boost::system::error_code ec, std::size_t length) {
-        if (!ec) {
-            if (m_SendBuffer.size() != length) {
-                std::cout << "SERIAL Partly written: " << length << " of " << m_SendBuffer.size() << " bytes" << std::endl;
-                assert(false);
-            } else {
-                // Indicate that we are ready to transmit the next HDLC frame
-                m_ProtocolState->TriggerNextHDLCFrame();
-            } // else
-        } else {
-            std::cout << "SERIAL WRITE ERROR:" << ec << std::endl;
-            Stop();
-        } // else
-    });
+    do_write();
 }
 
 void ComPortHandler::do_read() {
@@ -150,5 +138,25 @@ void ComPortHandler::do_read() {
             std::cout << "SERIAL READ ERROR:" << ec << std::endl;
             Stop();
         } 
+    });
+}
+
+void ComPortHandler::do_write() {
+    auto self(shared_from_this());
+    m_SerialPort.async_write_some(boost::asio::buffer(&m_SendBuffer[m_SendBufferOffset], (m_SendBuffer.size() - m_SendBufferOffset)),[this, self](boost::system::error_code ec, std::size_t length) {
+        if (!ec) {
+            m_SendBufferOffset += length;
+            if (m_SendBufferOffset == m_SendBuffer.size()) {
+                // Indicate that we are ready to transmit the next HDLC frame
+                m_SendBufferOffset = 0;
+                m_ProtocolState->TriggerNextHDLCFrame();
+            } else {
+                // Only a partly transmission. We are not done yet.
+                do_write();
+            } // else
+        } else {
+            std::cout << "SERIAL WRITE ERROR:" << ec << std::endl;
+            Stop();
+        } // else
     });
 }
