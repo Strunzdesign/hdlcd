@@ -25,9 +25,7 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include <deque>
 #include <boost/asio.hpp>
-#include "HDLC/Frame.h"
 class ComPortHandlerCollection;
 class ClientHandler;
 class ProtocolState;
@@ -49,12 +47,11 @@ public:
     void Stop();
     
     // Do not use from external, only by the ProtocolState
-    void DeliverHDLCFrame(const std::vector<unsigned char> &a_Payload, const Frame& a_Frame);
+    void DeliverHDLCFrame(const std::vector<unsigned char> &a_Payload);
 
 private:
     // Internal helpers
     void do_read();
-    void do_write();
     
     // Members
     bool m_Registered;
@@ -66,9 +63,7 @@ private:
     std::vector<std::weak_ptr<ClientHandler>> m_ClientHandlerVector;
     enum { max_length = 1024 };
     char data_[max_length];
-     
-    std::deque<std::vector<unsigned char>> m_SendBufferList;
-    bool m_CurrentlySending;
+    std::vector<unsigned char> m_SendBuffer;
 };
 
 #endif // COMPORTHANDLER_H

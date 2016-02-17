@@ -27,7 +27,6 @@
 
 ComPortHandler::ComPortHandler(const std::string &a_ComPortName, std::shared_ptr<ComPortHandlerCollection> a_ComPortHandlerCollection, boost::asio::io_service &a_IOService): m_SerialPort(a_IOService), m_IOService(a_IOService) {
     std::cout << "CTOR ComPortHandler" << std::endl;
-    m_CurrentlySending = false;
     m_Registered = true;
     m_ComPortName = a_ComPortName;
     m_ComPortHandlerCollection = a_ComPortHandlerCollection;
@@ -119,13 +118,26 @@ void ComPortHandler::Stop() {
     } // if
 }
 
-void ComPortHandler::DeliverHDLCFrame(const std::vector<unsigned char> &a_Payload, const Frame& a_Frame) {
-    // Queue buffer holding the excaped HDLC frame for transmission via the serial interface
-    m_SendBufferList.push_back(a_Payload);
-    if (m_CurrentlySending == false) {
-        m_CurrentlySending = true;
-        do_write();
-    } // if
+void ComPortHandler::DeliverHDLCFrame(const std::vector<unsigned char> &a_Payload) {
+    // Copy buffer holding the excaped HDLC frame for transmission via the serial interface
+    m_SendBuffer = std::move(a_Payload);
+    
+    // Trigger transmission
+    auto self(shared_from_this());
+    m_SerialPort.async_write_some(boost::asio::buffer(m_SendBuffer.data(), m_SendBuffer.size()),[this, self](boost::system::error_code ec, std::size_t length) {
+        if (!ec) {
+            if (m_SendBuffer.size() != length) {
+                std::cout << "SERIAL Partly written: " << length << " of " << m_SendBuffer.size() << " bytes" << std::endl;
+                assert(false);
+            } else {
+                // Indicate that we are ready to transmit the next HDLC frame
+                m_ProtocolState->TriggerNextHDLCFrame();
+            } // else
+        } else {
+            std::cout << "SERIAL WRITE ERROR:" << ec << std::endl;
+            Stop();
+        } // else
+    });
 }
 
 void ComPortHandler::do_read() {
@@ -138,35 +150,5 @@ void ComPortHandler::do_read() {
             std::cout << "SERIAL READ ERROR:" << ec << std::endl;
             Stop();
         } 
-    });
-}
-
-void ComPortHandler::do_write() {
-    auto self(shared_from_this());
-    m_SerialPort.async_write_some(boost::asio::buffer(&(m_SendBufferList.front()[0]), m_SendBufferList.front().size()),[this, self](boost::system::error_code ec, std::size_t length) {
-        bool l_bQueryForSubsequentFrames = false;
-        if (!ec) {
-            if (m_SendBufferList.front().size() != length) {
-                std::cout << "SERIAL Partly written: " << length << " of " << m_SendBufferList.front().size() << " bytes" << std::endl;
-                assert(false);
-            } // if
-            
-            // More to write?
-            m_SendBufferList.pop_front();
-            if (m_SendBufferList.empty() == false) {
-                do_write();
-            } else {
-                // SendBuffer is empty. Actively query for more.
-                m_CurrentlySending = false;
-                l_bQueryForSubsequentFrames = true;
-            } // else
-        } else {
-            std::cout << "SERIAL WRITE ERROR:" << ec << std::endl;
-            Stop();
-        } // else
-        
-        if (l_bQueryForSubsequentFrames) {
-            m_ProtocolState->SendQueueIsEmpty();
-        } // if
     });
 }

@@ -25,6 +25,7 @@
 #include <vector>
 #include <boost/asio.hpp>
 #include <memory>
+#include <deque>
 #include "Frame.h"
 class ComPortHandler;
 class FrameParser;
@@ -36,13 +37,16 @@ public:
     void Stop();
 
     void SendPayload(const std::vector<unsigned char> &a_Payload);
-    void SendQueueIsEmpty();
+    void TriggerNextHDLCFrame();
     void AddReceivedRawBytes(const char* a_Buffer, size_t a_Bytes);
     void InterpretDeserializedFrame(const std::vector<unsigned char> &a_Payload, const Frame& a_Frame, bool a_bMessageValid);
 
 private:
+    // Internal helpers
+    void OpportunityForTransmission();
+    
     // Members
-    bool m_bSendQueueEmpty;
+    bool m_bAwaitsNextHDLCFrame;
     unsigned char m_SSeqOutgoing; // The sequence number we are going to use for the transmission of the next packet
     unsigned char m_RSeqOutgoing; // The start of the RX window offered by our peer, defines which packets it expects
     unsigned char m_SSeqIncoming; // The sequence number we expect our peer to use for the next packet directed to us
@@ -51,6 +55,9 @@ private:
     // Parser and generator
     std::shared_ptr<ComPortHandler> m_ComPortHandler;
     std::shared_ptr<FrameParser>    m_FrameParser;
+    
+    // Wait queue for incoming payload to be sent
+    std::deque<std::vector<unsigned char>> m_PayloadWaitQueue;
     
     // Determine type of HDLC peer
     typedef enum {

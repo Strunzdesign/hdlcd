@@ -20,12 +20,13 @@
  */
 
 #include "ProtocolState.h"
+#include <assert.h>
 #include "../ComPortHandler.h"
 #include "FrameParser.h"
 #include "FrameGenerator.h"
 
 ProtocolState::ProtocolState(std::shared_ptr<ComPortHandler> a_ComPortHandler, boost::asio::io_service& a_IOService) {
-    m_bSendQueueEmpty = true;
+    m_bAwaitsNextHDLCFrame = true;
     m_SSeqOutgoing = 0;
     m_RSeqOutgoing = 0;
     m_SSeqIncoming = 0;
@@ -47,32 +48,18 @@ void ProtocolState::SendPayload(const std::vector<unsigned char> &a_Payload) {
     // Fresh Payload to be sent is available.
     m_ComPortHandler->DeliverPayloadToClients(a_Payload, false);
     
-    // Queue it for later framing
-    // TODO: This logic still lacks the ability to store frames if an sending operation is ongoing!
-    if (m_bSendQueueEmpty) {
-        m_bSendQueueEmpty = false;
-        Frame l_Frame;
-        l_Frame.SetAddress(0x30);
-        l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_I);
-        l_Frame.SetPF(false);
-        l_Frame.SetSSeq(m_SSeqOutgoing);
-        l_Frame.SetRSeq(m_RSeqIncoming);
-        l_Frame.SetPayload(std::move(a_Payload));
-        
-        // Deliver unescaped frame to clients that have interest
-        const std::vector<unsigned char> l_HDLCFrameBuffer = FrameGenerator::SerializeFrame(l_Frame);
-        m_ComPortHandler->DeliverRawFrameToClients(l_HDLCFrameBuffer, false, true); // not escaped
-        m_ComPortHandler->DeliverDissectedFrameToClients("<<< Sent: " + l_Frame.GetReadableDescription(), false, true);
-        m_ComPortHandler->DeliverHDLCFrame(std::move(FrameGenerator::EscapeFrame(l_HDLCFrameBuffer)), l_Frame);
-        
-        // Increase outgoing SSeq
-        m_SSeqOutgoing = ((m_SSeqOutgoing + 1) & 0x07);
+    // Queue payload for later framing
+    m_PayloadWaitQueue.emplace_back(std::move(a_Payload));
+    if (m_bAwaitsNextHDLCFrame) {
+        OpportunityForTransmission();
     } // if
 }
 
-void ProtocolState::SendQueueIsEmpty() {
-    // The SendQueue is empty. If a fresh frame can be sent, create and deliver it now
-    m_bSendQueueEmpty = true;
+void ProtocolState::TriggerNextHDLCFrame() {
+    // The ComPortHandler is ready to transmit the next HDLC frame
+    assert(m_bAwaitsNextHDLCFrame == false);
+    m_bAwaitsNextHDLCFrame = true;
+    OpportunityForTransmission();
 }
 
 void ProtocolState::AddReceivedRawBytes(const char* a_Buffer, size_t a_Bytes) {
@@ -118,4 +105,34 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
             // TODO: not implemented yet
         } // else
     } // if
+}
+
+void ProtocolState::OpportunityForTransmission() {
+    // Checks
+    assert(m_bAwaitsNextHDLCFrame);
+    
+    // TODO: Here we can add all that neat retransmission / RR / REJ stuff :-)
+    if (m_PayloadWaitQueue.empty()) {
+        return;
+    } // if
+    
+    m_bAwaitsNextHDLCFrame = false;
+
+    Frame l_Frame;
+    l_Frame.SetAddress(0x30);
+    l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_I);
+    l_Frame.SetPF(false);
+    l_Frame.SetSSeq(m_SSeqOutgoing);
+    l_Frame.SetRSeq(m_RSeqIncoming);
+    l_Frame.SetPayload(std::move(m_PayloadWaitQueue.front()));
+    m_PayloadWaitQueue.pop_front();
+    
+    // Deliver unescaped frame to clients that have interest
+    const std::vector<unsigned char> l_HDLCFrameBuffer = FrameGenerator::SerializeFrame(l_Frame);
+    m_ComPortHandler->DeliverRawFrameToClients(l_HDLCFrameBuffer, false, true); // not escaped
+    m_ComPortHandler->DeliverDissectedFrameToClients("<<< Sent: " + l_Frame.GetReadableDescription(), false, true);
+    m_ComPortHandler->DeliverHDLCFrame(std::move(FrameGenerator::EscapeFrame(l_HDLCFrameBuffer)));
+    
+    // Increase outgoing SSeq
+    m_SSeqOutgoing = ((m_SSeqOutgoing + 1) & 0x07);
 }
