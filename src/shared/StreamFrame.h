@@ -66,7 +66,7 @@ public:
     }
     
     // Direction
-    unsigned char SetDirection() const {
+    unsigned char GetDirection() const {
         return m_Direction;
     }
     
