@@ -24,12 +24,12 @@
 
 #include <boost/asio.hpp>
 #include "ClientHandler.h"
-#include "ComPortHandlerCollection.h"
+#include "SerialPortHandlerCollection.h"
 using boost::asio::ip::tcp;
 
 class ClientAcceptor {
 public:
-ClientAcceptor(boost::asio::io_service& io_service, short port, std::shared_ptr<ComPortHandlerCollection> a_ComPortHandlerCollection): m_ComPortHandlerCollection(a_ComPortHandlerCollection), m_TCPAcceptor(io_service, tcp::endpoint(tcp::v4(), port)), m_TCPSocket(io_service) {
+ClientAcceptor(boost::asio::io_service& io_service, short port, std::shared_ptr<SerialPortHandlerCollection> a_SerialPortHandlerCollection): m_SerialPortHandlerCollection(a_SerialPortHandlerCollection), m_TCPAcceptor(io_service, tcp::endpoint(tcp::v4(), port)), m_TCPSocket(io_service) {
     do_accept();
 }
 
@@ -37,7 +37,7 @@ private:
     void do_accept() {
         m_TCPAcceptor.async_accept(m_TCPSocket, [this](boost::system::error_code ec) {
             if (!ec) {
-                std::make_shared<ClientHandler>(std::move(m_TCPSocket))->Start(m_ComPortHandlerCollection);
+                std::make_shared<ClientHandler>(std::move(m_TCPSocket))->Start(m_SerialPortHandlerCollection);
             }
 
             do_accept();
@@ -45,7 +45,7 @@ private:
     }
 
     // Members
-    std::shared_ptr<ComPortHandlerCollection> m_ComPortHandlerCollection;
+    std::shared_ptr<SerialPortHandlerCollection> m_SerialPortHandlerCollection;
     tcp::acceptor m_TCPAcceptor;
     tcp::socket m_TCPSocket;
 };

@@ -1,5 +1,5 @@
 /**
- * \file ComPortHandler.cpp
+ * \file SerialPortHandler.cpp
  * \brief 
  *
  * The hdlc-tools implement the HDLC protocol to easily talk to devices connected via serial communications
@@ -19,32 +19,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "ComPortHandler.h"
-#include "ComPortHandlerCollection.h"
+#include "SerialPortHandler.h"
+#include "SerialPortHandlerCollection.h"
 #include "ClientHandler.h"
 #include "HDLC/ProtocolState.h"
 #include <boost/system/system_error.hpp>
 
-ComPortHandler::ComPortHandler(const std::string &a_ComPortName, std::shared_ptr<ComPortHandlerCollection> a_ComPortHandlerCollection, boost::asio::io_service &a_IOService): m_SerialPort(a_IOService), m_IOService(a_IOService) {
+SerialPortHandler::SerialPortHandler(const std::string &a_SerialPortName, std::shared_ptr<SerialPortHandlerCollection> a_SerialPortHandlerCollection, boost::asio::io_service &a_IOService): m_SerialPort(a_IOService), m_IOService(a_IOService) {
     m_Registered = true;
-    m_ComPortName = a_ComPortName;
-    m_ComPortHandlerCollection = a_ComPortHandlerCollection;
+    m_SerialPortName = a_SerialPortName;
+    m_SerialPortHandlerCollection = a_SerialPortHandlerCollection;
     m_SendBufferOffset = 0;
 }
 
-ComPortHandler::~ComPortHandler() {
+SerialPortHandler::~SerialPortHandler() {
     Stop();
 }
 
-void ComPortHandler::AddClientHandler(std::shared_ptr<ClientHandler> a_ClientHandler) {
+void SerialPortHandler::AddClientHandler(std::shared_ptr<ClientHandler> a_ClientHandler) {
     m_ClientHandlerVector.push_back(a_ClientHandler);
 }
 
-void ComPortHandler::DeliverPayloadToHDLC(const std::vector<unsigned char> &a_Payload) {
+void SerialPortHandler::DeliverPayloadToHDLC(const std::vector<unsigned char> &a_Payload) {
     m_ProtocolState->SendPayload(a_Payload);
 }
 
-void ComPortHandler::DeliverBufferToClients(E_HDLCBUFFER a_eHDLCBuffer, E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_Payload, bool a_bValid) {
+void SerialPortHandler::DeliverBufferToClients(E_HDLCBUFFER a_eHDLCBuffer, E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_Payload, bool a_bValid) {
     for (auto it = m_ClientHandlerVector.begin(); it != m_ClientHandlerVector.end(); ++it) {
         if (auto l_ClientHandler = it->lock()) {
             l_ClientHandler->DeliverBufferToClient(a_eHDLCBuffer, a_eDirection, a_Payload, a_bValid);
@@ -53,12 +53,12 @@ void ComPortHandler::DeliverBufferToClients(E_HDLCBUFFER a_eHDLCBuffer, E_DIRECT
     } // for
 }
 
-void ComPortHandler::Start() {
+void SerialPortHandler::Start() {
     try {
         m_ProtocolState = std::make_shared<ProtocolState>(shared_from_this(), m_IOService);
         m_ProtocolState->Start();
 
-        m_SerialPort.open(m_ComPortName);
+        m_SerialPort.open(m_SerialPortName);
         m_SerialPort.set_option(boost::asio::serial_port::baud_rate(115200));
         m_SerialPort.set_option(boost::asio::serial_port::parity(boost::asio::serial_port::parity::none));
         m_SerialPort.set_option(boost::asio::serial_port::character_size(boost::asio::serial_port::character_size(8)));
@@ -76,7 +76,7 @@ void ComPortHandler::Start() {
     } // catch
 }
 
-void ComPortHandler::Stop() {
+void SerialPortHandler::Stop() {
     if (m_Registered) {
         m_Registered = false;
         
@@ -87,8 +87,8 @@ void ComPortHandler::Stop() {
         
         m_ProtocolState->Stop();
         
-        if (auto l_ComPortHandlerCollection = m_ComPortHandlerCollection.lock()) {
-            l_ComPortHandlerCollection->DeregisterComPortHandler(self);
+        if (auto l_SerialPortHandlerCollection = m_SerialPortHandlerCollection.lock()) {
+            l_SerialPortHandlerCollection->DeregisterSerialPortHandler(self);
         } // if
         
         for (auto it = m_ClientHandlerVector.begin(); it != m_ClientHandlerVector.end(); ++it) {
@@ -99,7 +99,7 @@ void ComPortHandler::Stop() {
     } // if
 }
 
-void ComPortHandler::DeliverHDLCFrame(const std::vector<unsigned char> &a_Payload) {
+void SerialPortHandler::DeliverHDLCFrame(const std::vector<unsigned char> &a_Payload) {
     // Copy buffer holding the excaped HDLC frame for transmission via the serial interface
     assert(m_SendBufferOffset == 0);
     m_SendBuffer = std::move(a_Payload);
@@ -108,7 +108,7 @@ void ComPortHandler::DeliverHDLCFrame(const std::vector<unsigned char> &a_Payloa
     do_write();
 }
 
-void ComPortHandler::do_read() {
+void SerialPortHandler::do_read() {
     auto self(shared_from_this());
     m_SerialPort.async_read_some(boost::asio::buffer(data_, max_length),[this, self](boost::system::error_code ec, std::size_t length) {
         if (!ec) {
@@ -121,7 +121,7 @@ void ComPortHandler::do_read() {
     });
 }
 
-void ComPortHandler::do_write() {
+void SerialPortHandler::do_write() {
     auto self(shared_from_this());
     m_SerialPort.async_write_some(boost::asio::buffer(&m_SendBuffer[m_SendBufferOffset], (m_SendBuffer.size() - m_SendBufferOffset)),[this, self](boost::system::error_code ec, std::size_t length) {
         if (!ec) {

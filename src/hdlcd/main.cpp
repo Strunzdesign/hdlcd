@@ -21,7 +21,7 @@
 
 #include <iostream>
 #include <boost/asio.hpp>
-#include "ComPortHandlerCollection.h"
+#include "SerialPortHandlerCollection.h"
 #include "ClientAcceptor.h"
 
 int main(int argc, char **argv) {
@@ -31,9 +31,9 @@ int main(int argc, char **argv) {
     signals_.add(SIGTERM);
     signals_.async_wait([&io_service](boost::system::error_code errorCode, int signalNumber){io_service.stop();});
     
-    auto l_ComPortHandlerCollection = std::make_shared<ComPortHandlerCollection>(io_service);
+    auto l_SerialPortHandlerCollection = std::make_shared<SerialPortHandlerCollection>(io_service);
 
-    ClientAcceptor l_ClientAcceptor(io_service, 10000, l_ComPortHandlerCollection);
+    ClientAcceptor l_ClientAcceptor(io_service, 10000, l_SerialPortHandlerCollection);
     io_service.run(); 
     return 0;
 }

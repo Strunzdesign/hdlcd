@@ -30,8 +30,8 @@
 #include <boost/asio.hpp>
 #include "HDLC/HDLCBuffer.h"
 #include "HDLC/Direction.h"
-class ComPortHandler;
-class ComPortHandlerCollection;
+class SerialPortHandler;
+class SerialPortHandlerCollection;
 class StreamFrame;
 using boost::asio::ip::tcp;
 
@@ -42,7 +42,7 @@ public:
 
     void DeliverBufferToClient(E_HDLCBUFFER a_eHDLCBuffer, E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_Payload, bool a_bValid);
     
-    void Start(std::shared_ptr<ComPortHandlerCollection> a_ComPortHandlerCollection);
+    void Start(std::shared_ptr<SerialPortHandlerCollection> a_SerialPortHandlerCollection);
     void Stop();
     
 private:
@@ -55,9 +55,9 @@ private:
     // Members
     bool m_Registered;
     boost::asio::ip::tcp::socket m_TCPSocket;
-    std::shared_ptr<ComPortHandlerCollection> m_ComPortHandlerCollection;
-    std::shared_ptr<std::shared_ptr<ComPortHandler>> m_ComPortHandlerStopper;
-    std::shared_ptr<ComPortHandler> m_ComPortHandler;
+    std::shared_ptr<SerialPortHandlerCollection> m_SerialPortHandlerCollection;
+    std::shared_ptr<std::shared_ptr<SerialPortHandler>> m_SerialPortHandlerStopper;
+    std::shared_ptr<SerialPortHandler> m_SerialPortHandler;
     enum { max_length = 1024 };
     char data_[max_length];
     

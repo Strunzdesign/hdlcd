@@ -27,12 +27,12 @@
 #include <memory>
 #include <deque>
 #include "Frame.h"
-class ComPortHandler;
+class SerialPortHandler;
 class FrameParser;
 
 class ProtocolState: public std::enable_shared_from_this<ProtocolState> {
 public:
-    ProtocolState(std::shared_ptr<ComPortHandler> a_ComPortHandler, boost::asio::io_service& a_IOService);
+    ProtocolState(std::shared_ptr<SerialPortHandler> a_SerialPortHandler, boost::asio::io_service& a_IOService);
     void Start();
     void Stop();
 
@@ -58,8 +58,8 @@ private:
     bool m_bPeerRequiresAck;
     
     // Parser and generator
-    std::shared_ptr<ComPortHandler> m_ComPortHandler;
-    std::shared_ptr<FrameParser>    m_FrameParser;
+    std::shared_ptr<SerialPortHandler> m_SerialPortHandler;
+    std::shared_ptr<FrameParser> m_FrameParser;
     
     // Wait queue for incoming payload to be sent
     std::deque<std::vector<unsigned char>> m_PayloadWaitQueue;

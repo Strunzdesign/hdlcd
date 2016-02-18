@@ -21,12 +21,12 @@
 
 #include "ProtocolState.h"
 #include <assert.h>
-#include "../ComPortHandler.h"
+#include "../SerialPortHandler.h"
 #include "Direction.h"
 #include "FrameParser.h"
 #include "FrameGenerator.h"
 
-ProtocolState::ProtocolState(std::shared_ptr<ComPortHandler> a_ComPortHandler, boost::asio::io_service& a_IOService) {
+ProtocolState::ProtocolState(std::shared_ptr<SerialPortHandler> a_SerialPortHandler, boost::asio::io_service& a_IOService) {
     m_bAwaitsNextHDLCFrame = true;
     m_SSeqOutgoing = 0;
     m_RSeqOutgoing = 0;
@@ -34,7 +34,7 @@ ProtocolState::ProtocolState(std::shared_ptr<ComPortHandler> a_ComPortHandler, b
     m_RSeqIncoming = 0;
     m_bPeerRequiresAck = false;
     m_HDLCType = HDLC_TYPE_UNKNOWN;
-    m_ComPortHandler = a_ComPortHandler;
+    m_SerialPortHandler = a_SerialPortHandler;
 }
 
 void ProtocolState::Start() {
@@ -42,13 +42,13 @@ void ProtocolState::Start() {
 }
 
 void ProtocolState::Stop() {
-    m_ComPortHandler.reset();
+    m_SerialPortHandler.reset();
     m_FrameParser.reset();
 }
 
 void ProtocolState::SendPayload(const std::vector<unsigned char> &a_Payload) {
     // Fresh Payload to be sent is available.
-    m_ComPortHandler->DeliverBufferToClients(HDLCBUFFER_PAYLOAD, DIRECTION_SENT, a_Payload, true);
+    m_SerialPortHandler->DeliverBufferToClients(HDLCBUFFER_PAYLOAD, DIRECTION_SENT, a_Payload, true);
     
     // Queue payload for later framing
     m_PayloadWaitQueue.emplace_back(std::move(a_Payload));
@@ -58,7 +58,7 @@ void ProtocolState::SendPayload(const std::vector<unsigned char> &a_Payload) {
 }
 
 void ProtocolState::TriggerNextHDLCFrame() {
-    // The ComPortHandler is ready to transmit the next HDLC frame
+    // The SerialPortHandler is ready to transmit the next HDLC frame
     assert(m_bAwaitsNextHDLCFrame == false);
     m_bAwaitsNextHDLCFrame = true;
     OpportunityForTransmission();
@@ -70,8 +70,8 @@ void ProtocolState::AddReceivedRawBytes(const char* a_Buffer, size_t a_Bytes) {
 
 void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> &a_Payload, const Frame& a_Frame, bool a_bMessageValid) {
     // Deliver raw frame to clients that have interest
-    m_ComPortHandler->DeliverBufferToClients(HDLCBUFFER_RAW, DIRECTION_RCVD, a_Payload, a_bMessageValid); // not escaped
-    m_ComPortHandler->DeliverBufferToClients(HDLCBUFFER_DISSECTED, DIRECTION_RCVD, a_Frame.Dissect(), a_bMessageValid);
+    m_SerialPortHandler->DeliverBufferToClients(HDLCBUFFER_RAW, DIRECTION_RCVD, a_Payload, a_bMessageValid); // not escaped
+    m_SerialPortHandler->DeliverBufferToClients(HDLCBUFFER_DISSECTED, DIRECTION_RCVD, a_Frame.Dissect(), a_bMessageValid);
     
     // Stop here if the frame was considered broken
     if (a_bMessageValid == false) {
@@ -81,7 +81,7 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
     // Go ahead interpreting the frame we received
     if (a_Frame.HasPayload()) {
         // I-Frame or U-Frame with UI
-        m_ComPortHandler->DeliverBufferToClients(HDLCBUFFER_PAYLOAD, DIRECTION_RCVD, a_Frame.GetPayload(), true);
+        m_SerialPortHandler->DeliverBufferToClients(HDLCBUFFER_PAYLOAD, DIRECTION_RCVD, a_Frame.GetPayload(), true);
         
         // If it is an I-Frame, the data may have to be acked
         if (a_Frame.IsIFrame()) {
@@ -142,9 +142,9 @@ void ProtocolState::OpportunityForTransmission() {
     
     // Deliver unescaped frame to clients that have interest
     const std::vector<unsigned char> l_HDLCFrameBuffer = FrameGenerator::SerializeFrame(l_Frame);
-    m_ComPortHandler->DeliverBufferToClients(HDLCBUFFER_RAW, DIRECTION_SENT, l_HDLCFrameBuffer, true); // not escaped
-    m_ComPortHandler->DeliverBufferToClients(HDLCBUFFER_DISSECTED, DIRECTION_SENT, l_Frame.Dissect(), true);
-    m_ComPortHandler->DeliverHDLCFrame(std::move(FrameGenerator::EscapeFrame(l_HDLCFrameBuffer)));
+    m_SerialPortHandler->DeliverBufferToClients(HDLCBUFFER_RAW, DIRECTION_SENT, l_HDLCFrameBuffer, true); // not escaped
+    m_SerialPortHandler->DeliverBufferToClients(HDLCBUFFER_DISSECTED, DIRECTION_SENT, l_Frame.Dissect(), true);
+    m_SerialPortHandler->DeliverHDLCFrame(std::move(FrameGenerator::EscapeFrame(l_HDLCFrameBuffer)));
 }
 
 Frame ProtocolState::PrepareIFrame() {

@@ -20,7 +20,7 @@
  */
 
 #include "FrameGenerator.h"
-#include "../ComPortHandler.h"
+#include <assert.h>
 #include "../FCS16.h"
 
 const std::vector<unsigned char> FrameGenerator::SerializeFrame(const Frame& a_Frame) {

@@ -1,5 +1,5 @@
 /**
- * \file ComPortHandlerCollection.h
+ * \file SerialPortHandlerCollection.h
  * \brief 
  *
  * The hdlc-tools implement the HDLC protocol to easily talk to devices connected via serial communications
@@ -19,28 +19,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef COMPORTHANDLER_COLLECTION_H
-#define COMPORTHANDLER_COLLECTION_H
+#ifndef SERIAL_PORT_HANDLER_COLLECTION_H
+#define SERIAL_PORT_HANDLER_COLLECTION_H
 
 #include <memory>
 #include <string>
 #include <map>
 #include <boost/asio.hpp>
 class ClientHandler;
-class ComPortHandler;
+class SerialPortHandler;
 
-class ComPortHandlerCollection: public std::enable_shared_from_this<ComPortHandlerCollection> {
+class SerialPortHandlerCollection: public std::enable_shared_from_this<SerialPortHandlerCollection> {
 public:
-    ComPortHandlerCollection(boost::asio::io_service& a_IOService);
-    std::shared_ptr<std::shared_ptr<ComPortHandler>> GetComPortHandler(const std::string &a_ComPortName, std::shared_ptr<ClientHandler> a_ClientHandler);
+    SerialPortHandlerCollection(boost::asio::io_service& a_IOService);
+    std::shared_ptr<std::shared_ptr<SerialPortHandler>> GetSerialPortHandler(const std::string &a_SerialPortName, std::shared_ptr<ClientHandler> a_ClientHandler);
     
-    // To be called by a ComPortHandler
-    void DeregisterComPortHandler(std::shared_ptr<ComPortHandler> a_ComPortHandler);
+    // To be called by a SerialPortHandler
+    void DeregisterSerialPortHandler(std::shared_ptr<SerialPortHandler> a_SerialPortHandler);
 
 private:
     // Members
     boost::asio::io_service& m_IOService;
-    std::map<std::string, std::weak_ptr<std::shared_ptr<ComPortHandler>>> m_ComPortHandlerMap;
+    std::map<std::string, std::weak_ptr<std::shared_ptr<SerialPortHandler>>> m_SerialPortHandlerMap;
 };
 
-#endif // COMPORTHANDLER_COLLECTION_H
+#endif // SERIAL_PORT_HANDLER_COLLECTION_H

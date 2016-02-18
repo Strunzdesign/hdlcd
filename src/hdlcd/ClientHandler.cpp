@@ -21,8 +21,8 @@
 
 #include "ClientHandler.h"
 #include <iomanip>
-#include "ComPortHandlerCollection.h"
-#include "ComPortHandler.h"
+#include "SerialPortHandlerCollection.h"
+#include "SerialPortHandler.h"
 #include "../libFrame/StreamFrame.h"
 
 ClientHandler::ClientHandler(boost::asio::ip::tcp::socket a_TCPSocket): m_TCPSocket(std::move(a_TCPSocket)) {
@@ -53,15 +53,15 @@ void ClientHandler::DeliverBufferToClient(E_HDLCBUFFER a_eHDLCBuffer, E_DIRECTIO
     } // if
 }
 
-void ClientHandler::Start(std::shared_ptr<ComPortHandlerCollection> a_ComPortHandlerCollection) {
-    m_ComPortHandlerCollection = a_ComPortHandlerCollection;
+void ClientHandler::Start(std::shared_ptr<SerialPortHandlerCollection> a_SerialPortHandlerCollection) {
+    m_SerialPortHandlerCollection = a_SerialPortHandlerCollection;
     do_readSessionHeader1();
 }
 
 void ClientHandler::Stop() {
     if (m_Registered) {
         m_Registered = false;
-        m_ComPortHandler.reset();
+        m_SerialPortHandler.reset();
         std::cout << "TCP CLOSE" << std::endl;
         //m_TCPSocket.shutdown(m_TCPSocket.shutdown_both);
         m_TCPSocket.close();
@@ -106,8 +106,8 @@ void ClientHandler::do_readSessionHeader2(unsigned char a_BytesUSB) {
             // Now we know the USB port
             std::string l_UsbPortString;
             l_UsbPortString.append(data_, length);
-            m_ComPortHandlerStopper = m_ComPortHandlerCollection->GetComPortHandler(l_UsbPortString, shared_from_this());
-            m_ComPortHandler = (*m_ComPortHandlerStopper.get());
+            m_SerialPortHandlerStopper = m_SerialPortHandlerCollection->GetSerialPortHandler(l_UsbPortString, shared_from_this());
+            m_SerialPortHandler = (*m_SerialPortHandlerStopper.get());
             do_read();
         } else {
             std::cout << "TCP READ ERROR:" << ec << std::endl;
@@ -122,7 +122,7 @@ void ClientHandler::do_read() {
         if (!ec) {
             std::vector<unsigned char> l_Buffer(length - 2);
             memcpy(&(l_Buffer[0]), &(data_[2]), length - 2);	    
-            m_ComPortHandler->DeliverPayloadToHDLC(std::move(l_Buffer));
+            m_SerialPortHandler->DeliverPayloadToHDLC(std::move(l_Buffer));
             do_read();
         } else {
             std::cout << "TCP READ ERROR:" << ec << std::endl;

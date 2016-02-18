@@ -9,8 +9,8 @@ find_package(Threads)
 add_executable(hdlcd
 main.cpp
 ClientHandler.cpp
-ComPortHandler.cpp
-ComPortHandlerCollection.cpp
+SerialPortHandler.cpp
+SerialPortHandlerCollection.cpp
 FCS16.cpp
 HDLC/Frame.cpp
 HDLC/FrameGenerator.cpp

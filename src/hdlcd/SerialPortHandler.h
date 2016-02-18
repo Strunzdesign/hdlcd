@@ -1,5 +1,5 @@
 /**
- * \file ComPortHandler.h
+ * \file SerialPortHandler.h
  * \brief 
  *
  * The hdlc-tools implement the HDLC protocol to easily talk to devices connected via serial communications
@@ -19,8 +19,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef COMPORTHANDLER_H
-#define COMPORTHANDLER_H
+#ifndef SERIAL_PORT_HANDLER_H
+#define SERIAL_PORT_HANDLER_H
 
 #include <memory>
 #include <string>
@@ -28,15 +28,15 @@
 #include <boost/asio.hpp>
 #include "HDLC/HDLCBuffer.h"
 #include "HDLC/Direction.h"
-class ComPortHandlerCollection;
+class SerialPortHandlerCollection;
 class ClientHandler;
 class ProtocolState;
 
-class ComPortHandler: public std::enable_shared_from_this<ComPortHandler> {
+class SerialPortHandler: public std::enable_shared_from_this<SerialPortHandler> {
 public:
     // CTOR and DTOR
-    ComPortHandler(const std::string &a_ComPortName, std::shared_ptr<ComPortHandlerCollection> a_ComPortHandlerCollection, boost::asio::io_service& a_IOService);
-    ~ComPortHandler();
+    SerialPortHandler(const std::string &a_SerialPortName, std::shared_ptr<SerialPortHandlerCollection> a_SerialPortHandlerCollection, boost::asio::io_service& a_IOService);
+    ~SerialPortHandler();
     
     void AddClientHandler(std::shared_ptr<ClientHandler> a_ClientHandler);
     void DeliverPayloadToHDLC(const std::vector<unsigned char> &a_Payload);
@@ -58,8 +58,8 @@ private:
     boost::asio::serial_port m_SerialPort;
     boost::asio::io_service &m_IOService;
     std::shared_ptr<ProtocolState> m_ProtocolState;
-    std::string m_ComPortName;
-    std::weak_ptr<ComPortHandlerCollection> m_ComPortHandlerCollection;
+    std::string m_SerialPortName;
+    std::weak_ptr<SerialPortHandlerCollection> m_SerialPortHandlerCollection;
     std::vector<std::weak_ptr<ClientHandler>> m_ClientHandlerVector;
     enum { max_length = 1024 };
     char data_[max_length];
@@ -68,4 +68,4 @@ private:
     size_t m_SendBufferOffset;
 };
 
-#endif // COMPORTHANDLER_H
+#endif // SERIAL_PORT_HANDLER_H
