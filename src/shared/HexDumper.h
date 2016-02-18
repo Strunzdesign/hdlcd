@@ -30,6 +30,12 @@ class HexDumper: public IBufferSink {
 private:
     void BufferReceived(E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_Buffer) {
         // Print a hexdump of the provided data buffer. It should contain a packet to be printed in one line.
+        if (a_eDirection == DIRECTION_RCVD) {
+            std::cout << ">>> Rcvd: ";
+        } else {
+            std::cout << "<<< Sent: ";
+        } // else
+
         for (auto it = a_Buffer.begin(); it != a_Buffer.end(); ++it) {
             std::cout << std::hex << std::setw(2) << std::setfill('0') << int(*it) << " ";
         } // for
