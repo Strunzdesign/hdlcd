@@ -27,7 +27,7 @@
 #include <vector>
 #include <boost/asio.hpp>
 #include "HDLC/HDLCBuffer.h"
-#include "HDLC/Direction.h"
+#include "../libFrame/Direction.h"
 class SerialPortHandlerCollection;
 class ClientHandler;
 class ProtocolState;

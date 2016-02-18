@@ -28,10 +28,11 @@
 
 class StreamFrame {
 public:
-    enum { E_HEADER_LENGTH = 2 };
+    enum { E_HEADER_LENGTH = 3 };
     enum { E_MAX_BODY_LENGTH = 512 };
 
     StreamFrame(): m_BodyLength(0) {
+        m_Direction = 0;
     }
 
     const unsigned char* data() const {
@@ -63,9 +64,19 @@ public:
         if (m_BodyLength > E_MAX_BODY_LENGTH)
         m_BodyLength = E_MAX_BODY_LENGTH;
     }
+    
+    // Direction
+    unsigned char SetDirection() const {
+        return m_Direction;
+    }
+    
+    void SetDirection(unsigned char a_Direction) {
+        m_Direction = a_Direction;
+    }
 
     bool decode_header() {
-        m_BodyLength = *(reinterpret_cast<uint16_t*>(m_Data));
+        m_Direction = m_Data[0];
+        m_BodyLength = *(reinterpret_cast<uint16_t*>(&m_Data[1]));
         if (m_BodyLength > E_MAX_BODY_LENGTH) {
             m_BodyLength = 0;
             return false;
@@ -75,12 +86,14 @@ public:
     }
 
     void encode_header() {
-        *(reinterpret_cast<uint16_t*>(m_Data)) = m_BodyLength;
+        m_Data[0] = m_Direction;
+        *(reinterpret_cast<uint16_t*>(&m_Data[1])) = m_BodyLength;
     }
 
 private:
     unsigned char m_Data[E_HEADER_LENGTH + E_MAX_BODY_LENGTH];
     uint16_t m_BodyLength;
+    unsigned char m_Direction;
 };
 
 #endif // STREAM_FRAME_H

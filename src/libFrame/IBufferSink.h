@@ -22,12 +22,13 @@
 #ifndef I_BUFFER_SINK_H
 #define I_BUFFER_SINK_H
 
+#include "Direction.h"
 #include <vector>
 
 class IBufferSink {
 public:
     virtual ~IBufferSink(){}
-    virtual void BufferReceived(const std::vector<unsigned char> &a_Buffer) = 0;
+    virtual void BufferReceived(E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_Buffer) = 0;
 };
 
 #endif // I_BUFFER_SINK_H

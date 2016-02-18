@@ -94,7 +94,7 @@ private:
             if (!ec) {
                 auto l_Buffer = std::vector<unsigned char>(m_StreamFrame.body_length());
                 std::memcpy(&(l_Buffer[0]), m_StreamFrame.body(), m_StreamFrame.body_length());
-                m_pBufferSink->BufferReceived(l_Buffer);
+                m_pBufferSink->BufferReceived((E_DIRECTION)l_Buffer[0], l_Buffer);
                 do_read_header();
             } else {
                 std::cout << "TCP read error!" << std::endl;

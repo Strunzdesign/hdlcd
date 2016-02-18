@@ -29,7 +29,7 @@
 #include <vector>
 #include <boost/asio.hpp>
 #include "HDLC/HDLCBuffer.h"
-#include "HDLC/Direction.h"
+#include "../libFrame/Direction.h"
 class SerialPortHandler;
 class SerialPortHandlerCollection;
 class StreamFrame;
