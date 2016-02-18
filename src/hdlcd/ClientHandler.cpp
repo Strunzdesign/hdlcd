@@ -28,9 +28,6 @@
 ClientHandler::ClientHandler(boost::asio::ip::tcp::socket a_TCPSocket): m_TCPSocket(std::move(a_TCPSocket)) {
     m_Registered = true;
     m_CurrentlySending = false;
-    m_bDeliverRawHDLC = false;
-    m_bDeliverDissectedHDLC = false;
-    m_bDeliverPayload = false;
     std::cout << "CTOR ClientHandler" << std::endl;
 }
 
@@ -38,39 +35,17 @@ ClientHandler::~ClientHandler() {
     std::cout << "DTOR ClientHandler" << std::endl;
 }
 
-void ClientHandler::DeliverRawPayloadToClient(E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_Payload, bool a_bValid) {
-    if (m_bDeliverPayload) {
+void ClientHandler::DeliverBufferToClient(E_HDLCBUFFER a_eHDLCBuffer, E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_Payload, bool a_bValid) {
+    // Check whether this buffer is of interest to this specific client
+    bool l_bDeliver = (a_eHDLCBuffer == m_eHDLCBuffer);
+    if ((m_eDirection != DIRECTION_BOTH) && (m_eDirection != a_eDirection)) {
+        l_bDeliver = false;
+    } // if
+
+    if (l_bDeliver) {
         StreamFrame l_StreamFrame;
         l_StreamFrame.body_length(a_Payload.size());
         std::memcpy(l_StreamFrame.body(), a_Payload.data(), l_StreamFrame.body_length());
-        l_StreamFrame.encode_header();
-        m_StreamFrameQueue.push_back(l_StreamFrame);
-        if (m_CurrentlySending == false) {
-            m_CurrentlySending = true;
-            do_write();
-        } // if
-    } // if
-}
-
-void ClientHandler::DeliverRawFrameToClient(E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_RawFrame, bool a_bValid) {
-    if (m_bDeliverRawHDLC) {
-        StreamFrame l_StreamFrame;
-        l_StreamFrame.body_length(a_RawFrame.size());
-        std::memcpy(l_StreamFrame.body(), a_RawFrame.data(), l_StreamFrame.body_length());
-        l_StreamFrame.encode_header();
-        m_StreamFrameQueue.push_back(l_StreamFrame);
-        if (m_CurrentlySending == false) {
-            m_CurrentlySending = true;
-            do_write();
-        } // if
-    } // if
-}
-
-void ClientHandler::DeliverDissectedFrameToClient(E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_DissectedFrame, bool a_bValid) {
-    if (m_bDeliverDissectedHDLC) {
-        StreamFrame l_StreamFrame;
-        l_StreamFrame.body_length(a_DissectedFrame.size());
-        std::memcpy(l_StreamFrame.body(), a_DissectedFrame.data(), l_StreamFrame.body_length());
         l_StreamFrame.encode_header();
         m_StreamFrameQueue.push_back(l_StreamFrame);
         if (m_CurrentlySending == false) {
@@ -99,13 +74,22 @@ void ClientHandler::do_readSessionHeader1() {
     auto self(shared_from_this());
     m_TCPSocket.async_read_some(boost::asio::buffer(data_, 3),[this, self](boost::system::error_code ec, std::size_t length) {
         if (!ec) {
+            if ((data_[1] & 0x0F) == 0x01) {
+                m_eDirection = DIRECTION_RCVD;
+            } else if ((data_[1] & 0x0F) == 0x02) {
+                m_eDirection = DIRECTION_SENT;
+            } else if ((data_[1] & 0x0F) == 0x03) {
+                m_eDirection = DIRECTION_BOTH;
+            } // else if
+            
             if ((data_[1] & 0xF0) == 0x00) {
-                m_bDeliverPayload = true;
+                m_eHDLCBuffer = HDLCBUFFER_PAYLOAD;
+                m_eDirection = DIRECTION_RCVD; // override
             } else if ((data_[1] & 0xF0) == 0x30) {
-                m_bDeliverRawHDLC = true;
+                m_eHDLCBuffer = HDLCBUFFER_RAW;
             } else if ((data_[1] & 0xF0) == 0x40) {
-                m_bDeliverDissectedHDLC = true;
-            } // if
+                m_eHDLCBuffer = HDLCBUFFER_DISSECTED;
+            } // elseif
             
             // TODO: missing error management
             

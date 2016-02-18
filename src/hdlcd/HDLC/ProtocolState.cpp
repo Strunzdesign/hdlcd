@@ -48,7 +48,7 @@ void ProtocolState::Stop() {
 
 void ProtocolState::SendPayload(const std::vector<unsigned char> &a_Payload) {
     // Fresh Payload to be sent is available.
-    m_ComPortHandler->DeliverPayloadToClients(DIRECTION_SENT, a_Payload, true);
+    m_ComPortHandler->DeliverBufferToClients(HDLCBUFFER_PAYLOAD, DIRECTION_SENT, a_Payload, true);
     
     // Queue payload for later framing
     m_PayloadWaitQueue.emplace_back(std::move(a_Payload));
@@ -70,8 +70,8 @@ void ProtocolState::AddReceivedRawBytes(const char* a_Buffer, size_t a_Bytes) {
 
 void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> &a_Payload, const Frame& a_Frame, bool a_bMessageValid) {
     // Deliver raw frame to clients that have interest
-    m_ComPortHandler->DeliverRawFrameToClients(DIRECTION_RCVD, a_Payload, a_bMessageValid); // not escaped
-    m_ComPortHandler->DeliverDissectedFrameToClients(DIRECTION_RCVD, a_Frame.Dissect(), a_bMessageValid);
+    m_ComPortHandler->DeliverBufferToClients(HDLCBUFFER_RAW, DIRECTION_RCVD, a_Payload, a_bMessageValid); // not escaped
+    m_ComPortHandler->DeliverBufferToClients(HDLCBUFFER_DISSECTED, DIRECTION_RCVD, a_Frame.Dissect(), a_bMessageValid);
     
     // Stop here if the frame was considered broken
     if (a_bMessageValid == false) {
@@ -81,7 +81,7 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
     // Go ahead interpreting the frame we received
     if (a_Frame.HasPayload()) {
         // I-Frame or U-Frame with UI
-        m_ComPortHandler->DeliverPayloadToClients(DIRECTION_RCVD, a_Frame.GetPayload(), true);
+        m_ComPortHandler->DeliverBufferToClients(HDLCBUFFER_PAYLOAD, DIRECTION_RCVD, a_Frame.GetPayload(), true);
         
         // If it is an I-Frame, the data may have to be acked
         if (a_Frame.IsIFrame()) {
@@ -142,8 +142,8 @@ void ProtocolState::OpportunityForTransmission() {
     
     // Deliver unescaped frame to clients that have interest
     const std::vector<unsigned char> l_HDLCFrameBuffer = FrameGenerator::SerializeFrame(l_Frame);
-    m_ComPortHandler->DeliverRawFrameToClients(DIRECTION_SENT, l_HDLCFrameBuffer, true); // not escaped
-    m_ComPortHandler->DeliverDissectedFrameToClients(DIRECTION_SENT, l_Frame.Dissect(), true);
+    m_ComPortHandler->DeliverBufferToClients(HDLCBUFFER_RAW, DIRECTION_SENT, l_HDLCFrameBuffer, true); // not escaped
+    m_ComPortHandler->DeliverBufferToClients(HDLCBUFFER_DISSECTED, DIRECTION_SENT, l_Frame.Dissect(), true);
     m_ComPortHandler->DeliverHDLCFrame(std::move(FrameGenerator::EscapeFrame(l_HDLCFrameBuffer)));
 }
 

@@ -1,5 +1,5 @@
 /**
- * \file Direction.h
+ * \file HDLCBuffer.h
  * \brief 
  *
  * The hdlc-tools implement the HDLC protocol to easily talk to devices connected via serial communications
@@ -19,13 +19,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DIRECTION_H
-#define DIRECTION_H
+#ifndef HDLC_BUFFER_H
+#define HDLC_BUFFER_H
 
 typedef enum {
-    DIRECTION_RCVD = 0,
-    DIRECTION_SENT = 1,
-    DIRECTION_BOTH = 2
-} E_DIRECTION;
+    HDLCBUFFER_RAW       = 0,
+    HDLCBUFFER_DISSECTED = 1,
+    HDLCBUFFER_PAYLOAD   = 2
+} E_HDLCBUFFER;
 
-#endif // DIRECTION_H
+#endif // HDLC_BUFFER_H

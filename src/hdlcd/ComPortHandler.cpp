@@ -46,28 +46,10 @@ void ComPortHandler::DeliverPayloadToHDLC(const std::vector<unsigned char> &a_Pa
     m_ProtocolState->SendPayload(a_Payload);
 }
 
-void ComPortHandler::DeliverPayloadToClients(E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_Payload, bool a_bValid) {
+void ComPortHandler::DeliverBufferToClients(E_HDLCBUFFER a_eHDLCBuffer, E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_Payload, bool a_bValid) {
     for (auto it = m_ClientHandlerVector.begin(); it != m_ClientHandlerVector.end(); ++it) {
         if (auto l_ClientHandler = it->lock()) {
-            l_ClientHandler->DeliverRawPayloadToClient(a_eDirection, a_Payload, a_bValid);
-        } // if
-        // TODO: REMOVE IF INVALID
-    } // for
-}
-
-void ComPortHandler::DeliverRawFrameToClients(E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_RawFrame, bool a_bValid) {
-    for (auto it = m_ClientHandlerVector.begin(); it != m_ClientHandlerVector.end(); ++it) {
-        if (auto l_ClientHandler = it->lock()) {
-            l_ClientHandler->DeliverRawFrameToClient(a_eDirection, a_RawFrame, a_bValid);
-        } // if
-        // TODO: REMOVE IF INVALID
-    } // for
-}
-
-void ComPortHandler::DeliverDissectedFrameToClients(E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_DissectedFrame, bool a_bValid) {
-    for (auto it = m_ClientHandlerVector.begin(); it != m_ClientHandlerVector.end(); ++it) {
-        if (auto l_ClientHandler = it->lock()) {
-            l_ClientHandler->DeliverDissectedFrameToClient(a_eDirection, a_DissectedFrame, a_bValid);
+            l_ClientHandler->DeliverBufferToClient(a_eHDLCBuffer, a_eDirection, a_Payload, a_bValid);
         } // if
         // TODO: REMOVE IF INVALID
     } // for

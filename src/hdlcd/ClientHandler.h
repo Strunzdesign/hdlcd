@@ -28,6 +28,7 @@
 #include <deque>
 #include <vector>
 #include <boost/asio.hpp>
+#include "HDLC/HDLCBuffer.h"
 #include "HDLC/Direction.h"
 class ComPortHandler;
 class ComPortHandlerCollection;
@@ -38,9 +39,8 @@ class ClientHandler: public std::enable_shared_from_this<ClientHandler> {
 public:
     ClientHandler(boost::asio::ip::tcp::socket a_TCPSocket);
     ~ClientHandler();
-    void DeliverRawPayloadToClient(E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_Payload, bool a_bValid);
-    void DeliverRawFrameToClient(E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_RawFrame, bool a_bValid);
-    void DeliverDissectedFrameToClient(E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_DissectedFrame, bool a_bValid);
+
+    void DeliverBufferToClient(E_HDLCBUFFER a_eHDLCBuffer, E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_Payload, bool a_bValid);
     
     void Start(std::shared_ptr<ComPortHandlerCollection> a_ComPortHandlerCollection);
     void Stop();
@@ -65,9 +65,8 @@ private:
     bool m_CurrentlySending;
     
     // SAP specification
-    bool m_bDeliverRawHDLC;
-    bool m_bDeliverDissectedHDLC;
-    bool m_bDeliverPayload;
+    E_HDLCBUFFER m_eHDLCBuffer;
+    E_DIRECTION  m_eDirection;
 };
 
 #endif // CLIENTHANDLER_H

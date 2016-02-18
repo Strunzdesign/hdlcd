@@ -26,6 +26,7 @@
 #include <string>
 #include <vector>
 #include <boost/asio.hpp>
+#include "HDLC/HDLCBuffer.h"
 #include "HDLC/Direction.h"
 class ComPortHandlerCollection;
 class ClientHandler;
@@ -39,10 +40,7 @@ public:
     
     void AddClientHandler(std::shared_ptr<ClientHandler> a_ClientHandler);
     void DeliverPayloadToHDLC(const std::vector<unsigned char> &a_Payload);
-    
-    void DeliverPayloadToClients(E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_Payload, bool a_bValid);
-    void DeliverRawFrameToClients(E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_RawFrame, bool a_bValid);
-    void DeliverDissectedFrameToClients(E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_DissectedFrame, bool a_bValid);
+    void DeliverBufferToClients(E_HDLCBUFFER a_eHDLCBuffer, E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_Payload, bool a_bValid);
     
     void Start();
     void Stop();
