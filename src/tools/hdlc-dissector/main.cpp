@@ -21,7 +21,7 @@
 
 #include <iostream>
 #include <boost/asio.hpp>
-#include "../../libFrame/StreamEndpoint.h"
+#include "../../shared/StreamEndpoint.h"
 #include "FramePrinter.h"
 
 int main(int argc, char* argv[]) {

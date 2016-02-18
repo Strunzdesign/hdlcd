@@ -22,7 +22,7 @@
 #ifndef HEX_DUMPER_H
 #define HEX_DUMPER_H
 
-#include "../libFrame/IBufferSink.h"
+#include "../shared/IBufferSink.h"
 #include <iostream>
 #include <iomanip> 
 

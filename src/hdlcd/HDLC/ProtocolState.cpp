@@ -22,7 +22,7 @@
 #include "ProtocolState.h"
 #include <assert.h>
 #include "../SerialPortHandler.h"
-#include "../../libFrame/Direction.h"
+#include "../../shared/Direction.h"
 #include "FrameParser.h"
 #include "FrameGenerator.h"
 

@@ -25,8 +25,8 @@
 #include <deque>
 #include <iostream>
 #include <boost/asio.hpp>
-#include "../libFrame/StreamFrame.h"
-#include "../libFrame/IBufferSink.h"
+#include "../shared/StreamFrame.h"
+#include "../shared/IBufferSink.h"
 #include <iomanip> 
 
 using boost::asio::ip::tcp;

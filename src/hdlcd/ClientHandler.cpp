@@ -23,7 +23,7 @@
 #include <iomanip>
 #include "SerialPortHandlerCollection.h"
 #include "SerialPortHandler.h"
-#include "../libFrame/StreamFrame.h"
+#include "../shared/StreamFrame.h"
 
 ClientHandler::ClientHandler(boost::asio::ip::tcp::socket a_TCPSocket): m_TCPSocket(std::move(a_TCPSocket)) {
     m_Registered = true;

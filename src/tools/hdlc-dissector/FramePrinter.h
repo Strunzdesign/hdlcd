@@ -22,7 +22,7 @@
 #ifndef FRAME_PRINTER_H
 #define FRAME_PRINTER_H
 
-#include "../../libFrame/IBufferSink.h"
+#include "../../shared/IBufferSink.h"
 #include <iostream>
 #include <string>
 
