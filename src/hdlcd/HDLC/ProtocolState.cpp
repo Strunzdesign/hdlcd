@@ -86,10 +86,12 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
         if (a_Frame.IsIFrame()) {
             // FIXME: may be a repeated packet
             if (m_RSeqIncoming != a_Frame.GetSSeq()) {
-                // TODO: does not respect gaps yet
-                m_bPeerRequiresAck = true;
-                m_RSeqIncoming = a_Frame.GetSSeq();
+                // TODO: put SREJ logic here
             } // if
+            
+            // TODO: does not respect gaps and retransmissions yet
+            m_bPeerRequiresAck = true;
+            m_RSeqIncoming = ((a_Frame.GetSSeq() + 1) & 0x07);
         } // if
     } // if
     
@@ -131,6 +133,7 @@ void ProtocolState::OpportunityForTransmission() {
     if (m_PayloadWaitQueue.empty() == false) {
         l_Frame = PrepareIFrame();
         m_bPeerRequiresAck = false;
+        m_SSeqOutgoing = ((m_SSeqOutgoing + 1) & 0x07);
     } else {
         l_Frame = PrepareSFrameRR();
         m_bPeerRequiresAck = false;
@@ -141,9 +144,6 @@ void ProtocolState::OpportunityForTransmission() {
     m_ComPortHandler->DeliverRawFrameToClients(l_HDLCFrameBuffer, false, true); // not escaped
     m_ComPortHandler->DeliverDissectedFrameToClients("<<< Sent: " + l_Frame.GetReadableDescription(), false, true);
     m_ComPortHandler->DeliverHDLCFrame(std::move(FrameGenerator::EscapeFrame(l_HDLCFrameBuffer)));
-    
-    // Increase outgoing SSeq
-    m_SSeqOutgoing = ((m_SSeqOutgoing + 1) & 0x07);
 }
 
 Frame ProtocolState::PrepareIFrame() {
