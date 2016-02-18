@@ -151,7 +151,7 @@ void ComPortHandler::do_write() {
                 m_SendBufferOffset = 0;
                 m_ProtocolState->TriggerNextHDLCFrame();
             } else {
-                // Only a partly transmission. We are not done yet.
+                // Only a partial transmission. We are not done yet.
                 do_write();
             } // else
         } else {
