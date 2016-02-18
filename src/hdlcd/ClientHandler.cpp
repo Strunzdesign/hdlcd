@@ -84,6 +84,8 @@ void ClientHandler::do_readSessionHeader1() {
             if ((data_[1] & 0xF0) == 0x00) {
                 m_eHDLCBuffer = HDLCBUFFER_PAYLOAD;
                 m_eDirection = DIRECTION_RCVD; // override
+            } else if ((data_[1] & 0xF0) == 0x20) {
+                m_eHDLCBuffer = HDLCBUFFER_PAYLOAD;
             } else if ((data_[1] & 0xF0) == 0x30) {
                 m_eHDLCBuffer = HDLCBUFFER_RAW;
             } else if ((data_[1] & 0xF0) == 0x40) {
