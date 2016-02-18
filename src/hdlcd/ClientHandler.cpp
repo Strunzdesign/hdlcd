@@ -121,8 +121,9 @@ void ClientHandler::do_read() {
     auto self(shared_from_this());
     m_TCPSocket.async_read_some(boost::asio::buffer(data_, max_length),[this, self](boost::system::error_code ec, std::size_t length) {
         if (!ec) {
-            std::vector<unsigned char> l_Buffer(length - 2);
-            memcpy(&(l_Buffer[0]), &(data_[2]), length - 2);	    
+            // TODO: This does not handle partial reads!
+            std::vector<unsigned char> l_Buffer(length - 3);
+            memcpy(&(l_Buffer[0]), &(data_[3]), length - 3);
             m_SerialPortHandler->DeliverPayloadToHDLC(std::move(l_Buffer));
             do_read();
         } else {
@@ -135,7 +136,7 @@ void ClientHandler::do_read() {
 void ClientHandler::do_write() {
     auto self(shared_from_this());
     boost::asio::async_write(m_TCPSocket, boost::asio::buffer(m_StreamFrameQueue.front().data(), m_StreamFrameQueue.front().length()),
-                                 [this](boost::system::error_code ec, std::size_t /*length*/) {
+                             [this](boost::system::error_code ec, std::size_t /*length*/) {
         if (!ec) {
             // More to write?
             m_StreamFrameQueue.pop_front();

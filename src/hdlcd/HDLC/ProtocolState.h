@@ -46,6 +46,7 @@ private:
     void OpportunityForTransmission();
     Frame PrepareIFrame();
     Frame PrepareSFrameRR();
+    Frame PrepareSFrameSREJ();
     
     // Members
     bool m_bAwaitsNextHDLCFrame;
@@ -56,6 +57,7 @@ private:
     
     // State of pending actions
     bool m_bPeerRequiresAck;
+    std::deque<unsigned char> m_SREJs;
     
     // Parser and generator
     std::shared_ptr<SerialPortHandler> m_SerialPortHandler;

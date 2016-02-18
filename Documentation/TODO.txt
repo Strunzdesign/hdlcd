@@ -1,6 +1,6 @@
 Urgent isses:
 - Fix HDLC send logic, the current send queue implementation is invalid and causes data loss (DONE)
-- Send appropriate S-frames (requires send queue) (DONE: RR; OPEN: SREJ)
+- Send appropriate S-frames (requires send queue) (DONE: RR and SREJ)
 - HDLC retransmissions (specific to the current limitations of the s-net(r) sensor nodes by Fraunhofer IIS)
 - Implement baud rate detection by probing with TEST frames
 - Complete specification of the TCP-based access protocol

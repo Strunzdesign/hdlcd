@@ -85,9 +85,11 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
         
         // If it is an I-Frame, the data may have to be acked
         if (a_Frame.IsIFrame()) {
-            // FIXME: may be a repeated packet
             if (m_RSeqIncoming != a_Frame.GetSSeq()) {
-                // TODO: put SREJ logic here
+                m_SREJs.clear();
+                for (unsigned char it = m_RSeqIncoming; (it & 0x07) != a_Frame.GetSSeq(); ++it) {
+                    m_SREJs.emplace_back(it);
+                } // for
             } // if
             
             // TODO: does not respect gaps and retransmissions yet
@@ -125,13 +127,16 @@ void ProtocolState::OpportunityForTransmission() {
     assert(m_bAwaitsNextHDLCFrame);
     
     // TODO: Here we can add all that neat retransmission / RR / REJ stuff :-)
-    if ((m_PayloadWaitQueue.empty()) && (!m_bPeerRequiresAck)) {
+    if ((m_PayloadWaitQueue.empty()) && (!m_bPeerRequiresAck) && (m_SREJs.empty())) {
         return;
     } // if
 
     m_bAwaitsNextHDLCFrame = false;
     Frame l_Frame;
-    if (m_PayloadWaitQueue.empty() == false) {
+    if (m_SREJs.empty() == false) {
+        // Send SREJs first
+        l_Frame = PrepareSFrameSREJ();
+    } else if (m_PayloadWaitQueue.empty() == false) {
         l_Frame = PrepareIFrame();
         m_bPeerRequiresAck = false;
         m_SSeqOutgoing = ((m_SSeqOutgoing + 1) & 0x07);
@@ -165,5 +170,15 @@ Frame ProtocolState::PrepareSFrameRR() {
     l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_S_RR);
     l_Frame.SetPF(false);
     l_Frame.SetRSeq(m_RSeqIncoming);
+    return(std::move(l_Frame));
+}
+
+Frame ProtocolState::PrepareSFrameSREJ() {
+    Frame l_Frame;
+    l_Frame.SetAddress(0x30);
+    l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_S_SREJ);
+    l_Frame.SetPF(false);
+    l_Frame.SetRSeq(m_SREJs.front());
+    m_SREJs.pop_front();
     return(std::move(l_Frame));
 }
