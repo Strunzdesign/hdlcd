@@ -23,7 +23,7 @@
 #include <sstream>
 #include <iomanip> 
 
-std::string Frame::GetReadableDescription() const {
+const std::vector<unsigned char> Frame::Dissect() const {
     bool l_bHasPayload = false;
     std::stringstream l_Output;
     if (IsIFrame()) {
@@ -120,5 +120,8 @@ std::string Frame::GetReadableDescription() const {
         } // for
     } // if
 
-    return l_Output.str();
+    std::vector<unsigned char> l_DissectedFrame;
+    std::string l_String(l_Output.str());
+    l_DissectedFrame.insert(l_DissectedFrame.begin(), l_String.data(), (l_String.data() + l_String.size()));
+    return std::move(l_DissectedFrame);
 }

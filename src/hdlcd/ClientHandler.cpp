@@ -38,11 +38,11 @@ ClientHandler::~ClientHandler() {
     std::cout << "DTOR ClientHandler" << std::endl;
 }
 
-void ClientHandler::DeliverRawPayloadToClient(const std::vector<unsigned char> &a_Payload, bool a_bReceived) {
+void ClientHandler::DeliverRawPayloadToClient(E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_Payload, bool a_bValid) {
     if (m_bDeliverPayload) {
         StreamFrame l_StreamFrame;
         l_StreamFrame.body_length(a_Payload.size());
-        std::memcpy(l_StreamFrame.body(), &a_Payload[0], l_StreamFrame.body_length());
+        std::memcpy(l_StreamFrame.body(), a_Payload.data(), l_StreamFrame.body_length());
         l_StreamFrame.encode_header();
         m_StreamFrameQueue.push_back(l_StreamFrame);
         if (m_CurrentlySending == false) {
@@ -52,11 +52,11 @@ void ClientHandler::DeliverRawPayloadToClient(const std::vector<unsigned char> &
     } // if
 }
 
-void ClientHandler::DeliverRawFrameToClient(const std::vector<unsigned char> &a_RawFrame, bool a_bReceived, bool a_bValid) {
+void ClientHandler::DeliverRawFrameToClient(E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_RawFrame, bool a_bValid) {
     if (m_bDeliverRawHDLC) {
         StreamFrame l_StreamFrame;
         l_StreamFrame.body_length(a_RawFrame.size());
-        std::memcpy(l_StreamFrame.body(), &a_RawFrame[0], l_StreamFrame.body_length());
+        std::memcpy(l_StreamFrame.body(), a_RawFrame.data(), l_StreamFrame.body_length());
         l_StreamFrame.encode_header();
         m_StreamFrameQueue.push_back(l_StreamFrame);
         if (m_CurrentlySending == false) {
@@ -66,11 +66,11 @@ void ClientHandler::DeliverRawFrameToClient(const std::vector<unsigned char> &a_
     } // if
 }
 
-void ClientHandler::DeliverDissectedFrameToClient(const std::string& a_DissectedFrame, bool a_bReceived, bool a_bValid) {
+void ClientHandler::DeliverDissectedFrameToClient(E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_DissectedFrame, bool a_bValid) {
     if (m_bDeliverDissectedHDLC) {
         StreamFrame l_StreamFrame;
         l_StreamFrame.body_length(a_DissectedFrame.size());
-        std::memcpy(l_StreamFrame.body(), a_DissectedFrame.c_str(), l_StreamFrame.body_length());
+        std::memcpy(l_StreamFrame.body(), a_DissectedFrame.data(), l_StreamFrame.body_length());
         l_StreamFrame.encode_header();
         m_StreamFrameQueue.push_back(l_StreamFrame);
         if (m_CurrentlySending == false) {

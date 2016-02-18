@@ -70,7 +70,7 @@ public:
     const std::vector<unsigned char>& GetPayload() const { return m_Payload; }
     bool HasPayload() const { return (m_Payload.empty() == false); }
     
-    std::string GetReadableDescription() const;
+    const std::vector<unsigned char> Dissect() const;
     
 private:
     // Members
