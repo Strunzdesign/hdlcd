@@ -28,11 +28,9 @@
 ClientHandler::ClientHandler(boost::asio::ip::tcp::socket a_TCPSocket): m_TCPSocket(std::move(a_TCPSocket)) {
     m_Registered = true;
     m_CurrentlySending = false;
-    std::cout << "CTOR ClientHandler" << std::endl;
 }
 
 ClientHandler::~ClientHandler() {
-    std::cout << "DTOR ClientHandler" << std::endl;
 }
 
 void ClientHandler::DeliverBufferToClient(E_HDLCBUFFER a_eHDLCBuffer, E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_Payload, bool a_bValid) {

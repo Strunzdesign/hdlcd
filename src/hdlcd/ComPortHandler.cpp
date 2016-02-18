@@ -26,7 +26,6 @@
 #include <boost/system/system_error.hpp>
 
 ComPortHandler::ComPortHandler(const std::string &a_ComPortName, std::shared_ptr<ComPortHandlerCollection> a_ComPortHandlerCollection, boost::asio::io_service &a_IOService): m_SerialPort(a_IOService), m_IOService(a_IOService) {
-    std::cout << "CTOR ComPortHandler" << std::endl;
     m_Registered = true;
     m_ComPortName = a_ComPortName;
     m_ComPortHandlerCollection = a_ComPortHandlerCollection;
@@ -34,7 +33,6 @@ ComPortHandler::ComPortHandler(const std::string &a_ComPortName, std::shared_ptr
 }
 
 ComPortHandler::~ComPortHandler() {
-    std::cout << "DTOR ComPortHandler" << std::endl;
     Stop();
 }
 
