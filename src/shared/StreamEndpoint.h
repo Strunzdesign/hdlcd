@@ -82,7 +82,7 @@ private:
             if (!ec && m_StreamFrame.decode_header()) {
                 do_read_body();
             } else {
-                std::cout << "Decode header failed, socket closed!" << std::endl;
+                std::cerr << "Decode header failed, socket closed!" << std::endl;
                 close();
             }
         });
@@ -97,7 +97,7 @@ private:
                 m_pBufferSink->BufferReceived((E_DIRECTION)m_StreamFrame.GetDirection(), l_Buffer);
                 do_read_header();
             } else {
-                std::cout << "TCP read error!" << std::endl;
+                std::cerr << "TCP read error!" << std::endl;
                 close();
             } // else
         });
@@ -118,7 +118,7 @@ private:
                     do_write();
                 }
             } else {
-                std::cout << "TCP write error!" << std::endl;
+                std::cerr << "TCP write error!" << std::endl;
                 close();
             }
         });
@@ -133,7 +133,7 @@ private:
                     do_write();
                 }
             } else {
-                std::cout << "TCP write error!" << std::endl;
+                std::cerr << "TCP write error!" << std::endl;
                 close();
             }
         });

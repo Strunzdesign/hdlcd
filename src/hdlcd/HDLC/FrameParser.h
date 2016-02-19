@@ -50,7 +50,7 @@ private:
                     m_Timer.expires_from_now(boost::posix_time::milliseconds(500));
                     SendSABM();
                 } else {
-                    std::cout << "SABM->UA timeout: we only have HDLC_TYPE_REDUCED" << std::endl;
+                    std::cerr << "SABM->UA timeout: we only have HDLC_TYPE_REDUCED" << std::endl;
                     m_HDLCType = HDLC_TYPE_REDUCED;
                 } // else
             }

@@ -71,7 +71,7 @@ void SerialPortHandler::Start() {
         serialPort.close();
         */
     } catch (boost::system::system_error& error) {
-        std::cout << error.what() << std::endl;
+        std::cerr << error.what() << std::endl;
         Stop();
     } // catch
 }
@@ -82,7 +82,7 @@ void SerialPortHandler::Stop() {
         
         // Keep a copy here to keep this object alive!
         auto self(shared_from_this());
-        std::cout << "SERIAL CLOSE" << std::endl;
+        std::cerr << "SERIAL CLOSE" << std::endl;
         m_SerialPort.close();
         
         m_ProtocolState->Stop();
@@ -115,7 +115,7 @@ void SerialPortHandler::do_read() {
             m_ProtocolState->AddReceivedRawBytes(data_, length);
             do_read();
         } else {
-            std::cout << "SERIAL READ ERROR:" << ec << std::endl;
+            std::cerr << "SERIAL READ ERROR:" << ec << std::endl;
             Stop();
         } 
     });
@@ -135,7 +135,7 @@ void SerialPortHandler::do_write() {
                 do_write();
             } // else
         } else {
-            std::cout << "SERIAL WRITE ERROR:" << ec << std::endl;
+            std::cerr << "SERIAL WRITE ERROR:" << ec << std::endl;
             Stop();
         } // else
     });

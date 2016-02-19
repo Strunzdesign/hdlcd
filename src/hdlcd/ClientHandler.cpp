@@ -63,7 +63,7 @@ void ClientHandler::Stop() {
     if (m_Registered) {
         m_Registered = false;
         m_SerialPortHandler.reset();
-        std::cout << "TCP CLOSE" << std::endl;
+        std::cerr << "TCP CLOSE" << std::endl;
         //m_TCPSocket.shutdown(m_TCPSocket.shutdown_both);
         m_TCPSocket.close();
     } // if
@@ -96,7 +96,7 @@ void ClientHandler::do_readSessionHeader1() {
             
             do_readSessionHeader2(data_[2]);
         } else {
-            std::cout << "TCP READ ERROR HEADER1:" << ec << std::endl;
+            std::cerr << "TCP READ ERROR HEADER1:" << ec << std::endl;
             Stop();
         } // else
     });
@@ -113,7 +113,7 @@ void ClientHandler::do_readSessionHeader2(unsigned char a_BytesUSB) {
             m_SerialPortHandler = (*m_SerialPortHandlerStopper.get());
             do_read();
         } else {
-            std::cout << "TCP READ ERROR:" << ec << std::endl;
+            std::cerr << "TCP READ ERROR:" << ec << std::endl;
             Stop();
         } // else
     });
@@ -129,7 +129,7 @@ void ClientHandler::do_read() {
             m_SerialPortHandler->DeliverPayloadToHDLC(std::move(l_Buffer));
             do_read();
         } else {
-            std::cout << "TCP READ ERROR:" << ec << std::endl;
+            std::cerr << "TCP READ ERROR:" << ec << std::endl;
             Stop();
         } // else
     });
@@ -148,7 +148,7 @@ void ClientHandler::do_write() {
                 m_CurrentlySending = false;
             } // else
         } else {
-            std::cout << "TCP WRITE ERROR:" << ec << std::endl;
+            std::cerr << "TCP WRITE ERROR:" << ec << std::endl;
             Stop();
         } // else
     });
