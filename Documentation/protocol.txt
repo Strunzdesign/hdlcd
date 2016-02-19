@@ -57,7 +57,7 @@ Packet header format:
 || Type       | Direction | Invalid | Reserved   || Depends on type field
 ++------------+-----------+---------+------------++-------------------------
 
-Type: 0x0* Data packet
+Type: 0x00 Data packet
       0x1* Control packet
       
 
@@ -104,6 +104,7 @@ Port resume request
 Port restart request
 Port reset request
 Echo request (checks the TCP socket and the TCP entity at the HDLC daemon)
+Port kill request (immediate shutdown of all related TCP connections)
 
 2.) Indications:
 ---
