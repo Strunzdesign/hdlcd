@@ -26,9 +26,9 @@
 
 int main(int argc, char* argv[]) {
     try {
-        std::cerr << "HDLC wireshark connector for dissection of HDLC payload\n";
+        std::cerr << "HDLC pcap streamer for HDLC frames\n";
         if (argc != 4) {
-            std::cerr << "Usage: hdlc-wireshark-payload <host> <port> <usb-device>\n";
+            std::cerr << "Usage: hdlc-pcapstreamer-hdlc <host> <port> <usb-device>\n";
             return 1;
         } // if
 
@@ -46,8 +46,8 @@ int main(int argc, char* argv[]) {
         // Prepare output
         HexDumper l_HexDumper;
 
-        // SAP: 0x23 = Payload Raw RO, RX and TX, RECV_CTRL
-        StreamEndpoint l_StreamEndpoint(io_service, endpoint_iterator, argv[3], &l_HexDumper, 0x23);
+        // SAP: 0x33 = HDLC Raw RO, RX and TX, RECV_CTRL
+        StreamEndpoint l_StreamEndpoint(io_service, endpoint_iterator, argv[3], &l_HexDumper, 0x33);
         l_StreamEndpoint.SetOnClosedCallback([&io_service](){io_service.stop();});
         
         // Start event processing
@@ -58,4 +58,3 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
-

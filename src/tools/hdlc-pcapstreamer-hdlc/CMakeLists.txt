@@ -6,16 +6,15 @@ INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
 
 find_package(Threads)
 
-add_executable(hdlc-wireshark-hdlc
+add_executable(hdlc-pcapstreamer-hdlc
 main.cpp
 )
 
-set_property(TARGET hdlc-wireshark-hdlc PROPERTY CXX_STANDARD 11)
+set_property(TARGET hdlc-pcapstreamer-hdlc PROPERTY CXX_STANDARD 11)
 
-target_link_libraries(hdlc-wireshark-hdlc
+target_link_libraries(hdlc-pcapstreamer-hdlc
 ${Boost_LIBRARIES}
 ${CMAKE_THREAD_LIBS_INIT}
 )
 
-install(TARGETS hdlc-wireshark-hdlc RUNTIME DESTINATION bin)
-
+install(TARGETS hdlc-pcapstreamer-hdlc RUNTIME DESTINATION bin)
