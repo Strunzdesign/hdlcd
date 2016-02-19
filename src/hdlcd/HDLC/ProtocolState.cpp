@@ -146,7 +146,7 @@ void ProtocolState::OpportunityForTransmission() {
     } // else
     
     // Deliver unescaped frame to clients that have interest
-    const std::vector<unsigned char> l_HDLCFrameBuffer = FrameGenerator::SerializeFrame(l_Frame);
+    auto l_HDLCFrameBuffer = FrameGenerator::SerializeFrame(l_Frame);
     m_SerialPortHandler->DeliverBufferToClients(HDLCBUFFER_RAW, DIRECTION_SENT, l_HDLCFrameBuffer, true); // not escaped
     m_SerialPortHandler->DeliverBufferToClients(HDLCBUFFER_DISSECTED, DIRECTION_SENT, l_Frame.Dissect(), true);
     m_SerialPortHandler->DeliverHDLCFrame(std::move(FrameGenerator::EscapeFrame(l_HDLCFrameBuffer)));
