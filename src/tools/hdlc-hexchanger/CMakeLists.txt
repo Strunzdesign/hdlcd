@@ -12,9 +12,16 @@ main.cpp
 
 set_property(TARGET hdlc-hexchanger PROPERTY CXX_STANDARD 11)
 
+if(WIN32)
+    set(ADDITIONAL_LIBRARIES wsock32 ws2_32)
+else()
+    set(ADDITIONAL_LIBRARIES "")
+endif()
+
 target_link_libraries(hdlc-hexchanger
 ${Boost_LIBRARIES}
 ${CMAKE_THREAD_LIBS_INIT}
+${ADDITIONAL_LIBRARIES}
 )
 
 install(TARGETS hdlc-hexchanger RUNTIME DESTINATION bin)

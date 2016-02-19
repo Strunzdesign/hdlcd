@@ -20,9 +20,16 @@ HDLC/ProtocolState.cpp
 
 set_property(TARGET hdlcd PROPERTY CXX_STANDARD 11)
 
+if(WIN32)
+    set(ADDITIONAL_LIBRARIES wsock32 ws2_32)
+else()
+    set(ADDITIONAL_LIBRARIES "")
+endif()
+
 target_link_libraries(hdlcd
 ${Boost_LIBRARIES}
 ${CMAKE_THREAD_LIBS_INIT}
+${ADDITIONAL_LIBRARIES}
 )
 
 install(TARGETS hdlcd RUNTIME DESTINATION bin)

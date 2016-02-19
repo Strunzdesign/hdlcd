@@ -12,9 +12,16 @@ main.cpp
 
 set_property(TARGET hdlc-hexdump-hdlc PROPERTY CXX_STANDARD 11)
 
+if(WIN32)
+    set(ADDITIONAL_LIBRARIES wsock32 ws2_32)
+else()
+    set(ADDITIONAL_LIBRARIES "")
+endif()
+
 target_link_libraries(hdlc-hexdump-hdlc
 ${Boost_LIBRARIES}
 ${CMAKE_THREAD_LIBS_INIT}
+${ADDITIONAL_LIBRARIES}
 )
 
 install(TARGETS hdlc-hexdump-hdlc RUNTIME DESTINATION bin)
