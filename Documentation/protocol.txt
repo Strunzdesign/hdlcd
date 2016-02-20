@@ -57,8 +57,8 @@ Packet header format:
 || Type       | Direction | Invalid | Reserved   || Depends on type field
 ++------------+-----------+---------+------------++-------------------------
 
-Type: 0x00 Data packet
-      0x1* Control packet
+Type: 0x0* Data packet
+      0x10 Control packet
       
 
 
