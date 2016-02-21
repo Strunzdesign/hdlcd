@@ -41,17 +41,15 @@ private:
     void do_read() {
         boost::asio::async_read_until(m_InputStream, m_InputBuffer, '\n',[this](boost::system::error_code ec, std::size_t length) {
             if (!ec) {
-                // Write the message (minus the newline) to the server.
-                char i[1000];
-                m_InputReader.getline(i,1000);
-                std::istringstream stream_in(i);
-                stream_in >> std::hex;
-                std::vector<unsigned char> memory;
-                memory.reserve(65536);
-                memory.insert(memory.end(),std::istream_iterator<unsigned int>(stream_in), {});
-                
-                // Put everything into the stream frame
-                m_StreamEndpoint->write(std::move(StreamFrame(memory, 0)));
+                // Obtain one line from the input buffer, parse the provided hex dump, and create a StreamFrame from it
+                char l_InputLineBuffer[1000];
+                m_InputReader.getline(l_InputLineBuffer,1000);
+                std::istringstream l_InputStream(l_InputLineBuffer);
+                l_InputStream >> std::hex;
+                std::vector<unsigned char> l_Buffer;
+                l_Buffer.reserve(65536);
+                l_Buffer.insert(l_Buffer.end(),std::istream_iterator<unsigned int>(l_InputStream), {});
+                m_StreamEndpoint->write(std::move(StreamFrame(l_Buffer, 0)));
                 
                 // Read the next line
                 do_read();
