@@ -1,6 +1,4 @@
 Urgent isses:
-- Fix HDLC send logic, the current send queue implementation is invalid and causes data loss (DONE)
-- Send appropriate S-frames (requires send queue) (DONE: RR and SREJ)
 - HDLC retransmissions (specific to the current limitations of the s-net(r) sensor nodes by Fraunhofer IIS)
 - Implement baud rate detection by probing with TEST frames
 - Complete specification of the TCP-based access protocol
@@ -9,10 +7,6 @@ Urgent isses:
    - Modular acceptor / connector logic
    - Propagate direction of arrival flag and the validity flag via access protocol (PARTLY)
    - Implement the final specification of the TCP-based access protocol
-- Remove bloated bunch of unnecessary include statements (DONE)
-- All tools have to handle direction of arrival flag and the validity flag, i.e., adjust their output messages (DONE)
-- Use enums in the ClientHandler to specify the kinds of data to be delivered (DONE)
-- Reduce code clones in ClientHandler.cpp (DONE)
 
 
 
@@ -23,7 +17,6 @@ Issues to be resolved before a first release:
 - Rudimentary HDLC protocol is sufficient for the s-net(r) sensor nodes by Fraunhofer IIS
 - More tools: pcap-streamer for multiple session types to analyze traffic via wireshark using named pipes (STARTED)
 - Better buffer handling to get rid of all remaining memmove and memcpy statements
-- Proper shutdown of the hdlc-hexchanger tool on ioservice shutdown, requires a fix for std::cin.getline() (DONE)
 - Doxygen
 
 
@@ -38,3 +31,16 @@ Issues to be resolved after the first release:
 - New session type to obtain status information regarding a specific serial interface
 - New session type for remote logging
 - Authentication, maybe?
+
+
+
+
+
+// DONE
+- Fix HDLC send logic, the current send queue implementation is invalid and causes data loss (DONE)
+- Send appropriate S-frames (requires send queue) (DONE: RR and SREJ)
+- Remove bloated bunch of unnecessary include statements (DONE)
+- All tools have to handle direction of arrival flag and the validity flag, i.e., adjust their output messages (DONE)
+- Use enums in the ClientHandler to specify the kinds of data to be delivered (DONE)
+- Reduce code clones in ClientHandler.cpp (DONE)
+- Proper shutdown of the hdlc-hexchanger tool on ioservice shutdown, requires a fix for std::cin.getline() (DONE)
