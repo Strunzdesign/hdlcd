@@ -43,8 +43,8 @@ public:
         m_BodyLength = a_Payload.size();
         m_Direction  = a_Direction;
         m_Data.emplace_back(m_Direction);
-        m_Data.emplace_back((htons(m_BodyLength) >> 8) & 0x00FF);
         m_Data.emplace_back((htons(m_BodyLength) >> 0) & 0x00FF);
+        m_Data.emplace_back((htons(m_BodyLength) >> 8) & 0x00FF);
         m_Data.insert(m_Data.end(), a_Payload.begin(), a_Payload.end());
     }
 
@@ -71,7 +71,7 @@ public:
     // Receive and decode frame
     bool DecodeHeader() {
         m_Direction = m_Data[0];
-        m_BodyLength = *(reinterpret_cast<uint16_t*>(&m_Data[1]));
+        m_BodyLength = ntohs(*(reinterpret_cast<uint16_t*>(&m_Data[1])));
         if (m_BodyLength > E_MAX_BODY_LENGTH) {
             m_BodyLength = 0;
             return false;

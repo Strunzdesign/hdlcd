@@ -4,6 +4,12 @@ Description of the hdlcd access protocol
 2.) Send a session header describing the type of data exchange
 3.) Send and receive encapsulated packets as well as control packets describing the state of the hdlc protocol
 
+General:
+---
+All multi-byte fields are in network byten order.
+
+
+
 Session header format:
 ---
 The session header must and can only be sent once after initiation of the TCP socket.
