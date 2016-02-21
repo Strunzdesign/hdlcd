@@ -39,26 +39,6 @@ private:
     bool RemoveEscapeCharacters();
     Frame DeserializeFrame(const std::vector<unsigned char> &a_UnescapedBuffer) const;
     
-    /*
-    void SendSABM() {
-        // Trigger transmission of SABM
-        m_FrameGenerator->SendSABM();
-        m_Timer.expires_from_now(boost::posix_time::milliseconds(500));
-        auto self(shared_from_this());
-        m_Timer.async_wait([this, self](const boost::system::error_code&) {
-            if (m_HDLCType == HDLC_TYPE_UNKNOWN) {
-                if (--m_NbrOfSABM) {
-                    m_Timer.expires_from_now(boost::posix_time::milliseconds(500));
-                    SendSABM();
-                } else {
-                    std::cerr << "SABM->UA timeout: we only have HDLC_TYPE_REDUCED" << std::endl;
-                    m_HDLCType = HDLC_TYPE_REDUCED;
-                } // else
-            }
-        });
-    }
-    */
-    
     // Members
     std::shared_ptr<ProtocolState> m_ProtocolState;
 
