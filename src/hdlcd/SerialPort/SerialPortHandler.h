@@ -26,8 +26,9 @@
 #include <string>
 #include <vector>
 #include <boost/asio.hpp>
-#include "HDLC/HDLCBuffer.h"
-#include "../shared/Direction.h"
+#include "SerialPortLock.h"
+#include "../HDLC/HDLCBuffer.h"
+#include "../../shared/Direction.h"
 class SerialPortHandlerCollection;
 class ClientHandler;
 class ProtocolState;
@@ -44,6 +45,12 @@ public:
     
     void Start();
     void Stop();
+    
+    // Suspend / resume serial port
+    void SuspendSerialPort();
+    void ResumeSerialPort();
+    bool GetSerialPortState() const;
+    void PropagateSerialPortState() const;
     
     // Do not use from external, only by the ProtocolState
     void DeliverHDLCFrame(const std::vector<unsigned char> &a_Payload);
@@ -66,6 +73,7 @@ private:
     
     std::vector<unsigned char> m_SendBuffer;
     size_t m_SendBufferOffset;
+    SerialPortLock m_SerialPortLock;
 };
 
 #endif // SERIAL_PORT_HANDLER_H

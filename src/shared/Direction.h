@@ -23,9 +23,10 @@
 #define DIRECTION_H
 
 typedef enum {
-    DIRECTION_RCVD = 0,
-    DIRECTION_SENT = 1,
-    DIRECTION_BOTH = 2
+    DIRECTION_NONE = 0,
+    DIRECTION_RCVD = 1,
+    DIRECTION_SENT = 2,
+    DIRECTION_BOTH = 3
 } E_DIRECTION;
 
 #endif // DIRECTION_H

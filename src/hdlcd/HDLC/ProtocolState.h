@@ -33,8 +33,9 @@ class FrameParser;
 class ProtocolState: public std::enable_shared_from_this<ProtocolState> {
 public:
     ProtocolState(std::shared_ptr<SerialPortHandler> a_SerialPortHandler, boost::asio::io_service& a_IOService);
-    void Start();
-    void Stop();
+    void Reset();
+    void Init();
+    void Shutdown();
 
     void SendPayload(const std::vector<unsigned char> &a_Payload);
     void TriggerNextHDLCFrame();

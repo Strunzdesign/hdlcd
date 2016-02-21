@@ -28,6 +28,7 @@
 #include <deque>
 #include <vector>
 #include <boost/asio.hpp>
+#include "SerialPort/SerialPortLockGuard.h"
 #include "HDLC/HDLCBuffer.h"
 #include "../shared/Direction.h"
 class SerialPortHandler;
@@ -41,6 +42,7 @@ public:
     ~ClientHandler();
 
     void DeliverBufferToClient(E_HDLCBUFFER a_eHDLCBuffer, E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_Payload, bool a_bValid);
+    void UpdateSerialPortState(bool a_bSerialPortState);
     
     void Start(std::shared_ptr<SerialPortHandlerCollection> a_SerialPortHandlerCollection);
     void Stop();
@@ -61,6 +63,7 @@ private:
     enum { max_length = 1024 };
     char data_[max_length];
     
+    SerialPortLockGuard m_SerialPortLockGuard;
     std::deque<StreamFrame> m_StreamFrameQueue;
     bool m_CurrentlySending;
     

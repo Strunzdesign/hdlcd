@@ -21,7 +21,7 @@
 
 #include <iostream>
 #include <boost/asio.hpp>
-#include "SerialPortHandlerCollection.h"
+#include "SerialPort/SerialPortHandlerCollection.h"
 #include "ClientAcceptor.h"
 
 int main(int argc, char **argv) {

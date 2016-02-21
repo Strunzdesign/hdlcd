@@ -1,5 +1,5 @@
 /**
- * \file HDLCBuffer.h
+ * \file SerialPortLockGuard.h
  * \brief 
  *
  * The hdlc-tools implement the HDLC protocol to easily talk to devices connected via serial communications
@@ -19,15 +19,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef HDLC_BUFFER_H
-#define HDLC_BUFFER_H
+#ifndef SERIAL_PORT_LOCK_GUARD_H
+#define SERIAL_PORT_LOCK_GUARD_H
 
-typedef enum {
-    HDLCBUFFER_NOTHING   = 0,
-    HDLCBUFFER_RAW       = 1,
-    HDLCBUFFER_DISSECTED = 2,
-    HDLCBUFFER_PAYLOAD   = 3,
-    HDLCBUFFER_COMMANDS  = 4
-} E_HDLCBUFFER;
+#include <memory>
+class SerialPortHandler;
 
-#endif // HDLC_BUFFER_H
+class SerialPortLockGuard {
+public:
+    // CTOR, DTOR, and initializer
+    SerialPortLockGuard();
+    ~SerialPortLockGuard();
+    void Init(std::shared_ptr<SerialPortHandler> a_SerialPortHandler);
+    
+    // Influende the serial port
+    void SuspendSerialPort();
+    void ResumeSerialPort();
+    bool UpdateSerialPortState(bool a_bSerialPortState);
+    
+    
+
+private:
+    // Members
+    std::shared_ptr<SerialPortHandler> m_SerialPortHandler;
+    bool m_bLockedByOwn;
+    bool m_bLockedByForeign;
+    bool m_bSynchronousCall;
+};
+
+#endif // SERIAL_PORT_LOCK_GUARD_H

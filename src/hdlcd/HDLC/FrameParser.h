@@ -30,6 +30,7 @@ class ProtocolState;
 class FrameParser: public std::enable_shared_from_this<FrameParser> {
 public:
     FrameParser(std::shared_ptr<ProtocolState> a_ProtocolState);
+    void Reset();
     void AddReceivedRawBytes(const char* a_Buffer, size_t a_Bytes);
     
 private:

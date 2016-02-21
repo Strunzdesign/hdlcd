@@ -25,11 +25,15 @@
 
 FrameParser::FrameParser(std::shared_ptr<ProtocolState> a_ProtocolState) {
     m_ProtocolState = a_ProtocolState;
-    m_bStartTokenSeen = false;
-    
+    Reset();
+}
+
+void FrameParser::Reset() {
     // Prepare assembly buffer
+    m_Buffer.clear();
     m_Buffer.reserve(max_length);
     m_Buffer.emplace_back(0x7E);
+    m_bStartTokenSeen = false;
 }
 
 void FrameParser::AddReceivedRawBytes(const char* a_Buffer, size_t a_Bytes) {

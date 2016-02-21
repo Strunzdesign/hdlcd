@@ -21,13 +21,15 @@
 
 #include "ClientHandler.h"
 #include <iomanip>
-#include "SerialPortHandlerCollection.h"
-#include "SerialPortHandler.h"
+#include "SerialPort/SerialPortHandlerCollection.h"
+#include "SerialPort/SerialPortHandler.h"
 #include "../shared/StreamFrame.h"
 
 ClientHandler::ClientHandler(boost::asio::ip::tcp::socket a_TCPSocket): m_TCPSocket(std::move(a_TCPSocket)) {
     m_Registered = true;
     m_CurrentlySending = false;
+    m_eHDLCBuffer = HDLCBUFFER_NOTHING;
+    m_eDirection  = DIRECTION_NONE;
 }
 
 ClientHandler::~ClientHandler() {
@@ -46,6 +48,18 @@ void ClientHandler::DeliverBufferToClient(E_HDLCBUFFER a_eHDLCBuffer, E_DIRECTIO
         if (m_CurrentlySending == false) {
             m_CurrentlySending = true;
             do_write();
+        } // if
+    } // if
+}
+
+void ClientHandler::UpdateSerialPortState(bool a_bSerialPortState) {
+    if (m_SerialPortLockGuard.UpdateSerialPortState(a_bSerialPortState)) {
+        // The state of the serial port state changed. Communicate the new state to the client.
+        if (m_eHDLCBuffer == HDLCBUFFER_COMMANDS) {
+            std::vector<unsigned char> l_DummyBuffer;
+            l_DummyBuffer.emplace_back((unsigned char)a_bSerialPortState);
+            StreamFrame l_StreamFrame(l_DummyBuffer, 0);
+            m_StreamFrameQueue.emplace_back(l_StreamFrame);
         } // if
     } // if
 }
@@ -77,18 +91,24 @@ void ClientHandler::do_readSessionHeader1() {
                 m_eDirection = DIRECTION_BOTH;
             } // else if
             
-            if ((data_[1] & 0xF0) == 0x00) {
+            unsigned char l_SessionType = (data_[1] & 0xF0);
+            if (l_SessionType == 0x00) {
                 m_eHDLCBuffer = HDLCBUFFER_PAYLOAD;
                 m_eDirection = DIRECTION_RCVD; // override
-            } else if ((data_[1] & 0xF0) == 0x20) {
+            } else if (l_SessionType == 0x10) {
+                m_eHDLCBuffer = HDLCBUFFER_COMMANDS;
+            } else if (l_SessionType == 0x20) {
                 m_eHDLCBuffer = HDLCBUFFER_PAYLOAD;
-            } else if ((data_[1] & 0xF0) == 0x30) {
+            } else if (l_SessionType == 0x30) {
                 m_eHDLCBuffer = HDLCBUFFER_RAW;
-            } else if ((data_[1] & 0xF0) == 0x40) {
+            } else if (l_SessionType == 0x40) {
                 m_eHDLCBuffer = HDLCBUFFER_DISSECTED;
-            } // elseif
-            
-            // TODO: missing error management
+            } else {
+                // Unknown session type
+                std::cerr << "Unknown session type rejected" << std::endl;
+                m_TCPSocket.close();
+                return;
+            } // else if
             
             do_readSessionHeader2(data_[2]);
         } else {
@@ -107,6 +127,20 @@ void ClientHandler::do_readSessionHeader2(unsigned char a_BytesUSB) {
             l_UsbPortString.append(data_, length);
             m_SerialPortHandlerStopper = m_SerialPortHandlerCollection->GetSerialPortHandler(l_UsbPortString, shared_from_this());
             m_SerialPortHandler = (*m_SerialPortHandlerStopper.get());
+            m_SerialPortLockGuard.Init(m_SerialPortHandler);
+            
+            
+            
+            
+            
+            if (m_eHDLCBuffer == HDLCBUFFER_COMMANDS) {
+                m_SerialPortLockGuard.SuspendSerialPort(); // TODO: not a command message yet
+            } // if
+            
+            
+            
+            
+            
             do_read();
         } else {
             std::cerr << "TCP READ ERROR:" << ec << std::endl;

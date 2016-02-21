@@ -21,8 +21,8 @@
 
 #include "SerialPortHandler.h"
 #include "SerialPortHandlerCollection.h"
-#include "ClientHandler.h"
-#include "HDLC/ProtocolState.h"
+#include "../ClientHandler.h"
+#include "../HDLC/ProtocolState.h"
 #include <boost/system/system_error.hpp>
 
 SerialPortHandler::SerialPortHandler(const std::string &a_SerialPortName, std::shared_ptr<SerialPortHandlerCollection> a_SerialPortHandlerCollection, boost::asio::io_service &a_IOService): m_SerialPort(a_IOService), m_IOService(a_IOService) {
@@ -38,6 +38,39 @@ SerialPortHandler::~SerialPortHandler() {
 
 void SerialPortHandler::AddClientHandler(std::shared_ptr<ClientHandler> a_ClientHandler) {
     m_ClientHandlerVector.push_back(a_ClientHandler);
+}
+
+void SerialPortHandler::SuspendSerialPort() {
+    if (m_SerialPortLock.SuspendSerialPort()) {
+        // The serial port is now suspended!
+        m_SerialPort.close();
+        PropagateSerialPortState();
+        m_ProtocolState->Reset();
+    } // if
+}
+
+void SerialPortHandler::ResumeSerialPort() {
+    if (m_SerialPortLock.ResumeSerialPort()) {
+        // The serial port is now resumed!
+        m_SerialPort.open(m_SerialPortName);
+        PropagateSerialPortState();
+        do_read();
+        m_ProtocolState->TriggerNextHDLCFrame();
+    } // if
+}
+
+bool SerialPortHandler::GetSerialPortState() const {
+    return (m_SerialPortLock.GetSerialPortState());
+}
+
+void SerialPortHandler::PropagateSerialPortState() const {
+    bool l_bSerialPortState = GetSerialPortState();
+    for (auto it = m_ClientHandlerVector.begin(); it != m_ClientHandlerVector.end(); ++it) {
+        if (auto l_ClientHandler = it->lock()) {
+            l_ClientHandler->UpdateSerialPortState(l_bSerialPortState);
+        } // if
+        // TODO: REMOVE IF INVALID
+    } // for
 }
 
 void SerialPortHandler::DeliverPayloadToHDLC(const std::vector<unsigned char> &a_Payload) {
@@ -56,7 +89,7 @@ void SerialPortHandler::DeliverBufferToClients(E_HDLCBUFFER a_eHDLCBuffer, E_DIR
 void SerialPortHandler::Start() {
     try {
         m_ProtocolState = std::make_shared<ProtocolState>(shared_from_this(), m_IOService);
-        m_ProtocolState->Start();
+        m_ProtocolState->Init();
 
         m_SerialPort.open(m_SerialPortName);
         m_SerialPort.set_option(boost::asio::serial_port::baud_rate(115200));
@@ -85,7 +118,7 @@ void SerialPortHandler::Stop() {
         std::cerr << "SERIAL CLOSE" << std::endl;
         m_SerialPort.close();
         
-        m_ProtocolState->Stop();
+        m_ProtocolState->Shutdown();
         
         if (auto l_SerialPortHandlerCollection = m_SerialPortHandlerCollection.lock()) {
             l_SerialPortHandlerCollection->DeregisterSerialPortHandler(self);
@@ -102,6 +135,7 @@ void SerialPortHandler::Stop() {
 void SerialPortHandler::DeliverHDLCFrame(const std::vector<unsigned char> &a_Payload) {
     // Copy buffer holding the excaped HDLC frame for transmission via the serial interface
     assert(m_SendBufferOffset == 0);
+    assert(m_SerialPortLock.GetSerialPortState() == false);
     m_SendBuffer = std::move(a_Payload);
     
     // Trigger transmission
@@ -113,10 +147,14 @@ void SerialPortHandler::do_read() {
     m_SerialPort.async_read_some(boost::asio::buffer(data_, max_length),[this, self](boost::system::error_code ec, std::size_t length) {
         if (!ec) {
             m_ProtocolState->AddReceivedRawBytes(data_, length);
-            do_read();
+            if (m_SerialPortLock.GetSerialPortState() == false) {
+                do_read();
+            } // if
         } else {
-            std::cerr << "SERIAL READ ERROR:" << ec << std::endl;
-            Stop();
+            if (m_SerialPortLock.GetSerialPortState() == false) {
+                std::cerr << "SERIAL READ ERROR:" << ec << std::endl;
+                Stop();
+            } // if
         } 
     });
 }
@@ -129,14 +167,20 @@ void SerialPortHandler::do_write() {
             if (m_SendBufferOffset == m_SendBuffer.size()) {
                 // Indicate that we are ready to transmit the next HDLC frame
                 m_SendBufferOffset = 0;
-                m_ProtocolState->TriggerNextHDLCFrame();
+                if (m_SerialPortLock.GetSerialPortState() == false) {
+                    m_ProtocolState->TriggerNextHDLCFrame();
+                } // if
             } else {
                 // Only a partial transmission. We are not done yet.
-                do_write();
+                if (m_SerialPortLock.GetSerialPortState() == false) {
+                    do_write();
+                } // if
             } // else
         } else {
-            std::cerr << "SERIAL WRITE ERROR:" << ec << std::endl;
-            Stop();
+            if (m_SerialPortLock.GetSerialPortState() == false) {
+                std::cerr << "SERIAL WRITE ERROR:" << ec << std::endl;
+                Stop();
+            } // if
         } // else
     });
 }

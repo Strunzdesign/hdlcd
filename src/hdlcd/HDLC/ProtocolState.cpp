@@ -21,12 +21,17 @@
 
 #include "ProtocolState.h"
 #include <assert.h>
-#include "../SerialPortHandler.h"
+#include "../SerialPort/SerialPortHandler.h"
 #include "../../shared/Direction.h"
 #include "FrameParser.h"
 #include "FrameGenerator.h"
 
 ProtocolState::ProtocolState(std::shared_ptr<SerialPortHandler> a_SerialPortHandler, boost::asio::io_service& a_IOService) {
+    m_SerialPortHandler = a_SerialPortHandler;
+    Reset();
+}
+
+void ProtocolState::Reset() {
     m_bAwaitsNextHDLCFrame = true;
     m_SSeqOutgoing = 0;
     m_RSeqOutgoing = 0;
@@ -34,14 +39,18 @@ ProtocolState::ProtocolState(std::shared_ptr<SerialPortHandler> a_SerialPortHand
     m_RSeqIncoming = 0;
     m_bPeerRequiresAck = false;
     m_HDLCType = HDLC_TYPE_UNKNOWN;
-    m_SerialPortHandler = a_SerialPortHandler;
+    m_SREJs.clear();
+    m_PayloadWaitQueue.clear();
+    if (m_FrameParser) {
+        m_FrameParser->Reset();
+    } // if
 }
 
-void ProtocolState::Start() {
+void ProtocolState::Init() {
     m_FrameParser = std::make_shared<FrameParser>(shared_from_this());
 }
 
-void ProtocolState::Stop() {
+void ProtocolState::Shutdown() {
     m_SerialPortHandler.reset();
     m_FrameParser.reset();
 }
@@ -59,7 +68,6 @@ void ProtocolState::SendPayload(const std::vector<unsigned char> &a_Payload) {
 
 void ProtocolState::TriggerNextHDLCFrame() {
     // The SerialPortHandler is ready to transmit the next HDLC frame
-    assert(m_bAwaitsNextHDLCFrame == false);
     m_bAwaitsNextHDLCFrame = true;
     OpportunityForTransmission();
 }

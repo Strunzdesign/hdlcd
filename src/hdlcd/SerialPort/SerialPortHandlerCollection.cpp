@@ -20,8 +20,8 @@
  */
 
 #include "SerialPortHandlerCollection.h"
-#include "ClientHandler.h"
 #include "SerialPortHandler.h"
+#include "../ClientHandler.h"
 
 SerialPortHandlerCollection::SerialPortHandlerCollection(boost::asio::io_service& a_IOService): m_IOService(a_IOService) {
 }

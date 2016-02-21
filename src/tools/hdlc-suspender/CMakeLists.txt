@@ -6,21 +6,11 @@ INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
 
 find_package(Threads)
 
-add_executable(hdlcd
+add_executable(hdlc-suspender
 main.cpp
-ClientHandler.cpp
-SerialPort/SerialPortLock.cpp
-SerialPort/SerialPortLockGuard.cpp
-SerialPort/SerialPortHandler.cpp
-SerialPort/SerialPortHandlerCollection.cpp
-FCS16.cpp
-HDLC/Frame.cpp
-HDLC/FrameGenerator.cpp
-HDLC/FrameParser.cpp
-HDLC/ProtocolState.cpp
 )
 
-set_property(TARGET hdlcd PROPERTY CXX_STANDARD 11)
+set_property(TARGET hdlc-suspender PROPERTY CXX_STANDARD 11)
 
 if(WIN32)
     set(ADDITIONAL_LIBRARIES wsock32 ws2_32)
@@ -28,11 +18,11 @@ else()
     set(ADDITIONAL_LIBRARIES "")
 endif()
 
-target_link_libraries(hdlcd
+target_link_libraries(hdlc-suspender
 ${Boost_LIBRARIES}
 ${CMAKE_THREAD_LIBS_INIT}
 ${ADDITIONAL_LIBRARIES}
 )
 
-install(TARGETS hdlcd RUNTIME DESTINATION bin)
+install(TARGETS hdlc-suspender RUNTIME DESTINATION bin)
 

@@ -1,5 +1,5 @@
 /**
- * \file HDLCBuffer.h
+ * \file SerialPortLock.h
  * \brief 
  *
  * The hdlc-tools implement the HDLC protocol to easily talk to devices connected via serial communications
@@ -19,15 +19,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef HDLC_BUFFER_H
-#define HDLC_BUFFER_H
+#ifndef SERIAL_PORT_LOCK_H
+#define SERIAL_PORT_LOCK_H
 
-typedef enum {
-    HDLCBUFFER_NOTHING   = 0,
-    HDLCBUFFER_RAW       = 1,
-    HDLCBUFFER_DISSECTED = 2,
-    HDLCBUFFER_PAYLOAD   = 3,
-    HDLCBUFFER_COMMANDS  = 4
-} E_HDLCBUFFER;
+class SerialPortLock {
+public:
+    // CTOR
+    SerialPortLock();
+    
+    // Influende the serial port
+    bool SuspendSerialPort();
+    bool ResumeSerialPort();
+    bool GetSerialPortState() const;
 
-#endif // HDLC_BUFFER_H
+private:
+    // Members
+    unsigned int m_NbrOfLocks;
+};
+
+#endif // SERIAL_PORT_LOCK_H
