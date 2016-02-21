@@ -6,12 +6,12 @@ Description of the hdlcd access protocol
 
 General:
 ---
-All multi-byte fields are in network byten order.
+All multi-byte fields are in network byte order.
 
 
-
-Session header format:
----
+=====================
+Session header
+=====================
 The session header must and can only be sent once after initiation of the TCP socket.
 
 Session header format:
@@ -22,12 +22,12 @@ Session header format:
 Version: 0x00 is currently the only supported version
 
 Service access point specifier:
-++----------------------------------------------------------------------++
-|| Service access point specifier (1 byte)                              ||
-++--------------+----------+----------+--------------+------------------++
-|| Bits 7...4   | Bit 3    | Bit 2    | Bit 1        | Bit 0            ||
-|| Type of data | Reserved | Invalids | Deliver sent | Deliver received ||
-++--------------+----------+----------+--------------+------------------++
+++------------------------------------------------------------------++
+|| Service access point specifier (1 byte)                          ||
+++--------------+----------+----------+--------------+--------------++
+|| Bits 7...4   | Bit 3    | Bit 2    | Bit 1        | Bit 0        ||
+|| Type of data | Reserved | Invalids | Deliver sent | Deliver rcvd ||
+++--------------+----------+----------+--------------+--------------++
 Type of data:
 0x0*: Payload,          data read and write,   port status read and write
 0x1*: Port status only, no data exchange,      port status read and write
@@ -67,6 +67,10 @@ After the session header was transmitted, the TCP socket is used for exchange of
 The kind of exchanged packets depends on the provided session header: not all packets are
 allowed / seen in each of the possible session types!
 
+
+======================
+Packets
+======================
 
 Packets can be "control packets" or "data packets"
 
@@ -117,10 +121,12 @@ Data packets, if received, have:
 
 
 Control packet format:
-+--------+---------+
-| 1 Byte | 1 Byte  |
-| 0x10   | Command |
-+--------+---------+
+++--------++----------------------------------++
+|| 1 Byte || 1 Byte                           ||
+++--------++--------------+-------------------++
+|| 8 Bits || Bits 7...4   | Bits 3...0        ||
+|| 0x10   || Command type | Depend on Command ||
+++--------++--------------+-------------------++
 Control packets, either if received or sent, must have:
 - the reserved bit set to 0,
 - the invalid bit set to 0,
@@ -129,26 +135,44 @@ Control packets, either if received or sent, must have:
 
       
       
-Control packet, list of commands:
+Control packet, list of command types:
 ---
-1.) Requests:
+1.) Requests: are sent to the hdlcd
 ---
-Port suspend request
-Port resume request
-Port restart request
-Port reset request
-Echo request (checks the TCP socket and the TCP entity at the HDLC daemon)
-Port kill request (immediate shutdown of all related TCP connections)
+0x0*: Set port status request. The lower nibble has to be set.
+0x10: Port kill request (immediate shutdown of all related TCP connections)
+0x20: Echo request
+0x3*-0xF*: reserved for future use
 
-2.) Indications:
+0x0*: Set port status request:
 ---
-Port is open (???)
-Port is suspended, flags: by self, by other
-Port was resumed
-Port was restarted, flags: by self, by other
-Port was resetted, flags: by self, by other
-Echo indication
+++--------++-----------------------------------------------------++
+|| 1 Byte || 1 Byte                                              ||
+++--------++---------------+-------+-------+-------+-------------++
+|| 8 Bits || Bits 7...4    | Bit 3 | Bit 2 | Bit 1 | Bit 0       ||
+|| 0x10   || 0 | 0 | 0 | 0 | Rsvd. | Rsvd. | Rsvd. | Port status ||
+++--------++---+---+---+---+-------+-------+-------+-------------++
+Rsvd: all reserved bits have to be set to "0"
+Port status: set to "1" if the serial port has to be suspended, "1" to resume
 
-3.) Confirmations
+
+2.) Indications: are received by the hdlcd
 ---
-Echo confirmation (reply to a previous echo request)
+0x0*: Port status indication. The lower nibble has to be evaluated.
+0x10: Port killed indication (not really... the TCP socket dies)
+0x20: Echo indication
+0x4*-0xF*: reserved for future use
+
+0x0*: Port status indication:
+---
+++--------++--------------------------------------------------------++
+|| 1 Byte || 1 Byte                                                 ||
+++--------++---------------+-------+-------+-------+----------------++
+|| 8 Bits || Bits 7...4    | Bit 3 | Bit 2 | Bit 1 | Bit 0          ||
+|| 0x10   || 0 | 0 | 0 | 0 | Rsvd. | PSbO  | PSbS  | Port suspended ||
+++--------++---+---+---+---+-------+-------+-------+----------------++
+Rsvd: the reserved bit is set to "0"
+PSbO: is set to "1" if the serial port is suspended by others
+PSbS: is set to "1" if the serial port is suspended by self
+Port suspended: is set to "1" if the serial port is suspended, "0" if up and running
+
