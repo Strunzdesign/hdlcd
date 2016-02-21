@@ -165,7 +165,7 @@ Control packet, list of command types:
 || 0x10   || 0 | 0 | 0 | 0 | Rsvd. | Rsvd. | Rsvd. | Port status ||
 ++--------++---+---+---+---+-------+-------+-------+-------------++
 Rsvd: all reserved bits have to be set to "0"
-Port status: set to "1" if the serial port has to be suspended, "1" to resume
+Port status: set to "1" if the serial port has to be suspended, "0" to resume
 
 
 2.) Indications: are received by the hdlcd
@@ -173,7 +173,7 @@ Port status: set to "1" if the serial port has to be suspended, "1" to resume
 - 0x0*: Port status indication. The lower nibble has to be evaluated.
 - 0x10: Port killed indication (not really... the TCP socket dies)
 - 0x20: Echo indication
-- 0x4*-0xF*: reserved for future use
+- 0x3*-0xF*: reserved for future use
 
 
 
