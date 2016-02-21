@@ -148,7 +148,7 @@ Control packets, either if received or sent, must have:
       
 Control packet, list of command types:
 ---
-1.) Requests: are sent to the hdlcd
+1.) Requests: are sent by a client to the hdlcd
 - 0x0*: Set port status request. The lower nibble has to be set.
 - 0x10: Port kill request (immediate shutdown of all related TCP connections)
 - 0x20: Echo request
@@ -168,7 +168,7 @@ Rsvd: all reserved bits have to be set to "0"
 Port status: set to "1" if the serial port has to be suspended, "0" to resume
 
 
-2.) Indications: are received by the hdlcd
+2.) Indications: are sent by the hdlcd to a client
 ---
 - 0x0*: Port status indication. The lower nibble has to be evaluated.
 - 0x10: Port killed indication (not really... the TCP socket dies)
