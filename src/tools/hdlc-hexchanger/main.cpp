@@ -20,11 +20,11 @@
  */
 
 #include <iostream>
-#include <thread>
 #include <vector>
 #include <boost/asio.hpp>
 #include "../../shared/StreamEndpoint.h"
 #include "../../shared/HexDumper.h"
+#include "LineReader.h"
 
 int main(int argc, char* argv[]) {
     try {
@@ -34,7 +34,14 @@ int main(int argc, char* argv[]) {
             return 1;
         } // if
 
+        // Install signal handlers
         boost::asio::io_service io_service;
+        boost::asio::signal_set signals_(io_service);
+        signals_.add(SIGINT);
+        signals_.add(SIGTERM);
+        signals_.async_wait([&io_service](boost::system::error_code errorCode, int signalNumber){io_service.stop();});
+        
+        // Resolve destination
         tcp::resolver resolver(io_service);
         auto endpoint_iterator = resolver.resolve({ argv[1], argv[2] });
         
@@ -45,26 +52,11 @@ int main(int argc, char* argv[]) {
         StreamEndpoint l_StreamEndpoint(io_service, endpoint_iterator, argv[3], &l_HexDumper, 0x00);
         l_StreamEndpoint.SetOnClosedCallback([&io_service](){io_service.stop();});
 
-        std::thread t([&io_service](){ io_service.run(); });
-        size_t l_HexLineLength = ((StreamFrame::E_MAX_BODY_LENGTH * 3) + 1);
-        char l_HexLine[l_HexLineLength];
-        while (std::cin.getline(l_HexLine, l_HexLineLength)) {
-            std::istringstream stream_in(l_HexLine);
-            stream_in >> std::hex;
-            std::vector<unsigned char> memory;
-            memory.reserve(65536);
-            memory.insert(memory.end(),std::istream_iterator<unsigned int>(stream_in), {});
-
-            // Put everything into the stream frame
-            StreamFrame l_StreamFrame;
-            l_StreamFrame.body_length(memory.size());
-            std::memcpy(l_StreamFrame.body(), &memory[0], memory.size());
-            l_StreamFrame.encode_header();
-            l_StreamEndpoint.write(l_StreamFrame);
-        } // while
-
-        io_service.post([&l_StreamEndpoint]() { l_StreamEndpoint.close(); });
-        t.join();
+        // Prepare input
+        LineReader l_LineReader(io_service, &l_StreamEndpoint);
+        
+        // Start event processing
+        io_service.run();
     } catch (std::exception& e) {
         std::cerr << "Exception: " << e.what() << "\n";
     } // catch

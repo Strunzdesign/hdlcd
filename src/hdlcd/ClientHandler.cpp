@@ -41,12 +41,8 @@ void ClientHandler::DeliverBufferToClient(E_HDLCBUFFER a_eHDLCBuffer, E_DIRECTIO
     } // if
 
     if (l_bDeliver) {
-        StreamFrame l_StreamFrame;
-        l_StreamFrame.body_length(a_Payload.size());
-        l_StreamFrame.SetDirection((unsigned char)a_eDirection);
-        std::memcpy(l_StreamFrame.body(), a_Payload.data(), l_StreamFrame.body_length());
-        l_StreamFrame.encode_header();
-        m_StreamFrameQueue.push_back(l_StreamFrame);
+        StreamFrame l_StreamFrame(a_Payload, (unsigned char)a_eDirection);
+        m_StreamFrameQueue.emplace_back(l_StreamFrame);
         if (m_CurrentlySending == false) {
             m_CurrentlySending = true;
             do_write();

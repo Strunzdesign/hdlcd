@@ -22,25 +22,38 @@
 #ifndef STREAM_FRAME_H
 #define STREAM_FRAME_H
 
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
+#include <vector>
+#include <assert.h>
 
 class StreamFrame {
 public:
     enum { E_HEADER_LENGTH = 3 };
     enum { E_MAX_BODY_LENGTH = 512 };
 
+    // CTORs
     StreamFrame(): m_BodyLength(0) {
         m_Direction = 0;
+        m_Data.reserve(E_HEADER_LENGTH + E_MAX_BODY_LENGTH);
+    }
+    StreamFrame(const std::vector<unsigned char> a_Payload, unsigned char a_Direction) {
+        // Checks
+        assert(a_Payload.size() <= E_MAX_BODY_LENGTH);
+
+        // Assemble stream header and payload
+        m_BodyLength = a_Payload.size();
+        m_Direction  = a_Direction;
+        m_Data.emplace_back(m_Direction);
+        m_Data.emplace_back((htons(m_BodyLength) >> 8) & 0x00FF);
+        m_Data.emplace_back((htons(m_BodyLength) >> 0) & 0x00FF);
+        m_Data.insert(m_Data.end(), a_Payload.begin(), a_Payload.end());
     }
 
     const unsigned char* data() const {
-        return m_Data;
+        return m_Data.data();
     }
 
     unsigned char* data() {
-        return m_Data;
+        return m_Data.data();
     }
 
     std::size_t length() const {
@@ -48,50 +61,36 @@ public:
     }
 
     const unsigned char* body() const {
-        return m_Data + E_HEADER_LENGTH;
+        return m_Data.data() + E_HEADER_LENGTH;
     }
 
     unsigned char* body() {
-        return m_Data + E_HEADER_LENGTH;
+        return m_Data.data() + E_HEADER_LENGTH;
     }
+    
+    // Receive and decode frame
+    bool DecodeHeader() {
+        m_Direction = m_Data[0];
+        m_BodyLength = *(reinterpret_cast<uint16_t*>(&m_Data[1]));
+        if (m_BodyLength > E_MAX_BODY_LENGTH) {
+            m_BodyLength = 0;
+            return false;
+        } // if
 
-    std::size_t body_length() const {
+        return true;
+    }
+    
+    std::size_t GetBodyLength() const {
         return m_BodyLength;
-    }
-
-    void body_length(std::size_t a_BodyLength) {
-        m_BodyLength = a_BodyLength;
-        if (m_BodyLength > E_MAX_BODY_LENGTH)
-        m_BodyLength = E_MAX_BODY_LENGTH;
     }
     
     // Direction
     unsigned char GetDirection() const {
         return m_Direction;
     }
-    
-    void SetDirection(unsigned char a_Direction) {
-        m_Direction = a_Direction;
-    }
-
-    bool decode_header() {
-        m_Direction = m_Data[0];
-        m_BodyLength = *(reinterpret_cast<uint16_t*>(&m_Data[1]));
-        if (m_BodyLength > E_MAX_BODY_LENGTH) {
-            m_BodyLength = 0;
-            return false;
-        }
-
-        return true;
-    }
-
-    void encode_header() {
-        m_Data[0] = m_Direction;
-        *(reinterpret_cast<uint16_t*>(&m_Data[1])) = m_BodyLength;
-    }
 
 private:
-    unsigned char m_Data[E_HEADER_LENGTH + E_MAX_BODY_LENGTH];
+    std::vector<unsigned char> m_Data;
     uint16_t m_BodyLength;
     unsigned char m_Direction;
 };

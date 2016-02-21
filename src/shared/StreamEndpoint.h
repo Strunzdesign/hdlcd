@@ -36,7 +36,6 @@ typedef std::deque<StreamFrame> StreamFrameQueue;
 class StreamEndpoint {
 public:
     StreamEndpoint(boost::asio::io_service& a_IoService, tcp::resolver::iterator a_EndpointIterator, std::string a_ComPortString, IBufferSink* a_pBufferSink, unsigned char a_SAP):
-        m_IoService(a_IoService),
         m_Socket(a_IoService),
         m_ComPortString(a_ComPortString),
         m_pBufferSink(a_pBufferSink),
@@ -49,13 +48,11 @@ public:
     }
 
     void write(const StreamFrame& a_StreamFrame) {
-        m_IoService.post([this, a_StreamFrame]() {
-            bool write_in_progress = !m_StreamFrameQueue.empty();
-            m_StreamFrameQueue.push_back(a_StreamFrame);
-            if (!write_in_progress) {
-                do_write();
-            }
-        });
+        bool write_in_progress = !m_StreamFrameQueue.empty();
+        m_StreamFrameQueue.emplace_back(std::move(a_StreamFrame));
+        if (!write_in_progress) {
+            do_write();
+        }
     }
 
     void close() {
@@ -79,7 +76,7 @@ private:
     void do_read_header() {
         boost::asio::async_read(m_Socket, boost::asio::buffer(m_StreamFrame.data(), StreamFrame::E_HEADER_LENGTH),
                                 [this](boost::system::error_code ec, std::size_t /*length*/) {
-            if (!ec && m_StreamFrame.decode_header()) {
+            if (!ec && m_StreamFrame.DecodeHeader()) {
                 do_read_body();
             } else {
                 std::cerr << "Decode header failed, socket closed!" << std::endl;
@@ -89,11 +86,11 @@ private:
     }
 
     void do_read_body() {
-        boost::asio::async_read(m_Socket, boost::asio::buffer(m_StreamFrame.body(), m_StreamFrame.body_length()),
+        boost::asio::async_read(m_Socket, boost::asio::buffer(m_StreamFrame.body(), m_StreamFrame.GetBodyLength()),
                                 [this](boost::system::error_code ec, std::size_t /*length*/) {
             if (!ec) {
-                auto l_Buffer = std::vector<unsigned char>(m_StreamFrame.body_length());
-                std::memcpy(&(l_Buffer[0]), m_StreamFrame.body(), m_StreamFrame.body_length());
+                std::vector<unsigned char> l_Buffer;
+                l_Buffer.insert(l_Buffer.end(), m_StreamFrame.body(), m_StreamFrame.body() + m_StreamFrame.GetBodyLength());
                 m_pBufferSink->BufferReceived((E_DIRECTION)m_StreamFrame.GetDirection(), l_Buffer);
                 do_read_header();
             } else {
@@ -140,7 +137,6 @@ private:
     }
 
 private:
-    boost::asio::io_service& m_IoService;
     IBufferSink* m_pBufferSink;
     std::string m_ComPortString;
     unsigned char m_SAP;

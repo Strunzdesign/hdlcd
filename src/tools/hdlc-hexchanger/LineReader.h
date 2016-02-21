@@ -1,0 +1,72 @@
+/**
+ * \file LineReader.h
+ * \brief 
+ *
+ * The hdlc-tools implement the HDLC protocol to easily talk to devices connected via serial communications
+ * Copyright (C) 2016  Florian Evers, florian-evers@gmx.de
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#ifndef LINE_READER_H
+#define LINE_READER_H
+
+#include <iostream>
+#include <boost/asio.hpp>
+#include "../../shared/StreamFrame.h"
+#include "../../shared/StreamEndpoint.h"
+
+class LineReader {
+public:
+    // CTOR
+    LineReader(boost::asio::io_service& io_service, StreamEndpoint *a_StreamEndpoint): m_InputStream(io_service, ::dup(STDIN_FILENO)), m_InputBuffer(4096), m_InputReader(&m_InputBuffer) {
+        // Read single lines of input from STDIN
+        m_StreamEndpoint = a_StreamEndpoint;
+        do_read();
+    }
+    
+private:
+    // Helpers
+    void do_read() {
+        boost::asio::async_read_until(m_InputStream, m_InputBuffer, '\n',[this](boost::system::error_code ec, std::size_t length) {
+            if (!ec) {
+                // Write the message (minus the newline) to the server.
+                char i[1000];
+                m_InputReader.getline(i,1000);
+                std::istringstream stream_in(i);
+                stream_in >> std::hex;
+                std::vector<unsigned char> memory;
+                memory.reserve(65536);
+                memory.insert(memory.end(),std::istream_iterator<unsigned int>(stream_in), {});
+                
+                // Put everything into the stream frame
+                m_StreamEndpoint->write(std::move(StreamFrame(memory, 0)));
+                
+                // Read the next line
+                do_read();
+            } else {
+                // Some error occured
+                m_InputStream.close();
+            } // else
+        });
+    }
+
+    // Members
+    StreamEndpoint *m_StreamEndpoint;
+    boost::asio::posix::stream_descriptor m_InputStream;
+    boost::asio::streambuf m_InputBuffer;
+    std::istream m_InputReader;
+};
+
+#endif // LINE_READER_H
