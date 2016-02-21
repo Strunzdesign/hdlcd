@@ -58,7 +58,7 @@ void SerialPortLockGuard::ResumeSerialPort() {
     } // if
 }
 
-bool SerialPortLockGuard::UpdateSerialPortStateX(size_t a_LockHolders) {
+bool SerialPortLockGuard::UpdateSerialPortState(size_t a_LockHolders) {
     // This call is caused by ourselves
     if (m_bLockedByOwn) {
         m_bLockedByForeign = (a_LockHolders > 1);

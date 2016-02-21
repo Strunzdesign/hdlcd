@@ -35,7 +35,7 @@ public:
     // Influende the serial port
     void SuspendSerialPort();
     void ResumeSerialPort();
-    bool UpdateSerialPortStateX(size_t a_LockHolders);
+    bool UpdateSerialPortState(size_t a_LockHolders);
     
     // Check status
     bool IsLocked() const { return (m_bLockedByOwn || m_bLockedByForeign); }
