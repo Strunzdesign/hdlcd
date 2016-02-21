@@ -23,7 +23,7 @@ Issues to be resolved before a first release:
 - Rudimentary HDLC protocol is sufficient for the s-net(r) sensor nodes by Fraunhofer IIS
 - More tools: pcap-streamer for multiple session types to analyze traffic via wireshark using named pipes (STARTED)
 - Better buffer handling to get rid of all remaining memmove and memcpy statements
-- Proper shutdown of the hdlc-hexchanger tool on ioservice shutdown, requires a fix for std::cin.getline()
+- Proper shutdown of the hdlc-hexchanger tool on ioservice shutdown, requires a fix for std::cin.getline() (DONE)
 - Doxygen
 
 
