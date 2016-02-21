@@ -13,10 +13,10 @@ Urgent isses:
 Issues to be resolved before a first release:
 - All urgent issues have to be resolved
 - Add command line switches and online help ("-h --help") to hdlcd
-- Logic to suspend / resume serial interfaces via control packets
+- Logic to suspend / resume serial interfaces via control packets (STARTED)
 - Rudimentary HDLC protocol is sufficient for the s-net(r) sensor nodes by Fraunhofer IIS
 - More tools: pcap-streamer for multiple session types to analyze traffic via wireshark using named pipes (STARTED)
-- Better buffer handling to get rid of all remaining memmove and memcpy statements
+- Better buffer handling to get rid of all remaining memmove and memcpy statements (STARTED)
 - Doxygen
 
 
@@ -25,7 +25,6 @@ Issues to be resolved before a first release:
 
 
 Issues to be resolved after the first release:
-- Tests on recent versions of MS Windows
 - Sophisticated HDLC support as specified by the extensive AX.25 documentation at http://www.ax25.net/AX25.2.2-Jul%2098-2.pdf
 - New session type to obtain global status information of the HDLC daemon
 - New session type to obtain status information regarding a specific serial interface
@@ -37,6 +36,7 @@ Issues to be resolved after the first release:
 
 
 // DONE
+- Tests on recent versions of MS Windows (DONE)
 - Fix HDLC send logic, the current send queue implementation is invalid and causes data loss (DONE)
 - Send appropriate S-frames (requires send queue) (DONE: RR and SREJ)
 - Remove bloated bunch of unnecessary include statements (DONE)
