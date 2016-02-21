@@ -69,7 +69,10 @@ private:
             if (!ec) {
                 do_writeSessionHeader();
                 do_read_header();
-            }
+            } else {
+                std::cerr << "TCP connect failed!" << std::endl;
+                close();
+            } // else
         });
     }
 
