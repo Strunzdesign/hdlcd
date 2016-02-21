@@ -41,6 +41,10 @@ void SerialPortHandler::AddClientHandler(std::shared_ptr<ClientHandler> a_Client
 }
 
 void SerialPortHandler::SuspendSerialPort() {
+    if (m_Registered == false) {
+        return;
+    } // if
+
     if (m_SerialPortLock.SuspendSerialPort()) {
         // The serial port is now suspended!
         m_SerialPort.close();
@@ -50,7 +54,11 @@ void SerialPortHandler::SuspendSerialPort() {
     PropagateSerialPortState();
 }
 
-void SerialPortHandler::ResumeSerialPort() {
+void SerialPortHandler::ResumeSerialPortX() {
+    if (m_Registered == false) {
+        return;
+    } // if
+
     if (m_SerialPortLock.ResumeSerialPort()) {
         // The serial port is now resumed!
         m_SerialPort.open(m_SerialPortName);
@@ -102,9 +110,6 @@ void SerialPortHandler::Start() {
         
         // Start processing
         do_read();
-        /*
-        serialPort.close();
-        */
     } catch (boost::system::system_error& error) {
         std::cerr << error.what() << std::endl;
         Stop();

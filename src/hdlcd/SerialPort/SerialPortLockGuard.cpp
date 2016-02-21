@@ -31,7 +31,7 @@ SerialPortLockGuard::SerialPortLockGuard() {
 
 SerialPortLockGuard::~SerialPortLockGuard() {
     if (m_bLockedByOwn) {
-         m_SerialPortHandler->ResumeSerialPort();
+         m_SerialPortHandler->ResumeSerialPortX();
     } // if
 }
 
@@ -54,7 +54,7 @@ void SerialPortLockGuard::SuspendSerialPort() {
 void SerialPortLockGuard::ResumeSerialPort() {
     if (m_bLockedByOwn) {
         m_bLockedByOwn = false;
-        m_SerialPortHandler->ResumeSerialPort();
+        m_SerialPortHandler->ResumeSerialPortX();
     } // if
 }
 
