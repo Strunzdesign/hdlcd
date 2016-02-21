@@ -1,7 +1,6 @@
 Urgent isses:
 - HDLC retransmissions (specific to the current limitations of the s-net(r) sensor nodes by Fraunhofer IIS)
 - Implement baud rate detection by probing with TEST frames
-- Complete specification of the TCP-based access protocol
 - Refactoring of the shared header files:
 -> - Requires dedicated access protocol entities for hdlcd and the client side.
    - Modular acceptor / connector logic
@@ -13,7 +12,7 @@ Urgent isses:
 Issues to be resolved before a first release:
 - All urgent issues have to be resolved
 - Add command line switches and online help ("-h --help") to hdlcd
-- Logic to suspend / resume serial interfaces via control packets (STARTED)
+- Logic to suspend / resume serial interfaces via control packets (logic: DONE, via TCP: TODO)
 - Rudimentary HDLC protocol is sufficient for the s-net(r) sensor nodes by Fraunhofer IIS
 - More tools: pcap-streamer for multiple session types to analyze traffic via wireshark using named pipes (STARTED)
 - Better buffer handling to get rid of all remaining memmove and memcpy statements (STARTED)
@@ -36,6 +35,7 @@ Issues to be resolved after the first release:
 
 
 // DONE
+- Complete specification of the TCP-based access protocol (DONE)
 - Tests on recent versions of MS Windows (DONE)
 - Fix HDLC send logic, the current send queue implementation is invalid and causes data loss (DONE)
 - Send appropriate S-frames (requires send queue) (DONE: RR and SREJ)
