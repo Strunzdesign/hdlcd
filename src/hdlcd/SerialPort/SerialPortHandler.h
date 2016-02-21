@@ -48,7 +48,7 @@ public:
     
     // Suspend / resume serial port
     void SuspendSerialPort();
-    void ResumeSerialPortX();
+    void ResumeSerialPort();
     size_t GetLockHolders() const;
     void PropagateSerialPortState() const;
     

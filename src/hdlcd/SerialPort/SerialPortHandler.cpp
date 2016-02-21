@@ -54,7 +54,7 @@ void SerialPortHandler::SuspendSerialPort() {
     PropagateSerialPortState();
 }
 
-void SerialPortHandler::ResumeSerialPortX() {
+void SerialPortHandler::ResumeSerialPort() {
     if (m_Registered == false) {
         return;
     } // if
