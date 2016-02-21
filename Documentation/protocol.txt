@@ -172,7 +172,6 @@ Port status: set to "1" if the serial port has to be suspended, "1" to resume
 || 0x10   || 0 | 0 | 0 | 0 | Rsvd. | PSbO  | PSbS  | Port suspended ||
 ++--------++---+---+---+---+-------+-------+-------+----------------++
 Rsvd: the reserved bit is set to "0"
-PSbO: is set to "1" if the serial port is suspended by others
-PSbS: is set to "1" if the serial port is suspended by self
-Port suspended: is set to "1" if the serial port is suspended, "0" if up and running
-
+PSbO: is set to "1" if the serial port was suspended by others
+PSbS: is set to "1" if the serial port was suspended by self
+Port suspended: is set to "1" if the serial port is suspended, "0" if it is up and running
