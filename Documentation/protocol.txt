@@ -13,21 +13,36 @@ Session header format:
 | 1 Byte  | 1 Byte | 1 Byte                         | x Byte               |
 | Version | SAP    | Length of USB port description | USB port path string |
 +---------+--------+--------------------------------+----------------------+
-
 Version: 0x00 is currently the only supported version
-SAP: 0x00: Payload Raw RW                 RECV_CTRL   SEND_CTRL 
-     0x11: Port status, RX only           RECV_CTRL   SEND_CTRL 
-     0x12: Port status, TX only           RECV_CTRL   SEND_CTRL 
-     0x13: Port status, RX and TX         RECV_CTRL   SEND_CTRL 
-     0x21: Payload Raw RO, RX only        RECV_CTRL
-     0x22: Payload Raw RO, TX only        RECV_CTRL
-     0x23: Payload Raw RO, RX and TX      RECV_CTRL
-     0x31: HDLC Raw RO, RX only           RECV_CTRL
-     0x32: HDLC Raw RO, TX only           RECV_CTRL
-     0x33: HDLC Raw RO, RX and TX         RECV_CTRL
-     0x41: HDLC dissected RO, RX only     RECV_CTRL
-     0x42: HDLC dissected RO, TX only     RECV_CTRL
-     0x43: HDLC dissected RO, RX and TX   RECV_CTRL
+
+Service access point specifier:
+++----------------------------------------------------------------------++
+|| Service access point specifier (1 byte)                              ||
+++--------------+----------+----------+--------------+------------------++
+|| Bits 7...4   | Bit 3    | Bit 2    | Bit 1        | Bit 0            ||
+|| Type of data | Reserved | Invalids | Deliver sent | Deliver received ||
+++--------------+----------+----------+--------------+------------------++
+Type of data:
+0x0*: Payload,          data read and write,   port status read and write
+0x1*: Port status only, no data exchange,      port status read and write
+0x2*: Payload Raw,      data read only,        port status read only
+0x3*: HDLC Raw,         data read only,        port status read only
+0x4*: HDLC dissected,   data read only,        port status read only
+0x5*-0xF*: reserved for future use
+
+Reserved:
+Bit 3: must be set to "0"
+
+Invalids:
+Bit 2: set to "1" if invalid data should be delivered also
+
+Direction flags:
+Bit 1: Set to "1" to subscribe for sent data
+Bit 0: Set to "1" to subscribe for received data
+At least one of the bits 1 and 0 have to be set!
+
+
+
 
 Length: 0 up to 255 bytes are allowed. However, not all lengths make sense :-)
 USB path: file name of the USB port without NULL termination
@@ -35,7 +50,7 @@ USB path: file name of the USB port without NULL termination
 General error handling: on any error, the TCP socket is closed immediately without any notification!
 
 An exemplary session header to open /dev/ttyUSB0 for Payload read / write:
-00 00 0c 2f 64 65 76 2f 74 74 79 55 53 42 30
+00 01 0c 2f 64 65 76 2f 74 74 79 55 53 42 30
 
 An exemplary session header to open /dev/ttyUSB1 for RO dissected HDLC frames RX and TX
 00 43 0c 2f 64 65 76 2f 74 74 79 55 53 42 31
@@ -50,16 +65,28 @@ allowed / seen in each of the possible session types!
 Packets can be "control packets" or "data packets"
 
 Packet header format:
-++-----------------------------------------------++-------------------------
-|| 1 Byte Type                                   || 0...N subsequent bytes
-++------------+-----------+---------+------------++-------------------------
-|| Bits 7...4 | Bit 3     | Bit 2   | Bits 1...0 || 
-|| Type       | Direction | Invalid | Reserved   || Depends on type field
-++------------+-----------+---------+------------++-------------------------
+++-----------------------------------------------------------++--------------------------
+|| 1 Byte Type                                               || 0...N subsequent bytes
+++------------+----------+---------+----------+--------------++--------------------------
+|| Bits 7...4 | Bit 3    | Bit 2   | Bit 1    | Bit 0        ||
+|| Content    | Reserved | Invalid | Was sent | Was received || Depends on content field
+++------------+----------+---------+----------+--------------++--------------------------
+Content:
+0x0*: Data packet
+0x1*: Control packet
+0x2*-0xF*: reserved for future use  
 
-Type: 0x0* Data packet
-      0x10 Control packet
-      
+Reserved:
+Bit 3: must be set to "0"
+
+Invalid:
+Bit 2: is set to "1" if the packet is damaged, "0" if it is valid
+
+Was sent:
+Bit 1: is set to "1" if the packet was sent via HDLC, "0" if not (-> then it was received via HDLC)
+
+Was received:
+Bit 0: is set to "1" if the packet was received via HDLC, "0" if not (-> then it was sent via HDLC)
 
 
 
@@ -69,16 +96,17 @@ Data packet format:
 | 0x0*   | Payload size | Payload |
 +--------+--------------+---------+
 Data packets, if sent, must have:
-- The direction flag set to 0,
+- the reserved bit set to 0,
 - the invalid bit set to 0,
-- both reserved bits set to 0.
+- both direction flags set to 0.
 ==> Thus, the type byte _must_ be 0x00.
 
 Data packets, if received, have:
-- The direction flag set to 0, if the packet was received via HDLC (to the HDLC daemon),
-- the direction flag set to 1, if the packet was sent via HDLC (by the HDLC daemon),
-- the invalid bit set to 0 if the packet was ok, 1 of was damaged / invalid (may happen only if direction is 0),
-- both reserved bits set to 0.
+- the reserved bit set to 0,
+- the invalid bit set to 0 if the packet was ok, 1 of was damaged / invalid (may happen only if packet was received),
+- the "was sent"-flag packet set to 1 if the packet was sent via HDLC (by the HDLC daemon),
+- the "was received"-flag packet set to 1 if the packet was received via HDLC (to the HDLC daemon).
+- either the "was sent"-flag or the "was received"-flag is set, never both.
 ==> The lower nibble of the type byte must be evaluated.
 
 
@@ -88,9 +116,9 @@ Control packet format:
 | 0x10   | Command |
 +--------+---------+
 Control packets, either if received or sent, must have:
-- The direction flag set to 0,
+- the reserved bit set to 0,
 - the invalid bit set to 0,
-- both reserved bits set to 0.
+- both direction flags set to 0.
 ==> Thus, the type byte _must_ be 0x10.
 
       
