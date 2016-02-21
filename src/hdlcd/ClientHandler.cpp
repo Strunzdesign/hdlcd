@@ -55,7 +55,7 @@ void ClientHandler::DeliverBufferToClient(E_HDLCBUFFER a_eHDLCBuffer, E_DIRECTIO
 void ClientHandler::UpdateSerialPortState(size_t a_LockHolders) {
     if (m_SerialPortLockGuard.UpdateSerialPortState(a_LockHolders)) {
         // The state of the serial port state changed. Communicate the new state to the client.
-        if (m_eHDLCBuffer == HDLCBUFFER_COMMANDS) { // TODO
+        if (m_eHDLCBuffer == HDLCBUFFER_PORT_STATUS) { // TODO
             std::vector<unsigned char> l_DummyBuffer;
             l_DummyBuffer.emplace_back((unsigned char)m_SerialPortLockGuard.IsLocked());
             l_DummyBuffer.emplace_back((unsigned char)m_SerialPortLockGuard.IsLockedByOwn());
@@ -102,7 +102,7 @@ void ClientHandler::do_readSessionHeader1() {
                 m_eHDLCBuffer = HDLCBUFFER_PAYLOAD;
                 m_eDirection = DIRECTION_RCVD; // override
             } else if (l_SessionType == 0x10) {
-                m_eHDLCBuffer = HDLCBUFFER_COMMANDS;
+                m_eHDLCBuffer = HDLCBUFFER_PORT_STATUS;
             } else if (l_SessionType == 0x20) {
                 m_eHDLCBuffer = HDLCBUFFER_PAYLOAD;
             } else if (l_SessionType == 0x30) {
@@ -139,7 +139,7 @@ void ClientHandler::do_readSessionHeader2(unsigned char a_BytesUSB) {
             
             
             
-            if (m_eHDLCBuffer == HDLCBUFFER_COMMANDS) {
+            if (m_eHDLCBuffer == HDLCBUFFER_PORT_STATUS) {
                 m_SerialPortLockGuard.SuspendSerialPort(); // TODO: not a command message yet
             } // if
             
