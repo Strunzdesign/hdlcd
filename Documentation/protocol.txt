@@ -6,7 +6,8 @@ Description of the hdlcd access protocol
 
 General:
 ---
-All multi-byte fields are in network byte order.
+Byte order: all multi-byte fields are in network byte order.
+Error handling: on any error, the TCP socket is closed immediately without any notification!
 
 
 =====================
@@ -15,11 +16,24 @@ Session header
 The session header must and can only be sent once after initiation of the TCP socket.
 
 Session header format:
-+---------+--------+--------------------------------+----------------------+
-| 1 Byte  | 1 Byte | 1 Byte                         | x Byte               |
-| Version | SAP    | Length of USB port description | USB port path string |
-+---------+--------+--------------------------------+----------------------+
-Version: 0x00 is currently the only supported version
++---------+--------+------------------------------+--------------------+
+| 1 Byte  | 1 Byte | 1 Byte                       | x Byte             |
+| Version | SAP    | Length of serial port string | Serial port string |
++---------+--------+------------------------------+--------------------+
+Version:
+- 0x00 is currently the only supported version
+
+SAP:
+- Specifies the "service access point", i.e., which data to be exchanged
+
+Length of serial port string:
+- The length of the following device name, without any null termination.
+- 0 up to 255 bytes are allowed. However, not all lengths make sense :-)
+
+Serial port string:
+- The device name, without null termination.
+- Examples: \dev\ttyUSB0 or "\\.\COM1"
+
 
 Service access point specifier:
 ++------------------------------------------------------------------++
@@ -29,32 +43,29 @@ Service access point specifier:
 || Type of data | Reserved | Invalids | Deliver sent | Deliver rcvd ||
 ++--------------+----------+----------+--------------+--------------++
 Type of data:
-0x0*: Payload,          data read and write,   port status read and write
-0x1*: Port status only, no data exchange,      port status read and write
-0x2*: Payload Raw,      data read only,        port status read only
-0x3*: HDLC Raw,         data read only,        port status read only
-0x4*: HDLC dissected,   data read only,        port status read only
-0x5*-0xF*: reserved for future use
+- 0x0*: Payload,          data read and write,   port status read and write
+- 0x1*: Port status only, no data exchange,      port status read and write
+- 0x2*: Payload Raw,      data read only,        port status read only
+- 0x3*: HDLC Raw,         data read only,        port status read only
+- 0x4*: HDLC dissected,   data read only,        port status read only
+- 0x5*-0xF*: reserved for future use
 
 Reserved:
-Bit 3: must be set to "0"
+- Bit 3: must be set to "0"
 
 Invalids:
-Bit 2: set to "1" if invalid data should be delivered also
+- Bit 2: set to "1" if invalid data should be delivered also
 
 Direction flags:
-Bit 1: Set to "1" to subscribe for sent data
-Bit 0: Set to "1" to subscribe for received data
-At least one of the bits 1 and 0 have to be set!
+- Bit 1: Set to "1" to subscribe for sent data
+- Bit 0: Set to "1" to subscribe for received data
+- At least one of the bits 1 and 0 have to be set!
 
 
 
 
-Length: 0 up to 255 bytes are allowed. However, not all lengths make sense :-)
-USB path: file name of the USB port without NULL termination
-
-General error handling: on any error, the TCP socket is closed immediately without any notification!
-
+Examples:
+---
 An exemplary session header to open /dev/ttyUSB0 for Payload read / write:
 00 01 0c 2f 64 65 76 2f 74 74 79 55 53 42 30
 
@@ -82,21 +93,21 @@ Packet header format:
 || Content    | Reserved | Invalid | Was sent | Was received || Depends on content field
 ++------------+----------+---------+----------+--------------++--------------------------
 Content:
-0x0*: Data packet
-0x1*: Control packet
-0x2*-0xF*: reserved for future use  
+- 0x0*: Data packet
+- 0x1*: Control packet
+- 0x2*-0xF*: reserved for future use  
 
 Reserved:
-Bit 3: must be set to "0"
+- Bit 3: must be set to "0"
 
 Invalid:
-Bit 2: is set to "1" if the packet is damaged, "0" if it is valid
+- Bit 2: is set to "1" if the packet is damaged, "0" if it is valid
 
 Was sent:
-Bit 1: is set to "1" if the packet was sent via HDLC, "0" if not (-> then it was received via HDLC)
+- Bit 1: is set to "1" if the packet was sent via HDLC, "0" if not (-> then it was received via HDLC)
 
 Was received:
-Bit 0: is set to "1" if the packet was received via HDLC, "0" if not (-> then it was sent via HDLC)
+- Bit 0: is set to "1" if the packet was received via HDLC, "0" if not (-> then it was sent via HDLC)
 
 
 
@@ -138,11 +149,12 @@ Control packets, either if received or sent, must have:
 Control packet, list of command types:
 ---
 1.) Requests: are sent to the hdlcd
----
-0x0*: Set port status request. The lower nibble has to be set.
-0x10: Port kill request (immediate shutdown of all related TCP connections)
-0x20: Echo request
-0x3*-0xF*: reserved for future use
+- 0x0*: Set port status request. The lower nibble has to be set.
+- 0x10: Port kill request (immediate shutdown of all related TCP connections)
+- 0x20: Echo request
+- 0x3*-0xF*: reserved for future use
+
+
 
 0x0*: Set port status request:
 ---
@@ -158,10 +170,15 @@ Port status: set to "1" if the serial port has to be suspended, "1" to resume
 
 2.) Indications: are received by the hdlcd
 ---
-0x0*: Port status indication. The lower nibble has to be evaluated.
-0x10: Port killed indication (not really... the TCP socket dies)
-0x20: Echo indication
-0x4*-0xF*: reserved for future use
+- 0x0*: Port status indication. The lower nibble has to be evaluated.
+- 0x10: Port killed indication (not really... the TCP socket dies)
+- 0x20: Echo indication
+- 0x4*-0xF*: reserved for future use
+
+
+
+
+
 
 0x0*: Port status indication:
 ---
@@ -171,7 +188,7 @@ Port status: set to "1" if the serial port has to be suspended, "1" to resume
 || 8 Bits || Bits 7...4    | Bit 3 | Bit 2 | Bit 1 | Bit 0          ||
 || 0x10   || 0 | 0 | 0 | 0 | Rsvd. | PSbO  | PSbS  | Port suspended ||
 ++--------++---+---+---+---+-------+-------+-------+----------------++
-Rsvd: the reserved bit is set to "0"
-PSbO: is set to "1" if the serial port was suspended by others
-PSbS: is set to "1" if the serial port was suspended by self
-Port suspended: is set to "1" if the serial port is suspended, "0" if it is up and running
+- Rsvd: the reserved bit is set to "0"
+- PSbO: is set to "1" if the serial port was suspended by others
+- PSbS: is set to "1" if the serial port was suspended by self
+- Port suspended: is set to "1" if the serial port is suspended, "0" if it is up and running
