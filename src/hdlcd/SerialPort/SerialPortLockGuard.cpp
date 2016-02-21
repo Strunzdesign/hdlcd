@@ -25,12 +25,12 @@
 SerialPortLockGuard::SerialPortLockGuard() {
     m_bLockedByOwn = false;
     m_bLockedByForeign = false;
-    m_bSynchronousCall = false;
+    m_bLastLockedByOwn = false;
+    m_bLastLockedByForeign = false;
 }
 
 SerialPortLockGuard::~SerialPortLockGuard() {
     if (m_bLockedByOwn) {
-        m_bSynchronousCall = true;
          m_SerialPortHandler->ResumeSerialPort();
     } // if
 }
@@ -39,36 +39,39 @@ void SerialPortLockGuard::Init(std::shared_ptr<SerialPortHandler> a_SerialPortHa
     // Checks
     assert(m_bLockedByOwn == false);
     assert(m_bLockedByForeign == false);
-    assert(m_bSynchronousCall == false);
     m_SerialPortHandler = a_SerialPortHandler;
-    m_bLockedByForeign = m_SerialPortHandler->GetSerialPortState();
+    m_bLockedByForeign = (m_SerialPortHandler->GetLockHolders() != 0);
 }
 
 void SerialPortLockGuard::SuspendSerialPort() {
     if (!m_bLockedByOwn) {
         // Lock it now!
         m_bLockedByOwn = true;
-        m_bSynchronousCall = true;
         m_SerialPortHandler->SuspendSerialPort();
-        m_bSynchronousCall = false;
     } // if
 }
 
 void SerialPortLockGuard::ResumeSerialPort() {
     if (m_bLockedByOwn) {
         m_bLockedByOwn = false;
-        m_bSynchronousCall = true;
         m_SerialPortHandler->ResumeSerialPort();
-        m_bSynchronousCall = false;
     } // if
 }
 
-bool SerialPortLockGuard::UpdateSerialPortState(bool a_bSerialPortState) {
-    if (!m_bSynchronousCall) {
-        // This call is not caused by ourselves
-        m_bLockedByForeign = a_bSerialPortState;
-    } // if
-
-    // TODO: on change. Necessary?
-    return false;
+bool SerialPortLockGuard::UpdateSerialPortStateX(size_t a_LockHolders) {
+    // This call is caused by ourselves
+    if (m_bLockedByOwn) {
+        m_bLockedByForeign = (a_LockHolders > 1);
+    } else {
+        m_bLockedByForeign = (a_LockHolders > 0);
+    } // else
+    
+    if ((m_bLastLockedByOwn     != m_bLockedByOwn) ||
+        (m_bLastLockedByForeign != m_bLockedByForeign)) {
+        m_bLastLockedByOwn     = m_bLockedByOwn;
+        m_bLastLockedByForeign = m_bLockedByForeign;
+        return true;
+    } else {
+        return false;
+    } // else
 }

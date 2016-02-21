@@ -44,30 +44,32 @@ void SerialPortHandler::SuspendSerialPort() {
     if (m_SerialPortLock.SuspendSerialPort()) {
         // The serial port is now suspended!
         m_SerialPort.close();
-        PropagateSerialPortState();
         m_ProtocolState->Reset();
     } // if
+    
+    PropagateSerialPortState();
 }
 
 void SerialPortHandler::ResumeSerialPort() {
     if (m_SerialPortLock.ResumeSerialPort()) {
         // The serial port is now resumed!
         m_SerialPort.open(m_SerialPortName);
-        PropagateSerialPortState();
         do_read();
         m_ProtocolState->TriggerNextHDLCFrame();
     } // if
+    
+    PropagateSerialPortState();
 }
 
-bool SerialPortHandler::GetSerialPortState() const {
-    return (m_SerialPortLock.GetSerialPortState());
+size_t SerialPortHandler::GetLockHolders() const {
+    return (m_SerialPortLock.GetLockHolders());
 }
 
 void SerialPortHandler::PropagateSerialPortState() const {
-    bool l_bSerialPortState = GetSerialPortState();
+    auto l_LockHolders = m_SerialPortLock.GetLockHolders();
     for (auto it = m_ClientHandlerVector.begin(); it != m_ClientHandlerVector.end(); ++it) {
         if (auto l_ClientHandler = it->lock()) {
-            l_ClientHandler->UpdateSerialPortState(l_bSerialPortState);
+            l_ClientHandler->UpdateSerialPortState(l_LockHolders);
         } // if
         // TODO: REMOVE IF INVALID
     } // for

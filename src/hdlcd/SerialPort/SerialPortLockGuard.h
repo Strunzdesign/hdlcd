@@ -35,16 +35,20 @@ public:
     // Influende the serial port
     void SuspendSerialPort();
     void ResumeSerialPort();
-    bool UpdateSerialPortState(bool a_bSerialPortState);
+    bool UpdateSerialPortStateX(size_t a_LockHolders);
     
-    
+    // Check status
+    bool IsLocked() const { return (m_bLockedByOwn || m_bLockedByForeign); }
+    bool IsLockedByOwn() const { return m_bLockedByOwn; }
+    bool IsLockedByForeign() const { return m_bLockedByForeign; }
 
 private:
     // Members
     std::shared_ptr<SerialPortHandler> m_SerialPortHandler;
     bool m_bLockedByOwn;
     bool m_bLockedByForeign;
-    bool m_bSynchronousCall;
+    bool m_bLastLockedByOwn;
+    bool m_bLastLockedByForeign;
 };
 
 #endif // SERIAL_PORT_LOCK_GUARD_H

@@ -49,7 +49,7 @@ public:
     // Suspend / resume serial port
     void SuspendSerialPort();
     void ResumeSerialPort();
-    bool GetSerialPortState() const;
+    size_t GetLockHolders() const;
     void PropagateSerialPortState() const;
     
     // Do not use from external, only by the ProtocolState

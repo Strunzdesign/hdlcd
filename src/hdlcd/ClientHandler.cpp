@@ -52,14 +52,20 @@ void ClientHandler::DeliverBufferToClient(E_HDLCBUFFER a_eHDLCBuffer, E_DIRECTIO
     } // if
 }
 
-void ClientHandler::UpdateSerialPortState(bool a_bSerialPortState) {
-    if (m_SerialPortLockGuard.UpdateSerialPortState(a_bSerialPortState)) {
+void ClientHandler::UpdateSerialPortState(size_t a_LockHolders) {
+    if (m_SerialPortLockGuard.UpdateSerialPortStateX(a_LockHolders)) {
         // The state of the serial port state changed. Communicate the new state to the client.
-        if (m_eHDLCBuffer == HDLCBUFFER_COMMANDS) {
+        if (m_eHDLCBuffer == HDLCBUFFER_COMMANDS) { // TODO
             std::vector<unsigned char> l_DummyBuffer;
-            l_DummyBuffer.emplace_back((unsigned char)a_bSerialPortState);
+            l_DummyBuffer.emplace_back((unsigned char)m_SerialPortLockGuard.IsLocked());
+            l_DummyBuffer.emplace_back((unsigned char)m_SerialPortLockGuard.IsLockedByOwn());
+            l_DummyBuffer.emplace_back((unsigned char)m_SerialPortLockGuard.IsLockedByForeign());
             StreamFrame l_StreamFrame(l_DummyBuffer, 0);
             m_StreamFrameQueue.emplace_back(l_StreamFrame);
+            if (m_CurrentlySending == false) {
+                m_CurrentlySending = true;
+                do_write();
+            } // if
         } // if
     } // if
 }

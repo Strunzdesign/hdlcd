@@ -22,6 +22,8 @@
 #ifndef SERIAL_PORT_LOCK_H
 #define SERIAL_PORT_LOCK_H
 
+#include <cstddef>
+
 class SerialPortLock {
 public:
     // CTOR
@@ -31,10 +33,11 @@ public:
     bool SuspendSerialPort();
     bool ResumeSerialPort();
     bool GetSerialPortState() const;
+    size_t GetLockHolders() const { return m_NbrOfLocks; }
 
 private:
     // Members
-    unsigned int m_NbrOfLocks;
+    size_t m_NbrOfLocks;
 };
 
 #endif // SERIAL_PORT_LOCK_H

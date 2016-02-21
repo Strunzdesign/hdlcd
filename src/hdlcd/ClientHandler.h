@@ -42,7 +42,7 @@ public:
     ~ClientHandler();
 
     void DeliverBufferToClient(E_HDLCBUFFER a_eHDLCBuffer, E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_Payload, bool a_bValid);
-    void UpdateSerialPortState(bool a_bSerialPortState);
+    void UpdateSerialPortState(size_t a_LockHolders);
     
     void Start(std::shared_ptr<SerialPortHandlerCollection> a_SerialPortHandlerCollection);
     void Stop();
