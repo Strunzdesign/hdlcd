@@ -47,8 +47,8 @@ void SerialPortHandler::SuspendSerialPort() {
 
     if (m_SerialPortLock.SuspendSerialPort()) {
         // The serial port is now suspended!
+        m_ProtocolState->Stop();
         m_SerialPort.close();
-        m_ProtocolState->Reset();
     } // if
     
     PropagateSerialPortState();
@@ -98,17 +98,16 @@ void SerialPortHandler::DeliverBufferToClients(E_HDLCBUFFER a_eHDLCBuffer, E_DIR
 
 void SerialPortHandler::Start() {
     try {
-        m_ProtocolState = std::make_shared<ProtocolState>(shared_from_this(), m_IOService);
-        m_ProtocolState->Init();
-
         m_SerialPort.open(m_SerialPortName);
-        m_SerialPort.set_option(boost::asio::serial_port::baud_rate(115200));
         m_SerialPort.set_option(boost::asio::serial_port::parity(boost::asio::serial_port::parity::none));
         m_SerialPort.set_option(boost::asio::serial_port::character_size(boost::asio::serial_port::character_size(8)));
         m_SerialPort.set_option(boost::asio::serial_port::stop_bits(boost::asio::serial_port::stop_bits::one));
         m_SerialPort.set_option(boost::asio::serial_port::flow_control(boost::asio::serial_port::flow_control::none));
+        ChangeBaudRate();
         
         // Start processing
+        m_ProtocolState = std::make_shared<ProtocolState>(shared_from_this(), m_IOService);
+        m_ProtocolState->Start();
         do_read();
     } catch (boost::system::system_error& error) {
         std::cerr << error.what() << std::endl;
@@ -139,8 +138,14 @@ void SerialPortHandler::Stop() {
     } // if
 }
 
+void SerialPortHandler::ChangeBaudRate() {
+    if (m_Registered) {
+        m_SerialPort.set_option(boost::asio::serial_port::baud_rate(m_BaudRate.GetNextBaudRate()));
+    } // if
+}
+
 void SerialPortHandler::DeliverHDLCFrame(const std::vector<unsigned char> &a_Payload) {
-    // Copy buffer holding the excaped HDLC frame for transmission via the serial interface
+    // Copy buffer holding the escaped HDLC frame for transmission via the serial interface
     assert(m_SendBufferOffset == 0);
     assert(m_SerialPortLock.GetSerialPortState() == false);
     m_SendBuffer = std::move(a_Payload);

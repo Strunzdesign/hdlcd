@@ -3,8 +3,8 @@ This file gives some examples how to use the provided tools.
 1.) The HDLC daemon (HDLCd)
 ---
 Simply start the HDLC daemon (hdlcd / hdlcd.exe) and provide the TCP port number as its first parameter.
-The daemon does not require a configuration file and will run until either SIGINT ("CTRL-C") or SIGTERM are received.
-Currently the baud rate detection code is missing. The current setting is 115200 baud. To change, have a look at SerialPortHandler::Start().
+The daemon does not requires a configuration file and will run until either SIGINT ("CTRL-C") or SIGTERM are received.
+The baud rate of the attached device may be 9600 baud or 115200 baud and is auto detected.
 
 Example (GNU/Linux):
 

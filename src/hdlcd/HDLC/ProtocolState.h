@@ -33,8 +33,9 @@ class FrameParser;
 class ProtocolState: public std::enable_shared_from_this<ProtocolState> {
 public:
     ProtocolState(std::shared_ptr<SerialPortHandler> a_SerialPortHandler, boost::asio::io_service& a_IOService);
-    void Reset();
-    void Init();
+    
+    void Start();
+    void Stop();
     void Shutdown();
 
     void SendPayload(const std::vector<unsigned char> &a_Payload);
@@ -44,12 +45,15 @@ public:
 
 private:
     // Internal helpers
+    void Reset();
     void OpportunityForTransmission();
     Frame PrepareIFrame();
     Frame PrepareSFrameRR();
     Frame PrepareSFrameSREJ();
+    Frame PrepareUFrameTEST();
     
     // Members
+    bool m_bStarted;
     bool m_bAwaitsNextHDLCFrame;
     unsigned char m_SSeqOutgoing; // The sequence number we are going to use for the transmission of the next packet
     unsigned char m_RSeqOutgoing; // The start of the RX window offered by our peer, defines which packets it expects
@@ -71,9 +75,20 @@ private:
     typedef enum {
         HDLC_TYPE_UNKNOWN = 0,
         HDLC_TYPE_REDUCED = 1,
-        HDLC_TYPE_FULL    = 2,
-    } T_HDLC_TYPE;
-    T_HDLC_TYPE m_HDLCType;
+        HDLC_TYPE_FULL    = 2
+    } E_HDLC_TYPE;
+    E_HDLC_TYPE m_HDLCType;
+    
+    // State of the serial port
+    typedef enum {
+        PORT_STATE_BAUDRATE_UNKNOWN    = 0,
+        PORT_STATE_BAUDRATE_PROBE_SENT = 1,
+        PORT_STATE_BAUDRATE_FOUND      = 2
+    } E_PORT_STATE;
+    E_PORT_STATE m_PortState;
+    
+    // Timer
+    boost::asio::deadline_timer m_Timer;
 };
 
 #endif // HDLC_PROTOCOL_STATE_H

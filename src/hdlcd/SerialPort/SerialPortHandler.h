@@ -27,6 +27,7 @@
 #include <vector>
 #include <boost/asio.hpp>
 #include "SerialPortLock.h"
+#include "BaudRate.h"
 #include "../HDLC/HDLCBuffer.h"
 #include "../../shared/Direction.h"
 class SerialPortHandlerCollection;
@@ -45,6 +46,7 @@ public:
     
     void Start();
     void Stop();
+    void ChangeBaudRate();
     
     // Suspend / resume serial port
     void SuspendSerialPort();
@@ -74,6 +76,7 @@ private:
     std::vector<unsigned char> m_SendBuffer;
     size_t m_SendBufferOffset;
     SerialPortLock m_SerialPortLock;
+    BaudRate m_BaudRate;
 };
 
 #endif // SERIAL_PORT_HANDLER_H
