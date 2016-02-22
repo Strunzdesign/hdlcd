@@ -25,6 +25,12 @@
 #include "ClientAcceptor.h"
 
 int main(int argc, char **argv) {
+    std::cerr << "HDLC daemon\n";
+    if (argc != 2) {
+        std::cerr << "Usage: hdlcd <port>\n";
+        return 1;
+    } // if
+        
     boost::asio::io_service io_service;
     boost::asio::signal_set signals_(io_service);
     signals_.add(SIGINT);
@@ -32,7 +38,7 @@ int main(int argc, char **argv) {
     signals_.async_wait([&io_service](boost::system::error_code errorCode, int signalNumber){io_service.stop();});
     
     auto l_SerialPortHandlerCollection = std::make_shared<SerialPortHandlerCollection>(io_service);
-    ClientAcceptor l_ClientAcceptor(io_service, 10000, l_SerialPortHandlerCollection);
+    ClientAcceptor l_ClientAcceptor(io_service, atoi(argv[1]), l_SerialPortHandlerCollection);
     io_service.run(); 
     return 0;
 }
