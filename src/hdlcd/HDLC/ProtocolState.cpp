@@ -123,15 +123,9 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
     } // if
     
     if ((m_PortState == PORT_STATE_BAUDRATE_UNKNOWN) || (m_PortState == PORT_STATE_BAUDRATE_PROBE_SENT)) {
-        // Ongoing baud rate detection
-        if (a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_U_TEST) {
-            // Found the correct baud rate
-            m_PortState = PORT_STATE_BAUDRATE_FOUND;
-            m_Timer.cancel();
-        } else {
-            // Nothing to do until the correct baud rate was determined
-            return;
-        } // else
+        // Found the correct baud rate
+        m_PortState = PORT_STATE_BAUDRATE_FOUND;
+        m_Timer.cancel();
     } // if
     
     // Go ahead interpreting the frame we received
