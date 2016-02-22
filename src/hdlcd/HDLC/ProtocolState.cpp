@@ -61,14 +61,18 @@ void ProtocolState::Start() {
 }
 
 void ProtocolState::Stop() {
-    // Stop the state machine
-    Reset();
+    if (m_bStarted) {
+        // Stop the state machine
+        Reset();
+    } // if
 }
 
 void ProtocolState::Shutdown() {
-    Reset();
-    m_SerialPortHandler.reset();
-    m_FrameParser.reset();
+    if (m_bStarted) {
+        Reset();
+        m_SerialPortHandler.reset();
+        m_FrameParser.reset();
+    } // if
 }
 
 void ProtocolState::SendPayload(const std::vector<unsigned char> &a_Payload) {

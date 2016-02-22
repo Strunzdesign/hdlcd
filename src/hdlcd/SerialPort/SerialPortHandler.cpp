@@ -97,6 +97,7 @@ void SerialPortHandler::DeliverBufferToClients(E_HDLCBUFFER a_eHDLCBuffer, E_DIR
 }
 
 void SerialPortHandler::Start() {
+    m_ProtocolState = std::make_shared<ProtocolState>(shared_from_this(), m_IOService);
     try {
         m_SerialPort.open(m_SerialPortName);
         m_SerialPort.set_option(boost::asio::serial_port::parity(boost::asio::serial_port::parity::none));
@@ -106,7 +107,6 @@ void SerialPortHandler::Start() {
         ChangeBaudRate();
         
         // Start processing
-        m_ProtocolState = std::make_shared<ProtocolState>(shared_from_this(), m_IOService);
         m_ProtocolState->Start();
         do_read();
     } catch (boost::system::system_error& error) {
