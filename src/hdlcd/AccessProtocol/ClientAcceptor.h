@@ -24,7 +24,7 @@
 
 #include <boost/asio.hpp>
 #include "ClientHandler.h"
-#include "SerialPort/SerialPortHandlerCollection.h"
+#include "../SerialPort/SerialPortHandlerCollection.h"
 using boost::asio::ip::tcp;
 
 class ClientAcceptor {

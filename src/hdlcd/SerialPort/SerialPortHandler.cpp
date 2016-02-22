@@ -21,7 +21,7 @@
 
 #include "SerialPortHandler.h"
 #include "SerialPortHandlerCollection.h"
-#include "../ClientHandler.h"
+#include "../AccessProtocol/ClientHandler.h"
 #include "../HDLC/ProtocolState.h"
 #include <boost/system/system_error.hpp>
 

@@ -22,7 +22,7 @@
 #include <iostream>
 #include <boost/asio.hpp>
 #include "SerialPort/SerialPortHandlerCollection.h"
-#include "ClientAcceptor.h"
+#include "AccessProtocol/ClientAcceptor.h"
 
 int main(int argc, char **argv) {
     std::cerr << "HDLC daemon\n";

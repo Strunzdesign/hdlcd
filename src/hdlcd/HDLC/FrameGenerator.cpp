@@ -21,7 +21,7 @@
 
 #include "FrameGenerator.h"
 #include <assert.h>
-#include "../FCS16.h"
+#include "FCS16.h"
 
 const std::vector<unsigned char> FrameGenerator::SerializeFrame(const Frame& a_Frame) {
     unsigned char l_ControlField = 0;

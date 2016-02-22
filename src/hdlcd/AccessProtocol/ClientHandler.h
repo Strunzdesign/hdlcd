@@ -28,9 +28,9 @@
 #include <deque>
 #include <vector>
 #include <boost/asio.hpp>
-#include "SerialPort/SerialPortLockGuard.h"
-#include "HDLC/HDLCBuffer.h"
-#include "../shared/Direction.h"
+#include "../SerialPort/SerialPortLockGuard.h"
+#include "../HDLC/HDLCBuffer.h"
+#include "../../shared/Direction.h"
 class SerialPortHandler;
 class SerialPortHandlerCollection;
 class StreamFrame;

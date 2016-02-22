@@ -21,7 +21,7 @@
 
 #include "FrameParser.h"
 #include "ProtocolState.h"
-#include "../FCS16.h"
+#include "FCS16.h"
 
 FrameParser::FrameParser(std::shared_ptr<ProtocolState> a_ProtocolState) {
     m_ProtocolState = a_ProtocolState;

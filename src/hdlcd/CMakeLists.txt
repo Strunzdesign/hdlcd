@@ -8,12 +8,12 @@ find_package(Threads)
 
 add_executable(hdlcd
 main.cpp
-ClientHandler.cpp
+AccessProtocol/ClientHandler.cpp
 SerialPort/SerialPortLock.cpp
 SerialPort/SerialPortLockGuard.cpp
 SerialPort/SerialPortHandler.cpp
 SerialPort/SerialPortHandlerCollection.cpp
-FCS16.cpp
+HDLC/FCS16.cpp
 HDLC/Frame.cpp
 HDLC/FrameGenerator.cpp
 HDLC/FrameParser.cpp
