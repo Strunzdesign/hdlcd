@@ -34,7 +34,7 @@ Issues to be resolved after the first release:
 
 
 // DONE
-- Implement baud rate detection by probing with TEST frames
+- Implement baud rate detection by probing with TEST frames (DONE)
 - Complete specification of the TCP-based access protocol (DONE)
 - Tests on recent versions of MS Windows (DONE)
 - Fix HDLC send logic, the current send queue implementation is invalid and causes data loss (DONE)
