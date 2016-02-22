@@ -1,0 +1,36 @@
+This file gives some examples how to use the provided tools.
+
+1.) The HDLC daemon (HDLCd)
+---
+Simply start the HDLC daemon (hdlcd / hdlcd.exe) and provide the TCP port number as its first parameter.
+The daemon does not require a configuration file and will run until either SIGINT ("CTRL-C") or SIGTERM are received.
+
+Example (GNU/Linux):
+
+cd build/src/hdlcd
+./hdlcd 10000
+
+Example (Microsoft Windows):
+
+cd build\src\hdlcd
+hdlcd.exe 10000
+
+
+2.) The collection of tools to be used together with the HDLCd:
+---
+Most of these tools require three arguments
+- the IP address of the host with the HDLCd entity running,
+- the TCP port number of the respective HDLCd entity,
+- a device string that indicated which serial port has to be opened.
+
+Example (GNU/Linux):
+
+cd build/src/tools/hdlc-dissector
+./hdlc-dissector 127.0.0.1 10000 /dev/ttyUSB0
+
+Example (Microsoft Windows):
+
+cd build\src\tools\hdlc-dissector
+hdlc-dissector.exe 127.0.0.1 10000 "\\.\COM1"
+
+
