@@ -13,10 +13,9 @@ Issues to be resolved before a first release:
 - Add command line switches and online help ("-h --help") to hdlcd
 - Logic to suspend / resume serial interfaces via control packets (logic: DONE, via TCP: TODO)
 - Rudimentary HDLC protocol is sufficient for the s-net(r) sensor nodes by Fraunhofer IIS
-- More tools: pcap-streamer for multiple session types to analyze traffic via wireshark using named pipes (STARTED)
 - Better buffer handling to get rid of all remaining memmove and memcpy statements (STARTED)
 - Doxygen
-- Periodically test idle HDLC links via U-TEST packet; check if the baud rate is still correct, start detection procedure again.
+- Periodically test idle HDLC links via U-TEST packet; check if the baud rate is still correct, or start another detection procedure.
 - Communicate the HDLC state (initial and on any change; whether "connected") via control packets
 - Communicate the baud rate (initial and on any change) via control packets
 
@@ -30,6 +29,7 @@ Issues to be resolved after the first release:
 - New session type to obtain status information regarding a specific serial interface
 - New session type for remote logging
 - Authentication, maybe?
+- More tools: pcap-streamer for multiple session types to analyze traffic via wireshark using named pipes (STARTED)
 
 
 
