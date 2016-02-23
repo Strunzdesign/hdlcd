@@ -113,7 +113,7 @@ Was received:
 
 Data packet format:
 +--------+--------------+---------+
-| 1 Byte | 2 Byte       | x Byte  |
+| 1 Byte | 2 Bytes      | N Bytes |
 | 0x0*   | Payload size | Payload |
 +--------+--------------+---------+
 Data packets, if sent, must have:
@@ -150,31 +150,30 @@ Control packet, list of command types:
 ---
 1.) Requests: are sent by a client to the hdlcd
 - 0x0*: Set port status request. The lower nibble has to be set.
-- 0x10: Port kill request (immediate shutdown of all related TCP connections)
-- 0x20: Echo request
-- 0x30: Keep alive packet. Are dropped by the hdlcd. These can be sent periodically to detect stale TCP connections.
+- 0x10: Echo request
+- 0x20: Keep alive packet. Are dropped by the hdlcd. These should be sent periodically to detect stale TCP connections.
+- 0x30: Port kill request (immediate shutdown serial port handler and terminate all all related TCP connections)
 - 0x4*-0xF*: reserved for future use
 
 
 
 0x0*: Set port status request:
 ---
-++--------++-----------------------------------------------------++
-|| 1 Byte || 1 Byte                                              ||
-++--------++---------------+-------+-------+-------+-------------++
-|| 8 Bits || Bits 7...4    | Bit 3 | Bit 2 | Bit 1 | Bit 0       ||
-|| 0x10   || 0 | 0 | 0 | 0 | Rsvd. | Rsvd. | Rsvd. | Port status ||
-++--------++---+---+---+---+-------+-------+-------+-------------++
-Rsvd: all reserved bits have to be set to "0"
-Port status: set to "1" if the serial port has to be suspended, "0" to resume
+++--------++-----------------------------------------------++
+|| 1 Byte || 1 Byte: control -> set port status request    ||
+++--------++---------------+-------+-------+-------+-------++
+|| 8 Bits || Bits 7...4    | Bit 3 | Bit 2 | Bit 1 | Bit 0 ||
+|| 0x10   || 0 | 0 | 0 | 0 | Rsvd. | Rsvd. | Rsvd. | Lock  ||
+++--------++---+---+---+---+-------+-------+-------+-------++
+Rsvd flags: all reserved bits have to be set to "0"
+Lock flag: set to "1" if the serial port has to be suspended and locked; "0" to release the lock, the serial port /may/ resume.
 
 
 2.) Indications / confirmations: are sent by the hdlcd to a client
 ---
 - 0x0*: Port status indication. The lower nibble has to be evaluated.
-- 0x10: Port killed indication (not really... the TCP socket dies)
-- 0x20: Echo confirmation (a reply to an echo request)
-- 0x30: Keep alive packet. Just drop them. These are sent periodically to detect stale TCP connections.
+- 0x10: Echo confirmation (a reply to an echo request)
+- 0x20: Keep alive packet. Just drop them. These are sent periodically to detect stale TCP connections.
 - 0x4*-0xF*: reserved for future use
 
 
@@ -184,13 +183,14 @@ Port status: set to "1" if the serial port has to be suspended, "0" to resume
 
 0x0*: Port status indication:
 ---
-++--------++--------------------------------------------------------++
-|| 1 Byte || 1 Byte                                                 ||
-++--------++---------------+-------+-------+-------+----------------++
-|| 8 Bits || Bits 7...4    | Bit 3 | Bit 2 | Bit 1 | Bit 0          ||
-|| 0x10   || 0 | 0 | 0 | 0 | Rsvd. | PSbO  | PSbS  | Port suspended ||
-++--------++---+---+---+---+-------+-------+-------+----------------++
-- Rsvd: the reserved bit is set to "0"
-- PSbO: is set to "1" if the serial port was suspended by others
-- PSbS: is set to "1" if the serial port was suspended by self
-- Port suspended: is set to "1" if the serial port is suspended, "0" if it is up and running
+++--------++-----------------------------------------------++
+|| 1 Byte || 1 Byte: control -> port status indication     ||
+++--------++---------------+-------+-------+-------+-------++
+|| 8 Bits || Bits 7...4    | Bit 3 | Bit 2 | Bit 1 | Bit 0 ||
+|| 0x10   || 0 | 0 | 0 | 0 | Alive | FlowC | PSbO  | PSbS  ||
+++--------++---+---+---+---+-------+-------+-------+-------++
+- Alive flag: is set to "1" if the HDLC association is alive (baud rate, session up, echos ok), "0" if not
+- FlowC flag: is set to "1" if the data flow is suspended, "0" if data packets are delivered
+- PSbO flag: is set to "1" if the serial port is currently locked by others.
+- PSbS flag: is set to "1" if the serial port is currently locked by self.
+

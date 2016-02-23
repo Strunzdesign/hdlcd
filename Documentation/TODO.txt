@@ -16,7 +16,7 @@ Issues to be resolved before a first release:
 - Better buffer handling to get rid of all remaining memmove and memcpy statements (STARTED)
 - Doxygen
 - Periodically test idle HDLC links via U-TEST packet; check if the baud rate is still correct, or start another detection procedure.
-- Communicate the HDLC state (initial and on any change; whether "connected") via control packets
+- Communicate the HDLC state (initial and on any change; whether "connected") via control packets (Spec: DONE, Code: TODO)
 - Communicate the baud rate (initial and on any change) via control packets
 
 
