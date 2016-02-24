@@ -59,17 +59,41 @@ Invalids:
 Direction flags:
 - Bit 1: Set to "1" to subscribe for sent data
 - Bit 0: Set to "1" to subscribe for received data
-- At least one of the bits 1 and 0 have to be set!
+- If the direction flag makes sense, at least one of the bits 1 and 0 have to be set!
+
+
+
+Description of the two most important session types:
+- 0x0*: Payload:
+--> - this one is used for any client dedicated to data exchange, e.g., gateways.
+    - Can also suspend / resume serial ports.
+    - Notifications regarding basic flow control (whether TCP-stream is open or stalled)
+    - Easy to implement, but control packets may be stuck within the sended multiplex if the hdlcd stalled the transmission!
+
+- 0x1*: Port status only: 
+--> - this one /should/ used by any client dedicated to data exchange, e.g., gateways.
+    - have a dedicated low-latency (no preceeding data packets) path for control packets to suspend / resume serial ports
+    
+==> best practice of implementing a gateway is to use two TCP-based access sockets per serial port:
+    - one solely for data transmission and reception while ignoring all intertwined control packets, and
+    - a second dedicated solely to control packets, providing a low-latency non-blocking control path.
+
+The reference implementation provided in this toolbox internally provides exactly this, but this is not visible to
+the user if the interface.
 
 
 
 
-Examples:
+
+Examplemplary session headers
 ---
-An exemplary session header to open /dev/ttyUSB0 for Payload read / write:
+An exemplary session header to open /dev/ttyUSB0 for Payload RX/TX. Only received data is delivered (gateway mode)
 00 01 0c 2f 64 65 76 2f 74 74 79 55 53 42 30
 
-An exemplary session header to open /dev/ttyUSB1 for RO dissected HDLC frames RX and TX
+An exemplary session header to open /dev/ttyUSB0 for the control path. Both direction flags are unset.
+00 10 0c 2f 64 65 76 2f 74 74 79 55 53 42 30
+
+More interesting stuff: an exemplary session header to open /dev/ttyUSB1 for RO dissected HDLC frames RX and TX
 00 43 0c 2f 64 65 76 2f 74 74 79 55 53 42 31
 
 
@@ -86,28 +110,30 @@ Packets
 Packets can be "control packets" or "data packets"
 
 Packet header format:
-++-----------------------------------------------------------++--------------------------
-|| 1 Byte Type                                               || 0...N subsequent bytes
-++------------+----------+---------+----------+--------------++--------------------------
-|| Bits 7...4 | Bit 3    | Bit 2   | Bit 1    | Bit 0        ||
-|| Content    | Reserved | Invalid | Was sent | Was received || Depends on content field
-++------------+----------+---------+----------+--------------++--------------------------
+++--------------------------------------------------------++--------------------------
+|| 1 Byte Type                                            || 0...N subsequent bytes
+++------------+----------+----------+----------+----------++--------------------------
+|| Bits 7...4 | Bit 3    | Bit 2    | Bit 1    | Bit 0    ||
+|| Content    | Reserved | Reliable | Invalid  | Was sent || Depends on content field
+++------------+----------+----------+----------+----------++--------------------------
 Content:
 - 0x0*: Data packet
 - 0x1*: Control packet
 - 0x2*-0xF*: reserved for future use  
 
 Reserved:
-- Bit 3: must be set to "0"
+- Bit 3: will be "0" and must be set to "0"
 
-Invalid:
-- Bit 2: is set to "1" if the packet is damaged, "0" if it is valid
+Reliable flag:
+- Bit 2: is set to "1" if the packet was / has to be transmitted reliably by the hdlcd via HDLC
+
+Invalid flag:
+- Bit 1: is set to "1" if the packet is damaged, "0" if it is valid. Must be "0" on transmission.
 
 Was sent:
-- Bit 1: is set to "1" if the packet was sent via HDLC, "0" if not (-> then it was received via HDLC)
+- Bit 0: is set to "1" if the packet was sent via HDLC, "0" if not (-> then it was received via HDLC)
 
-Was received:
-- Bit 0: is set to "1" if the packet was received via HDLC, "0" if not (-> then it was sent via HDLC)
+
 
 
 
@@ -116,19 +142,19 @@ Data packet format:
 | 1 Byte | 2 Bytes      | N Bytes |
 | 0x0*   | Payload size | Payload |
 +--------+--------------+---------+
-Data packets, if sent, must have:
-- the reserved bit set to 0,
-- the invalid bit set to 0,
-- both direction flags set to 0.
-==> Thus, the type byte _must_ be 0x00.
+Data packets, if transmitted via TCP to be sent via HDLC, must have:
+- the "reserved" bit set to "0",
+- the "reliable" flag set to "0" or "1" to demand for U-Frames (unreliable) or I-Frames (reliable), repectively,
+- the "invalid" flag set to "0",
+- the "was sent" flags set to "0".
+==> Thus, the type byte _must_ be 0x00 or 0x04.
 
 Data packets, if received, have:
-- the reserved bit set to 0,
-- the invalid bit set to 0 if the packet was ok, 1 of was damaged / invalid (may happen only if packet was received),
-- the "was sent"-flag packet set to 1 if the packet was sent via HDLC (by the HDLC daemon),
-- the "was received"-flag packet set to 1 if the packet was received via HDLC (to the HDLC daemon).
-- either the "was sent"-flag or the "was received"-flag is set, never both.
-==> The lower nibble of the type byte must be evaluated.
+- the "reserved" bit set to "0",
+- the "reliable" flag indicates whether the packet was received via "0": U-Frames (unreliable) or "1": I-Frames (reliable),
+- the "invalid" flag set to "0" if the packet was ok, "1" if iw was damaged / invalid (CRC error or junk),
+- the "was sent"-flag packet set to "1" if the packet was sent via HDLC (by the HDLC daemon), "0" if it was received via HDLC,
+==> The lower nibble of the type byte must be evaluated!
 
 
 Control packet format:
@@ -139,14 +165,15 @@ Control packet format:
 || 0x10   || Command type | Depend on Command ||
 ++--------++--------------+-------------------++
 Control packets, either if received or sent, must have:
-- the reserved bit set to 0,
-- the invalid bit set to 0,
-- both direction flags set to 0.
-==> Thus, the type byte _must_ be 0x10.
+- the "reserved" bit set to "0",
+- the "reliable" flag set to "0",
+- the "invalid" bit set to "0",
+- the "was sent" flag set to "0".
+==> Thus, the type byte _must_ be and will be always 0x10.
 
       
       
-Control packet, list of command types:
+Control packet, list of command types (lower nibble):
 ---
 1.) Requests: are sent by a client to the hdlcd
 - 0x0*: Set port status request. The lower nibble has to be set.
