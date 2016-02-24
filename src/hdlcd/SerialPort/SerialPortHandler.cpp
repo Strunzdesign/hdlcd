@@ -62,8 +62,8 @@ void SerialPortHandler::ResumeSerialPort() {
     if (m_SerialPortLock.ResumeSerialPort()) {
         // The serial port is now resumed!
         m_SerialPort.open(m_SerialPortName);
+        m_ProtocolState->Start();
         do_read();
-        m_ProtocolState->TriggerNextHDLCFrame();
     } // if
     
     PropagateSerialPortState();
