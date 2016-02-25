@@ -1,6 +1,6 @@
 Description of the hdlcd access protocol
 
-1.) Connect a TCP socket to the listener port of the hdlcd (currently 10000)
+1.) Connect a TCP socket to the specified listener port of the hdlcd
 2.) Send a session header describing the type of data exchange
 3.) Send and receive encapsulated packets as well as control packets describing the state of the hdlc protocol
 
@@ -13,7 +13,7 @@ Error handling: on any error, the TCP socket is closed immediately without any n
 =====================
 Session header
 =====================
-The session header must and can only be sent once after initiation of the TCP socket.
+The session header must and can only be sent once after initiation of the TCP socket. It must be sent by the client.
 
 Session header format:
 +---------+--------+------------------------------+--------------------+
@@ -54,7 +54,7 @@ Reserved:
 - Bit 3: must be set to "0"
 
 Invalids:
-- Bit 2: set to "1" if invalid data should be delivered also
+- Bit 2: set to "1" if invalid data should be delivered, "0" if not
 
 Direction flags:
 - Bit 1: Set to "1" to subscribe for sent data
@@ -64,13 +64,13 @@ Direction flags:
 
 
 Description of the two most important session types:
-- 0x0*: Payload:
+- 0x01: Payload:
 --> - this one is used for any client dedicated to data exchange, e.g., gateways.
     - Can also suspend / resume serial ports.
     - Notifications regarding basic flow control (whether TCP-stream is open or stalled)
-    - Easy to implement, but control packets may be stuck within the sended multiplex if the hdlcd stalled the transmission!
+    - Easy to implement, but control packets may be stuck within the sended multiplex if the HDLCd stalled the transmission!
 
-- 0x1*: Port status only: 
+- 0x10: Port status only: 
 --> - this one /should/ used by any client dedicated to data exchange, e.g., gateways.
     - have a dedicated low-latency (no preceeding data packets) path for control packets to suspend / resume serial ports
     
@@ -78,14 +78,14 @@ Description of the two most important session types:
     - one solely for data transmission and reception while ignoring all intertwined control packets, and
     - a second dedicated solely to control packets, providing a low-latency non-blocking control path.
 
-The reference implementation provided in this toolbox internally provides exactly this, but this is not visible to
-the user if the interface.
+The reference implementation within this toolbox internally provides exactly this, but this is not visible to
+the user of the provided interface.
 
 
 
 
 
-Examplemplary session headers
+Exemplary session headers:
 ---
 An exemplary session header to open /dev/ttyUSB0 for Payload RX/TX. Only received data is delivered (gateway mode)
 00 01 0c 2f 64 65 76 2f 74 74 79 55 53 42 30
@@ -98,9 +98,10 @@ More interesting stuff: an exemplary session header to open /dev/ttyUSB1 for RO 
 
 
 
-After the session header was transmitted, the TCP socket is used for exchange of packets.
+After the session header was transmitted, the TCP socket is solely used for exchange of packets.
 The kind of exchanged packets depends on the provided session header: not all packets are
 allowed / seen in each of the possible session types!
+Before closing a TCP socket, one should assure to call perform a shutdown procedure for correct teardown.
 
 
 ======================
@@ -147,7 +148,7 @@ Data packets, if transmitted via TCP to be sent via HDLC, must have:
 - the "reliable" flag set to "0" or "1" to demand for U-Frames (unreliable) or I-Frames (reliable), repectively,
 - the "invalid" flag set to "0",
 - the "was sent" flags set to "0".
-==> Thus, the type byte _must_ be 0x00 or 0x04.
+==> Thus, the type byte must be either 0x00 or 0x04.
 
 Data packets, if received, have:
 - the "reserved" bit set to "0",
@@ -173,12 +174,12 @@ Control packets, either if received or sent, must have:
 
       
       
-Control packet, list of command types (lower nibble):
+Control packet, list of command types (upper nibble):
 ---
 1.) Requests: are sent by a client to the hdlcd
-- 0x0*: Set port status request. The lower nibble has to be set.
-- 0x10: Echo request
-- 0x20: Keep alive packet. Are dropped by the hdlcd. These should be sent periodically to detect stale TCP connections.
+- 0x0*: Set port status request. The lower nibble has to be set accordingly.
+- 0x10: Echo request without payload.
+- 0x20: Keep alive packet. These are dropped by the HDLCd. These should be sent periodically to detect stale TCP connections.
 - 0x30: Port kill request (immediate shutdown serial port handler and terminate all all related TCP connections)
 - 0x4*-0xF*: reserved for future use
 
