@@ -27,7 +27,6 @@
 #include <boost/asio.hpp>
 #include "../shared/StreamFrame.h"
 #include "../shared/IBufferSink.h"
-#include <iomanip> 
 
 using boost::asio::ip::tcp;
 
@@ -40,6 +39,8 @@ public:
         m_ComPortString(a_ComPortString),
         m_pBufferSink(a_pBufferSink),
         m_SAP(a_SAP) {
+        m_SEPState = SEPSTATE_DISCONNECTED;
+        m_bShutdown = false;
         do_connect(a_EndpointIterator);
     }
     
@@ -48,11 +49,19 @@ public:
     }
 
     void write(const StreamFrame& a_StreamFrame) {
+        if (m_SEPState == SEPSTATE_SHUTDOWN) {
+            return;
+        }
+
         bool write_in_progress = !m_StreamFrameQueue.empty();
         m_StreamFrameQueue.emplace_back(std::move(a_StreamFrame));
-        if (!write_in_progress) {
+        if ((!write_in_progress) && (m_SEPState == SEPSTATE_CONNECTED)) {
             do_write();
         }
+    }
+    
+    void Shutdown() {
+        m_bShutdown = true;
     }
 
     void close() {
@@ -68,6 +77,7 @@ private:
                                    [this](boost::system::error_code ec, tcp::resolver::iterator) {
             if (!ec) {
                 do_writeSessionHeader();
+                m_SEPState = SEPSTATE_CONNECTED;
                 do_read_header();
             } else {
                 std::cerr << "TCP connect failed!" << std::endl;
@@ -131,7 +141,11 @@ private:
                 m_StreamFrameQueue.pop_front();
                 if (!m_StreamFrameQueue.empty()) {
                     do_write();
-                }
+                } else if (m_bShutdown) {
+                    m_SEPState = SEPSTATE_SHUTDOWN;
+                    m_Socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both);
+                    close();
+                } // else if
             } else {
                 std::cerr << "TCP write error!" << std::endl;
                 close();
@@ -148,6 +162,15 @@ private:
     tcp::socket m_Socket;
     StreamFrame m_StreamFrame;
     StreamFrameQueue m_StreamFrameQueue;
+    
+    // State
+    typedef enum {
+        SEPSTATE_DISCONNECTED = 0,
+        SEPSTATE_CONNECTED    = 1,
+        SEPSTATE_SHUTDOWN     = 2
+    } E_SEPSTATE;
+    E_SEPSTATE m_SEPState;
+    bool m_bShutdown;
 };
 
 #endif // STREAM_ENDPOINT_H

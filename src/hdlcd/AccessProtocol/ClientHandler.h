@@ -31,9 +31,9 @@
 #include "../SerialPort/SerialPortLockGuard.h"
 #include "../HDLC/HDLCBuffer.h"
 #include "../../shared/Direction.h"
+#include "../../shared/StreamFrame.h"
 class SerialPortHandler;
 class SerialPortHandlerCollection;
-class StreamFrame;
 using boost::asio::ip::tcp;
 
 class ClientHandler: public std::enable_shared_from_this<ClientHandler> {
@@ -51,7 +51,8 @@ private:
     // Helpers
     void do_readSessionHeader1();
     void do_readSessionHeader2(unsigned char a_BytesUSB);
-    void do_read();
+    void do_read_header();
+    void do_read_body();
     void do_write();
 
     // Members
@@ -62,6 +63,8 @@ private:
     std::shared_ptr<SerialPortHandler> m_SerialPortHandler;
     enum { max_length = 1024 };
     char data_[max_length];
+    
+    StreamFrame m_StreamFrame;
     
     SerialPortLockGuard m_SerialPortLockGuard;
     std::deque<StreamFrame> m_StreamFrameQueue;

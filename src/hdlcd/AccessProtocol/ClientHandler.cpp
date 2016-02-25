@@ -23,7 +23,6 @@
 #include <iomanip>
 #include "../SerialPort/SerialPortHandlerCollection.h"
 #include "../SerialPort/SerialPortHandler.h"
-#include "../../shared/StreamFrame.h"
 
 ClientHandler::ClientHandler(boost::asio::ip::tcp::socket a_TCPSocket): m_TCPSocket(std::move(a_TCPSocket)) {
     m_Registered = true;
@@ -80,14 +79,13 @@ void ClientHandler::Stop() {
         m_Registered = false;
         m_SerialPortHandler.reset();
         std::cerr << "TCP CLOSE" << std::endl;
-        //m_TCPSocket.shutdown(m_TCPSocket.shutdown_both);
         m_TCPSocket.close();
     } // if
 }
 
 void ClientHandler::do_readSessionHeader1() {
     auto self(shared_from_this());
-    m_TCPSocket.async_read_some(boost::asio::buffer(data_, 3),[this, self](boost::system::error_code ec, std::size_t length) {
+    boost::asio::async_read(m_TCPSocket, boost::asio::buffer(data_, 3),[this, self](boost::system::error_code ec, std::size_t length) {
         if (!ec) {
             if ((data_[1] & 0x0F) == 0x01) {
                 m_eDirection = DIRECTION_RCVD;
@@ -96,7 +94,7 @@ void ClientHandler::do_readSessionHeader1() {
             } else if ((data_[1] & 0x0F) == 0x03) {
                 m_eDirection = DIRECTION_BOTH;
             } // else if
-            
+
             unsigned char l_SessionType = (data_[1] & 0xF0);
             if (l_SessionType == 0x00) {
                 m_eHDLCBuffer = HDLCBUFFER_PAYLOAD;
@@ -126,7 +124,7 @@ void ClientHandler::do_readSessionHeader1() {
 
 void ClientHandler::do_readSessionHeader2(unsigned char a_BytesUSB) {
     auto self(shared_from_this());
-    m_TCPSocket.async_read_some(boost::asio::buffer(data_, max_length),[this, self](boost::system::error_code ec, std::size_t length) {
+    boost::asio::async_read(m_TCPSocket, boost::asio::buffer(data_, a_BytesUSB),[this, self](boost::system::error_code ec, std::size_t length) {
         if (!ec) {
             // Now we know the USB port
             std::string l_UsbPortString;
@@ -147,7 +145,7 @@ void ClientHandler::do_readSessionHeader2(unsigned char a_BytesUSB) {
             
             
             
-            do_read();
+            do_read_header();
         } else {
             std::cerr << "TCP READ ERROR:" << ec << std::endl;
             Stop();
@@ -155,17 +153,30 @@ void ClientHandler::do_readSessionHeader2(unsigned char a_BytesUSB) {
     });
 }
 
-void ClientHandler::do_read() {
+void ClientHandler::do_read_header() {
     auto self(shared_from_this());
-    m_TCPSocket.async_read_some(boost::asio::buffer(data_, max_length),[this, self](boost::system::error_code ec, std::size_t length) {
-        if (!ec) {
-            // TODO: This does not handle partial reads!
-            std::vector<unsigned char> l_Buffer(length - 3);
-            memcpy(&(l_Buffer[0]), &(data_[3]), length - 3);
-            m_SerialPortHandler->DeliverPayloadToHDLC(std::move(l_Buffer));
-            do_read();
+    boost::asio::async_read(m_TCPSocket, boost::asio::buffer(m_StreamFrame.data(), StreamFrame::E_HEADER_LENGTH),
+                            [this, self](boost::system::error_code ec, std::size_t /*length*/) {
+        if (!ec && m_StreamFrame.DecodeHeader()) {
+            do_read_body();
         } else {
-            std::cerr << "TCP READ ERROR:" << ec << std::endl;
+            std::cerr << "Decode header failed, socket closed!" << std::endl;
+            Stop();
+        }
+    });
+}
+
+void ClientHandler::do_read_body() {
+    auto self(shared_from_this());
+    boost::asio::async_read(m_TCPSocket, boost::asio::buffer(m_StreamFrame.body(), m_StreamFrame.GetBodyLength()),
+                            [this, self](boost::system::error_code ec, std::size_t /*length*/) {
+        if (!ec) {
+            std::vector<unsigned char> l_Buffer;
+            l_Buffer.insert(l_Buffer.end(), m_StreamFrame.body(), m_StreamFrame.body() + m_StreamFrame.GetBodyLength());
+            m_SerialPortHandler->DeliverPayloadToHDLC(std::move(l_Buffer));
+            do_read_header();
+        } else {
+            std::cerr << "TCP read error!" << std::endl;
             Stop();
         } // else
     });
