@@ -148,14 +148,15 @@ Data packets, if transmitted via TCP to be sent via HDLC, must have:
 - the "reliable" flag set to "0" or "1" to demand for U-Frames (unreliable) or I-Frames (reliable), repectively,
 - the "invalid" flag set to "0",
 - the "was sent" flags set to "0".
-==> Thus, the type byte must be either 0x00 or 0x04.
+==> Thus, the type byte must be either 0x00 (unreliable) or 0x04 (reliable).
+
 
 Data packets, if received, have:
 - the "reserved" bit set to "0",
 - the "reliable" flag indicates whether the packet was received via "0": U-Frames (unreliable) or "1": I-Frames (reliable),
-- the "invalid" flag set to "0" if the packet was ok, "1" if iw was damaged / invalid (CRC error or junk),
+- the "invalid" flag set to "0" if the packet was ok, "1" if it was damaged / invalid (CRC error or junk),
 - the "was sent"-flag packet set to "1" if the packet was sent via HDLC (by the HDLC daemon), "0" if it was received via HDLC,
-==> The lower nibble of the type byte must be evaluated!
+==> The lower nibble of the type byte should be used to filter unwanted types of packets.
 
 
 Control packet format:
@@ -178,9 +179,9 @@ Control packet, list of command types (upper nibble):
 ---
 1.) Requests: are sent by a client to the hdlcd
 - 0x0*: Set port status request. The lower nibble has to be set accordingly.
-- 0x10: Echo request without payload.
+- 0x10: Echo request without payload. The HDLCd will reply with an echo confirmation (see below).
 - 0x20: Keep alive packet. These are dropped by the HDLCd. These should be sent periodically to detect stale TCP connections.
-- 0x30: Port kill request (immediate shutdown serial port handler and terminate all all related TCP connections)
+- 0x30: Port kill request (immediate shutdown serial port handler and terminate all related TCP connections)
 - 0x4*-0xF*: reserved for future use
 
 
