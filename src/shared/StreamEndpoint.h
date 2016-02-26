@@ -115,13 +115,12 @@ private:
     
     void do_writeSessionHeader() {
         // Prepare session header
-        unsigned char l_SessionHeader[3 + m_ComPortString.size()];
-        l_SessionHeader[0] = 0x00; // Version 0
-        l_SessionHeader[1] = m_SAP;
-        l_SessionHeader[2] = m_ComPortString.size();
-        std::memcpy(&l_SessionHeader[3], m_ComPortString.data(), m_ComPortString.size());
-        
-        boost::asio::async_write(m_Socket, boost::asio::buffer(l_SessionHeader, 15),
+        std::vector<unsigned char> l_SessionHeader;
+        l_SessionHeader.emplace_back(0x00); // Version 0
+        l_SessionHeader.emplace_back(m_SAP);
+        l_SessionHeader.emplace_back(m_ComPortString.size()); // TODO: check if size fits into unsigned char
+        l_SessionHeader.insert(l_SessionHeader.end(), m_ComPortString.data(), (m_ComPortString.data() + m_ComPortString.size()));
+        boost::asio::async_write(m_Socket, boost::asio::buffer(l_SessionHeader.data(), l_SessionHeader.size()),
                                  [this](boost::system::error_code ec, std::size_t /*length*/) {
             if (!ec) {
                 if (!m_StreamFrameQueue.empty()) {
