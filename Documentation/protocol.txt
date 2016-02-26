@@ -15,10 +15,10 @@ Serial ports can be "locked" by using dedicated control packets (see below).
 Locking ("suspend") and unlocking ("resume") of serial ports:
 ---
 Each client can aquire a lock on its currently used serial port in order to suspend the respective HDLC entity.
-In suspended mode, the serial port is temporarily suspended and no data are written to or read from the serial port.
+In suspended mode, the serial port is temporarily released and no data are written to or read from the serial port.
 This allows "other software" besides the HDLCd to have full and undisturbed access to the serial port without
-risking data corruption, e.g., to deliver new firmware to the attached HDLC-device via third-party software ("flash tools").
-Each client can aquire a own lock to its serial port, resulting in serial ports that may be locked by multiple clients.
+risking data corruption, e.g., to deliver a firmware image to the attached device via third-party software ("flash tools").
+Each client can aquire an own lock to its serial port, resulting in serial ports that may be locked by multiple clients.
 In order to resume a serial port to restart HDLC traffic, each of the held locks have to be released. Dedicated control
 packets inform the client regarding the current status of the serial port, i.e., whether _this_ client currently
 has a lock, and whether subsequent locks by other clients currently exist.
