@@ -8,6 +8,54 @@ General:
 ---
 Byte order: all multi-byte fields are in network byte order.
 Error handling: on any error, the TCP socket is closed immediately without any notification!
+Multiple clients can access the same device, just specify the same serial port name.
+Serial ports can be "locked" by using dedicated control packets (see below).
+
+
+Locking ("suspend") and unlocking ("resume") of serial ports:
+---
+Each client can aquire a lock on its currently used serial port in order to suspend the respective HDLC entity.
+In suspended mode, the serial port is temporarily suspended and no data are written to or read from the serial port.
+This allows "other software" besides the HDLCd to have full and undisturbed access to the serial port without
+risking data corruption, e.g., to deliver new firmware to the attached HDLC-device via third-party software ("flash tools").
+Each client can aquire a own lock to its serial port, resulting in serial ports that may be locked by multiple clients.
+In order to resume a serial port to restart HDLC traffic, each of the held locks have to be released. Dedicated control
+packets inform the client regarding the current status of the serial port, i.e., whether _this_ client currently
+has a lock, and whether subsequent locks by other clients currently exist.
+
+A held lock is automatically released if the TCP socket to the respective client holding the lock is closed.
+Furthermore, it has no effect if a client tries to aquire the same lock multiple times: a lock can be aquired only once.
+
+The default status of a serial port is unlocked / resumed state. If a client connects to a serial port that is currently
+suspended, the first packet delivered via the TCP socket is a control packet indicating suspended state.
+
+In suspended state, the HDLCd reads control packets from the TCP sockets, but does not consumed any data packets.
+Thus, it is dangerous to send a control packet to aquire a lock, then send a data packet, and finally send a control
+packet to release the lock. As the data packet will not be consumed, the HDLCd will never read the second control
+packet. Thus, the socket will suffer a deadlock.
+
+As a consequence, if a single TCP socket is used for exchange of both data and control packets, assure that the client
+will never send a data packet after a control packet that locks the port!
+
+
+
+You just want to implement a simple gateway?
+---
+At first, not all of the session types and flags that are part of this specification are relevant if you
+just want to implement a simple gateway software to exchange data via the HDLCd. In its simplest form,
+you just need a TCP socket for the exchange of payload. During sessions etup, you should specify that invalid
+frames are not delivered. After session setup, there is no need to create any control packet, and you can safely
+ignore all incoming control packets, as long as you are sure that no other client locks your serial port.
+
+However, it is beneficial to have two distinct TCP sockets per client to split the flow of data packets and
+the flow of control packets. As TCP is able to buffer large amounts of data, a dedicated TCP socket for control
+packets assures that you have a low-latency path for locking and unlocking of your serial port. Having two
+disting sockets, it is no problem anymore if you send subsequent data packets to a serial port that is currently
+locked.
+
+
+
+
 
 
 =====================
@@ -57,9 +105,9 @@ Invalids:
 - Bit 2: set to "1" if invalid data should be delivered, "0" if not
 
 Direction flags:
-- Bit 1: Set to "1" to subscribe for sent data
-- Bit 0: Set to "1" to subscribe for received data
-- If the direction flag makes sense, at least one of the bits 1 and 0 have to be set!
+- Bit 1: Set to "1" to subscribe for sent data, i.e., data sent to the HDLCd by other clients is delivered also ("sniffer mode")
+- Bit 0: Set to "1" to subscribe for received data, i.e., data sent by the serially attached device received by the HDLCd.
+- Assure that at least one of the bits 1 and 0 are set for data packet reception. Otherwise no data packets are delivered.
 
 
 
