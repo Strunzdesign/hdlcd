@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
         signals_.async_wait([&io_service](boost::system::error_code errorCode, int signalNumber){io_service.stop();});
         
         // Resolve destination
-        tcp::resolver resolver(io_service);
+        boost::asio::ip::tcp::resolver resolver(io_service);
         auto endpoint_iterator = resolver.resolve({ argv[1], argv[2] });
         
         // Prepare output

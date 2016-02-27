@@ -28,13 +28,9 @@
 #include "../shared/StreamFrame.h"
 #include "../shared/IBufferSink.h"
 
-using boost::asio::ip::tcp;
-
-typedef std::deque<StreamFrame> StreamFrameQueue;
-
 class StreamEndpoint {
 public:
-    StreamEndpoint(boost::asio::io_service& a_IoService, tcp::resolver::iterator a_EndpointIterator, std::string a_ComPortString, IBufferSink* a_pBufferSink, unsigned char a_SAP):
+    StreamEndpoint(boost::asio::io_service& a_IoService, boost::asio::ip::tcp::resolver::iterator a_EndpointIterator, std::string a_ComPortString, IBufferSink* a_pBufferSink, unsigned char a_SAP):
         m_Socket(a_IoService),
         m_ComPortString(a_ComPortString),
         m_pBufferSink(a_pBufferSink),
@@ -72,9 +68,9 @@ public:
     }
 
 private:
-    void do_connect(tcp::resolver::iterator a_EndpointIterator) {
+    void do_connect(boost::asio::ip::tcp::resolver::iterator a_EndpointIterator) {
         boost::asio::async_connect(m_Socket, a_EndpointIterator,
-                                   [this](boost::system::error_code ec, tcp::resolver::iterator) {
+                                   [this](boost::system::error_code ec, boost::asio::ip::tcp::resolver::iterator) {
             if (!ec) {
                 do_writeSessionHeader();
                 m_SEPState = SEPSTATE_CONNECTED;
@@ -158,9 +154,9 @@ private:
     unsigned char m_SAP;
     
     std::function<void()> m_OnClosedCallback;
-    tcp::socket m_Socket;
+    boost::asio::ip::tcp::socket m_Socket;
     StreamFrame m_StreamFrame;
-    StreamFrameQueue m_StreamFrameQueue;
+    std::deque<StreamFrame> m_StreamFrameQueue;
     
     // State
     typedef enum {
