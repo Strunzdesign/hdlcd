@@ -24,7 +24,9 @@
 
 #include <boost/asio.hpp>
 #include "ClientHandler.h"
+#include "ClientHandlerCollection.h"
 #include "../SerialPort/SerialPortHandlerCollection.h"
+
 using boost::asio::ip::tcp;
 
 class ClientAcceptor {
@@ -37,8 +39,12 @@ private:
     void do_accept() {
         m_TCPAcceptor.async_accept(m_TCPSocket, [this](boost::system::error_code a_ErrorCode) {
             if (!a_ErrorCode) {
-                // ClientHandler objects are not stored explicetly. They keep themselves alive via shared pointers.
-                std::make_shared<ClientHandler>(std::move(m_TCPSocket))->Start(m_SerialPortHandlerCollection);
+                // Create ClientHandler, store, and start it
+                auto l_ClientHandler = std::make_shared<ClientHandler>(std::move(m_TCPSocket));
+                m_ClientHandlerCollection.RegisterClientHandler(l_ClientHandler);
+                l_ClientHandler->Start(m_SerialPortHandlerCollection);
+                
+                // TODO:implement call to remove it from collection!
             } // if
 
             do_accept();
@@ -46,6 +52,7 @@ private:
     }
 
     // Members
+    ClientHandlerCollection m_ClientHandlerCollection;
     std::shared_ptr<SerialPortHandlerCollection> m_SerialPortHandlerCollection;
     tcp::acceptor m_TCPAcceptor;
     tcp::socket m_TCPSocket;

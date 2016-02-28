@@ -83,8 +83,7 @@ void ClientHandler::Stop() {
 }
 
 void ClientHandler::ReadSessionHeader1() {
-    auto self(shared_from_this());
-    boost::asio::async_read(m_TCPSocket, boost::asio::buffer(m_ReadBuffer, 3),[this, self](boost::system::error_code ec, std::size_t length) {
+    boost::asio::async_read(m_TCPSocket, boost::asio::buffer(m_ReadBuffer, 3),[this](boost::system::error_code ec, std::size_t length) {
         if (!ec) {
             // Check version of the access protocol
             unsigned char l_Version = m_ReadBuffer[0];
@@ -148,8 +147,7 @@ void ClientHandler::ReadSessionHeader1() {
 }
 
 void ClientHandler::ReadSessionHeader2(unsigned char a_BytesUSB) {
-    auto self(shared_from_this());
-    boost::asio::async_read(m_TCPSocket, boost::asio::buffer(m_ReadBuffer, a_BytesUSB),[this, self](boost::system::error_code ec, std::size_t length) {
+    boost::asio::async_read(m_TCPSocket, boost::asio::buffer(m_ReadBuffer, a_BytesUSB),[this](boost::system::error_code ec, std::size_t length) {
         if (!ec) {
             // Now we know the USB port
             std::string l_UsbPortString;

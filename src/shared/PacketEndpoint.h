@@ -30,9 +30,9 @@
 
 class PacketEndpoint {
 public:
-    PacketEndpoint(boost::asio::ip::tcp::socket& a_TCPSocket):
-        m_TCPSocket(std::move(a_TCPSocket)) {
+    PacketEndpoint(boost::asio::ip::tcp::socket& a_TCPSocket): m_TCPSocket(a_TCPSocket) {
         m_SEPState = SEPSTATE_DISCONNECTED;
+        m_bWriteInProgress = false;
         m_bShutdown = false;
     }
             
@@ -53,19 +53,23 @@ public:
         assert(a_Packet != NULL);
         if (m_SEPState == SEPSTATE_SHUTDOWN) {
             return;
-        }
+        } // if
 
-        bool write_in_progress = !m_SendQueue.empty();
         m_SendQueue.emplace_back(std::move(a_Packet->Serialize()));
-        if ((!write_in_progress) && (m_SEPState == SEPSTATE_CONNECTED)) {
+        bool write_in_progress = !m_SendQueue.empty();
+        if ((!m_bWriteInProgress) && (!m_SendQueue.empty()) && (m_SEPState == SEPSTATE_CONNECTED)) {
             do_write();
-        }
+        } // if
     }
     
     void Start() {
         assert(m_SEPState == SEPSTATE_DISCONNECTED);
+        assert(m_bWriteInProgress == false);
         m_SEPState = SEPSTATE_CONNECTED;
         ReadType();
+        if (!m_SendQueue.empty()) {
+            do_write();
+        } // if
     }
 
     void Shutdown() {
@@ -150,17 +154,21 @@ private:
     }
 
     void do_write() {
+        m_bWriteInProgress = true;
         boost::asio::async_write(m_TCPSocket, boost::asio::buffer(m_SendQueue.front().data(), m_SendQueue.front().size()),
                                  [this](boost::system::error_code a_ErrorCode, std::size_t a_BytesSent) {
             if (!a_ErrorCode) {
                 m_SendQueue.pop_front();
                 if (!m_SendQueue.empty()) {
                     do_write();
-                } else if (m_bShutdown) {
-                    m_SEPState = SEPSTATE_SHUTDOWN;
-                    m_TCPSocket.shutdown(boost::asio::ip::tcp::socket::shutdown_both);
-                    close();
-                } // else if
+                } else {
+                    m_bWriteInProgress = false;
+                    if (m_bShutdown) {
+                        m_SEPState = SEPSTATE_SHUTDOWN;
+                        m_TCPSocket.shutdown(boost::asio::ip::tcp::socket::shutdown_both);
+                        close();
+                    } // if
+                } // else
             } else {
                 std::cerr << "TCP write error!" << std::endl;
                 close();
@@ -174,9 +182,10 @@ private:
     std::function<void(const PacketCtrl& a_PacketCtrl)> m_OnCtrlCallback;
     std::function<void()> m_OnClosedCallback;
     
-    boost::asio::ip::tcp::socket m_TCPSocket;
+    boost::asio::ip::tcp::socket &m_TCPSocket;
     std::shared_ptr<Packet> m_IncomingPacket;
     std::deque<std::vector<unsigned char>> m_SendQueue; // To be transmitted
+    bool m_bWriteInProgress;
     enum { max_length = 1024 };
     unsigned char m_ReadBuffer[max_length];
     

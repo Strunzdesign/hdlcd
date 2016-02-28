@@ -9,6 +9,7 @@ find_package(Threads)
 add_executable(hdlcd
 main.cpp
 AccessProtocol/ClientHandler.cpp
+AccessProtocol/ClientHandlerCollection.cpp
 SerialPort/SerialPortLock.cpp
 SerialPort/SerialPortLockGuard.cpp
 SerialPort/SerialPortHandler.cpp

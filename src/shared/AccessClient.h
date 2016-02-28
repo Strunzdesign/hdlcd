@@ -110,14 +110,14 @@ private:
         assert(m_SessionHeaderData.empty());
         m_SessionHeaderData.emplace_back(0x00); // Version 0
         m_SessionHeaderData.emplace_back(m_SAP); // As specified by the user. TODO: optimize usage if 0x10
-        m_SessionHeaderData.emplace_back(m_SessionHeaderData.size()); // TODO: check if size fits into unsigned char
+        m_SessionHeaderData.emplace_back(m_SerialPortName.size()); // TODO: check if size fits into unsigned char
         m_SessionHeaderData.insert(m_SessionHeaderData.end(), m_SerialPortName.data(), (m_SerialPortName.data() + m_SerialPortName.size()));
         
         // Create session header for the control socket
         assert(m_SessionHeaderCtrl.empty());
         m_SessionHeaderCtrl.emplace_back(0x00); // Version 0
         m_SessionHeaderCtrl.emplace_back(0x10); // Control session
-        m_SessionHeaderCtrl.emplace_back(m_SessionHeaderData.size()); // TODO: check if size fits into unsigned char
+        m_SessionHeaderCtrl.emplace_back(m_SerialPortName.size()); // TODO: check if size fits into unsigned char
         m_SessionHeaderCtrl.insert(m_SessionHeaderCtrl.end(), m_SerialPortName.data(), (m_SerialPortName.data() + m_SerialPortName.size()));
         
         // Send session header via the data socket
