@@ -1,5 +1,5 @@
 /**
- * \file NullDumper.h
+ * \file Packet.h
  * \brief 
  *
  * The hdlc-tools implement the HDLC protocol to easily talk to devices connected via serial communications
@@ -19,15 +19,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NULL_DUMPER_H
-#define NULL_DUMPER_H
+#ifndef PACKET_H
+#define PACKET_H
 
-#include "../../shared/IBufferSink.h"
+#include <vector>
 
-class NullDumper: public IBufferSink {
-private:
-    void BufferReceived(E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_Buffer) {
-    }
+class Packet {
+public:
+    // CTOR and DTOR
+    Packet() {}
+    virtual ~Packet(){}
+    
+    // Serializer and deserializer
+    virtual const std::vector<unsigned char> Serialize() const = 0;
+    virtual size_t BytesNeeded() const = 0;
+    virtual bool BytesReceived(const unsigned char *a_ReadBuffer, size_t a_BytesRead) = 0;
+    
 };
 
-#endif // NULL_DUMPER_H
+#endif // PACKET_DATA_H

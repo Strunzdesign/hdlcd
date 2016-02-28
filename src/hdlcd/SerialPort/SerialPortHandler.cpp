@@ -87,10 +87,10 @@ void SerialPortHandler::DeliverPayloadToHDLC(const std::vector<unsigned char> &a
     m_ProtocolState->SendPayload(a_Payload);
 }
 
-void SerialPortHandler::DeliverBufferToClients(E_HDLCBUFFER a_eHDLCBuffer, E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_Payload, bool a_bValid) {
+void SerialPortHandler::DeliverBufferToClients(E_HDLCBUFFER a_eHDLCBuffer, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent) {
     for (auto it = m_ClientHandlerVector.begin(); it != m_ClientHandlerVector.end(); ++it) {
         if (auto l_ClientHandler = it->lock()) {
-            l_ClientHandler->DeliverBufferToClient(a_eHDLCBuffer, a_eDirection, a_Payload, a_bValid);
+            l_ClientHandler->DeliverBufferToClient(a_eHDLCBuffer, a_Payload, a_bReliable, a_bValid, a_bWasSent);
         } // if
         // TODO: REMOVE IF INVALID
     } // for
@@ -156,15 +156,15 @@ void SerialPortHandler::DeliverHDLCFrame(const std::vector<unsigned char> &a_Pay
 
 void SerialPortHandler::do_read() {
     auto self(shared_from_this());
-    m_SerialPort.async_read_some(boost::asio::buffer(data_, max_length),[this, self](boost::system::error_code ec, std::size_t length) {
-        if (!ec) {
-            m_ProtocolState->AddReceivedRawBytes(data_, length);
+    m_SerialPort.async_read_some(boost::asio::buffer(m_ReadBuffer, max_length),[this, self](boost::system::error_code a_ErrorCode, std::size_t a_BytesRead) {
+        if (!a_ErrorCode) {
+            m_ProtocolState->AddReceivedRawBytes(m_ReadBuffer, a_BytesRead);
             if (m_SerialPortLock.GetSerialPortState() == false) {
                 do_read();
             } // if
         } else {
             if (m_SerialPortLock.GetSerialPortState() == false) {
-                std::cerr << "SERIAL READ ERROR:" << ec << std::endl;
+                std::cerr << "SERIAL READ ERROR:" << a_ErrorCode << std::endl;
                 Stop();
             } // if
         } 
@@ -173,9 +173,9 @@ void SerialPortHandler::do_read() {
 
 void SerialPortHandler::do_write() {
     auto self(shared_from_this());
-    m_SerialPort.async_write_some(boost::asio::buffer(&m_SendBuffer[m_SendBufferOffset], (m_SendBuffer.size() - m_SendBufferOffset)),[this, self](boost::system::error_code ec, std::size_t length) {
-        if (!ec) {
-            m_SendBufferOffset += length;
+    m_SerialPort.async_write_some(boost::asio::buffer(&m_SendBuffer[m_SendBufferOffset], (m_SendBuffer.size() - m_SendBufferOffset)),[this, self](boost::system::error_code a_ErrorCode, std::size_t a_BytesRead) {
+        if (!a_ErrorCode) {
+            m_SendBufferOffset += a_BytesRead;
             if (m_SendBufferOffset == m_SendBuffer.size()) {
                 // Indicate that we are ready to transmit the next HDLC frame
                 m_SendBufferOffset = 0;
@@ -190,7 +190,7 @@ void SerialPortHandler::do_write() {
             } // else
         } else {
             if (m_SerialPortLock.GetSerialPortState() == false) {
-                std::cerr << "SERIAL WRITE ERROR:" << ec << std::endl;
+                std::cerr << "SERIAL WRITE ERROR:" << a_ErrorCode << std::endl;
                 Stop();
             } // if
         } // else

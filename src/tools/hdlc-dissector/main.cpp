@@ -21,7 +21,7 @@
 
 #include <iostream>
 #include <boost/asio.hpp>
-#include "../../shared/StreamEndpoint.h"
+#include "../../shared/AccessClient.h"
 #include "FramePrinter.h"
 
 int main(int argc, char* argv[]) {
@@ -43,12 +43,10 @@ int main(int argc, char* argv[]) {
         boost::asio::ip::tcp::resolver resolver(io_service);
         auto endpoint_iterator = resolver.resolve({ argv[1], argv[2] });
         
-        // Prepare output
-        FramePrinter l_FramePrinter;
-        
-        // SAP: 0x43 = HDLC dissected RO, RX and TX, RECV_CTRL
-        StreamEndpoint l_StreamEndpoint(io_service, endpoint_iterator, argv[3], &l_FramePrinter, 0x43);
-        l_StreamEndpoint.SetOnClosedCallback([&io_service](){io_service.stop();});
+        // Prepare access protocol entity
+        AccessClient l_AccessClient(io_service, endpoint_iterator, argv[3], 0x43);
+        l_AccessClient.SetOnDataCallback([](const PacketData& a_PacketData){ PrintDissectedFrame(a_PacketData.GetWasSent(), a_PacketData.GetData()); });
+        l_AccessClient.SetOnClosedCallback([&io_service](){io_service.stop();});
         
         // Start event processing
         io_service.run();

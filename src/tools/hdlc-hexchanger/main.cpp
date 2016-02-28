@@ -22,7 +22,7 @@
 #include <iostream>
 #include <vector>
 #include <boost/asio.hpp>
-#include "../../shared/StreamEndpoint.h"
+#include "../../shared/AccessClient.h"
 #include "../../shared/HexDumper.h"
 #include "LineReader.h"
 
@@ -45,15 +45,14 @@ int main(int argc, char* argv[]) {
         boost::asio::ip::tcp::resolver resolver(io_service);
         auto endpoint_iterator = resolver.resolve({ argv[1], argv[2] });
         
-        // Prepare output
-        HexDumper l_HexDumper;
-        
-        // SAP: 0x00 = Payload Raw RW
-        StreamEndpoint l_StreamEndpoint(io_service, endpoint_iterator, argv[3], &l_HexDumper, 0x00);
-        l_StreamEndpoint.SetOnClosedCallback([&io_service](){io_service.stop();});
+        // Prepare access protocol entity: 0x01 = Payload Raw RO, RX and TX, RECV_CTRL
+        AccessClient l_AccessClient(io_service, endpoint_iterator, argv[3], 0x01);
+        l_AccessClient.SetOnDataCallback([](const PacketData& a_PacketData){ PrintHexDump(a_PacketData.GetWasSent(), a_PacketData.GetData()); });
+        l_AccessClient.SetOnClosedCallback([&io_service](){io_service.stop();});
 
         // Prepare input
-        LineReader l_LineReader(io_service, &l_StreamEndpoint);
+        LineReader l_LineReader(io_service);
+        l_LineReader.SetOnInputLineCallback([&l_AccessClient](const std::vector<unsigned char> a_Buffer){ l_AccessClient.Send(std::move(PacketData(a_Buffer, true, true, false)));});
         
         // Start event processing
         io_service.run();

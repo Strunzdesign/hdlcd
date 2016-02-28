@@ -22,26 +22,22 @@
 #ifndef HEX_DUMPER_H
 #define HEX_DUMPER_H
 
-#include "../shared/IBufferSink.h"
 #include <iostream>
 #include <iomanip> 
 
-class HexDumper: public IBufferSink {
-private:
-    void BufferReceived(E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_Buffer) {
-        // Print a hexdump of the provided data buffer. It should contain a packet to be printed in one line.
-        if (a_eDirection == DIRECTION_RCVD) {
-            std::cout << ">>> Rcvd: ";
-        } else {
-            std::cout << "<<< Sent: ";
-        } // else
+void PrintHexDump(bool a_bWasSent, const std::vector<unsigned char> &a_Buffer) {
+    // Print a hexdump of the provided data buffer. It should contain a packet to be printed in one line.
+    if (a_bWasSent) {
+        std::cout << "<<< Sent: ";
+    } else {
+        std::cout << ">>> Rcvd: ";
+    } // else
 
-        for (auto it = a_Buffer.begin(); it != a_Buffer.end(); ++it) {
-            std::cout << std::hex << std::setw(2) << std::setfill('0') << int(*it) << " ";
-        } // for
+    for (auto it = a_Buffer.begin(); it != a_Buffer.end(); ++it) {
+        std::cout << std::hex << std::setw(2) << std::setfill('0') << int(*it) << " ";
+    } // for
 
-        std::cout << std::endl;
-    }
-};
+    std::cout << std::endl;
+}
 
 #endif // HEX_DUMPER_H

@@ -31,11 +31,11 @@ class FrameParser: public std::enable_shared_from_this<FrameParser> {
 public:
     FrameParser(std::shared_ptr<ProtocolState> a_ProtocolState);
     void Reset();
-    void AddReceivedRawBytes(const char* a_Buffer, size_t a_Bytes);
+    void AddReceivedRawBytes(const unsigned char* a_Buffer, size_t a_Bytes);
     
 private:
     // Interal helpers
-    size_t AddChunk(const char* a_Buffer, size_t a_Bytes);
+    size_t AddChunk(const unsigned char* a_Buffer, size_t a_Bytes);
     bool RemoveEscapeCharacters();
     Frame DeserializeFrame(const std::vector<unsigned char> &a_UnescapedBuffer) const;
     

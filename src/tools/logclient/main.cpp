@@ -21,7 +21,7 @@
 
 #include <iostream>
 #include <boost/asio.hpp>
-#include "../../shared/StreamEndpoint.h"
+#include "../../shared/AccessClient.h"
 #include "LogClientFormatter.h"
 
 int main(int argc, char* argv[]) {
@@ -43,12 +43,10 @@ int main(int argc, char* argv[]) {
         boost::asio::ip::tcp::resolver resolver(io_service);
         auto endpoint_iterator = resolver.resolve({ argv[1], argv[2] });
         
-        // Prepare output
-        LogClientFormatter l_LogClientFormatter;
-
-        // SAP: 0x21 = Payload Raw RO, RX only, RECV_CTRL
-        StreamEndpoint l_StreamEndpoint(io_service, endpoint_iterator, argv[3], &l_LogClientFormatter, 0x21);
-        l_StreamEndpoint.SetOnClosedCallback([&io_service](){io_service.stop();});
+        // Prepare access protocol entity: 0x21 = Payload Raw RO, RX only, RECV_CTRL
+        AccessClient l_AccessClient(io_service, endpoint_iterator, argv[3], 0x21);
+        l_AccessClient.SetOnDataCallback([](const PacketData& a_PacketData){ PrintLogEntry(a_PacketData.GetData()); });
+        l_AccessClient.SetOnClosedCallback([&io_service](){io_service.stop();});
         
         // Start event processing
         io_service.run();

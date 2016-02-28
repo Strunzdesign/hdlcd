@@ -20,58 +20,57 @@
  */
 
 #include "ClientHandler.h"
-#include <iomanip>
 #include "../SerialPort/SerialPortHandlerCollection.h"
 #include "../SerialPort/SerialPortHandler.h"
+#include "../../shared/PacketData.h"
+#include "../../shared/PacketCtrl.h"
 
-ClientHandler::ClientHandler(boost::asio::ip::tcp::socket a_TCPSocket): m_TCPSocket(std::move(a_TCPSocket)) {
+ClientHandler::ClientHandler(boost::asio::ip::tcp::socket a_TCPSocket): m_TCPSocket(std::move(a_TCPSocket)), m_PacketEndpoint(m_TCPSocket) {
     m_Registered = true;
-    m_CurrentlySending = false;
     m_eHDLCBuffer = HDLCBUFFER_NOTHING;
-    m_eDirection  = DIRECTION_NONE;
+    m_bDeliverSent = false;
+    m_bDeliverRcvd = false;
+    m_bDeliverInvalidData = false;
+    m_PacketEndpoint.SetOnDataCallback([this](const PacketData& a_PacketData){ OnDataReceived(a_PacketData); });
+    m_PacketEndpoint.SetOnCtrlCallback([this](const PacketCtrl& a_PacketCtrl){ OnCtrlReceived(a_PacketCtrl); });
+    m_PacketEndpoint.SetOnClosedCallback([this](){ OnClosed(); });
 }
 
 ClientHandler::~ClientHandler() {
 }
 
-void ClientHandler::DeliverBufferToClient(E_HDLCBUFFER a_eHDLCBuffer, E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_Payload, bool a_bValid) {
+void ClientHandler::DeliverBufferToClient(E_HDLCBUFFER a_eHDLCBuffer, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent) {
     // Check whether this buffer is of interest to this specific client
     bool l_bDeliver = (a_eHDLCBuffer == m_eHDLCBuffer);
-    if ((m_eDirection != DIRECTION_BOTH) && (m_eDirection != a_eDirection)) {
+    if ((a_bWasSent && !m_bDeliverSent) || (!a_bWasSent && !m_bDeliverRcvd)) {
+        l_bDeliver = false;
+    } // if
+    
+    if ((m_bDeliverInvalidData == false) && (a_bValid == false)) {
         l_bDeliver = false;
     } // if
 
     if (l_bDeliver) {
-        StreamFrame l_StreamFrame(a_Payload, (unsigned char)a_eDirection);
-        m_StreamFrameQueue.emplace_back(l_StreamFrame);
-        if (m_CurrentlySending == false) {
-            m_CurrentlySending = true;
-            do_write();
-        } // if
+        auto l_Packet = PacketData(a_Payload, a_bReliable, a_bValid, a_bWasSent);
+        m_PacketEndpoint.Send(&l_Packet);
     } // if
 }
 
 void ClientHandler::UpdateSerialPortState(size_t a_LockHolders) {
     if (m_SerialPortLockGuard.UpdateSerialPortState(a_LockHolders)) {
         // The state of the serial port state changed. Communicate the new state to the client.
-        if (m_eHDLCBuffer == HDLCBUFFER_PORT_STATUS) { // TODO
-            std::vector<unsigned char> l_DummyBuffer;
-            l_DummyBuffer.emplace_back((unsigned char)m_SerialPortLockGuard.IsLocked());
-            l_DummyBuffer.emplace_back((unsigned char)m_SerialPortLockGuard.IsLockedByOwn());
-            l_DummyBuffer.emplace_back((unsigned char)m_SerialPortLockGuard.IsLockedByForeign());
-            StreamFrame l_StreamFrame(l_DummyBuffer, 0);
-            m_StreamFrameQueue.emplace_back(l_StreamFrame);
-            if (m_CurrentlySending == false) {
-                m_CurrentlySending = true;
-                do_write();
-            } // if
-        } // if
+        auto l_Packet = PacketCtrl(PacketCtrl::CTRL_TYPE_PORT_STATUS);
+        l_Packet.SetIsAlive(true); // TODO
+        l_Packet.SetFlowControl(true); // TODO
+        l_Packet.SetIsLockedBySelf(m_SerialPortLockGuard.IsLockedBySelf());
+        l_Packet.SetIsLockedByOthers(m_SerialPortLockGuard.IsLockedByOthers());
+        m_PacketEndpoint.Send(&l_Packet);
     } // if
 }
 
 void ClientHandler::Start(std::shared_ptr<SerialPortHandlerCollection> a_SerialPortHandlerCollection) {
     m_SerialPortHandlerCollection = a_SerialPortHandlerCollection;
-    do_readSessionHeader1();
+    ReadSessionHeader1();
 }
 
 void ClientHandler::Stop() {
@@ -83,38 +82,64 @@ void ClientHandler::Stop() {
     } // if
 }
 
-void ClientHandler::do_readSessionHeader1() {
+void ClientHandler::ReadSessionHeader1() {
     auto self(shared_from_this());
-    boost::asio::async_read(m_TCPSocket, boost::asio::buffer(data_, 3),[this, self](boost::system::error_code ec, std::size_t length) {
+    boost::asio::async_read(m_TCPSocket, boost::asio::buffer(m_ReadBuffer, 3),[this, self](boost::system::error_code ec, std::size_t length) {
         if (!ec) {
-            if ((data_[1] & 0x0F) == 0x01) {
-                m_eDirection = DIRECTION_RCVD;
-            } else if ((data_[1] & 0x0F) == 0x02) {
-                m_eDirection = DIRECTION_SENT;
-            } else if ((data_[1] & 0x0F) == 0x03) {
-                m_eDirection = DIRECTION_BOTH;
-            } // else if
-
-            unsigned char l_SessionType = (data_[1] & 0xF0);
-            if (l_SessionType == 0x00) {
-                m_eHDLCBuffer = HDLCBUFFER_PAYLOAD;
-                m_eDirection = DIRECTION_RCVD; // override
-            } else if (l_SessionType == 0x10) {
-                m_eHDLCBuffer = HDLCBUFFER_PORT_STATUS;
-            } else if (l_SessionType == 0x20) {
-                m_eHDLCBuffer = HDLCBUFFER_PAYLOAD;
-            } else if (l_SessionType == 0x30) {
-                m_eHDLCBuffer = HDLCBUFFER_RAW;
-            } else if (l_SessionType == 0x40) {
-                m_eHDLCBuffer = HDLCBUFFER_DISSECTED;
-            } else {
-                // Unknown session type
-                std::cerr << "Unknown session type rejected" << std::endl;
+            // Check version of the access protocol
+            unsigned char l_Version = m_ReadBuffer[0];
+            if (l_Version != 0x00) {
+                // Unknown version of the access protocol
+                std::cerr << "Unsupported access protocol version rejected: " << (int)l_Version << std::endl;
                 m_TCPSocket.close();
                 return;
-            } // else if
+            } // if
             
-            do_readSessionHeader2(data_[2]);
+            // Check service access point specifier: type of data
+            unsigned char l_SAP = m_ReadBuffer[1];
+            switch (l_SAP & 0xF0) {
+            case 0x00: {
+                m_eHDLCBuffer = HDLCBUFFER_PAYLOAD;
+                break;
+            }
+            case 0x10: {
+                m_eHDLCBuffer = HDLCBUFFER_PORT_STATUS;
+                break;
+            }
+            case 0x20: {
+                m_eHDLCBuffer = HDLCBUFFER_PAYLOAD;
+                break;
+            }
+            case 0x30: {
+                m_eHDLCBuffer = HDLCBUFFER_RAW;
+                break;
+            }
+            case 0x40: {
+                m_eHDLCBuffer = HDLCBUFFER_DISSECTED;
+                break;
+            }
+            default:
+                // Unknown session type
+                std::cerr << "Unknown session type rejected: " << (int)(l_SAP & 0xF0) << std::endl;
+                m_TCPSocket.close();
+                return;
+            } // switch
+            
+            // Check service access point specifier: reserved bit
+            if (l_SAP & 0x08) {
+                // The reserved bit was set... aborting
+                std::cerr << "Invalid reserved bit within SAP specifier of session header: " << (int)l_SAP << std::endl;
+                m_TCPSocket.close();
+                return;
+            } // if
+            
+            // Check service access point specifier: invalids, deliver sent, and deliver rcvd
+            m_bDeliverInvalidData = (l_SAP & 0x04); 
+            m_bDeliverSent = (l_SAP & 0x02);
+            m_bDeliverRcvd = (l_SAP & 0x01); 
+
+            // Now read the name of the serial port
+            ReadSessionHeader2(m_ReadBuffer[2]);
         } else {
             std::cerr << "TCP READ ERROR HEADER1:" << ec << std::endl;
             Stop();
@@ -122,30 +147,19 @@ void ClientHandler::do_readSessionHeader1() {
     });
 }
 
-void ClientHandler::do_readSessionHeader2(unsigned char a_BytesUSB) {
+void ClientHandler::ReadSessionHeader2(unsigned char a_BytesUSB) {
     auto self(shared_from_this());
-    boost::asio::async_read(m_TCPSocket, boost::asio::buffer(data_, a_BytesUSB),[this, self](boost::system::error_code ec, std::size_t length) {
+    boost::asio::async_read(m_TCPSocket, boost::asio::buffer(m_ReadBuffer, a_BytesUSB),[this, self](boost::system::error_code ec, std::size_t length) {
         if (!ec) {
             // Now we know the USB port
             std::string l_UsbPortString;
-            l_UsbPortString.append(data_, length);
+            l_UsbPortString.append((char*)m_ReadBuffer, length);
             m_SerialPortHandlerStopper = m_SerialPortHandlerCollection->GetSerialPortHandler(l_UsbPortString, shared_from_this());
             m_SerialPortHandler = (*m_SerialPortHandlerStopper.get());
             m_SerialPortLockGuard.Init(m_SerialPortHandler);
             
-            
-            
-            
-            
-            if (m_eHDLCBuffer == HDLCBUFFER_PORT_STATUS) {
-                m_SerialPortLockGuard.SuspendSerialPort(); // TODO: not a command message yet
-            } // if
-            
-            
-            
-            
-            
-            do_read_header();
+            // Start the PacketEndpoint. It takes full control over the TCP socket.
+            m_PacketEndpoint.Start();
         } else {
             std::cerr << "TCP READ ERROR:" << ec << std::endl;
             Stop();
@@ -153,50 +167,15 @@ void ClientHandler::do_readSessionHeader2(unsigned char a_BytesUSB) {
     });
 }
 
-void ClientHandler::do_read_header() {
-    auto self(shared_from_this());
-    boost::asio::async_read(m_TCPSocket, boost::asio::buffer(m_StreamFrame.data(), StreamFrame::E_HEADER_LENGTH),
-                            [this, self](boost::system::error_code ec, std::size_t /*length*/) {
-        if (!ec && m_StreamFrame.DecodeHeader()) {
-            do_read_body();
-        } else {
-            std::cerr << "Decode header failed, socket closed!" << std::endl;
-            Stop();
-        }
-    });
+void ClientHandler::OnDataReceived(const PacketData& a_PacketData) {
+    // TODO: check suspended state. Check whether to stall the TCP socket.
+    m_SerialPortHandler->DeliverPayloadToHDLC(a_PacketData.GetData());
 }
 
-void ClientHandler::do_read_body() {
-    auto self(shared_from_this());
-    boost::asio::async_read(m_TCPSocket, boost::asio::buffer(m_StreamFrame.body(), m_StreamFrame.GetBodyLength()),
-                            [this, self](boost::system::error_code ec, std::size_t /*length*/) {
-        if (!ec) {
-            std::vector<unsigned char> l_Buffer;
-            l_Buffer.insert(l_Buffer.end(), m_StreamFrame.body(), m_StreamFrame.body() + m_StreamFrame.GetBodyLength());
-            m_SerialPortHandler->DeliverPayloadToHDLC(std::move(l_Buffer));
-            do_read_header();
-        } else {
-            std::cerr << "TCP read error!" << std::endl;
-            Stop();
-        } // else
-    });
+void ClientHandler::OnCtrlReceived(const PacketCtrl& a_PacketCtrl) {
+    // TODO: check control packet: suspend / resume? Port kill request?
 }
 
-void ClientHandler::do_write() {
-    auto self(shared_from_this());
-    boost::asio::async_write(m_TCPSocket, boost::asio::buffer(m_StreamFrameQueue.front().data(), m_StreamFrameQueue.front().length()),
-                             [this](boost::system::error_code ec, std::size_t /*length*/) {
-        if (!ec) {
-            // More to write?
-            m_StreamFrameQueue.pop_front();
-            if (!m_StreamFrameQueue.empty()) {
-                do_write();
-            } else {
-                m_CurrentlySending = false;
-            } // else
-        } else {
-            std::cerr << "TCP WRITE ERROR:" << ec << std::endl;
-            Stop();
-        } // else
-    });
+void ClientHandler::OnClosed() {
+    Stop();
 }

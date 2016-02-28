@@ -36,7 +36,7 @@ void FrameParser::Reset() {
     m_bStartTokenSeen = false;
 }
 
-void FrameParser::AddReceivedRawBytes(const char* a_Buffer, size_t a_Bytes) {
+void FrameParser::AddReceivedRawBytes(const unsigned char* a_Buffer, size_t a_Bytes) {
     while (a_Bytes) {
         size_t l_ConsumedBytes = AddChunk(a_Buffer, a_Bytes);
         a_Buffer += l_ConsumedBytes;
@@ -44,7 +44,7 @@ void FrameParser::AddReceivedRawBytes(const char* a_Buffer, size_t a_Bytes) {
     } // while
 }
 
-size_t FrameParser::AddChunk(const char* a_Buffer, size_t a_Bytes) {
+size_t FrameParser::AddChunk(const unsigned char* a_Buffer, size_t a_Bytes) {
     if (m_bStartTokenSeen == false) {
         // No start token seen yet. Check if there is the start token available in the input buffer.
         const void* l_pStartTokenPtr = memchr((const void*)a_Buffer, 0x7E, a_Bytes);
@@ -56,7 +56,7 @@ size_t FrameParser::AddChunk(const char* a_Buffer, size_t a_Bytes) {
                 return 1;
             } else {
                 // Clip front of buffer containing junk, including the start token.
-                return ((const char*)l_pStartTokenPtr - a_Buffer + 1);
+                return ((const unsigned char*)l_pStartTokenPtr - a_Buffer + 1);
             } // else
         } else {
             // No token found, and no token was seen yet. Dropping received buffer now.
@@ -67,7 +67,7 @@ size_t FrameParser::AddChunk(const char* a_Buffer, size_t a_Bytes) {
         const void* l_pEndTokenPtr = memchr((const void*)a_Buffer, 0x7E, a_Bytes);
         if (l_pEndTokenPtr) {
             // The end token was found in the input buffer. At first, check if we receive to much data.
-            size_t l_NbrOfBytes = ((const char*)l_pEndTokenPtr - a_Buffer + 1);
+            size_t l_NbrOfBytes = ((const unsigned char*)l_pEndTokenPtr - a_Buffer + 1);
             if ((m_Buffer.size() + l_NbrOfBytes) <= (2 * max_length)) {
                 // We did not exceed the maximum frame size yet. Copy all bytes including the end token.
                 m_Buffer.insert(m_Buffer.end(), a_Buffer, a_Buffer + l_NbrOfBytes);

@@ -23,17 +23,19 @@
 #define LINE_READER_H
 
 #include <iostream>
+#include <vector>
 #include <boost/asio.hpp>
-#include "../../shared/StreamFrame.h"
-#include "../../shared/StreamEndpoint.h"
 
 class LineReader {
 public:
     // CTOR
-    LineReader(boost::asio::io_service& io_service, StreamEndpoint *a_StreamEndpoint): m_InputStream(io_service, ::dup(STDIN_FILENO)), m_InputBuffer(4096), m_InputReader(&m_InputBuffer) {
+    LineReader(boost::asio::io_service& io_service): m_InputStream(io_service, ::dup(STDIN_FILENO)), m_InputBuffer(4096), m_InputReader(&m_InputBuffer) {
         // Read single lines of input from STDIN
-        m_StreamEndpoint = a_StreamEndpoint;
         do_read();
+    }
+    
+    void SetOnInputLineCallback(std::function<void(const std::vector<unsigned char>)> a_OnInputLineCallback) {
+        m_OnInputLineCallback = a_OnInputLineCallback;
     }
     
 private:
@@ -49,7 +51,9 @@ private:
                 std::vector<unsigned char> l_Buffer;
                 l_Buffer.reserve(65536);
                 l_Buffer.insert(l_Buffer.end(),std::istream_iterator<unsigned int>(l_InputStream), {});
-                m_StreamEndpoint->write(std::move(StreamFrame(l_Buffer, 0)));
+                if (m_OnInputLineCallback) {
+                    m_OnInputLineCallback(std::move(l_Buffer));
+                } // if
                 
                 // Read the next line
                 do_read();
@@ -61,7 +65,7 @@ private:
     }
 
     // Members
-    StreamEndpoint *m_StreamEndpoint;
+    std::function<void(const std::vector<unsigned char>)> m_OnInputLineCallback;
     boost::asio::posix::stream_descriptor m_InputStream;
     boost::asio::streambuf m_InputBuffer;
     std::istream m_InputReader;

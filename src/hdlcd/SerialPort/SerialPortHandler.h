@@ -29,7 +29,6 @@
 #include "SerialPortLock.h"
 #include "BaudRate.h"
 #include "../HDLC/HDLCBuffer.h"
-#include "../../shared/Direction.h"
 class SerialPortHandlerCollection;
 class ClientHandler;
 class ProtocolState;
@@ -42,7 +41,7 @@ public:
     
     void AddClientHandler(std::shared_ptr<ClientHandler> a_ClientHandler);
     void DeliverPayloadToHDLC(const std::vector<unsigned char> &a_Payload);
-    void DeliverBufferToClients(E_HDLCBUFFER a_eHDLCBuffer, E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_Payload, bool a_bValid);
+    void DeliverBufferToClients(E_HDLCBUFFER a_eHDLCBuffer, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent);
     
     void Start();
     void Stop();
@@ -71,7 +70,7 @@ private:
     std::weak_ptr<SerialPortHandlerCollection> m_SerialPortHandlerCollection;
     std::vector<std::weak_ptr<ClientHandler>> m_ClientHandlerVector;
     enum { max_length = 1024 };
-    char data_[max_length];
+    unsigned char m_ReadBuffer[max_length];
     
     std::vector<unsigned char> m_SendBuffer;
     size_t m_SendBufferOffset;

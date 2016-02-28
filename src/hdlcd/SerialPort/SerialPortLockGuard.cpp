@@ -23,53 +23,53 @@
 #include "SerialPortHandler.h"
 
 SerialPortLockGuard::SerialPortLockGuard() {
-    m_bLockedByOwn = false;
-    m_bLockedByForeign = false;
-    m_bLastLockedByOwn = false;
-    m_bLastLockedByForeign = false;
+    m_bLockedBySelf = false;
+    m_bLockedByOthers = false;
+    m_bLastLockedBySelf = false;
+    m_bLastLockedByOthers = false;
 }
 
 SerialPortLockGuard::~SerialPortLockGuard() {
-    if (m_bLockedByOwn) {
+    if (m_bLockedBySelf) {
          m_SerialPortHandler->ResumeSerialPort();
     } // if
 }
 
 void SerialPortLockGuard::Init(std::shared_ptr<SerialPortHandler> a_SerialPortHandler) {
     // Checks
-    assert(m_bLockedByOwn == false);
-    assert(m_bLockedByForeign == false);
+    assert(m_bLockedBySelf == false);
+    assert(m_bLockedByOthers == false);
     m_SerialPortHandler = a_SerialPortHandler;
-    m_bLockedByForeign = (m_SerialPortHandler->GetLockHolders() != 0);
+    m_bLockedByOthers   = (m_SerialPortHandler->GetLockHolders() != 0);
 }
 
 void SerialPortLockGuard::SuspendSerialPort() {
-    if (!m_bLockedByOwn) {
+    if (!m_bLockedBySelf) {
         // Lock it now!
-        m_bLockedByOwn = true;
+        m_bLockedBySelf = true;
         m_SerialPortHandler->SuspendSerialPort();
     } // if
 }
 
 void SerialPortLockGuard::ResumeSerialPort() {
-    if (m_bLockedByOwn) {
-        m_bLockedByOwn = false;
+    if (m_bLockedByOthers) {
+        m_bLockedByOthers = false;
         m_SerialPortHandler->ResumeSerialPort();
     } // if
 }
 
 bool SerialPortLockGuard::UpdateSerialPortState(size_t a_LockHolders) {
     // This call is caused by ourselves
-    if (m_bLockedByOwn) {
-        m_bLockedByForeign = (a_LockHolders > 1);
+    if (m_bLockedBySelf) {
+        m_bLockedByOthers = (a_LockHolders > 1);
     } else {
-        m_bLockedByForeign = (a_LockHolders > 0);
+        m_bLockedByOthers = (a_LockHolders > 0);
     } // else
     
-    if ((m_bLastLockedByOwn     != m_bLockedByOwn) ||
-        (m_bLastLockedByForeign != m_bLockedByForeign)) {
-        m_bLastLockedByOwn     = m_bLockedByOwn;
-        m_bLastLockedByForeign = m_bLockedByForeign;
+    if ((m_bLastLockedBySelf   != m_bLockedBySelf) ||
+        (m_bLastLockedByOthers != m_bLockedByOthers)) {
+        m_bLastLockedBySelf     = m_bLockedBySelf;
+        m_bLastLockedByOthers   = m_bLockedByOthers;
         return true;
     } else {
         return false;

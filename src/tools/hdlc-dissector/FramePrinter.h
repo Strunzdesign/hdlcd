@@ -22,24 +22,20 @@
 #ifndef FRAME_PRINTER_H
 #define FRAME_PRINTER_H
 
-#include "../../shared/IBufferSink.h"
 #include <iostream>
 #include <string>
 
-class FramePrinter: public IBufferSink {
-private:
-    void BufferReceived(E_DIRECTION a_eDirection, const std::vector<unsigned char> &a_Buffer) {
-        // Print dissected HDLC frame
-        std::string l_DissectedHDLCFrame;
-        if (a_eDirection == DIRECTION_RCVD) {
-            l_DissectedHDLCFrame = ">>> Rcvd ";
-        } else {
-            l_DissectedHDLCFrame = "<<< Sent ";
-        } // else
+void PrintDissectedFrame(bool a_bWasSent, const std::vector<unsigned char> &a_Buffer) {
+    // Print dissected HDLC frame
+    std::string l_DissectedHDLCFrame;
+    if (a_bWasSent) {
+        l_DissectedHDLCFrame = "<<< Sent ";
+    } else {
+        l_DissectedHDLCFrame = ">>> Rcvd ";
+    } // else
 
-        l_DissectedHDLCFrame.append((const char*)a_Buffer.data(), a_Buffer.size());
-        std::cout << l_DissectedHDLCFrame << std::endl;
-    }
-};
+    l_DissectedHDLCFrame.append((const char*)a_Buffer.data(), a_Buffer.size());
+    std::cout << l_DissectedHDLCFrame << std::endl;
+}
 
 #endif // FRAME_PRINTER_H

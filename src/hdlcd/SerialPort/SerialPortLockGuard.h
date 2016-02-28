@@ -38,17 +38,17 @@ public:
     bool UpdateSerialPortState(size_t a_LockHolders);
     
     // Check status
-    bool IsLocked() const { return (m_bLockedByOwn || m_bLockedByForeign); }
-    bool IsLockedByOwn() const { return m_bLockedByOwn; }
-    bool IsLockedByForeign() const { return m_bLockedByForeign; }
+    bool IsLocked() const { return (m_bLockedBySelf || m_bLockedByOthers); }
+    bool IsLockedBySelf() const { return m_bLockedBySelf; }
+    bool IsLockedByOthers() const { return m_bLockedByOthers; }
 
 private:
     // Members
     std::shared_ptr<SerialPortHandler> m_SerialPortHandler;
-    bool m_bLockedByOwn;
-    bool m_bLockedByForeign;
-    bool m_bLastLockedByOwn;
-    bool m_bLastLockedByForeign;
+    bool m_bLockedBySelf;
+    bool m_bLockedByOthers;
+    bool m_bLastLockedBySelf;
+    bool m_bLastLockedByOthers;
 };
 
 #endif // SERIAL_PORT_LOCK_GUARD_H

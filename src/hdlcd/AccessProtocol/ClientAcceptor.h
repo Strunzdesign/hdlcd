@@ -35,10 +35,11 @@ ClientAcceptor(boost::asio::io_service& io_service, short port, std::shared_ptr<
 
 private:
     void do_accept() {
-        m_TCPAcceptor.async_accept(m_TCPSocket, [this](boost::system::error_code ec) {
-            if (!ec) {
+        m_TCPAcceptor.async_accept(m_TCPSocket, [this](boost::system::error_code a_ErrorCode) {
+            if (!a_ErrorCode) {
+                // ClientHandler objects are not stored explicetly. They keep themselves alive via shared pointers.
                 std::make_shared<ClientHandler>(std::move(m_TCPSocket))->Start(m_SerialPortHandlerCollection);
-            }
+            } // if
 
             do_accept();
         });

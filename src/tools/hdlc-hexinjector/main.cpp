@@ -22,8 +22,7 @@
 #include <iostream>
 #include <vector>
 #include <boost/asio.hpp>
-#include "../../shared/StreamEndpoint.h"
-#include "NullDumper.h"
+#include "../../shared/AccessClient.h"
 
 int main(int argc, char* argv[]) {
     try {
@@ -43,13 +42,10 @@ int main(int argc, char* argv[]) {
         // Resolve destination
         boost::asio::ip::tcp::resolver resolver(io_service);
         auto endpoint_iterator = resolver.resolve({ argv[1], argv[2] });
-        
-        // Prepare output: dump nothing
-        NullDumper l_NullDumper;
-        
-        // SAP: 0x00 = Payload Raw RW
-        StreamEndpoint l_StreamEndpoint(io_service, endpoint_iterator, argv[3], &l_NullDumper, 0x00);
-        l_StreamEndpoint.SetOnClosedCallback([&io_service](){io_service.stop();});
+
+        // Prepare access protocol entity
+        AccessClient l_AccessClient(io_service, endpoint_iterator, argv[3], 0x00);
+        l_AccessClient.SetOnClosedCallback([&io_service](){io_service.stop();});
 
         // Prepare input
         std::istringstream l_InputStream(argv[4]);
@@ -57,8 +53,9 @@ int main(int argc, char* argv[]) {
         std::vector<unsigned char> l_Buffer;
         l_Buffer.reserve(65536);
         l_Buffer.insert(l_Buffer.end(),std::istream_iterator<unsigned int>(l_InputStream), {});
-        l_StreamEndpoint.write(std::move(StreamFrame(l_Buffer, 0)));
-        l_StreamEndpoint.Shutdown();
+        l_AccessClient.Send(std::move(PacketData(l_Buffer, true, true, false)));
+        l_AccessClient.Send(std::move(PacketCtrl(PacketCtrl::CTRL_TYPE_ECHO)));
+        l_AccessClient.Shutdown();
         
         // Start event processing
         io_service.run();

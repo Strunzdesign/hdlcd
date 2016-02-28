@@ -25,30 +25,26 @@
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 #include <iostream>
 #include <iomanip> 
-#include "../../shared/IBufferSink.h"
 
-class LogClientFormatter: public IBufferSink {
-private:
-    void BufferReceived(E_DIRECTION, const std::vector<unsigned char> &a_Buffer) {
-        // Example: 19-02-2016;21:59:07.719;
-        auto l_Now(boost::posix_time::microsec_clock::universal_time());
-        auto l_Date(l_Now.date());
-        auto l_DayTime (l_Now.time_of_day());
-        std::cout << std::dec << l_Date.day() << "-"
-                  << std::setw(2) << std::setfill('0') << (int)l_Date.month() << "-"
-                  << std::setw(4) << std::setfill('0') << l_Date.year() << ";"
-                  << std::setw(2) << std::setfill('0') << l_DayTime.hours() << ":"
-                  << std::setw(2) << std::setfill('0') << l_DayTime.minutes() << ":"
-                  << std::setw(2) << std::setfill('0') << l_DayTime.seconds() << "."
-                  << std::setw(3) << std::setfill('0') << (l_DayTime.total_milliseconds() % 1000) << ";";
-                  
-        // Print a hexdump of the provided data buffer. It should contain a packet to be printed in one line.
-        for (auto it = a_Buffer.begin(); it != a_Buffer.end(); ++it) {
-            std::cout << std::hex << std::setw(2) << std::setfill('0') << std::uppercase << int(*it) << " ";
-        } // for
+void PrintLogEntry(const std::vector<unsigned char> &a_Buffer) {
+    // Example: 19-02-2016;21:59:07.719;
+    auto l_Now(boost::posix_time::microsec_clock::universal_time());
+    auto l_Date(l_Now.date());
+    auto l_DayTime (l_Now.time_of_day());
+    std::cout << std::dec << l_Date.day() << "-"
+                << std::setw(2) << std::setfill('0') << (int)l_Date.month() << "-"
+                << std::setw(4) << std::setfill('0') << l_Date.year() << ";"
+                << std::setw(2) << std::setfill('0') << l_DayTime.hours() << ":"
+                << std::setw(2) << std::setfill('0') << l_DayTime.minutes() << ":"
+                << std::setw(2) << std::setfill('0') << l_DayTime.seconds() << "."
+                << std::setw(3) << std::setfill('0') << (l_DayTime.total_milliseconds() % 1000) << ";";
+                
+    // Print a hexdump of the provided data buffer. It should contain a packet to be printed in one line.
+    for (auto it = a_Buffer.begin(); it != a_Buffer.end(); ++it) {
+        std::cout << std::hex << std::setw(2) << std::setfill('0') << std::uppercase << int(*it) << " ";
+    } // for
 
-        std::cout << std::endl;
-    }
-};
+    std::cout << std::endl;
+}
 
 #endif // LOG_CLIENT_FORMATTER_H
