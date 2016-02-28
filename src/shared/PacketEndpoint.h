@@ -138,14 +138,18 @@ private:
             });
         } else {
             // Reception completed, deliver packet
-            if (true) { // data packet
+            auto l_PacketData = dynamic_cast<PacketData*>(m_IncomingPacket.get());
+            if (l_PacketData) {
                 if (m_OnDataCallback) {
-                    m_OnDataCallback(*dynamic_cast<PacketData*>(m_IncomingPacket.get()));
+                    m_OnDataCallback(*l_PacketData);
                 } // if
             } else {
-                if (m_OnCtrlCallback) {
-                    m_OnCtrlCallback(*dynamic_cast<PacketCtrl*>(m_IncomingPacket.get()));
-                } // if
+                auto l_PacketCtrl = dynamic_cast<PacketCtrl*>(m_IncomingPacket.get());
+                if (l_PacketCtrl) {
+                    if (m_OnCtrlCallback) {
+                        m_OnCtrlCallback(*l_PacketCtrl);
+                    } // if
+                } // else
             } // else
 
             m_IncomingPacket.reset();
