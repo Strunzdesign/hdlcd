@@ -1,24 +1,12 @@
-Urgent isses:
-- HDLC retransmissions (specific to the current limitations of the s-net(r) sensor nodes by Fraunhofer IIS)
-- Refactoring of the shared header files:
--> - Requires dedicated access protocol entities for hdlcd and the client side.
-   - Modular acceptor / connector logic
-   - Propagate direction of arrival flag and the validity flag via access protocol (PARTLY)
-   - Implement the final specification of the TCP-based access protocol
-
-
-
 Issues to be resolved before a first release:
-- All urgent issues have to be resolved
+- Propagate direction of arrival flag (DONE) and the validity flag (TODO) via the access protocol
 - Add command line switches and online help ("-h --help") to hdlcd
-- Logic to suspend / resume serial interfaces via control packets (logic: DONE, via TCP: TODO)
-- Rudimentary HDLC protocol is sufficient for the s-net(r) sensor nodes by Fraunhofer IIS
-- Better buffer handling to get rid of all remaining memmove and memcpy statements (STARTED)
+- Logic to suspend / resume serial interfaces via control packets (logic: DONE, via TCP: TODO, tool: BROKEN)
 - Doxygen
 - Periodically test idle HDLC links via U-TEST packet; check if the baud rate is still correct, or start another detection procedure.
 - Communicate the HDLC state (initial and on any change; whether "connected") via control packets (Spec: DONE, Code: TODO)
 - Communicate the baud rate (initial and on any change) via control packets
-
+- Fix all the TODOs in the source code
 
 
 
@@ -36,6 +24,13 @@ Issues to be resolved after the first release:
 
 
 // DONE
+- HDLC retransmissions (specific to the current limitations of the s-net(r) sensor nodes by Fraunhofer IIS) (WONTFIX, impossible)
+- Rudimentary HDLC protocol is sufficient for the s-net(r) sensor nodes by Fraunhofer IIS (DONE)
+- Refactoring of the shared header files (DONE)
+- Modular acceptor / connector logic (DONE)
+- Implement the final specification of the TCP-based access protocol (DONE)
+- Dedicated access protocol entities for hdlcd and the client side. (DONE)
+- Better buffer handling to get rid of all remaining memmove and memcpy statements (DONE)
 - Implement baud rate detection by probing with TEST frames (DONE)
 - Complete specification of the TCP-based access protocol (DONE)
 - Tests on recent versions of MS Windows (DONE)
