@@ -28,16 +28,17 @@
 #include <deque>
 #include <vector>
 #include <boost/asio.hpp>
+#include "ClientHandlerCollection.h"
 #include "../SerialPort/SerialPortLockGuard.h"
 #include "../HDLC/HDLCBuffer.h"
 #include "../../shared/PacketEndpoint.h"
+
 class SerialPortHandler;
 class SerialPortHandlerCollection;
 
 class ClientHandler: public std::enable_shared_from_this<ClientHandler> {
 public:
-    ClientHandler(boost::asio::ip::tcp::socket a_TCPSocket);
-    ~ClientHandler();
+    ClientHandler(ClientHandlerCollection& a_ClientHandlerCollection, boost::asio::ip::tcp::socket a_TCPSocket);
 
     void DeliverBufferToClient(E_HDLCBUFFER a_eHDLCBuffer, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent);
     void UpdateSerialPortState(size_t a_LockHolders);
@@ -56,6 +57,7 @@ private:
     void OnClosed();
 
     // Members
+    ClientHandlerCollection& m_ClientHandlerCollection;
     PacketEndpoint m_PacketEndpoint;
     
     bool m_Registered;

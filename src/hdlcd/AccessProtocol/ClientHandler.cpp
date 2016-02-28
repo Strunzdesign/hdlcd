@@ -25,7 +25,9 @@
 #include "../../shared/PacketData.h"
 #include "../../shared/PacketCtrl.h"
 
-ClientHandler::ClientHandler(boost::asio::ip::tcp::socket a_TCPSocket): m_TCPSocket(std::move(a_TCPSocket)), m_PacketEndpoint(m_TCPSocket) {
+ClientHandler::ClientHandler(ClientHandlerCollection& a_ClientHandlerCollection, boost::asio::ip::tcp::socket a_TCPSocket):
+    m_ClientHandlerCollection(a_ClientHandlerCollection),
+    m_TCPSocket(std::move(a_TCPSocket)), m_PacketEndpoint(m_TCPSocket) {
     m_Registered = true;
     m_eHDLCBuffer = HDLCBUFFER_NOTHING;
     m_bDeliverSent = false;
@@ -34,9 +36,6 @@ ClientHandler::ClientHandler(boost::asio::ip::tcp::socket a_TCPSocket): m_TCPSoc
     m_PacketEndpoint.SetOnDataCallback([this](const PacketData& a_PacketData){ OnDataReceived(a_PacketData); });
     m_PacketEndpoint.SetOnCtrlCallback([this](const PacketCtrl& a_PacketCtrl){ OnCtrlReceived(a_PacketCtrl); });
     m_PacketEndpoint.SetOnClosedCallback([this](){ OnClosed(); });
-}
-
-ClientHandler::~ClientHandler() {
 }
 
 void ClientHandler::DeliverBufferToClient(E_HDLCBUFFER a_eHDLCBuffer, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent) {
@@ -69,6 +68,7 @@ void ClientHandler::UpdateSerialPortState(size_t a_LockHolders) {
 }
 
 void ClientHandler::Start(std::shared_ptr<SerialPortHandlerCollection> a_SerialPortHandlerCollection) {
+    m_ClientHandlerCollection.RegisterClientHandler(shared_from_this());
     m_SerialPortHandlerCollection = a_SerialPortHandlerCollection;
     ReadSessionHeader1();
 }
@@ -79,6 +79,7 @@ void ClientHandler::Stop() {
         m_SerialPortHandler.reset();
         std::cerr << "TCP CLOSE" << std::endl;
         m_TCPSocket.close();
+        m_ClientHandlerCollection.DeregisterClientHandler(shared_from_this());
     } // if
 }
 

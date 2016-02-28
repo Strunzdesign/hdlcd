@@ -40,11 +40,8 @@ private:
         m_TCPAcceptor.async_accept(m_TCPSocket, [this](boost::system::error_code a_ErrorCode) {
             if (!a_ErrorCode) {
                 // Create ClientHandler, store, and start it
-                auto l_ClientHandler = std::make_shared<ClientHandler>(std::move(m_TCPSocket));
-                m_ClientHandlerCollection.RegisterClientHandler(l_ClientHandler);
+                auto l_ClientHandler = std::make_shared<ClientHandler>(m_ClientHandlerCollection, std::move(m_TCPSocket));
                 l_ClientHandler->Start(m_SerialPortHandlerCollection);
-                
-                // TODO:implement call to remove it from collection!
             } // if
 
             do_accept();
