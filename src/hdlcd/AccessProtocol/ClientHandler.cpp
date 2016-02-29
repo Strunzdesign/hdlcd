@@ -149,16 +149,21 @@ void ClientHandler::ReadSessionHeader1() {
 
 void ClientHandler::ReadSessionHeader2(unsigned char a_BytesUSB) {
     boost::asio::async_read(m_TCPSocket, boost::asio::buffer(m_ReadBuffer, a_BytesUSB),[this](boost::system::error_code ec, std::size_t length) {
+	    auto self(shared_from_this());
         if (!ec) {
             // Now we know the USB port
             std::string l_UsbPortString;
             l_UsbPortString.append((char*)m_ReadBuffer, length);
-            m_SerialPortHandlerStopper = m_SerialPortHandlerCollection->GetSerialPortHandler(l_UsbPortString, shared_from_this());
-            m_SerialPortHandler = (*m_SerialPortHandlerStopper.get());
-            m_SerialPortLockGuard.Init(m_SerialPortHandler);
-            
-            // Start the PacketEndpoint. It takes full control over the TCP socket.
-            m_PacketEndpoint.Start();
+            m_SerialPortHandlerStopper = m_SerialPortHandlerCollection->GetSerialPortHandler(l_UsbPortString, self);
+			if (m_SerialPortHandlerStopper) {
+				m_SerialPortHandler = (*m_SerialPortHandlerStopper.get());
+				m_SerialPortLockGuard.Init(m_SerialPortHandler);
+
+				// Start the PacketEndpoint. It takes full control over the TCP socket.
+				m_PacketEndpoint.Start();
+		    } else {
+				Stop();
+			} // else
         } else {
             std::cerr << "TCP READ ERROR:" << ec << std::endl;
             Stop();

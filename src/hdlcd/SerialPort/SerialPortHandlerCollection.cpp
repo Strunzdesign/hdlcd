@@ -35,7 +35,7 @@ std::shared_ptr<std::shared_ptr<SerialPortHandler>> SerialPortHandlerCollection:
         if (l_SerialPortHandler == NULL) {
             auto l_NewSerialPortHandler = std::make_shared<SerialPortHandler>(a_SerialPortName, shared_from_this(), m_IOService);
             std::shared_ptr<std::shared_ptr<SerialPortHandler>> l_NewSerialPortHandlerStopper(new std::shared_ptr<SerialPortHandler>(l_NewSerialPortHandler), [=](std::shared_ptr<SerialPortHandler>* todelete){ (*todelete)->Stop(); delete(todelete); });
-            l_SerialPortHandler = std::move(l_NewSerialPortHandlerStopper);
+            l_SerialPortHandler = l_NewSerialPortHandlerStopper;
             l_SerialPortHandlerWeak = l_SerialPortHandler;
             l_HasToBeStarted = true;
         } // if
@@ -43,10 +43,12 @@ std::shared_ptr<std::shared_ptr<SerialPortHandler>> SerialPortHandlerCollection:
     
     l_SerialPortHandler.get()->get()->AddClientHandler(a_ClientHandler);
     if (l_HasToBeStarted) {
-        l_SerialPortHandler.get()->get()->Start();
+        if (l_SerialPortHandler.get()->get()->Start() == false) {
+		    l_SerialPortHandler.reset();
+		} // if
     } // if
 
-    return std::move(l_SerialPortHandler);
+    return l_SerialPortHandler;
 }
 
 void SerialPortHandlerCollection::DeregisterSerialPortHandler(std::shared_ptr<SerialPortHandler> a_SerialPortHandler) {
@@ -56,7 +58,7 @@ void SerialPortHandlerCollection::DeregisterSerialPortHandler(std::shared_ptr<Se
             if (*(cph.get()) == a_SerialPortHandler) {
                 m_SerialPortHandlerMap.erase(it);
                 break;
-            }
-        }
-    }
+            } // if
+        } // if
+    } // for
 }

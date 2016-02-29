@@ -56,7 +56,7 @@ public:
                 WriteSessionHeaders();
             } else {
                 std::cerr << "Connect of data socket failed!" << std::endl;
-                Shutdown();
+                Close();
             } // else
         });
         
@@ -68,7 +68,7 @@ public:
                 WriteSessionHeaders();
             } else {
                 std::cerr << "Connect of control socket failed!" << std::endl;
-                Shutdown();
+                Close();
             } // else
         });
     }
@@ -77,6 +77,11 @@ public:
         m_PacketEndpointData.Shutdown();
         m_PacketEndpointCtrl.Shutdown();
     }
+	
+	void Close() {
+	    m_PacketEndpointData.close();
+		m_PacketEndpointCtrl.close();
+	}
     
     // Callback methods
     void SetOnDataCallback(std::function<void(const PacketData& a_PacketData)> a_OnDataCallback) {
@@ -124,11 +129,11 @@ private:
         boost::asio::async_write(m_TCPDataSocket, boost::asio::buffer(m_SessionHeaderData.data(), m_SessionHeaderData.size()),
                                  [this](boost::system::error_code a_ErrorCode, std::size_t a_BytesWritten) {
             if (!a_ErrorCode) {
-                // Continue with the echange of packets
+                // Continue with the exchange of packets
                 m_PacketEndpointData.Start();
             } else {
                 std::cerr << "Write of session header to the data socket failed!" << std::endl;
-                Shutdown();
+                Close();
             }
         });
         
@@ -140,7 +145,7 @@ private:
                 m_PacketEndpointCtrl.Start();
             } else {
                 std::cerr << "Write of session header to the control socket failed!" << std::endl;
-                Shutdown();
+                Close();
             }
         });
     }

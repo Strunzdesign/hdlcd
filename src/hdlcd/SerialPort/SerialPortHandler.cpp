@@ -96,7 +96,8 @@ void SerialPortHandler::DeliverBufferToClients(E_HDLCBUFFER a_eHDLCBuffer, const
     } // for
 }
 
-void SerialPortHandler::Start() {
+bool SerialPortHandler::Start() {
+    bool l_bResult = true;
     m_ProtocolState = std::make_shared<ProtocolState>(shared_from_this(), m_IOService);
     try {
         m_SerialPort.open(m_SerialPortName);
@@ -110,9 +111,12 @@ void SerialPortHandler::Start() {
         m_ProtocolState->Start();
         do_read();
     } catch (boost::system::system_error& error) {
+	    l_bResult = false;
         std::cerr << error.what() << std::endl;
         Stop();
     } // catch
+	
+	return l_bResult;
 }
 
 void SerialPortHandler::Stop() {
@@ -123,9 +127,7 @@ void SerialPortHandler::Stop() {
         auto self(shared_from_this());
         std::cerr << "SERIAL CLOSE" << std::endl;
         m_SerialPort.close();
-        
         m_ProtocolState->Shutdown();
-        
         if (auto l_SerialPortHandlerCollection = m_SerialPortHandlerCollection.lock()) {
             l_SerialPortHandlerCollection->DeregisterSerialPortHandler(self);
         } // if

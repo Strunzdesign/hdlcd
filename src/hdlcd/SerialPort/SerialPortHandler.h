@@ -43,7 +43,7 @@ public:
     void DeliverPayloadToHDLC(const std::vector<unsigned char> &a_Payload);
     void DeliverBufferToClients(E_HDLCBUFFER a_eHDLCBuffer, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent);
     
-    void Start();
+    bool Start();
     void Stop();
     void ChangeBaudRate();
     
