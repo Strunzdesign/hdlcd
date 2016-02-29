@@ -32,6 +32,7 @@ using boost::asio::ip::tcp;
 class ClientAcceptor {
 public:
 ClientAcceptor(boost::asio::io_service& io_service, short port, std::shared_ptr<SerialPortHandlerCollection> a_SerialPortHandlerCollection): m_SerialPortHandlerCollection(a_SerialPortHandlerCollection), m_TCPAcceptor(io_service, tcp::endpoint(tcp::v4(), port)), m_TCPSocket(io_service) {
+    m_ClientHandlerCollection = std::make_shared<ClientHandlerCollection>();
     do_accept();
 }
 
@@ -49,7 +50,7 @@ private:
     }
 
     // Members
-    ClientHandlerCollection m_ClientHandlerCollection;
+    std::shared_ptr<ClientHandlerCollection> m_ClientHandlerCollection;
     std::shared_ptr<SerialPortHandlerCollection> m_SerialPortHandlerCollection;
     tcp::acceptor m_TCPAcceptor;
     tcp::socket m_TCPSocket;

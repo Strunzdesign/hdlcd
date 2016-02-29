@@ -28,12 +28,25 @@
 #include "../shared/PacketData.h"
 #include "../shared/PacketCtrl.h"
 
-class PacketEndpoint {
+class PacketEndpoint: public std::enable_shared_from_this<PacketEndpoint> {
 public:
     PacketEndpoint(boost::asio::ip::tcp::socket& a_TCPSocket): m_TCPSocket(a_TCPSocket) {
         m_SEPState = SEPSTATE_DISCONNECTED;
         m_bWriteInProgress = false;
         m_bShutdown = false;
+        m_bStarted = false;
+        m_bStopped = false;
+    }
+    
+    ~PacketEndpoint() {
+        m_OnDataCallback = NULL;
+        m_OnCtrlCallback = NULL;
+        m_OnClosedCallback = NULL;
+        Close();
+    }
+    
+    bool WasStarted() const {
+        return m_bStarted;
     }
             
     // Callback methods
@@ -63,8 +76,12 @@ public:
     }
     
     void Start() {
+        
+        assert(m_bStarted == false);
+        assert(m_bStopped == false);
         assert(m_SEPState == SEPSTATE_DISCONNECTED);
         assert(m_bWriteInProgress == false);
+        m_bStarted = true;
         m_SEPState = SEPSTATE_CONNECTED;
         ReadType();
         if (!m_SendQueue.empty()) {
@@ -76,21 +93,29 @@ public:
         m_bShutdown = true;
     }
 
-    void close() {
-        m_TCPSocket.close();
-        if (m_OnClosedCallback) {
-            m_OnClosedCallback();
+    void Close() {
+        if (m_bStarted && (!m_bStopped)) {
+            m_bStopped = true;
+            m_TCPSocket.cancel();
+            m_TCPSocket.close();
+            if (m_OnClosedCallback) {
+                m_OnClosedCallback();
+            } // if
         } // if
     }
 
 private:
     void ReadType() {
+        auto self(shared_from_this());
+        if (m_bStopped) return;
         assert(m_IncomingPacket == false);
         boost::asio::async_read(m_TCPSocket, boost::asio::buffer(m_ReadBuffer, 1),
-                                [this](boost::system::error_code a_ErrorCode, std::size_t a_BytesRead) {
+                                [this, self](boost::system::error_code a_ErrorCode, std::size_t a_BytesRead) {
+            if (a_ErrorCode == boost::asio::error::operation_aborted) return;
+            if (m_bStopped) return;
             if (a_ErrorCode) {
                 std::cerr << "Read of packet header failed, socket closed!" << std::endl;
-                close();
+                Close();
                 return;
             } // if
             
@@ -109,7 +134,7 @@ private:
             }
             default:
                 std::cerr << "Unknown content field in received packet header, socket closed!" << std::endl;
-                close();
+                Close();
                 return;
             } // switch
             
@@ -118,22 +143,26 @@ private:
     }
     
     void ReadRemainingBytes() {
+        auto self(shared_from_this());
+        if (m_bStopped) return;
         assert(m_IncomingPacket);
         size_t l_BytesNeeded = m_IncomingPacket->BytesNeeded();
         if (l_BytesNeeded) { // TODO: check buffer size!
             // More bytes needed 
             boost::asio::async_read(m_TCPSocket, boost::asio::buffer(m_ReadBuffer, l_BytesNeeded),
-                                    [this](boost::system::error_code a_ErrorCode, std::size_t a_BytesRead) {
+                                    [this, self](boost::system::error_code a_ErrorCode, std::size_t a_BytesRead) {
+                if (a_ErrorCode == boost::asio::error::operation_aborted) return;
+                if (m_bStopped) return;
                 if (!a_ErrorCode) {
                     if (m_IncomingPacket->BytesReceived(m_ReadBuffer, a_BytesRead)) {
                         ReadRemainingBytes();
                     } else {
                         std::cerr << "TCP packet error!" << std::endl;
-                        close();
+                        Close();
                     } // else
                 } else {
                     std::cerr << "TCP read error!" << std::endl;
-                    close();
+                    Close();
                 } // else
             });
         } else {
@@ -158,9 +187,13 @@ private:
     }
 
     void do_write() {
+        auto self(shared_from_this());
+        if (m_bStopped) return;
         m_bWriteInProgress = true;
         boost::asio::async_write(m_TCPSocket, boost::asio::buffer(m_SendQueue.front().data(), m_SendQueue.front().size()),
-                                 [this](boost::system::error_code a_ErrorCode, std::size_t a_BytesSent) {
+                                 [this, self](boost::system::error_code a_ErrorCode, std::size_t a_BytesSent) {
+            if (a_ErrorCode == boost::asio::error::operation_aborted) return;
+            if (m_bStopped) return;
             if (!a_ErrorCode) {
                 m_SendQueue.pop_front();
                 if (!m_SendQueue.empty()) {
@@ -170,12 +203,12 @@ private:
                     if (m_bShutdown) {
                         m_SEPState = SEPSTATE_SHUTDOWN;
                         m_TCPSocket.shutdown(boost::asio::ip::tcp::socket::shutdown_both);
-                        close();
+                        Close();
                     } // if
                 } // else
             } else {
                 std::cerr << "TCP write error!" << std::endl;
-                close();
+                Close();
             }
         });
     }
@@ -201,6 +234,8 @@ private:
     } E_SEPSTATE;
     E_SEPSTATE m_SEPState;
     bool m_bShutdown;
+    bool m_bStarted;
+    bool m_bStopped;
 };
 
 #endif // PACKET_ENDPOINT_H

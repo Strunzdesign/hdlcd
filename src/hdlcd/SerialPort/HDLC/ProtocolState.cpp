@@ -38,6 +38,8 @@ void ProtocolState::Reset() {
     m_RSeqOutgoing = 0;
     m_SSeqIncoming = 0;
     m_RSeqIncoming = 0;
+    m_bPeerStoppedFlow = false;
+    m_bPeerStoppedFlowSendData = false;
     m_bPeerRequiresAck = false;
     m_HDLCType = HDLC_TYPE_UNKNOWN;
     m_PortState = PORT_STATE_BAUDRATE_UNKNOWN;
@@ -72,19 +74,18 @@ void ProtocolState::Shutdown() {
     m_FrameParser.reset();
 }
 
-void ProtocolState::SendPayload(const std::vector<unsigned char> &a_Payload) {
+bool ProtocolState::SendPayload(const std::vector<unsigned char> &a_Payload) {
     // Checks
     if (!m_bStarted) {
-        return;
+        return false;
     } // if
-
-    // Fresh Payload to be sent is available. TODO: Reliable-flag, woher?    
-    m_SerialPortHandler->DeliverBufferToClients(HDLCBUFFER_PAYLOAD, a_Payload, true, true, true);
     
-    // Queue payload for later framing
-    m_PayloadWaitQueue.emplace_back(std::move(a_Payload));
-    if (m_bAwaitsNextHDLCFrame) {
-        OpportunityForTransmission();
+    if ((!m_bPeerStoppedFlow) || ( m_bPeerStoppedFlow && m_PayloadWaitQueue.empty())) {
+        // Queue payload for later framing
+        m_PayloadWaitQueue.emplace_back(std::move(a_Payload));
+        if (m_bAwaitsNextHDLCFrame) {
+            OpportunityForTransmission();
+        } // if
     } // if
 }
 
@@ -154,12 +155,25 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
         if ((a_Frame.IsIFrame()) || (a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_S_RR)) {
             // Now we know the start of the window the receiver expects and which segments it allows us to send
             m_RSeqOutgoing = a_Frame.GetRSeq();
+            if (m_bPeerStoppedFlow) {
+                // The peer restarted the flow: RR clears RNR condition
+                m_bPeerStoppedFlow = false;
+                m_SSeqOutgoing = m_RSeqOutgoing;
+                m_Timer.cancel();
+            } // if
         } else if (a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_S_RNR) {
             // The peer wants us to stop sending subsequent data
-            // TODO: not implemented yet
+            m_RSeqOutgoing = a_Frame.GetRSeq();
+            m_bPeerStoppedFlow = true;
         } else if (a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_S_REJ) {
             // The peer requests for go-back-N. We have to retransmit all affected packets
-            // TODO: not implemented yet
+            // TODO: not fully implemented yet
+            if (m_bPeerStoppedFlow) {
+                // The peer restarted the flow: REJ clears RNR condition
+                m_bPeerStoppedFlow = false;
+                m_SSeqOutgoing = m_RSeqOutgoing;
+                m_Timer.cancel();
+            } // if
         } else {
             assert(a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_S_SREJ);
             // The peer requests for the retransmission of a single segment with a specific sequence number
@@ -184,8 +198,8 @@ void ProtocolState::OpportunityForTransmission() {
         l_Frame = PrepareUFrameTEST();
         
         // Setup retransmission timer
-        m_Timer.expires_from_now(boost::posix_time::milliseconds(500));
         auto self(shared_from_this());
+        m_Timer.expires_from_now(boost::posix_time::milliseconds(500));
         m_Timer.async_wait([this, self](const boost::system::error_code& ec) {
             if (!ec) {
                 m_PortState = PORT_STATE_BAUDRATE_UNKNOWN;
@@ -205,33 +219,57 @@ void ProtocolState::OpportunityForTransmission() {
         if (m_SREJs.empty() == false) {
             // Send SREJs first
             l_Frame = PrepareSFrameSREJ();
-        } else if (m_PayloadWaitQueue.empty() == false) {
+        } else if ((m_PayloadWaitQueue.empty() == false) && ((m_bPeerStoppedFlow == false) || m_bPeerStoppedFlowSendData)) {
+            // Send I-frame with data
             l_Frame = PrepareIFrame();
+            if (m_bPeerStoppedFlowSendData) {
+                m_bPeerStoppedFlowSendData = false;
+                auto self(shared_from_this());
+                m_Timer.expires_from_now(boost::posix_time::milliseconds(500));
+                m_Timer.async_wait([this, self](const boost::system::error_code& ec) {
+                    if (!ec) {
+                        if (m_bPeerStoppedFlow) {
+                            m_bPeerStoppedFlowSendData = true;
+                        } // if
+
+                        OpportunityForTransmission();
+                    } // if
+                });
+            } else {
+                m_PayloadWaitQueue.pop_front();
+                m_SSeqOutgoing = ((m_SSeqOutgoing + 1) & 0x07);
+            } // else
+            
             m_bPeerRequiresAck = false;
-            m_SSeqOutgoing = ((m_SSeqOutgoing + 1) & 0x07);
-        } else {
+        } else if (m_bPeerRequiresAck) {
             l_Frame = PrepareSFrameRR();
             m_bPeerRequiresAck = false;
-        } // else
-    } // else if
-    
-    // Deliver unescaped frame to clients that have interest
-    m_bAwaitsNextHDLCFrame = false;
-    auto l_HDLCFrameBuffer = FrameGenerator::SerializeFrame(l_Frame);
-    m_SerialPortHandler->DeliverBufferToClients(HDLCBUFFER_RAW, l_HDLCFrameBuffer, l_Frame.IsIFrame(), true, true); // not escaped
-    m_SerialPortHandler->DeliverBufferToClients(HDLCBUFFER_DISSECTED, l_Frame.Dissect(), l_Frame.IsIFrame(), true, true);
-    m_SerialPortHandler->DeliverHDLCFrame(std::move(FrameGenerator::EscapeFrame(l_HDLCFrameBuffer)));
+        } // else if
+    } // else
+
+    if (l_Frame.GetHDLCFrameType() != Frame::HDLC_FRAMETYPE_UNSET) {
+        // Deliver unescaped frame to clients that have interest
+        m_bAwaitsNextHDLCFrame = false;
+        auto l_HDLCFrameBuffer = FrameGenerator::SerializeFrame(l_Frame);
+        m_SerialPortHandler->DeliverBufferToClients(HDLCBUFFER_RAW, l_HDLCFrameBuffer, l_Frame.IsIFrame(), true, true); // not escaped
+        m_SerialPortHandler->DeliverBufferToClients(HDLCBUFFER_DISSECTED, l_Frame.Dissect(), l_Frame.IsIFrame(), true, true);
+        m_SerialPortHandler->DeliverHDLCFrame(std::move(FrameGenerator::EscapeFrame(l_HDLCFrameBuffer)));
+    } // if
 }
 
 Frame ProtocolState::PrepareIFrame() {
+    // Fresh Payload to be sent is available.
+    assert(m_PayloadWaitQueue.empty() == false);
+    m_SerialPortHandler->DeliverBufferToClients(HDLCBUFFER_PAYLOAD, m_PayloadWaitQueue.front(), true, true, true);
+
+    // Prepare I-Frame    
     Frame l_Frame;
     l_Frame.SetAddress(0x30);
     l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_I);
     l_Frame.SetPF(false);
     l_Frame.SetSSeq(m_SSeqOutgoing);
     l_Frame.SetRSeq(m_RSeqIncoming);
-    l_Frame.SetPayload(std::move(m_PayloadWaitQueue.front()));
-    m_PayloadWaitQueue.pop_front();
+    l_Frame.SetPayload(m_PayloadWaitQueue.front());
     return(std::move(l_Frame));
 }
 
@@ -254,10 +292,24 @@ Frame ProtocolState::PrepareSFrameSREJ() {
     return(std::move(l_Frame));
 }
 
+Frame ProtocolState::PrepareUFrameUI() {
+    // Fresh Payload to be sent is available. TODO: not called yet.
+    assert(m_PayloadWaitQueue.empty() == false);
+    m_SerialPortHandler->DeliverBufferToClients(HDLCBUFFER_PAYLOAD, m_PayloadWaitQueue.front(), false, true, true);
+
+    // Prepare UI-Frame
+    Frame l_Frame;
+    l_Frame.SetAddress(0x30);
+    l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_U_UI);
+    l_Frame.SetPF(false);
+    l_Frame.SetPayload(m_PayloadWaitQueue.front());
+    return(std::move(l_Frame));
+}
+
 Frame ProtocolState::PrepareUFrameTEST() {
     Frame l_Frame;
     l_Frame.SetAddress(0x30);
     l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_U_TEST);
-    l_Frame.SetPF(true); // Hotfix
+    l_Frame.SetPF(false);
     return(std::move(l_Frame));
 }

@@ -48,6 +48,7 @@ void SerialPortHandler::SuspendSerialPort() {
     if (m_SerialPortLock.SuspendSerialPort()) {
         // The serial port is now suspended!
         m_ProtocolState->Stop();
+        m_SerialPort.cancel();
         m_SerialPort.close();
     } // if
     
@@ -111,12 +112,25 @@ bool SerialPortHandler::Start() {
         m_ProtocolState->Start();
         do_read();
     } catch (boost::system::system_error& error) {
-	    l_bResult = false;
         std::cerr << error.what() << std::endl;
-        Stop();
+        l_bResult = false;
+        m_Registered = false;
+        
+        // TODO: ugly, code duplication. We must assure that cancel is not called!
+        auto self(shared_from_this());
+        m_ProtocolState->Shutdown();
+        if (auto l_SerialPortHandlerCollection = m_SerialPortHandlerCollection.lock()) {
+            l_SerialPortHandlerCollection->DeregisterSerialPortHandler(self);
+        } // if
+        
+        for (auto it = m_ClientHandlerVector.begin(); it != m_ClientHandlerVector.end(); ++it) {
+            if (auto l_ClientHandler = it->lock()) {
+                l_ClientHandler->Stop();
+            } // if
+        } // for
     } // catch
-	
-	return l_bResult;
+
+    return l_bResult;
 }
 
 void SerialPortHandler::Stop() {
@@ -125,7 +139,7 @@ void SerialPortHandler::Stop() {
         
         // Keep a copy here to keep this object alive!
         auto self(shared_from_this());
-        std::cerr << "SERIAL CLOSE" << std::endl;
+        m_SerialPort.cancel();
         m_SerialPort.close();
         m_ProtocolState->Shutdown();
         if (auto l_SerialPortHandlerCollection = m_SerialPortHandlerCollection.lock()) {
@@ -159,6 +173,7 @@ void SerialPortHandler::DeliverHDLCFrame(const std::vector<unsigned char> &a_Pay
 void SerialPortHandler::do_read() {
     auto self(shared_from_this());
     m_SerialPort.async_read_some(boost::asio::buffer(m_ReadBuffer, max_length),[this, self](boost::system::error_code a_ErrorCode, std::size_t a_BytesRead) {
+        if (a_ErrorCode == boost::asio::error::operation_aborted) return;
         if (!a_ErrorCode) {
             m_ProtocolState->AddReceivedRawBytes(m_ReadBuffer, a_BytesRead);
             if (m_SerialPortLock.GetSerialPortState() == false) {
@@ -176,6 +191,7 @@ void SerialPortHandler::do_read() {
 void SerialPortHandler::do_write() {
     auto self(shared_from_this());
     m_SerialPort.async_write_some(boost::asio::buffer(&m_SendBuffer[m_SendBufferOffset], (m_SendBuffer.size() - m_SendBufferOffset)),[this, self](boost::system::error_code a_ErrorCode, std::size_t a_BytesRead) {
+        if (a_ErrorCode == boost::asio::error::operation_aborted) return;
         if (!a_ErrorCode) {
             m_SendBufferOffset += a_BytesRead;
             if (m_SendBufferOffset == m_SendBuffer.size()) {

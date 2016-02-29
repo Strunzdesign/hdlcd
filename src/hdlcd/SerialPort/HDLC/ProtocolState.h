@@ -38,7 +38,7 @@ public:
     void Stop();
     void Shutdown();
 
-    void SendPayload(const std::vector<unsigned char> &a_Payload);
+    bool SendPayload(const std::vector<unsigned char> &a_Payload);
     void TriggerNextHDLCFrame();
     void AddReceivedRawBytes(const unsigned char* a_Buffer, size_t a_Bytes);
     void InterpretDeserializedFrame(const std::vector<unsigned char> &a_Payload, const Frame& a_Frame, bool a_bMessageValid);
@@ -50,6 +50,7 @@ private:
     Frame PrepareIFrame();
     Frame PrepareSFrameRR();
     Frame PrepareSFrameSREJ();
+    Frame PrepareUFrameUI();
     Frame PrepareUFrameTEST();
     
     // Members
@@ -61,6 +62,8 @@ private:
     unsigned char m_RSeqIncoming; // The start of the RX window we offer our peer, defines which packets we expect
     
     // State of pending actions
+    bool m_bPeerStoppedFlow;      // RNR condition
+    bool m_bPeerStoppedFlowSendData;
     bool m_bPeerRequiresAck;
     std::deque<unsigned char> m_SREJs;
     
