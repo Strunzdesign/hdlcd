@@ -123,7 +123,7 @@ private:
         if (l_BytesNeeded) { // TODO: check buffer size!
             // More bytes needed 
             boost::asio::async_read(m_TCPSocket, boost::asio::buffer(m_ReadBuffer, l_BytesNeeded),
-                                [this](boost::system::error_code a_ErrorCode, std::size_t a_BytesRead) {
+                                    [this](boost::system::error_code a_ErrorCode, std::size_t a_BytesRead) {
                 if (!a_ErrorCode) {
                     if (m_IncomingPacket->BytesReceived(m_ReadBuffer, a_BytesRead)) {
                         ReadRemainingBytes();
@@ -190,7 +190,7 @@ private:
     std::shared_ptr<Packet> m_IncomingPacket;
     std::deque<std::vector<unsigned char>> m_SendQueue; // To be transmitted
     bool m_bWriteInProgress;
-    enum { max_length = 1024 };
+    enum { max_length = 65535 };
     unsigned char m_ReadBuffer[max_length];
     
     // State

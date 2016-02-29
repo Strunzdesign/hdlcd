@@ -20,10 +20,10 @@
  */
 
 #include "SerialPortHandler.h"
-#include "SerialPortHandlerCollection.h"
-#include "../AccessProtocol/ClientHandler.h"
-#include "../HDLC/ProtocolState.h"
 #include <boost/system/system_error.hpp>
+#include "../AccessProtocol/ClientHandler.h"
+#include "SerialPortHandlerCollection.h"
+#include "HDLC/ProtocolState.h"
 
 SerialPortHandler::SerialPortHandler(const std::string &a_SerialPortName, std::shared_ptr<SerialPortHandlerCollection> a_SerialPortHandlerCollection, boost::asio::io_service &a_IOService): m_SerialPort(a_IOService), m_IOService(a_IOService) {
     m_Registered = true;

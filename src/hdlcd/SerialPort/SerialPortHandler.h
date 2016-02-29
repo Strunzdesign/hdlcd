@@ -28,7 +28,7 @@
 #include <boost/asio.hpp>
 #include "SerialPortLock.h"
 #include "BaudRate.h"
-#include "../HDLC/HDLCBuffer.h"
+#include "HDLC/HDLCBuffer.h"
 class SerialPortHandlerCollection;
 class ClientHandler;
 class ProtocolState;

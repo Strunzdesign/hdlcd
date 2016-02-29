@@ -30,7 +30,7 @@
 #include <boost/asio.hpp>
 #include "ClientHandlerCollection.h"
 #include "../SerialPort/SerialPortLockGuard.h"
-#include "../HDLC/HDLCBuffer.h"
+#include "../SerialPort/HDLC/HDLCBuffer.h"
 #include "../../shared/PacketEndpoint.h"
 
 class SerialPortHandler;

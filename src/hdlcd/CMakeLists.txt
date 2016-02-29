@@ -10,15 +10,15 @@ add_executable(hdlcd
 main.cpp
 AccessProtocol/ClientHandler.cpp
 AccessProtocol/ClientHandlerCollection.cpp
+SerialPort/HDLC/FCS16.cpp
+SerialPort/HDLC/Frame.cpp
+SerialPort/HDLC/FrameGenerator.cpp
+SerialPort/HDLC/FrameParser.cpp
+SerialPort/HDLC/ProtocolState.cpp
 SerialPort/SerialPortLock.cpp
 SerialPort/SerialPortLockGuard.cpp
 SerialPort/SerialPortHandler.cpp
 SerialPort/SerialPortHandlerCollection.cpp
-HDLC/FCS16.cpp
-HDLC/Frame.cpp
-HDLC/FrameGenerator.cpp
-HDLC/FrameParser.cpp
-HDLC/ProtocolState.cpp
 )
 
 set_property(TARGET hdlcd PROPERTY CXX_STANDARD 11)

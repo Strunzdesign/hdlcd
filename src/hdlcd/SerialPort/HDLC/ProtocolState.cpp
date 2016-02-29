@@ -21,7 +21,7 @@
 
 #include "ProtocolState.h"
 #include <assert.h>
-#include "../SerialPort/SerialPortHandler.h"
+#include "../SerialPortHandler.h"
 #include "FrameParser.h"
 #include "FrameGenerator.h"
 
