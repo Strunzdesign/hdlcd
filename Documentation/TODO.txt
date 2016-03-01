@@ -1,13 +1,9 @@
 Issues to be resolved before a first release:
-- Propagate direction of arrival flag (DONE) and the validity flag (TODO) via the access protocol
 - Add command line switches and online help ("-h --help") to hdlcd
-- Logic to suspend / resume serial interfaces via control packets (logic: DONE, via TCP: TODO, tool: BROKEN)
 - Doxygen
 - Periodically test idle HDLC links via U-TEST packet; check if the baud rate is still correct, or start another detection procedure.
-- Communicate the HDLC state (initial and on any change; whether "connected") via control packets (Spec: DONE, Code: TODO)
-- Communicate the baud rate (initial and on any change) via control packets
 - Fix all the TODOs in the source code
-
+- Stop reading subsequent data packets from the TCP socket if the serial port is currently not open
 
 
 
@@ -18,12 +14,15 @@ Issues to be resolved after the first release:
 - New session type for remote logging
 - Authentication, maybe?
 - More tools: pcap-streamer for multiple session types to analyze traffic via wireshark using named pipes (STARTED)
-
+- Communicate the baud rate (initial and on any change) via control packets
 
 
 
 
 // DONE
+- Communicate the HDLC state (initial and on any change; whether "connected") via control packets (Spec: DONE, Code: DONE)
+- Logic to suspend / resume serial interfaces via control packets (logic: DONE, via TCP: DONE, tool: DONE)
+- Propagate direction of arrival flag (DONE) and the validity flag (DONE) via the access protocol (DONE)
 - HDLC retransmissions (specific to the current limitations of the s-net(r) sensor nodes by Fraunhofer IIS) (WONTFIX, impossible)
 - Rudimentary HDLC protocol is sufficient for the s-net(r) sensor nodes by Fraunhofer IIS (DONE)
 - Refactoring of the shared header files (DONE)
