@@ -1,5 +1,5 @@
 /**
- * \file SerialPortLockGuard.cpp
+ * \file LockGuard.cpp
  * \brief 
  *
  * The hdlc-tools implement the HDLC protocol to easily talk to devices connected via serial communications
@@ -19,31 +19,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "SerialPortLockGuard.h"
-#include "SerialPortHandler.h"
+#include "LockGuard.h"
+#include "../SerialPort/SerialPortHandler.h"
 
-SerialPortLockGuard::SerialPortLockGuard() {
+LockGuard::LockGuard() {
     m_bLockedBySelf = false;
     m_bLockedByOthers = false;
     m_bLastLockedBySelf = false;
     m_bLastLockedByOthers = false;
 }
 
-SerialPortLockGuard::~SerialPortLockGuard() {
+LockGuard::~LockGuard() {
     if (m_bLockedBySelf) {
          m_SerialPortHandler->ResumeSerialPort();
     } // if
 }
 
-void SerialPortLockGuard::Init(std::shared_ptr<SerialPortHandler> a_SerialPortHandler) {
+void LockGuard::Init(std::shared_ptr<SerialPortHandler> a_SerialPortHandler) {
     // Checks
     assert(m_bLockedBySelf == false);
     assert(m_bLockedByOthers == false);
     m_SerialPortHandler = a_SerialPortHandler;
-    m_bLockedByOthers   = (m_SerialPortHandler->GetLockHolders() != 0);
 }
 
-void SerialPortLockGuard::SuspendSerialPort() {
+void LockGuard::AcquireLock() {
     if (!m_bLockedBySelf) {
         // Lock it now!
         m_bLockedBySelf = true;
@@ -51,14 +50,14 @@ void SerialPortLockGuard::SuspendSerialPort() {
     } // if
 }
 
-void SerialPortLockGuard::ResumeSerialPort() {
+void LockGuard::ReleaseLock() {
     if (m_bLockedByOthers) {
         m_bLockedByOthers = false;
         m_SerialPortHandler->ResumeSerialPort();
     } // if
 }
 
-bool SerialPortLockGuard::UpdateSerialPortState(size_t a_LockHolders) {
+bool LockGuard::UpdateSerialPortState(size_t a_LockHolders) {
     // This call is caused by ourselves
     if (m_bLockedBySelf) {
         m_bLockedByOthers = (a_LockHolders > 1);

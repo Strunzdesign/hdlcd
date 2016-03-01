@@ -124,12 +124,12 @@ private:
             switch (l_Type & 0xF0) {
             case 0x00: {
                 // Is data packet
-                m_IncomingPacket = std::make_shared<PacketData>(l_Type);
+                m_IncomingPacket = PacketData::CreateDeserializedPacket(l_Type);
                 break;
             }
             case 0x10: {
                 // Is control packet
-                m_IncomingPacket = std::make_shared<PacketCtrl>(l_Type);
+                m_IncomingPacket = PacketCtrl::CreateDeserializedPacket(l_Type);
                 break;
             }
             default:

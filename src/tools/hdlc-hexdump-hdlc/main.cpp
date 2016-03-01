@@ -22,7 +22,7 @@
 #include <iostream>
 #include <boost/asio.hpp>
 #include "../../shared/AccessClient.h"
-#include "../../shared/HexDumper.h"
+#include "../../shared/PacketDataPrinter.h"
 
 int main(int argc, char* argv[]) {
     try {
@@ -45,7 +45,7 @@ int main(int argc, char* argv[]) {
         
         // Prepare access protocol entity: 0x33 = HDLC Raw RO, RX and TX, RECV_CTRL
         AccessClient l_AccessClient(io_service, endpoint_iterator, argv[3], 0x33);
-        l_AccessClient.SetOnDataCallback([](const PacketData& a_PacketData){ PrintHexDump(a_PacketData.GetWasSent(), a_PacketData.GetData()); });
+        l_AccessClient.SetOnDataCallback([](const PacketData& a_PacketData){ PacketDataPrinter(a_PacketData); });
         l_AccessClient.SetOnClosedCallback([&io_service](){io_service.stop();});
         
         // Start event processing

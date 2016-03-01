@@ -70,15 +70,11 @@ void SerialPortHandler::ResumeSerialPort() {
     PropagateSerialPortState();
 }
 
-size_t SerialPortHandler::GetLockHolders() const {
-    return (m_SerialPortLock.GetLockHolders());
-}
-
 void SerialPortHandler::PropagateSerialPortState() const {
-    auto l_LockHolders = m_SerialPortLock.GetLockHolders();
     for (auto it = m_ClientHandlerVector.begin(); it != m_ClientHandlerVector.end(); ++it) {
         if (auto l_ClientHandler = it->lock()) {
-            l_ClientHandler->UpdateSerialPortState(l_LockHolders);
+            l_ClientHandler->UpdateSerialPortState(m_ProtocolState->IsAlive(), m_ProtocolState->IsFlowSuspended(),
+                                                   m_SerialPortLock.GetLockHolders());
         } // if
         // TODO: REMOVE IF INVALID
     } // for

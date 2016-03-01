@@ -42,6 +42,10 @@ public:
     void TriggerNextHDLCFrame();
     void AddReceivedRawBytes(const unsigned char* a_Buffer, size_t a_Bytes);
     void InterpretDeserializedFrame(const std::vector<unsigned char> &a_Payload, const Frame& a_Frame, bool a_bMessageValid);
+    
+    // Query state
+    bool IsAlive() const { return m_PortState == PORT_STATE_BAUDRATE_FOUND; }
+    bool IsFlowSuspended() const { return m_bPeerStoppedFlow; }
 
 private:
     // Internal helpers

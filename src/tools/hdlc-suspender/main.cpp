@@ -21,8 +21,9 @@
 
 #include <iostream>
 #include <boost/asio.hpp>
-#include "../../shared/StreamEndpoint.h"
-#include "ControlDumper.h"
+#include "../../shared/AccessClient.h"
+#include "../../shared/PacketCtrl.h"
+#include "../../shared/PacketCtrlPrinter.h"
 
 int main(int argc, char* argv[]) {
     try {
@@ -43,13 +44,12 @@ int main(int argc, char* argv[]) {
         boost::asio::ip::tcp::resolver resolver(io_service);
         auto endpoint_iterator = resolver.resolve({ argv[1], argv[2] });
         
-        // Prepare output
-        ControlDumper l_ControlDumper;
+        // Prepare access protocol entity: 0x10: Port status only, no data exchange, port status read and write
+        AccessClient l_AccessClient(io_service, endpoint_iterator, argv[3], 0x10);
+        l_AccessClient.SetOnCtrlCallback([](const PacketCtrl& a_PacketCtrl){ PacketCtrlPrinter(a_PacketCtrl); });
+        l_AccessClient.SetOnClosedCallback([&io_service](){io_service.stop();});
+        l_AccessClient.Send(std::move(PacketCtrl::CreatePortStatusRequest(true)));
 
-        // SAP 0x1*: Port status only, no data exchange, port status read and write
-        StreamEndpoint l_StreamEndpoint(io_service, endpoint_iterator, argv[3], &l_ControlDumper, 0x10);
-        l_StreamEndpoint.SetOnClosedCallback([&io_service](){io_service.stop();});
-        
         // Start event processing
         io_service.run();
     } catch (std::exception& e) {

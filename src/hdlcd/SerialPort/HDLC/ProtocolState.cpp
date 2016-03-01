@@ -128,6 +128,7 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
         // Found the correct baud rate
         m_PortState = PORT_STATE_BAUDRATE_FOUND;
         m_Timer.cancel();
+        m_SerialPortHandler->PropagateSerialPortState();
     } // if
     
     // Go ahead interpreting the frame we received
@@ -160,11 +161,13 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
                 m_bPeerStoppedFlow = false;
                 m_SSeqOutgoing = m_RSeqOutgoing;
                 m_Timer.cancel();
+                m_SerialPortHandler->PropagateSerialPortState();
             } // if
         } else if (a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_S_RNR) {
             // The peer wants us to stop sending subsequent data
             m_RSeqOutgoing = a_Frame.GetRSeq();
             m_bPeerStoppedFlow = true;
+            m_SerialPortHandler->PropagateSerialPortState();
         } else if (a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_S_REJ) {
             // The peer requests for go-back-N. We have to retransmit all affected packets
             // TODO: not fully implemented yet
@@ -173,6 +176,7 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
                 m_bPeerStoppedFlow = false;
                 m_SSeqOutgoing = m_RSeqOutgoing;
                 m_Timer.cancel();
+                m_SerialPortHandler->PropagateSerialPortState();
             } // if
         } else {
             assert(a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_S_SREJ);

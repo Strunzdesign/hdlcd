@@ -28,7 +28,9 @@
 #include <deque>
 #include <vector>
 #include <boost/asio.hpp>
-#include "../SerialPort/SerialPortLockGuard.h"
+#include "AliveGuard.h"
+#include "FlowGuard.h"
+#include "LockGuard.h"
 #include "../SerialPort/HDLC/HDLCBuffer.h"
 #include "../../shared/PacketEndpoint.h"
 
@@ -42,7 +44,7 @@ public:
     ~ClientHandler();
     
     void DeliverBufferToClient(E_HDLCBUFFER a_eHDLCBuffer, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent);
-    void UpdateSerialPortState(size_t a_LockHolders);
+    void UpdateSerialPortState(bool a_bAlive, bool a_bFlowControl, size_t a_LockHolders);
     
     void Start(std::shared_ptr<SerialPortHandlerCollection> a_SerialPortHandlerCollection);
     void Stop();
@@ -69,7 +71,10 @@ private:
     enum { max_length = 256 };
     unsigned char m_ReadBuffer[max_length];
 
-    SerialPortLockGuard m_SerialPortLockGuard;
+    // Track the status of the serial port, communicate changes
+    AliveGuard m_AliveGuard;
+    FlowGuard  m_FlowGuard;
+    LockGuard  m_LockGuard;
 
     // SAP specification
     E_HDLCBUFFER m_eHDLCBuffer;

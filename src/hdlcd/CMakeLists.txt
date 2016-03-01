@@ -10,13 +10,13 @@ add_executable(hdlcd
 main.cpp
 AccessProtocol/ClientHandler.cpp
 AccessProtocol/ClientHandlerCollection.cpp
+AccessProtocol/LockGuard.cpp
 SerialPort/HDLC/FCS16.cpp
 SerialPort/HDLC/Frame.cpp
 SerialPort/HDLC/FrameGenerator.cpp
 SerialPort/HDLC/FrameParser.cpp
 SerialPort/HDLC/ProtocolState.cpp
 SerialPort/SerialPortLock.cpp
-SerialPort/SerialPortLockGuard.cpp
 SerialPort/SerialPortHandler.cpp
 SerialPort/SerialPortHandlerCollection.cpp
 )

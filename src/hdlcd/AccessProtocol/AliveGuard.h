@@ -1,5 +1,5 @@
 /**
- * \file Packet.h
+ * \file AliveGuard.h
  * \brief 
  *
  * The hdlc-tools implement the HDLC protocol to easily talk to devices connected via serial communications
@@ -19,21 +19,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PACKET_H
-#define PACKET_H
+#ifndef ALIVE_GUARD_H
+#define ALIVE_GUARD_H
 
-#include <vector>
-
-class Packet {
+class AliveGuard {
 public:
-    // CTOR and DTOR
-    Packet() {}
-    virtual ~Packet(){}
+    // CTOR
+    AliveGuard(): m_bAlive(true) {
+    }
     
-    // Serializer and deserializer
-    virtual const std::vector<unsigned char> Serialize() const = 0;
-    virtual size_t BytesNeeded() const = 0;
-    virtual bool BytesReceived(const unsigned char *a_ReadBuffer, size_t a_BytesRead) = 0;
+    // Influende the serial port state
+    bool UpdateSerialPortState(bool a_bAlive) {
+        bool l_bStateChanged = (m_bAlive != a_bAlive);
+        m_bAlive = a_bAlive;
+        return l_bStateChanged;
+    }
+    
+    // Check status
+    bool IsAlive() const { return m_bAlive; }
+
+private:
+    // Members
+    bool m_bAlive;
 };
 
-#endif // PACKET_DATA_H
+#endif // ALIVE_GUARD_H

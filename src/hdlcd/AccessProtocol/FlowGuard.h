@@ -1,5 +1,5 @@
 /**
- * \file HexDumper.h
+ * \file FlowGuard.h
  * \brief 
  *
  * The hdlc-tools implement the HDLC protocol to easily talk to devices connected via serial communications
@@ -19,25 +19,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef HEX_DUMPER_H
-#define HEX_DUMPER_H
+#ifndef FLOW_GUARD_H
+#define FLOW_GUARD_H
 
-#include <iostream>
-#include <iomanip> 
+class FlowGuard {
+public:
+    // CTOR
+    FlowGuard(): m_bFlowSuspended(false) {
+    }
+    
+    // Influende the serial port state
+    bool UpdateSerialPortState(bool a_bFlowSuspended) {
+        bool l_bStateChanged = (m_bFlowSuspended != a_bFlowSuspended);
+        m_bFlowSuspended = a_bFlowSuspended;
+        return l_bStateChanged;
+    }
+    
+    // Check status
+    bool IsFlowSuspended() const { return m_bFlowSuspended; }
 
-void PrintHexDump(bool a_bWasSent, const std::vector<unsigned char> &a_Buffer) {
-    // Print a hexdump of the provided data buffer. It should contain a packet to be printed in one line.
-    if (a_bWasSent) {
-        std::cout << "<<< Sent: ";
-    } else {
-        std::cout << ">>> Rcvd: ";
-    } // else
+private:
+    // Members
+    bool m_bFlowSuspended;
+};
 
-    for (auto it = a_Buffer.begin(); it != a_Buffer.end(); ++it) {
-        std::cout << std::hex << std::setw(2) << std::setfill('0') << int(*it) << " ";
-    } // for
-
-    std::cout << std::endl;
-}
-
-#endif // HEX_DUMPER_H
+#endif // FLOW_GUARD_H

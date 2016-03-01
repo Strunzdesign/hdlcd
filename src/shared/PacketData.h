@@ -26,6 +26,7 @@
 
 class PacketData: public Packet {
 public:
+    // CTOR
     PacketData(const std::vector<unsigned char> a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent):
         // Called for transmission
         m_Payload(std::move(a_Payload)),
@@ -35,15 +36,17 @@ public:
         m_eDeserialize = DESERIALIZE_FULL;
         m_BytesRemaining = 0;
     }
-
-    PacketData(unsigned char a_Type) {
-        // Called on reception: evauluate type field
+    
+    static std::shared_ptr<PacketData> CreateDeserializedPacket(unsigned char a_Type) {
+        // Called on reception: evaluate type field
+        auto l_PacketData(std::shared_ptr<PacketData>(new PacketData));
         bool l_bReserved = (a_Type & 0x08); // TODO: abort if set
-        m_bReliable = (a_Type & 0x04);
-        m_bValid    = (a_Type & 0x02);
-        m_bWasSent  = (a_Type & 0x01);
-        m_eDeserialize = DESERIALIZE_SIZE;
-        m_BytesRemaining = 2;
+        l_PacketData->m_bReliable = (a_Type & 0x04);
+        l_PacketData->m_bValid    = (a_Type & 0x02);
+        l_PacketData->m_bWasSent  = (a_Type & 0x01);
+        l_PacketData->m_eDeserialize = DESERIALIZE_SIZE;
+        l_PacketData->m_BytesRemaining = 2;
+        return l_PacketData;
     }
     
     const std::vector<unsigned char>& GetData() const {
@@ -56,8 +59,19 @@ public:
     bool GetWasSent() const { return m_bWasSent; }
     
 private:
+    // Private CTOR
+    PacketData() {
+        m_bReliable = false;
+        m_bValid = false;
+        m_bWasSent = false;
+        m_eDeserialize = DESERIALIZE_FULL;
+        m_BytesRemaining = 0;
+    }
+
     // Serializer and deserializer
     const std::vector<unsigned char> Serialize() const {
+        assert(m_eDeserialize == DESERIALIZE_FULL);
+        assert(m_BytesRemaining == 0);
         std::vector<unsigned char> l_Buffer;
         
         // Prepare type field

@@ -61,14 +61,15 @@ void ClientHandler::DeliverBufferToClient(E_HDLCBUFFER a_eHDLCBuffer, const std:
     } // if
 }
 
-void ClientHandler::UpdateSerialPortState(size_t a_LockHolders) {
-    if (m_SerialPortLockGuard.UpdateSerialPortState(a_LockHolders)) {
+void ClientHandler::UpdateSerialPortState(bool a_bAlive, bool a_bFlowControl, size_t a_LockHolders) {
+    bool l_bDeliverChangedState = false;
+    l_bDeliverChangedState |= m_AliveGuard.UpdateSerialPortState(a_bAlive);
+    l_bDeliverChangedState |= m_FlowGuard.UpdateSerialPortState(a_bFlowControl);
+    l_bDeliverChangedState |= m_LockGuard.UpdateSerialPortState(a_LockHolders);
+    if (l_bDeliverChangedState) {
         // The state of the serial port state changed. Communicate the new state to the client.
-        auto l_Packet = PacketCtrl(PacketCtrl::CTRL_TYPE_PORT_STATUS);
-        l_Packet.SetIsAlive(true); // TODO
-        l_Packet.SetFlowControl(true); // TODO
-        l_Packet.SetIsLockedBySelf(m_SerialPortLockGuard.IsLockedBySelf());
-        l_Packet.SetIsLockedByOthers(m_SerialPortLockGuard.IsLockedByOthers());
+        auto l_Packet = PacketCtrl::CreatePortStatusResponse(m_AliveGuard.IsAlive(), m_FlowGuard.IsFlowSuspended(),
+                                                             m_LockGuard.IsLockedByOthers(), m_LockGuard.IsLockedBySelf());
         m_PacketEndpoint->Send(&l_Packet);
     } // if
 }
@@ -179,7 +180,8 @@ void ClientHandler::ReadSessionHeader2(unsigned char a_BytesUSB) {
             m_SerialPortHandlerStopper = m_SerialPortHandlerCollection->GetSerialPortHandler(l_UsbPortString, self);
             if (m_SerialPortHandlerStopper) {
                 m_SerialPortHandler = (*m_SerialPortHandlerStopper.get());
-                   m_SerialPortLockGuard.Init(m_SerialPortHandler);
+                m_LockGuard.Init(m_SerialPortHandler);
+                m_SerialPortHandler->PropagateSerialPortState(); // May sent initial port status message
 
                 // Start the PacketEndpoint. It takes full control over the TCP socket.
                 m_PacketEndpoint->Start();
@@ -199,7 +201,22 @@ void ClientHandler::OnDataReceived(const PacketData& a_PacketData) {
 }
 
 void ClientHandler::OnCtrlReceived(const PacketCtrl& a_PacketCtrl) {
-    // TODO: check control packet: suspend / resume? Port kill request?
+    // Check control packet: suspend / resume? Port kill request?
+    switch(a_PacketCtrl.GetPacketType()) {
+        case PacketCtrl::CTRL_TYPE_PORT_STATUS: {
+            if (a_PacketCtrl.GetDesiredLockState()) {
+                // Acquire a lock, if not already held. On acquisition, suspend the serial port
+                m_LockGuard.AcquireLock();
+            } else {
+                // Release lock and resume serial port
+                m_LockGuard.ReleaseLock();
+            } // else
+            break;
+        }
+        default:
+            // TODO: handlers for all remaining control packet types
+            break;
+    } // switch
 }
 
 void ClientHandler::OnClosed() {

@@ -265,10 +265,10 @@ Lock flag: set to "1" if the serial port has to be suspended and locked; "0" to 
 || 1 Byte || 1 Byte: control -> port status indication     ||
 ++--------++---------------+-------+-------+-------+-------++
 || 8 Bits || Bits 7...4    | Bit 3 | Bit 2 | Bit 1 | Bit 0 ||
-|| 0x10   || 0 | 0 | 0 | 0 | Alive | FlowC | PSbO  | PSbS  ||
+|| 0x10   || 0 | 0 | 0 | 0 | Alive | FlowC | PlbO  | PlbS  ||
 ++--------++---+---+---+---+-------+-------+-------+-------++
 - Alive flag: is set to "1" if the HDLC association is alive (baud rate, session up, echos ok), "0" if not
 - FlowC flag: is set to "1" if the data flow is suspended, "0" if data packets are delivered
-- PSbO flag: is set to "1" if the serial port is currently locked by others.
-- PSbS flag: is set to "1" if the serial port is currently locked by self.
+- PlbO flag: is set to "1" if the serial port is currently locked by others.
+- PlbS flag: is set to "1" if the serial port is currently locked by self.
 

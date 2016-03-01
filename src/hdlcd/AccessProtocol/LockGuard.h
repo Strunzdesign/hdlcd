@@ -1,5 +1,5 @@
 /**
- * \file SerialPortLockGuard.h
+ * \file LockGuard.h
  * \brief 
  *
  * The hdlc-tools implement the HDLC protocol to easily talk to devices connected via serial communications
@@ -19,22 +19,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SERIAL_PORT_LOCK_GUARD_H
-#define SERIAL_PORT_LOCK_GUARD_H
+#ifndef LOCK_GUARD_H
+#define LOCK_GUARD_H
 
 #include <memory>
 class SerialPortHandler;
 
-class SerialPortLockGuard {
+class LockGuard {
 public:
     // CTOR, DTOR, and initializer
-    SerialPortLockGuard();
-    ~SerialPortLockGuard();
+    LockGuard();
+    ~LockGuard();
     void Init(std::shared_ptr<SerialPortHandler> a_SerialPortHandler);
     
     // Influende the serial port
-    void SuspendSerialPort();
-    void ResumeSerialPort();
+    void AcquireLock();
+    void ReleaseLock();
     bool UpdateSerialPortState(size_t a_LockHolders);
     
     // Check status
@@ -51,4 +51,4 @@ private:
     bool m_bLastLockedByOthers;
 };
 
-#endif // SERIAL_PORT_LOCK_GUARD_H
+#endif // LOCK_GUARD_H
