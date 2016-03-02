@@ -218,6 +218,11 @@ void ClientHandler::OnCtrlReceived(const PacketCtrl& a_PacketCtrl) {
             m_PacketEndpoint->Send(&a_PacketCtrl);
             break;
         }
+        case PacketCtrl::CTRL_TYPE_PORT_KILL: {
+            // Kill the serial port immediately and detach all related clients
+            m_SerialPortHandler->Stop();
+            break;
+        }
         default:
             // TODO: handlers for all remaining control packet types
             break;
