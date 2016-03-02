@@ -150,7 +150,7 @@ More interesting stuff: an exemplary session header to open /dev/ttyUSB1 for RO 
 After the session header was transmitted, the TCP socket is solely used for exchange of packets.
 The kind of exchanged packets depends on the provided session header: not all packets are
 allowed / seen in each of the possible session types!
-Before closing a TCP socket, one should assure to call perform a shutdown procedure for correct teardown.
+Before closing a TCP socket, one should assure to perform a shutdown procedure for correct teardown.
 
 
 ======================
@@ -194,7 +194,7 @@ Data packet format:
 +--------+--------------+---------+
 Data packets, if transmitted via TCP to be sent via HDLC, must have:
 - the "reserved" bit set to "0",
-- the "reliable" flag set to "0" or "1" to demand for U-Frames (unreliable) or I-Frames (reliable), repectively,
+- the "reliable" flag set to "0" or "1" to demand for U-Frames (unreliable) or I-Frames (reliable), respectively,
 - the "invalid" flag set to "0",
 - the "was sent" flags set to "0".
 ==> Thus, the type byte must be either 0x00 (unreliable) or 0x04 (reliable).
