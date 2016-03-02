@@ -6,7 +6,7 @@ Issues to be resolved before a first release:
 - Check: Session confirmation with error reporting?
 - Implement abortive close ("connection reset by peer") at the HDLCd to detach misbehaving clients without expensive TIMED_WAIT state
 - Implement polling-based scheduler to query data packets to be transmitted, distinguish "unreliable-only" and "all data"
-  -> - Allow TCP sockets to become congested if the serial port is busy (no data loss in arrival of data bursts)
+  -> - Allow TCP sockets to become congested if the serial port is busy (no data loss on arrival of data bursts)
      - Stop reading subsequent data packets from the TCP socket if the serial port is currently not open
      - Implement transmission of U-frames, even for busy receivers
 
