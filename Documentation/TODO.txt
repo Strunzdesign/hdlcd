@@ -6,7 +6,6 @@ Issues to be resolved before a first release:
 - Stop reading subsequent data packets from the TCP socket if the serial port is currently not open
 - Implement polling-based scheduler to query data packets to be transmitted, distinguish "unreliable-only" and "all data"
 - Check: Session confirmation with error reporting?
-- Implement keep alive packet handling
 - Implement abortive close ("connection reset by peer") at the HDLCd to detach misbehaving clients without expensive TIMED_WAIT state
 
 
@@ -29,6 +28,7 @@ Issues to be resolved after the first release:
 
 
 // DONE
+- Implement keep alive packet handling, automatic transmission every 60 seconds (DONE)
 - Implement port kill request (DONE)
 - Implement echo service in ClientHandler (DONE)
 - Add subsequent tool solely for monitoring the status of a serial port (DONE)

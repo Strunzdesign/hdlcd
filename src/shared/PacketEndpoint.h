@@ -30,7 +30,7 @@
 
 class PacketEndpoint: public std::enable_shared_from_this<PacketEndpoint> {
 public:
-    PacketEndpoint(boost::asio::ip::tcp::socket& a_TCPSocket): m_TCPSocket(a_TCPSocket) {
+    PacketEndpoint(boost::asio::ip::tcp::socket& a_TCPSocket): m_KeepAliveTimer(a_TCPSocket.get_io_service()), m_TCPSocket(a_TCPSocket) {
         m_SEPState = SEPSTATE_DISCONNECTED;
         m_bWriteInProgress = false;
         m_bShutdown = false;
@@ -84,6 +84,7 @@ public:
         m_bStarted = true;
         m_SEPState = SEPSTATE_CONNECTED;
         ReadType();
+        StartKeepAliveTimer();
         if (!m_SendQueue.empty()) {
             do_write();
         } // if
@@ -91,11 +92,13 @@ public:
 
     void Shutdown() {
         m_bShutdown = true;
+        m_KeepAliveTimer.cancel();
     }
 
     void Close() {
         if (m_bStarted && (!m_bStopped)) {
             m_bStopped = true;
+            m_KeepAliveTimer.cancel();
             m_TCPSocket.cancel();
             m_TCPSocket.close();
             if (m_OnClosedCallback) {
@@ -105,6 +108,21 @@ public:
     }
 
 private:
+    void StartKeepAliveTimer() {
+        auto self(shared_from_this());
+        m_KeepAliveTimer.expires_from_now(boost::posix_time::minutes(1));
+        m_KeepAliveTimer.async_wait([this, self](const boost::system::error_code& a_ErrorCode) {
+            if (!a_ErrorCode) {
+                // Periodically send keep alive packet, but do not congest the TCP socket
+                if (m_SendQueue.empty()) {
+                    auto l_Packet = PacketCtrl::CreateKeepAliveRequest();
+                    Send(&l_Packet);
+                    StartKeepAliveTimer();
+                } // if
+            } // if
+        });
+    }
+
     void ReadType() {
         auto self(shared_from_this());
         if (m_bStopped) return;
@@ -175,9 +193,17 @@ private:
             } else {
                 auto l_PacketCtrl = dynamic_cast<PacketCtrl*>(m_IncomingPacket.get());
                 if (l_PacketCtrl) {
-                    if (m_OnCtrlCallback) {
+                    bool l_bDeliver = true;
+                    if (l_PacketCtrl->GetPacketType() == PacketCtrl::CTRL_TYPE_KEEP_ALIVE) {
+                        // This is a keep alive packet, simply drop it.
+                        l_bDeliver = false;
+                    } // if
+                    
+                    if ((l_bDeliver) && (m_OnCtrlCallback)) {
                         m_OnCtrlCallback(*l_PacketCtrl);
                     } // if
+                } else {
+                    assert(false);
                 } // else
             } // else
 
@@ -236,6 +262,9 @@ private:
     bool m_bShutdown;
     bool m_bStarted;
     bool m_bStopped;
+    
+    // Timer
+    boost::asio::deadline_timer m_KeepAliveTimer;
 };
 
 #endif // PACKET_ENDPOINT_H

@@ -224,7 +224,6 @@ void ClientHandler::OnCtrlReceived(const PacketCtrl& a_PacketCtrl) {
             break;
         }
         default:
-            // TODO: handlers for all remaining control packet types
             break;
     } // switch
 }
