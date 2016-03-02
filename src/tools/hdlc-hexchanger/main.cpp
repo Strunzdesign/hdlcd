@@ -52,7 +52,7 @@ int main(int argc, char* argv[]) {
 
         // Prepare input
         LineReader l_LineReader(io_service);
-        l_LineReader.SetOnInputLineCallback([&l_AccessClient](const std::vector<unsigned char> a_Buffer){ l_AccessClient.Send(std::move(PacketData(a_Buffer, true, true, false)));});
+        l_LineReader.SetOnInputLineCallback([&l_AccessClient](const std::vector<unsigned char> a_Buffer){ l_AccessClient.Send(std::move(PacketData::CreatePacket(a_Buffer, true, true, false)));});
         
         // Start event processing
         io_service.run();

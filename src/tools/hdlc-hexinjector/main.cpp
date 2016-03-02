@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
         std::vector<unsigned char> l_Buffer;
         l_Buffer.reserve(65536);
         l_Buffer.insert(l_Buffer.end(),std::istream_iterator<unsigned int>(l_InputStream), {});
-        l_AccessClient.Send(std::move(PacketData(l_Buffer, true, true, false)));
+        l_AccessClient.Send(std::move(PacketData::CreatePacket(l_Buffer, true, true, false)));
         l_AccessClient.Shutdown();
         
         // Start event processing

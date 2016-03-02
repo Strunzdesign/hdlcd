@@ -56,7 +56,7 @@ void ClientHandler::DeliverBufferToClient(E_HDLCBUFFER a_eHDLCBuffer, const std:
     } // if
 
     if (l_bDeliver) {
-        auto l_Packet = PacketData(a_Payload, a_bReliable, a_bValid, a_bWasSent);
+        auto l_Packet = PacketData::CreatePacket(a_Payload, a_bReliable, a_bValid, a_bWasSent);
         m_PacketEndpoint->Send(&l_Packet);
     } // if
 }

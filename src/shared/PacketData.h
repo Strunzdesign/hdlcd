@@ -26,17 +26,16 @@
 
 class PacketData: public Packet {
 public:
-    // CTOR
-    PacketData(const std::vector<unsigned char> a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent):
+    static PacketData CreatePacket(const std::vector<unsigned char> a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent) {
         // Called for transmission
-        m_Payload(std::move(a_Payload)),
-        m_bReliable(a_bReliable),
-        m_bValid(a_bValid),
-        m_bWasSent(a_bWasSent) {
-        m_eDeserialize = DESERIALIZE_FULL;
-        m_BytesRemaining = 0;
+        PacketData l_PacketData;
+        l_PacketData.m_Payload = std::move(a_Payload);
+        l_PacketData.m_bReliable = a_bReliable;
+        l_PacketData.m_bValid = a_bValid;
+        l_PacketData.m_bWasSent = a_bWasSent;
+        return l_PacketData;
     }
-    
+
     static std::shared_ptr<PacketData> CreateDeserializedPacket(unsigned char a_Type) {
         // Called on reception: evaluate type field
         auto l_PacketData(std::shared_ptr<PacketData>(new PacketData));
