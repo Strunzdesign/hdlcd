@@ -68,6 +68,7 @@ public:
             return;
         } // if
 
+        // TODO: check size of the queue. If it reaches a specific limit: kill the socket to prevent DoS attacks
         m_SendQueue.emplace_back(std::move(a_Packet->Serialize()));
         bool write_in_progress = !m_SendQueue.empty();
         if ((!m_bWriteInProgress) && (!m_SendQueue.empty()) && (m_SEPState == SEPSTATE_CONNECTED)) {
@@ -76,7 +77,6 @@ public:
     }
     
     void Start() {
-        
         assert(m_bStarted == false);
         assert(m_bStopped == false);
         assert(m_SEPState == SEPSTATE_DISCONNECTED);

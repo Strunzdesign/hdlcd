@@ -213,6 +213,11 @@ void ClientHandler::OnCtrlReceived(const PacketCtrl& a_PacketCtrl) {
             } // else
             break;
         }
+        case PacketCtrl::CTRL_TYPE_ECHO: {
+            // Respond with an echo reply control packet: simply send it back
+            m_PacketEndpoint->Send(&a_PacketCtrl);
+            break;
+        }
         default:
             // TODO: handlers for all remaining control packet types
             break;

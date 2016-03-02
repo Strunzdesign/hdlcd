@@ -69,12 +69,6 @@ public:
         return l_PacketCtrl;
     }
     
-    static PacketCtrl CreateEchoResponse() {
-        PacketCtrl l_PacketCtrl;
-        l_PacketCtrl.m_eCtrlType = CTRL_TYPE_ECHO;
-        return l_PacketCtrl;
-    }
-    
     static PacketCtrl CreateKeepAliveRequest() {
         PacketCtrl l_PacketCtrl;
         l_PacketCtrl.m_eCtrlType = CTRL_TYPE_KEEP_ALIVE;
@@ -151,11 +145,28 @@ private:
         
         // Prepare control field
         unsigned char l_Control = 0x00;
-        if (m_bAlive)          { l_Control |= 0x08; }
-        if (m_bFlowSuspended)  { l_Control |= 0x04; }
-        if (m_bLockedByOthers) { l_Control |= 0x02; }
-        if (m_bLockedBySelf)   { l_Control |= 0x01; }
-        if (m_bLockSerialPort) { l_Control |= 0x01; } // for requests
+        switch (m_eCtrlType) {
+            case CTRL_TYPE_PORT_STATUS:
+                l_Control = 0x00;
+                if (m_bAlive)          { l_Control |= 0x08; }
+                if (m_bFlowSuspended)  { l_Control |= 0x04; }
+                if (m_bLockedByOthers) { l_Control |= 0x02; }
+                if (m_bLockedBySelf)   { l_Control |= 0x01; }
+                if (m_bLockSerialPort) { l_Control |= 0x01; } // for requests
+                break;
+            case CTRL_TYPE_ECHO:
+                l_Control = 0x10;
+                break;
+            case CTRL_TYPE_KEEP_ALIVE:
+                l_Control = 0x20;
+                break;
+            case CTRL_TYPE_PORT_KILL:
+                l_Control = 0x30;
+                break;
+            default:
+                assert(false);
+        } // switch
+
         l_Buffer.emplace_back(l_Control);
         return std::move(l_Buffer);
     }

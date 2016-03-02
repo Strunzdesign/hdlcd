@@ -8,7 +8,6 @@ Issues to be resolved before a first release:
 - Check: Session confirmation with error reporting?
 - Implement port kill request
 - Implement keep alive packet handling
-- Implement echo service in ClientHandler
 - Implement abortive close ("connection reset by peer") at the HDLCd to detach misbehaving clients without expensive TIMED_WAIT state
 
 
@@ -31,6 +30,7 @@ Issues to be resolved after the first release:
 
 
 // DONE
+- Implement echo service in ClientHandler (DONE)
 - Add subsequent tool solely for monitoring the status of a serial port (DONE)
 - Communicate the HDLC state (initial and on any change; whether "connected") via control packets (Spec: DONE, Code: DONE)
 - Logic to suspend / resume serial interfaces via control packets (logic: DONE, via TCP: DONE, tool: DONE)

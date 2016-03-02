@@ -55,7 +55,9 @@ void PacketCtrlPrinter(const PacketCtrl& a_PacketCtrl) {
                 std::cout << "no other locks" << std::endl;
             } // else
         } // else
-    } // if
+    } else if (a_PacketCtrl.GetPacketType() == PacketCtrl::CTRL_TYPE_ECHO) {
+        std::cout << "Received an echo reply packet" << std::endl;
+    } // else if
 }
 
 
