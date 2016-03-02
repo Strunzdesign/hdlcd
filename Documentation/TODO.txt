@@ -4,6 +4,15 @@ Issues to be resolved before a first release:
 - Periodically test idle HDLC links via U-TEST packet; check if the baud rate is still correct, or start another detection procedure.
 - Fix all the TODOs in the source code
 - Stop reading subsequent data packets from the TCP socket if the serial port is currently not open
+- Implement polling-based scheduler to query data packets to be transmitted, distinguish "unreliable-only" and "all data"
+- Check: Session confirmation with error reporting?
+- Implement port kill request
+- Implement keep alive packet handling
+- Implement echo service in ClientHandler
+- Implement abortive close ("connection reset by peer") at the HDLCd to detach misbehaving clients without expensive TIMED_WAIT state
+- Add subsequent tool solely for monitoring the status of a serial port
+
+
 
 
 
@@ -15,6 +24,8 @@ Issues to be resolved after the first release:
 - Authentication, maybe?
 - More tools: pcap-streamer for multiple session types to analyze traffic via wireshark using named pipes (STARTED)
 - Communicate the baud rate (initial and on any change) via control packets
+- Support for SNMP, maybe?
+- Fix the hdlc-hexchanger tool for non-posix platforms (MS Windows)... how?
 
 
 
