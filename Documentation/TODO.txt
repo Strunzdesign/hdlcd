@@ -8,7 +8,7 @@ Issues to be resolved before a first release:
 - Implement polling-based scheduler to query data packets to be transmitted, distinguish "unreliable-only" and "all data"
   -> - Allow TCP sockets to become congested if the serial port is busy (no data loss on arrival of data bursts)
      - Stop reading subsequent data packets from the TCP socket if the serial port is currently not open
-     - Implement transmission of U-frames, even for busy receivers
+     - Implement transmission of U-frames, even for busy peers (RNR condition)
 
 
 
