@@ -45,7 +45,7 @@ public:
     
     // Query state
     bool IsAlive() const { return m_PortState == PORT_STATE_BAUDRATE_FOUND; }
-    bool IsFlowSuspended() const { return m_bPeerStoppedFlow; }
+    bool IsFlowSuspended() const { return (m_bPeerStoppedFlow || !IsAlive()); }
 
 private:
     // Internal helpers

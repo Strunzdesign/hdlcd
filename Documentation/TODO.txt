@@ -5,7 +5,6 @@ Issues to be resolved before a first release:
 - Fix all the TODOs in the source code
 - Check: Session confirmation with error reporting?
 - Implement abortive close ("connection reset by peer") at the HDLCd to detach misbehaving clients without expensive TIMED_WAIT state
-- The "alive" status flag must be cleared if the serial port is locked
 - Implement polling-based scheduler to query data packets to be transmitted, distinguish "unreliable-only" and "all data"
   -> - Allow TCP sockets to become congested if the serial port is busy (no data loss on arrival of data bursts)
      - Stop reading subsequent data packets from the TCP socket if the serial port is currently not open
@@ -31,6 +30,7 @@ Issues to be resolved after the first release:
 
 
 // DONE
+- The "flow suspended" status flag must be set if the serial port is locked (DONE)
 - Implement keep alive packet handling, automatic transmission every 60 seconds (DONE)
 - Implement port kill request (DONE)
 - Implement echo service in ClientHandler (DONE)
