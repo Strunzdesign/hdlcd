@@ -1,7 +1,7 @@
 Issues to be resolved before a first release:
-- Add command line switches and online help ("-h --help") to hdlcd
+- Add command line switches and online help ("-h --help") to the HDLCd
 - Doxygen
-- Periodically test idle HDLC links via U-TEST packet; check if the baud rate is still correct, or start another detection procedure.
+- Periodically test idle HDLC links via U-TEST packets; check if the baud rate is still correct, or start another detection procedure.
 - Fix all the TODOs in the source code
 - Check: Session confirmation with error reporting?
 - Implement abortive close ("connection reset by peer") at the HDLCd to detach misbehaving clients without expensive TIMED_WAIT state
@@ -43,7 +43,7 @@ Issues to be resolved after the first release:
 - Refactoring of the shared header files (DONE)
 - Modular acceptor / connector logic (DONE)
 - Implement the final specification of the TCP-based access protocol (DONE)
-- Dedicated access protocol entities for hdlcd and the client side. (DONE)
+- Dedicated access protocol entities for HDLCd and the client side. (DONE)
 - Better buffer handling to get rid of all remaining memmove and memcpy statements (DONE)
 - Implement baud rate detection by probing with TEST frames (DONE)
 - Complete specification of the TCP-based access protocol (DONE)
