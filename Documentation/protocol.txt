@@ -1,6 +1,6 @@
-Description of the hdlcd access protocol
+Description of the HDLCd access protocol
 
-1.) Connect a TCP socket to the specified listener port of the hdlcd
+1.) Connect a TCP socket to the specified listener port of the HDLCd
 2.) Send a session header describing the type of data exchange
 3.) Send and receive encapsulated packets as well as control packets describing the state of the hdlc protocol
 
@@ -175,7 +175,7 @@ Reserved:
 - Bit 3: will be "0" and must be set to "0"
 
 Reliable flag:
-- Bit 2: is set to "1" if the packet was / has to be transmitted reliably by the hdlcd via HDLC
+- Bit 2: is set to "1" if the packet was / has to be transmitted reliably by the HDLCd via HDLC
 
 Invalid flag:
 - Bit 1: is set to "1" if the packet is damaged, "0" if it is valid. Must be "0" on transmission.
@@ -226,7 +226,7 @@ Control packets, either if received or sent, must have:
       
 Control packet, list of command types (upper nibble):
 ---
-1.) Requests: are sent by a client to the hdlcd
+1.) Requests: are sent by a client to the HDLCd
 - 0x0*: Set port status request. The lower nibble has to be set accordingly.
 - 0x10: Echo request without payload. The HDLCd will reply with an echo confirmation (see below).
 - 0x20: Keep alive packet. These are dropped by the HDLCd. These should be sent periodically to detect stale TCP connections.
@@ -247,12 +247,12 @@ Rsvd flags: all reserved bits have to be set to "0"
 Lock flag: set to "1" if the serial port has to be suspended and locked; "0" to release the lock, the serial port /may/ resume.
 
 
-2.) Indications / confirmations: are sent by the hdlcd to a client
+2.) Indications / confirmations: are sent by the HDLCd to a client
 ---
 - 0x0*: Port status indication. The lower nibble has to be evaluated.
 - 0x10: Echo confirmation (a reply to an echo request)
 - 0x20: Keep alive packet. Just drop them. These are sent periodically to detect stale TCP connections.
-- 0x4*-0xF*: reserved for future use
+- 0x3*-0xF*: reserved for future use
 
 
 
