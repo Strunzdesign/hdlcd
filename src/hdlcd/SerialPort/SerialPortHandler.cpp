@@ -37,7 +37,7 @@ SerialPortHandler::~SerialPortHandler() {
 }
 
 void SerialPortHandler::AddClientHandler(std::shared_ptr<ClientHandler> a_ClientHandler) {
-    m_ClientHandlerVector.push_back(a_ClientHandler);
+    m_ClientHandlerList.push_back(a_ClientHandler);
 }
 
 void SerialPortHandler::SuspendSerialPort() {
@@ -112,11 +112,9 @@ bool SerialPortHandler::Start() {
             l_SerialPortHandlerCollection->DeregisterSerialPortHandler(self);
         } // if
         
-        for (auto it = m_ClientHandlerVector.begin(); it != m_ClientHandlerVector.end(); ++it) {
-            if (auto l_ClientHandler = it->lock()) {
-                l_ClientHandler->Stop();
-            } // if
-        } // for
+        ForEachClient([](std::shared_ptr<ClientHandler> a_ClientHandler) {
+            a_ClientHandler->Stop();
+        });
     } // catch
 
     return l_bResult;
@@ -135,11 +133,9 @@ void SerialPortHandler::Stop() {
             l_SerialPortHandlerCollection->DeregisterSerialPortHandler(self);
         } // if
         
-        for (auto it = m_ClientHandlerVector.begin(); it != m_ClientHandlerVector.end(); ++it) {
-            if (auto l_ClientHandler = it->lock()) {
-                l_ClientHandler->Stop();
-            } // if
-        } // for
+        ForEachClient([](std::shared_ptr<ClientHandler> a_ClientHandler) {
+            a_ClientHandler->Stop();
+        });
     } // if
 }
 
@@ -211,14 +207,14 @@ void SerialPortHandler::do_write() {
 }
 
 void SerialPortHandler::ForEachClient(std::function<void(std::shared_ptr<ClientHandler>)> a_Function) {
-    for (auto cur = m_ClientHandlerVector.begin(); cur != m_ClientHandlerVector.end();) {
+    for (auto cur = m_ClientHandlerList.begin(); cur != m_ClientHandlerList.end();) {
         auto next = cur;
         ++next;
         if (auto l_ClientHandler = cur->lock()) {
             a_Function(l_ClientHandler);
         } else {
             // Outdated entry
-            m_ClientHandlerVector.erase(cur);
+            m_ClientHandlerList.erase(cur);
         } // else
         
         cur = next;

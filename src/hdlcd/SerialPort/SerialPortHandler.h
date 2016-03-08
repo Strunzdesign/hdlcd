@@ -70,7 +70,7 @@ private:
     std::shared_ptr<ProtocolState> m_ProtocolState;
     std::string m_SerialPortName;
     std::weak_ptr<SerialPortHandlerCollection> m_SerialPortHandlerCollection;
-    std::list<std::weak_ptr<ClientHandler>> m_ClientHandlerVector;
+    std::list<std::weak_ptr<ClientHandler>> m_ClientHandlerList;
     enum { max_length = 1024 };
     unsigned char m_ReadBuffer[max_length];
     
