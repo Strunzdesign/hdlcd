@@ -82,6 +82,7 @@ bool ProtocolState::SendPayload(const std::vector<unsigned char> &a_Payload) {
     
     if ((!m_bPeerStoppedFlow) || ( m_bPeerStoppedFlow && m_PayloadWaitQueue.empty())) {
         // Queue payload for later framing
+        // TODO: assure that the size does not grow without limits!
         m_PayloadWaitQueue.emplace_back(std::move(a_Payload));
         if (m_bAwaitsNextHDLCFrame) {
             OpportunityForTransmission();

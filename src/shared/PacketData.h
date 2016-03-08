@@ -26,7 +26,7 @@
 
 class PacketData: public Packet {
 public:
-    static PacketData CreatePacket(const std::vector<unsigned char> a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent) {
+    static PacketData CreatePacket(const std::vector<unsigned char> a_Payload, bool a_bReliable, bool a_bValid = true, bool a_bWasSent = false) {
         // Called for transmission
         PacketData l_PacketData;
         l_PacketData.m_Payload = std::move(a_Payload);
