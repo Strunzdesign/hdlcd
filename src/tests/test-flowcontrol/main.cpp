@@ -33,18 +33,26 @@ public:
     
 private:
     // Helpers
+    bool SendNextPacket() {
+        // Create packet
+        std::vector<unsigned char> l_Buffer = {0x00, 0x00, 0x40, 0x01, 0x3F, 0xF4, 0x00, 0x00, 0x10, 0x00, 0x04, 0x06, 0x02, 0x00, 0x80, 0x02, 0x01, m_ucSeqNr};
+        if (m_AccessClient.Send(std::move(PacketData::CreatePacket(l_Buffer, true)))) {
+            if ((++m_ucSeqNr) == 100) {
+                m_ucSeqNr = 100;
+                std::cout << "100 Packets written" << std::endl;
+            } // if
+            
+            return true;
+        } // if
+        
+        return false;
+    }
+    
     void StartTimer() {
-        m_Timer.expires_from_now(boost::posix_time::milliseconds(5));
+        m_Timer.expires_from_now(boost::posix_time::milliseconds(2));
         m_Timer.async_wait([this](const boost::system::error_code& a_ErrorCode) {
             if (!a_ErrorCode) {
-                // Create packet
-                std::vector<unsigned char> l_Buffer = {0x00, 0x00, 0x40, 0x01, 0x3F, 0xF4, 0x00, 0x00, 0x10, 0x00, 0x04, 0x06, 0x02, 0x00, 0x80, 0x02, 0x01, m_ucSeqNr};
-                m_AccessClient.Send(std::move(PacketData::CreatePacket(l_Buffer, true)));
-                if ((++m_ucSeqNr) == 100) {
-                    m_ucSeqNr = 100;
-                    std::cout << "100 Packets written" << std::endl;
-                } // if
-                
+                while (SendNextPacket());
                 StartTimer();
             } // if
         });

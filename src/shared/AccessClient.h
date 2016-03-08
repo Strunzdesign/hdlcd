@@ -124,12 +124,12 @@ public:
         m_OnClosedCallback = a_OnClosedCallback;
     }
     
-    void Send(const PacketData& a_PacketData) {
-        m_PacketEndpointData->Send(&a_PacketData);
+    bool Send(const PacketData& a_PacketData) {
+        return m_PacketEndpointData->Send(&a_PacketData);
     }
 
-    void Send(const PacketCtrl& a_PacketCtrl) {
-        m_PacketEndpointCtrl->Send(&a_PacketCtrl);
+    bool Send(const PacketCtrl& a_PacketCtrl) {
+        return m_PacketEndpointCtrl->Send(&a_PacketCtrl);
     }
     
 private:

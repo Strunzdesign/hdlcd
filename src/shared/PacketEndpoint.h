@@ -62,18 +62,24 @@ public:
         m_OnClosedCallback = a_OnClosedCallback;
     }
     
-    void Send(const Packet* a_Packet) {
+    bool Send(const Packet* a_Packet) {
         assert(a_Packet != NULL);
         if (m_SEPState == SEPSTATE_SHUTDOWN) {
-            return;
+            return false;
         } // if
 
         // TODO: check size of the queue. If it reaches a specific limit: kill the socket to prevent DoS attacks
+        if (m_SendQueue.size() >= 10) {
+            return false;
+        } // if
+        
         m_SendQueue.emplace_back(std::move(a_Packet->Serialize()));
         bool write_in_progress = !m_SendQueue.empty();
         if ((!m_bWriteInProgress) && (!m_SendQueue.empty()) && (m_SEPState == SEPSTATE_CONNECTED)) {
             do_write();
         } // if
+        
+        return true;
     }
     
     void Start() {
