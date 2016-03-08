@@ -74,6 +74,17 @@ void ClientHandler::UpdateSerialPortState(bool a_bAlive, bool a_bFlowControl, si
     } // if
 }
 
+void ClientHandler::QueryForPayload() {
+    // Deliver a pending incoming data packet, dependend on the state of packets accepted by the serial port handler
+    // If no suitable packet is pending, set a flag that allows immediate delivery of the next packet.
+    
+    
+    
+    
+    
+    
+}
+
 void ClientHandler::Start(std::shared_ptr<SerialPortHandlerCollection> a_SerialPortHandlerCollection) {
     assert(m_Registered == false);
     if (auto lock = m_ClientHandlerCollection.lock()) {

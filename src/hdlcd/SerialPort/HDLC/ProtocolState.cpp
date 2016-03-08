@@ -223,6 +223,15 @@ void ProtocolState::OpportunityForTransmission() {
         assert(m_PortState == PORT_STATE_BAUDRATE_FOUND);
         if ((m_WaitQueueReliable.empty()) && (m_WaitQueueUnreliable.empty()) && (!m_bPeerRequiresAck) && (m_SREJs.empty())) {
             // Nothing to transmit
+            
+            
+            
+            
+            
+            // Query all clients for data. TODO: only check the state of the queues, not the acks!
+            m_SerialPortHandler->QueryForPayload();
+            
+            
             return;
         } // if
 
@@ -275,7 +284,7 @@ void ProtocolState::OpportunityForTransmission() {
         auto l_HDLCFrameBuffer = FrameGenerator::SerializeFrame(l_Frame);
         m_SerialPortHandler->DeliverBufferToClients(HDLCBUFFER_RAW, l_HDLCFrameBuffer, l_Frame.IsIFrame(), true, true); // not escaped
         m_SerialPortHandler->DeliverBufferToClients(HDLCBUFFER_DISSECTED, l_Frame.Dissect(), l_Frame.IsIFrame(), true, true);
-        m_SerialPortHandler->DeliverHDLCFrame(std::move(FrameGenerator::EscapeFrame(l_HDLCFrameBuffer)));
+        m_SerialPortHandler->TransmitHDLCFrame(std::move(FrameGenerator::EscapeFrame(l_HDLCFrameBuffer)));
     } // if
 }
 

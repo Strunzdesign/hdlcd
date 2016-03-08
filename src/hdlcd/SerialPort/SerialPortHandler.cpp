@@ -70,14 +70,10 @@ void SerialPortHandler::ResumeSerialPort() {
     PropagateSerialPortState();
 }
 
-void SerialPortHandler::PropagateSerialPortState() const {
-    for (auto it = m_ClientHandlerVector.begin(); it != m_ClientHandlerVector.end(); ++it) {
-        if (auto l_ClientHandler = it->lock()) {
-            l_ClientHandler->UpdateSerialPortState(m_ProtocolState->IsAlive(), m_ProtocolState->IsFlowSuspended(),
-                                                   m_SerialPortLock.GetLockHolders());
-        } // if
-        // TODO: REMOVE IF INVALID
-    } // for
+void SerialPortHandler::PropagateSerialPortState() {
+    ForEachClient([this](std::shared_ptr<ClientHandler> a_ClientHandler) {
+        a_ClientHandler->UpdateSerialPortState(m_ProtocolState->IsAlive(), m_ProtocolState->IsFlowSuspended(), m_SerialPortLock.GetLockHolders());
+    });
 }
 
 void SerialPortHandler::DeliverPayloadToHDLC(const std::vector<unsigned char> &a_Payload, bool a_bReliable) {
@@ -85,12 +81,9 @@ void SerialPortHandler::DeliverPayloadToHDLC(const std::vector<unsigned char> &a
 }
 
 void SerialPortHandler::DeliverBufferToClients(E_HDLCBUFFER a_eHDLCBuffer, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent) {
-    for (auto it = m_ClientHandlerVector.begin(); it != m_ClientHandlerVector.end(); ++it) {
-        if (auto l_ClientHandler = it->lock()) {
-            l_ClientHandler->DeliverBufferToClient(a_eHDLCBuffer, a_Payload, a_bReliable, a_bValid, a_bWasSent);
-        } // if
-        // TODO: REMOVE IF INVALID
-    } // for
+    ForEachClient([a_eHDLCBuffer, a_Payload, a_bReliable, a_bValid, a_bWasSent](std::shared_ptr<ClientHandler> a_ClientHandler) {
+        a_ClientHandler->DeliverBufferToClient(a_eHDLCBuffer, a_Payload, a_bReliable, a_bValid, a_bWasSent);
+    });
 }
 
 bool SerialPortHandler::Start() {
@@ -156,7 +149,7 @@ void SerialPortHandler::ChangeBaudRate() {
     } // if
 }
 
-void SerialPortHandler::DeliverHDLCFrame(const std::vector<unsigned char> &a_Payload) {
+void SerialPortHandler::TransmitHDLCFrame(const std::vector<unsigned char> &a_Payload) {
     // Copy buffer holding the escaped HDLC frame for transmission via the serial interface
     assert(m_SendBufferOffset == 0);
     assert(m_SerialPortLock.GetSerialPortState() == false);
@@ -164,6 +157,12 @@ void SerialPortHandler::DeliverHDLCFrame(const std::vector<unsigned char> &a_Pay
     
     // Trigger transmission
     do_write();
+}
+
+void SerialPortHandler::QueryForPayload() {
+    ForEachClient([](std::shared_ptr<ClientHandler> a_ClientHandler) {
+        a_ClientHandler->QueryForPayload();
+    });
 }
 
 void SerialPortHandler::do_read() {
@@ -209,4 +208,19 @@ void SerialPortHandler::do_write() {
             } // if
         } // else
     });
+}
+
+void SerialPortHandler::ForEachClient(std::function<void(std::shared_ptr<ClientHandler>)> a_Function) {
+    for (auto cur = m_ClientHandlerVector.begin(); cur != m_ClientHandlerVector.end();) {
+        auto next = cur;
+        ++next;
+        if (auto l_ClientHandler = cur->lock()) {
+            a_Function(l_ClientHandler);
+        } else {
+            // Outdated entry
+            m_ClientHandlerVector.erase(cur);
+        } // else
+        
+        cur = next;
+    } // for
 }

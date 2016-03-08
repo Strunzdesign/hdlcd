@@ -25,6 +25,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <list>
 #include <boost/asio.hpp>
 #include "SerialPortLock.h"
 #include "BaudRate.h"
@@ -50,15 +51,17 @@ public:
     // Suspend / resume serial port
     void SuspendSerialPort();
     void ResumeSerialPort();
-    void PropagateSerialPortState() const;
+    void PropagateSerialPortState();
     
     // Do not use from external, only by the ProtocolState
-    void DeliverHDLCFrame(const std::vector<unsigned char> &a_Payload);
+    void TransmitHDLCFrame(const std::vector<unsigned char> &a_Payload);
+    void QueryForPayload();
 
 private:
     // Internal helpers
     void do_read();
     void do_write();
+    void ForEachClient(std::function<void(std::shared_ptr<ClientHandler>)> a_Function);
     
     // Members
     bool m_Registered;
@@ -67,7 +70,7 @@ private:
     std::shared_ptr<ProtocolState> m_ProtocolState;
     std::string m_SerialPortName;
     std::weak_ptr<SerialPortHandlerCollection> m_SerialPortHandlerCollection;
-    std::vector<std::weak_ptr<ClientHandler>> m_ClientHandlerVector;
+    std::list<std::weak_ptr<ClientHandler>> m_ClientHandlerVector;
     enum { max_length = 1024 };
     unsigned char m_ReadBuffer[max_length];
     
