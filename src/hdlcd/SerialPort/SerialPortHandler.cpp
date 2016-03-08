@@ -80,8 +80,8 @@ void SerialPortHandler::PropagateSerialPortState() const {
     } // for
 }
 
-void SerialPortHandler::DeliverPayloadToHDLC(const std::vector<unsigned char> &a_Payload) {
-    m_ProtocolState->SendPayload(a_Payload);
+void SerialPortHandler::DeliverPayloadToHDLC(const std::vector<unsigned char> &a_Payload, bool a_bReliable) {
+    m_ProtocolState->SendPayload(a_Payload, a_bReliable);
 }
 
 void SerialPortHandler::DeliverBufferToClients(E_HDLCBUFFER a_eHDLCBuffer, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent) {

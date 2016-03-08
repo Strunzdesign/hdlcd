@@ -197,7 +197,7 @@ void ClientHandler::ReadSessionHeader2(unsigned char a_BytesUSB) {
 
 void ClientHandler::OnDataReceived(const PacketData& a_PacketData) {
     // TODO: check suspended state. Check whether to stall the TCP socket.
-    m_SerialPortHandler->DeliverPayloadToHDLC(a_PacketData.GetData());
+    m_SerialPortHandler->DeliverPayloadToHDLC(a_PacketData.GetData(), a_PacketData.GetReliable());
 }
 
 void ClientHandler::OnCtrlReceived(const PacketCtrl& a_PacketCtrl) {

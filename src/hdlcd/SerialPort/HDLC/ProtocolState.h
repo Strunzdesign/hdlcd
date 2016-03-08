@@ -38,7 +38,7 @@ public:
     void Stop();
     void Shutdown();
 
-    bool SendPayload(const std::vector<unsigned char> &a_Payload);
+    void SendPayload(const std::vector<unsigned char> &a_Payload, bool a_bReliable);
     void TriggerNextHDLCFrame();
     void AddReceivedRawBytes(const unsigned char* a_Buffer, size_t a_Bytes);
     void InterpretDeserializedFrame(const std::vector<unsigned char> &a_Payload, const Frame& a_Frame, bool a_bMessageValid);
@@ -75,9 +75,10 @@ private:
     std::shared_ptr<SerialPortHandler> m_SerialPortHandler;
     std::shared_ptr<FrameParser> m_FrameParser;
     
-    // Wait queue for incoming payload to be sent
-    std::deque<std::vector<unsigned char>> m_PayloadWaitQueue;
-    
+    // Wait queues
+    std::deque<std::vector<unsigned char>> m_WaitQueueReliable;
+    std::deque<std::vector<unsigned char>> m_WaitQueueUnreliable;
+
     // Determine type of HDLC peer
     typedef enum {
         HDLC_TYPE_UNKNOWN = 0,

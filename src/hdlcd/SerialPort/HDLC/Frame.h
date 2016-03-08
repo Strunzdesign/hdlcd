@@ -53,6 +53,7 @@ public:
     } T_HDLC_FRAMETYPE;
     void SetHDLCFrameType(T_HDLC_FRAMETYPE a_HDLCFrameType) { m_HDLCFrameType = a_HDLCFrameType; }
     T_HDLC_FRAMETYPE GetHDLCFrameType() const { return m_HDLCFrameType; }
+    bool IsEmpty() const { return m_HDLCFrameType == HDLC_FRAMETYPE_UNSET; }
     bool IsIFrame() const { return (m_HDLCFrameType == HDLC_FRAMETYPE_I); }
     bool IsSFrame() const { return ((m_HDLCFrameType >= HDLC_FRAMETYPE_S_RR) && (m_HDLCFrameType <= HDLC_FRAMETYPE_S_SREJ)); }
     bool IsUFrame() const { return ((m_HDLCFrameType >= HDLC_FRAMETYPE_U_UI) && (m_HDLCFrameType <= HDLC_FRAMETYPE_U_XID)); }
