@@ -10,7 +10,7 @@ Issues to be resolved before a first release:
      - Stop reading subsequent data packets from the TCP socket if the serial port is currently not open
      - Implement transmission of U-frames, even for busy peers (RNR condition)
      - States: deliver nothing (not alive), deliver U-Frames (alive, but stalled), deliver I- and U-Frames (alive and open)
-     - Add hit to spec: even if s-net(r)-messages indicate non-reliable transfer, reliable transmission via HDLC should be signalled!
+     - Add hint to spec: even if s-net(r)-messages indicate non-reliable transfer, reliable transmission via HDLC should be demanded for!
 
 
 
