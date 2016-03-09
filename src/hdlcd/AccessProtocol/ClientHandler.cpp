@@ -34,8 +34,9 @@ ClientHandler::ClientHandler(std::weak_ptr<ClientHandlerCollection> a_ClientHand
     m_bDeliverSent = false;
     m_bDeliverRcvd = false;
     m_bDeliverInvalidData = false;
+    m_bSerialPortHandlerAwaitsPacket = false;
     m_PacketEndpoint = std::make_shared<PacketEndpoint>(m_TCPSocket);
-    m_PacketEndpoint->SetOnDataCallback([this](const PacketData& a_PacketData){ OnDataReceived(a_PacketData); });
+    m_PacketEndpoint->SetOnDataCallback([this](std::shared_ptr<const PacketData> a_PacketData){ return OnDataReceived(a_PacketData); });
     m_PacketEndpoint->SetOnCtrlCallback([this](const PacketCtrl& a_PacketCtrl){ OnCtrlReceived(a_PacketCtrl); });
     m_PacketEndpoint->SetOnClosedCallback([this](){ OnClosed(); });
 }
@@ -62,38 +63,48 @@ void ClientHandler::DeliverBufferToClient(E_HDLCBUFFER a_eHDLCBuffer, const std:
 }
 
 void ClientHandler::UpdateSerialPortState(bool a_bAlive, bool a_bFlowControl, size_t a_LockHolders) {
+    m_FlowGuard.UpdateSerialPortState(a_bFlowControl); // do not communicate
     bool l_bDeliverChangedState = false;
     l_bDeliverChangedState |= m_AliveGuard.UpdateSerialPortState(a_bAlive);
-    l_bDeliverChangedState |= m_FlowGuard.UpdateSerialPortState(a_bFlowControl);
     l_bDeliverChangedState |= m_LockGuard.UpdateSerialPortState(a_LockHolders);
     if (l_bDeliverChangedState) {
         // The state of the serial port state changed. Communicate the new state to the client.
-        auto l_Packet = PacketCtrl::CreatePortStatusResponse(m_AliveGuard.IsAlive(), m_FlowGuard.IsFlowSuspended(),
-                                                             m_LockGuard.IsLockedByOthers(), m_LockGuard.IsLockedBySelf());
+        auto l_Packet = PacketCtrl::CreatePortStatusResponse(m_AliveGuard.IsAlive(), m_LockGuard.IsLockedByOthers(), m_LockGuard.IsLockedBySelf());
         m_PacketEndpoint->Send(&l_Packet);
     } // if
 }
 
 void ClientHandler::QueryForPayload() {
-    // Deliver a pending incoming data packet, dependend on the state of packets accepted by the serial port handler
+    // Checks
+    if (!m_Registered) {
+        return;
+    } // if
+
+    // Deliver a pending incoming data packet, dependend on the state of packets accepted by the serial port handler.
     // If no suitable packet is pending, set a flag that allows immediate delivery of the next packet.
-    
-    
-    
-    
-    
-    
+    if (m_PendingIncomingPacketData) {
+        // A pending packet is available. Deliver it.
+        if (TryToDeliverPendingPacket()) {
+            // It was delivered, and we want to receive more
+            m_PacketEndpoint->TriggerNextDataPacket();
+        } // if
+    } else {
+        // no packet was waiting, but we want to receive more
+        m_bSerialPortHandlerAwaitsPacket = true;
+        m_PacketEndpoint->TriggerNextDataPacket();
+    } // else
 }
 
 void ClientHandler::Start(std::shared_ptr<SerialPortHandlerCollection> a_SerialPortHandlerCollection) {
     assert(m_Registered == false);
     if (auto lock = m_ClientHandlerCollection.lock()) {
         m_Registered = true;
+        m_bSerialPortHandlerAwaitsPacket = true;
         lock->RegisterClientHandler(shared_from_this());
     } else {
         assert(false);
     } // else
-    
+
     m_SerialPortHandlerCollection = a_SerialPortHandlerCollection;
     ReadSessionHeader1();
 }
@@ -102,6 +113,7 @@ void ClientHandler::Stop() {
     m_SerialPortHandler.reset();
     if (m_Registered) {
         m_Registered = false;
+        m_bSerialPortHandlerAwaitsPacket = false;
         if (m_PacketEndpoint->WasStarted() == false) {
             m_TCPSocket.cancel();
             m_TCPSocket.close();
@@ -206,9 +218,41 @@ void ClientHandler::ReadSessionHeader2(unsigned char a_BytesUSB) {
     });
 }
 
-void ClientHandler::OnDataReceived(const PacketData& a_PacketData) {
-    // TODO: check suspended state. Check whether to stall the TCP socket.
-    m_SerialPortHandler->DeliverPayloadToHDLC(a_PacketData.GetData(), a_PacketData.GetReliable());
+bool ClientHandler::TryToDeliverPendingPacket() {
+    // Checks
+    assert(m_PendingIncomingPacketData);
+    
+    // Check if this type of data packet it is currently accepted
+    if ((m_PendingIncomingPacketData->GetReliable() == false) || (m_FlowGuard.IsFlowSuspended() == false)) {
+        // Deliver the pending packet and re-enable the TCP receiver
+        m_SerialPortHandler->DeliverPayloadToHDLC(m_PendingIncomingPacketData->GetData(), m_PendingIncomingPacketData->GetReliable());
+        m_PendingIncomingPacketData.reset();
+        return true; // Awaits next packet
+    } else {
+        // Stall the TCP receiver
+        return false;
+    } // else
+}
+
+bool ClientHandler::OnDataReceived(std::shared_ptr<const PacketData> a_PacketData) {
+    // Checks
+    assert(a_PacketData);
+    assert(!m_PendingIncomingPacketData);
+    
+    // Store the incoming packet, but try to deliver it now
+    m_PendingIncomingPacketData = a_PacketData;
+    if (m_bSerialPortHandlerAwaitsPacket) {
+        m_bSerialPortHandlerAwaitsPacket = false;
+        if (TryToDeliverPendingPacket()) {
+            // Delivery successful, but for now, we must not deliver more. However, we can receive until we have the next packet
+            return true;
+        } // if
+        
+        // We were not able to deliver the incoming packet
+    } // if
+    
+    // Stall the receiver
+    return false;
 }
 
 void ClientHandler::OnCtrlReceived(const PacketCtrl& a_PacketCtrl) {

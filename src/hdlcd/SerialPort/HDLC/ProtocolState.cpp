@@ -34,12 +34,11 @@ void ProtocolState::Reset() {
     m_bStarted = false;
     m_bAwaitsNextHDLCFrame = true;
     m_SSeqOutgoing = 0;
-    m_RSeqOutgoing = 0;
     m_SSeqIncoming = 0;
     m_RSeqIncoming = 0;
     m_bPeerStoppedFlow = false;
-    m_bPeerStoppedFlowSendData = false;
     m_bPeerRequiresAck = false;
+    m_bWaitForAck = false;
     m_HDLCType = HDLC_TYPE_UNKNOWN;
     m_PortState = PORT_STATE_BAUDRATE_UNKNOWN;
     m_SREJs.clear();
@@ -143,42 +142,80 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
                 } // for
             } // if
 
-            // This does not respect gaps and retransmissions yet, which cannot be implemented using this reduced version of HDLC!
-            m_bPeerRequiresAck = true;
             m_RSeqIncoming = ((a_Frame.GetSSeq() + 1) & 0x07);
+            m_bPeerRequiresAck = true;
+            
+            // Currently, we send only one I-frame at a time and wait until the respective ACK is received
+            if ((m_bWaitForAck) && (a_Frame.GetRSeq() == ((m_SSeqOutgoing + 1) & 0x07))) {
+                // We found the respective sequence number to the last transmitted I-frame
+                m_bWaitForAck = false;
+                m_SSeqOutgoing = a_Frame.GetRSeq();
+                m_Timer.cancel();
+                m_WaitQueueReliable.pop_front();
+            } // if
         } // if
     } // if
     
     // Check the various types of ACKs and NACKs
     if ((a_Frame.IsIFrame()) || (a_Frame.IsSFrame())) {
         if ((a_Frame.IsIFrame()) || (a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_S_RR)) {
-            // Now we know the start of the window the receiver expects and which segments it allows us to send
-            m_RSeqOutgoing = a_Frame.GetRSeq();
             if (m_bPeerStoppedFlow) {
                 // The peer restarted the flow: RR clears RNR condition
                 m_bPeerStoppedFlow = false;
-                m_SSeqOutgoing = m_RSeqOutgoing;
                 m_Timer.cancel();
-                m_SerialPortHandler->PropagateSerialPortState();
             } // if
+
+            // Currently, we send only one I-frame at a time and wait until the respective ACK is received
+            if ((m_bWaitForAck) && (a_Frame.GetRSeq() == ((m_SSeqOutgoing + 1) & 0x07))) {
+                // We found the respective sequence number to the last transmitted I-frame
+                m_bWaitForAck = false;
+                m_Timer.cancel();
+                m_WaitQueueReliable.pop_front();
+            } // if
+            
+            m_SSeqOutgoing = a_Frame.GetRSeq();
         } else if (a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_S_RNR) {
             // The peer wants us to stop sending subsequent data
-            m_RSeqOutgoing = a_Frame.GetRSeq();
             m_bPeerStoppedFlow = true;
-            m_SerialPortHandler->PropagateSerialPortState();
+            if ((m_bWaitForAck) && (a_Frame.GetRSeq() == ((m_SSeqOutgoing + 1) & 0x07))) {
+                // We found the respective sequence number to the last transmitted I-frame
+                m_bWaitForAck = false;
+                m_Timer.cancel();
+                m_WaitQueueReliable.pop_front();
+            } // if
+            
+            m_SSeqOutgoing = a_Frame.GetRSeq();
         } else if (a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_S_REJ) {
-            // The peer requests for go-back-N. We have to retransmit all affected packets
             if (m_bPeerStoppedFlow) {
                 // The peer restarted the flow: REJ clears RNR condition
                 m_bPeerStoppedFlow = false;
-                m_SSeqOutgoing = m_RSeqOutgoing;
                 m_Timer.cancel();
-                m_SerialPortHandler->PropagateSerialPortState();
             } // if
+            
+            // The peer requests for go-back-N. We have to retransmit all affected packets, but not with this version of HDLC.
+            if ((m_bWaitForAck) && (a_Frame.GetRSeq() == m_SSeqOutgoing)) {
+                // We found the respective sequence number to the last transmitted I-frame
+                m_bWaitForAck = false;
+                m_Timer.cancel();
+            } // if
+            
+            m_SSeqOutgoing = ((a_Frame.GetRSeq() + 0x07) & 0x07);
         } else {
             assert(a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_S_SREJ);
+            if (m_bPeerStoppedFlow) {
+                // The peer restarted the flow: SREJ clears RNR condition
+                m_bPeerStoppedFlow = false;
+                m_Timer.cancel();
+            } // if
+            
             // The peer requests for the retransmission of a single segment with a specific sequence number
             // This cannot be implemented using this reduced version of HDLC!
+            if ((m_bWaitForAck) && (a_Frame.GetRSeq() == m_SSeqOutgoing)) {
+                // We found the respective sequence number to the last transmitted I-frame.
+                // In this version of HDLC, this should not happen!
+                m_bPeerStoppedFlow = false;
+                m_Timer.cancel();
+            } // if
         } // else
     } // if
     
@@ -190,7 +227,9 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
 
 void ProtocolState::OpportunityForTransmission() {
     // Checks
-    assert(m_bAwaitsNextHDLCFrame);
+    if (!m_bAwaitsNextHDLCFrame) {
+        return;
+    } // if
     
     Frame l_Frame;
     if (m_PortState == PORT_STATE_BAUDRATE_UNKNOWN) {
@@ -213,17 +252,13 @@ void ProtocolState::OpportunityForTransmission() {
         return;
     } else {
         assert(m_PortState == PORT_STATE_BAUDRATE_FOUND);
+
+        // Check the state of the wait queues
         if ((m_WaitQueueReliable.empty()) && (m_WaitQueueUnreliable.empty()) && (!m_bPeerRequiresAck) && (m_SREJs.empty())) {
-            // Nothing to transmit
-            
-            
-            
-            
-            
-            // Query all clients for data. TODO: only check the state of the queues, not the acks!
+            // Nothing to transmit. Query all clients for data.
             m_SerialPortHandler->QueryForPayload();
             
-            
+            // If we got data, the transmission will go on immediately
             return;
         } // if
 
@@ -234,27 +269,23 @@ void ProtocolState::OpportunityForTransmission() {
         } // if
         
         // Send I-frame with data?
-        if (l_Frame.IsEmpty() && ((m_WaitQueueReliable.empty() == false) && ((m_bPeerStoppedFlow == false) || m_bPeerStoppedFlowSendData))) {
+        if (l_Frame.IsEmpty() && (m_WaitQueueReliable.empty() == false) && (!m_bWaitForAck)) {
             l_Frame = PrepareIFrame();
-            if (m_bPeerStoppedFlowSendData) {
-                m_bPeerStoppedFlowSendData = false;
-                auto self(shared_from_this());
-                m_Timer.expires_from_now(boost::posix_time::milliseconds(500));
-                m_Timer.async_wait([this, self](const boost::system::error_code& ec) {
-                    if (!ec) {
-                        if (m_bPeerStoppedFlow) {
-                            m_bPeerStoppedFlowSendData = true;
-                        } // if
-
-                        OpportunityForTransmission();
-                    } // if
-                });
-            } else {
-                m_WaitQueueReliable.pop_front();
-                m_SSeqOutgoing = ((m_SSeqOutgoing + 1) & 0x07);
-            } // else
+            m_bWaitForAck = true;
             
+            // I-frames carry an ACK
             m_bPeerRequiresAck = false;
+
+            // Start retransmission timer
+            auto self(shared_from_this());
+            m_Timer.expires_from_now(boost::posix_time::milliseconds(500));
+            m_Timer.async_wait([this, self](const boost::system::error_code& ec) {
+                if (!ec) {
+                    // Send head of wait queue, maybe for a subsequent time.
+                    m_bWaitForAck = false;
+                    OpportunityForTransmission();
+                } // if
+            });
         } // if
         
         // Send RR?

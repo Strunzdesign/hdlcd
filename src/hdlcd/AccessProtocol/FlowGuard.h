@@ -29,10 +29,8 @@ public:
     }
     
     // Influende the serial port state
-    bool UpdateSerialPortState(bool a_bFlowSuspended) {
-        bool l_bStateChanged = (m_bFlowSuspended != a_bFlowSuspended);
+    void UpdateSerialPortState(bool a_bFlowSuspended) {
         m_bFlowSuspended = a_bFlowSuspended;
-        return l_bStateChanged;
     }
     
     // Check status

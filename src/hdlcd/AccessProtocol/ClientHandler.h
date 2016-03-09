@@ -54,9 +54,10 @@ private:
     // Helpers
     void ReadSessionHeader1();
     void ReadSessionHeader2(unsigned char a_BytesUSB);
+    bool TryToDeliverPendingPacket();
     
     // Callbacks
-    void OnDataReceived(const PacketData& a_PacketData);
+    bool OnDataReceived(std::shared_ptr<const PacketData> a_PacketData);
     void OnCtrlReceived(const PacketCtrl& a_PacketCtrl);
     void OnClosed();
 
@@ -71,6 +72,10 @@ private:
     std::shared_ptr<SerialPortHandler> m_SerialPortHandler;
     enum { max_length = 256 };
     unsigned char m_ReadBuffer[max_length];
+    
+    // Pending incoming data packets
+    bool m_bSerialPortHandlerAwaitsPacket;
+    std::shared_ptr<const PacketData> m_PendingIncomingPacketData;
 
     // Track the status of the serial port, communicate changes
     AliveGuard m_AliveGuard;

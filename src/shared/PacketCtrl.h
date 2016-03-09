@@ -53,11 +53,10 @@ public:
         return l_PacketCtrl;
     }
     
-    static PacketCtrl CreatePortStatusResponse(bool a_bIsAlive, bool a_bFlowSuspended, bool a_bIsLockedByOthers, bool a_bIsLockedBySelf) {
+    static PacketCtrl CreatePortStatusResponse(bool a_bIsAlive, bool a_bIsLockedByOthers, bool a_bIsLockedBySelf) {
         PacketCtrl l_PacketCtrl;
         l_PacketCtrl.m_eCtrlType = CTRL_TYPE_PORT_STATUS;
         l_PacketCtrl.m_bAlive = a_bIsAlive;
-        l_PacketCtrl.m_bFlowSuspended = a_bFlowSuspended;
         l_PacketCtrl.m_bLockedByOthers = a_bIsLockedByOthers;
         l_PacketCtrl.m_bLockedBySelf = a_bIsLockedBySelf;
         return l_PacketCtrl;
@@ -94,13 +93,6 @@ public:
         assert(m_BytesRemaining == 0);
         return m_bAlive;
     }
-    
-    bool GetIsFlowSuspended() const {
-        assert(m_eCtrlType == CTRL_TYPE_PORT_STATUS);
-        assert(m_eDeserialize == DESERIALIZE_FULL);
-        assert(m_BytesRemaining == 0);
-        return m_bFlowSuspended;
-    }
 
     bool GetIsLockedByOthers() const {
         assert(m_eCtrlType == CTRL_TYPE_PORT_STATUS);
@@ -127,7 +119,6 @@ private:
     // Private CTOR
     PacketCtrl() {
         m_bAlive = false;
-        m_bFlowSuspended = false;
         m_bLockedByOthers = false;
         m_bLockedBySelf = false;
         m_bLockSerialPort = false;
@@ -148,8 +139,7 @@ private:
         switch (m_eCtrlType) {
             case CTRL_TYPE_PORT_STATUS:
                 l_Control = 0x00;
-                if (m_bAlive)          { l_Control |= 0x08; }
-                if (m_bFlowSuspended)  { l_Control |= 0x04; }
+                if (m_bAlive)          { l_Control |= 0x04; }
                 if (m_bLockedByOthers) { l_Control |= 0x02; }
                 if (m_bLockedBySelf)   { l_Control |= 0x01; }
                 if (m_bLockSerialPort) { l_Control |= 0x01; } // for requests
@@ -189,8 +179,7 @@ private:
                 m_eCtrlType = CTRL_TYPE_PORT_STATUS;
                 // For both requests and responses
                 // TODO: check other bits!
-                m_bAlive          = (l_Control & 0x08);
-                m_bFlowSuspended  = (l_Control & 0x04);
+                m_bAlive          = (l_Control & 0x04);
                 m_bLockedByOthers = (l_Control & 0x02);
                 m_bLockedBySelf   = (l_Control & 0x01);
                 m_bLockSerialPort = (l_Control & 0x01); // for requests
@@ -227,7 +216,6 @@ private:
 
     // Members
     bool m_bAlive;
-    bool m_bFlowSuspended;
     bool m_bLockedByOthers;
     bool m_bLockedBySelf;
     bool m_bLockSerialPort;

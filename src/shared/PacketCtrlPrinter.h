@@ -34,12 +34,6 @@ void PacketCtrlPrinter(const PacketCtrl& a_PacketCtrl) {
             std::cout << "not alive, ";
         } // else
         
-        if (a_PacketCtrl.GetIsFlowSuspended()) {
-            std::cout << "flow suspended, ";
-        } else {
-            std::cout << "flow open,      ";
-        } // else
-        
         if ((!a_PacketCtrl.GetIsLockedBySelf()) && (!a_PacketCtrl.GetIsLockedByOthers())) {
             std::cout << "without locks (resumed)" << std::endl;
         } else {

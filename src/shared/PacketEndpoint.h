@@ -24,6 +24,7 @@
 
 #include <deque>
 #include <iostream>
+#include <memory>
 #include <boost/asio.hpp>
 #include "../shared/PacketData.h"
 #include "../shared/PacketCtrl.h"
@@ -36,6 +37,7 @@ public:
         m_bShutdown = false;
         m_bStarted = false;
         m_bStopped = false;
+        m_bReceiving = false;
     }
     
     ~PacketEndpoint() {
@@ -50,7 +52,7 @@ public:
     }
             
     // Callback methods
-    void SetOnDataCallback(std::function<void(const PacketData& a_PacketData)> a_OnDataCallback) {
+    void SetOnDataCallback(std::function<bool(std::shared_ptr<const PacketData> a_PacketData)> a_OnDataCallback) {
         m_OnDataCallback = a_OnDataCallback;
     }
     
@@ -87,9 +89,10 @@ public:
         assert(m_bStopped == false);
         assert(m_SEPState == SEPSTATE_DISCONNECTED);
         assert(m_bWriteInProgress == false);
+        assert(m_bReceiving == false);
         m_bStarted = true;
         m_SEPState = SEPSTATE_CONNECTED;
-        ReadType();
+        TriggerNextDataPacket();
         StartKeepAliveTimer();
         if (!m_SendQueue.empty()) {
             do_write();
@@ -104,12 +107,25 @@ public:
     void Close() {
         if (m_bStarted && (!m_bStopped)) {
             m_bStopped = true;
+            m_bReceiving = false;
             m_KeepAliveTimer.cancel();
             m_TCPSocket.cancel();
             m_TCPSocket.close();
             if (m_OnClosedCallback) {
                 m_OnClosedCallback();
             } // if
+        } // if
+    }
+    
+    void TriggerNextDataPacket() {
+        // Checks
+        if (m_bReceiving) {
+            return;
+        } // if
+        
+        if ((m_bStarted) && (!m_bStopped) && (m_SEPState == SEPSTATE_CONNECTED)) {
+            // Start reading the next packet
+            ReadType();
         } // if
     }
 
@@ -130,6 +146,7 @@ private:
     }
 
     void ReadType() {
+        m_bReceiving = true;
         auto self(shared_from_this());
         if (m_bStopped) return;
         assert(m_IncomingPacket == false);
@@ -191,13 +208,14 @@ private:
             });
         } else {
             // Reception completed, deliver packet
-            auto l_PacketData = dynamic_cast<PacketData*>(m_IncomingPacket.get());
+            auto l_PacketData = std::dynamic_pointer_cast<PacketData>(m_IncomingPacket);
             if (l_PacketData) {
                 if (m_OnDataCallback) {
-                    m_OnDataCallback(*l_PacketData);
+                    // Deliver the data packet but stall the receiver
+                    m_bReceiving = m_OnDataCallback(l_PacketData);
                 } // if
             } else {
-                auto l_PacketCtrl = dynamic_cast<PacketCtrl*>(m_IncomingPacket.get());
+                auto l_PacketCtrl = std::dynamic_pointer_cast<PacketCtrl>(m_IncomingPacket);
                 if (l_PacketCtrl) {
                     bool l_bDeliver = true;
                     if (l_PacketCtrl->GetPacketType() == PacketCtrl::CTRL_TYPE_KEEP_ALIVE) {
@@ -206,15 +224,18 @@ private:
                     } // if
                     
                     if ((l_bDeliver) && (m_OnCtrlCallback)) {
-                        m_OnCtrlCallback(*l_PacketCtrl);
+                        m_OnCtrlCallback(*(l_PacketCtrl.get()));
                     } // if
                 } else {
                     assert(false);
                 } // else
             } // else
 
+            // Depending on the reveicer state, trigger reception of the next packet
             m_IncomingPacket.reset();
-            ReadType();
+            if (m_bReceiving) {
+                ReadType();
+            } // if
         } // else
     }
 
@@ -247,7 +268,7 @@ private:
 
 private:
     // All possible callbacks for a user of this class
-    std::function<void(const PacketData& a_PacketData)> m_OnDataCallback;
+    std::function<bool(std::shared_ptr<const PacketData> a_PacketData)> m_OnDataCallback;
     std::function<void(const PacketCtrl& a_PacketCtrl)> m_OnCtrlCallback;
     std::function<void()> m_OnClosedCallback;
     
@@ -268,6 +289,7 @@ private:
     bool m_bShutdown;
     bool m_bStarted;
     bool m_bStopped;
+    bool m_bReceiving;
     
     // Timer
     boost::asio::deadline_timer m_KeepAliveTimer;

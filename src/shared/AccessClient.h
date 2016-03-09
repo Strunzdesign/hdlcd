@@ -44,7 +44,7 @@ public:
         m_PacketEndpointCtrl = std::make_shared<PacketEndpoint>(m_TCPCtrlSocket);
         // Callbacks: request data packets only from the data endpoint and control packets only from the control endpoint.
         // On any error, close everything!
-        m_PacketEndpointData->SetOnDataCallback([this](const PacketData& a_PacketData){ OnDataReceived(a_PacketData); });
+        m_PacketEndpointData->SetOnDataCallback([this](std::shared_ptr<const PacketData> a_PacketData){ return OnDataReceived(a_PacketData); });
         m_PacketEndpointCtrl->SetOnCtrlCallback([this](const PacketCtrl& a_PacketCtrl){ OnCtrlReceived(a_PacketCtrl); });
         m_PacketEndpointData->SetOnClosedCallback([this](){ OnClosed(); });
         m_PacketEndpointCtrl->SetOnClosedCallback([this](){ OnClosed(); });
@@ -180,10 +180,12 @@ private:
         });
     }
     
-    void OnDataReceived(const PacketData& a_PacketData) {
+    bool OnDataReceived(std::shared_ptr<const PacketData> a_PacketData) {
         if (m_OnDataCallback) {
-            m_OnDataCallback(a_PacketData);
+            m_OnDataCallback(*(a_PacketData.get()));
         } // if
+        
+        return true; // Do not stall the receiver
     }
     
     void OnCtrlReceived(const PacketCtrl& a_PacketCtrl) {
