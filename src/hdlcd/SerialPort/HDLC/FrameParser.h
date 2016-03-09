@@ -23,13 +23,12 @@
 #define HDLC_FRAME_PARSER_H
 
 #include <vector>
-#include <memory>
 #include "Frame.h"
 class ProtocolState;
 
-class FrameParser: public std::enable_shared_from_this<FrameParser> {
+class FrameParser {
 public:
-    FrameParser(std::shared_ptr<ProtocolState> a_ProtocolState);
+    FrameParser(ProtocolState& a_ProtocolState);
     void Reset();
     void AddReceivedRawBytes(const unsigned char* a_Buffer, size_t a_Bytes);
     
@@ -40,7 +39,7 @@ private:
     Frame DeserializeFrame(const std::vector<unsigned char> &a_UnescapedBuffer) const;
     
     // Members
-    std::shared_ptr<ProtocolState> m_ProtocolState;
+    ProtocolState& m_ProtocolState;
 
     enum { max_length = 1024 };
     std::vector<unsigned char> m_Buffer;

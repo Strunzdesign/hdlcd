@@ -27,8 +27,8 @@
 #include <memory>
 #include <deque>
 #include "Frame.h"
+#include "FrameParser.h"
 class SerialPortHandler;
-class FrameParser;
 
 class ProtocolState: public std::enable_shared_from_this<ProtocolState> {
 public:
@@ -73,7 +73,7 @@ private:
     
     // Parser and generator
     std::shared_ptr<SerialPortHandler> m_SerialPortHandler;
-    std::shared_ptr<FrameParser> m_FrameParser;
+    FrameParser m_FrameParser;
     
     // Wait queues
     std::deque<std::vector<unsigned char>> m_WaitQueueReliable;

@@ -23,8 +23,7 @@
 #include "ProtocolState.h"
 #include "FCS16.h"
 
-FrameParser::FrameParser(std::shared_ptr<ProtocolState> a_ProtocolState) {
-    m_ProtocolState = a_ProtocolState;
+FrameParser::FrameParser(ProtocolState& a_ProtocolState): m_ProtocolState(a_ProtocolState) {
     Reset();
 }
 
@@ -151,7 +150,7 @@ bool FrameParser::RemoveEscapeCharacters() {
         l_bMessageValid = (pppfcs16(PPPINITFCS16, (m_Buffer.data() + 1), (m_Buffer.size() - 2)) == PPPGOODFCS16);
     } // if
 
-    m_ProtocolState->InterpretDeserializedFrame(m_Buffer, DeserializeFrame(m_Buffer), l_bMessageValid);
+    m_ProtocolState.InterpretDeserializedFrame(m_Buffer, DeserializeFrame(m_Buffer), l_bMessageValid);
     return l_bMessageValid;
 }
 

@@ -22,10 +22,9 @@
 #include "ProtocolState.h"
 #include <assert.h>
 #include "../SerialPortHandler.h"
-#include "FrameParser.h"
 #include "FrameGenerator.h"
 
-ProtocolState::ProtocolState(std::shared_ptr<SerialPortHandler> a_SerialPortHandler, boost::asio::io_service& a_IOService): m_Timer(a_IOService) {
+ProtocolState::ProtocolState(std::shared_ptr<SerialPortHandler> a_SerialPortHandler, boost::asio::io_service& a_IOService): m_Timer(a_IOService), m_FrameParser(*this) {
     m_SerialPortHandler = a_SerialPortHandler;
     Reset();
 }
@@ -46,16 +45,10 @@ void ProtocolState::Reset() {
     m_SREJs.clear();
     m_WaitQueueReliable.clear();
     m_WaitQueueUnreliable.clear();
-    if (m_FrameParser) {
-        m_FrameParser->Reset();
-    } // if
+    m_FrameParser.Reset();
 }
 
 void ProtocolState::Start() {
-    if (!m_FrameParser) {
-        m_FrameParser = std::make_shared<FrameParser>(shared_from_this());
-    } // if
-
     // Start the state machine
     Reset();
     m_bStarted = true;
@@ -72,7 +65,6 @@ void ProtocolState::Stop() {
 void ProtocolState::Shutdown() {
     Reset();
     m_SerialPortHandler.reset();
-    m_FrameParser.reset();
 }
 
 void ProtocolState::SendPayload(const std::vector<unsigned char> &a_Payload, bool a_bReliable) {
@@ -112,7 +104,7 @@ void ProtocolState::AddReceivedRawBytes(const unsigned char* a_Buffer, size_t a_
         return;
     } // if
 
-    m_FrameParser->AddReceivedRawBytes(a_Buffer, a_Bytes);
+    m_FrameParser.AddReceivedRawBytes(a_Buffer, a_Bytes);
 }
 
 void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> &a_Payload, const Frame& a_Frame, bool a_bMessageValid) {
