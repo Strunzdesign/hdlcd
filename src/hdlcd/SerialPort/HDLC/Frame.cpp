@@ -28,10 +28,10 @@ const std::vector<unsigned char> Frame::Dissect() const {
     std::stringstream l_Output;
     if (IsIFrame()) {
         l_bHasPayload = true;
-        l_Output << "HDLC frame, Addr=" << (int)GetAddress() << ", ";
+        l_Output << "HDLC frame, Addr=0x" << std::hex << (int)GetAddress() << ", ";
         l_Output << "I-Frame, PF=" << IsPF() << ", SSeq=" << (int)GetSSeq() << ", RSeq=" << (int)GetRSeq();
     } else if (IsSFrame()) {
-        l_Output << "HDLC frame, Addr=" << (int)GetAddress() << ", S-Frame: ";
+        l_Output << "HDLC frame, Addr=0x" << std::hex << (int)GetAddress() << ", S-Frame: ";
         switch (GetHDLCFrameType()) {
             case Frame::HDLC_FRAMETYPE_S_RR: {
                 l_Output << "RR";
@@ -56,7 +56,7 @@ const std::vector<unsigned char> Frame::Dissect() const {
 
         l_Output << ", PF=" << IsPF() << ", RSeq=" << (int)GetRSeq();
     } else if (IsUFrame()) {
-        l_Output << "HDLC frame, Addr=" << (int)GetAddress() << ", U-Frame: ";
+        l_Output << "HDLC frame, Addr=0x" << std::hex << (int)GetAddress() << ", U-Frame: ";
         switch (GetHDLCFrameType()) {
             case Frame::HDLC_FRAMETYPE_U_UI: {
                 l_bHasPayload = true;
