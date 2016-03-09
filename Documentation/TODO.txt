@@ -5,12 +5,7 @@ Issues to be resolved before a first release:
 - Fix all the TODOs in the source code
 - Check: Session confirmation with error reporting?
 - Implement abortive close ("connection reset by peer") at the HDLCd to detach misbehaving clients without expensive TIMED_WAIT state
-- Implement polling-based scheduler to query data packets to be transmitted, distinguish "unreliable-only" and "all data" (STARTED)
-  -> - Allow TCP sockets to become congested if the serial port is busy (no data loss on arrival of data bursts)
-     - Stop reading subsequent data packets from the TCP socket if the serial port is currently not open
-     - Implement transmission of U-frames, even for busy peers (RNR condition) (STARTED)
-     - States: deliver nothing (not alive), deliver U-Frames (alive, but stalled), deliver I- and U-Frames (alive and open)
-     - Add hint to spec: even if s-net(r)-messages indicate non-reliable transfer, reliable transmission via HDLC should be demanded for!
+- Add hint to spec: even if s-net(r)-messages indicate non-reliable transfer, reliable transmission via HDLC should be demanded for!
 
 
 
@@ -31,6 +26,11 @@ Issues to be resolved after the first release:
 
 
 // DONE
+- Implement polling-based scheduler to query data packets to be transmitted, distinguish "unreliable-only" and "all data" (DONE)
+  -> - Allow TCP sockets to become congested if the serial port is busy (no data loss on arrival of data bursts) (DONE)
+     - Stop reading subsequent data packets from the TCP socket if the serial port is currently not open (DONE)
+     - Implement transmission of U-frames, even for busy peers (RNR condition) (DONE)
+     - States: deliver nothing (not alive), deliver U-Frames (alive, but stalled), deliver I- and U-Frames (alive and open) (DONE)
 - The "flow suspended" status flag must be set if the serial port is locked (DONE)
 - Implement keep alive packet handling, automatic transmission every 60 seconds (DONE)
 - Implement port kill request (DONE)
