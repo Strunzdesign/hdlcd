@@ -81,7 +81,7 @@ void SerialPortHandler::DeliverPayloadToHDLC(const std::vector<unsigned char> &a
 }
 
 void SerialPortHandler::DeliverBufferToClients(E_HDLCBUFFER a_eHDLCBuffer, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent) {
-    ForEachClient([a_eHDLCBuffer, a_Payload, a_bReliable, a_bValid, a_bWasSent](std::shared_ptr<ClientHandler> a_ClientHandler) {
+    ForEachClient([a_eHDLCBuffer, &a_Payload, a_bReliable, a_bValid, a_bWasSent](std::shared_ptr<ClientHandler> a_ClientHandler) {
         a_ClientHandler->DeliverBufferToClient(a_eHDLCBuffer, a_Payload, a_bReliable, a_bValid, a_bWasSent);
     });
 }
