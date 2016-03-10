@@ -27,12 +27,13 @@
 ProtocolState::ProtocolState(std::shared_ptr<SerialPortHandler> a_SerialPortHandler, boost::asio::io_service& a_IOService): m_SerialPortHandler(a_SerialPortHandler), m_Timer(a_IOService), m_FrameParser(*this) {
     // Initialize alive state helper
     m_AliveState = std::make_shared<AliveState>(a_IOService);
-    m_AliveState->SetSendProbeCallback([this](){
+    m_AliveState->SetSendProbeCallback([this]() {
         m_bSendProbe = true;
         OpportunityForTransmission();
     });
-    m_AliveState->SetChangeBaudrateCallback([this](){
+    m_AliveState->SetChangeBaudrateCallback([this]() {
         m_SerialPortHandler->ChangeBaudRate();
+        m_SerialPortHandler->PropagateSerialPortState();
     });
     
     Reset();
