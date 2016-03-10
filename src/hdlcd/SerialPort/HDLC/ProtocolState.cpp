@@ -24,26 +24,33 @@
 #include "../SerialPortHandler.h"
 #include "FrameGenerator.h"
 
-ProtocolState::ProtocolState(std::shared_ptr<SerialPortHandler> a_SerialPortHandler, boost::asio::io_service& a_IOService): m_Timer(a_IOService), m_FrameParser(*this) {
-    m_SerialPortHandler = a_SerialPortHandler;
+ProtocolState::ProtocolState(std::shared_ptr<SerialPortHandler> a_SerialPortHandler, boost::asio::io_service& a_IOService): m_SerialPortHandler(a_SerialPortHandler), m_Timer(a_IOService), m_FrameParser(*this) {
+    // Initialize alive state helper
+    m_AliveState = std::make_shared<AliveState>(a_IOService);
+    m_AliveState->SetSendProbeCallback([this](){
+        m_bSendProbe = true;
+        OpportunityForTransmission();
+    });
+    m_AliveState->SetChangeBaudrateCallback([this](){
+        m_SerialPortHandler->ChangeBaudRate();
+    });
+    
     Reset();
 }
 
 void ProtocolState::Reset() {
+    m_AliveState->Stop();
     m_Timer.cancel();
     m_bStarted = false;
     m_bAwaitsNextHDLCFrame = true;
     m_SSeqOutgoing = 0;
     m_SSeqIncoming = 0;
     m_RSeqIncoming = 0;
+    m_bSendProbe = false;
     m_bPeerStoppedFlow = false;
     m_bPeerRequiresAck = false;
     m_bWaitForAck = false;
-    m_HDLCType = HDLC_TYPE_UNKNOWN;
-    m_PortState = PORT_STATE_BAUDRATE_UNKNOWN;
     m_SREJs.clear();
-    m_WaitQueueReliable.clear();
-    m_WaitQueueUnreliable.clear();
     m_FrameParser.Reset();
 }
 
@@ -51,7 +58,8 @@ void ProtocolState::Start() {
     // Start the state machine
     Reset();
     m_bStarted = true;
-    OpportunityForTransmission(); // trigger baud rate detection
+    m_AliveState->Start(); // trigger baud rate detection
+    OpportunityForTransmission();
 }
 
 void ProtocolState::Stop() {
@@ -121,10 +129,8 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
         return;
     } // if
     
-    if ((m_PortState == PORT_STATE_BAUDRATE_UNKNOWN) || (m_PortState == PORT_STATE_BAUDRATE_PROBE_SENT)) {
-        // Found the correct baud rate
-        m_PortState = PORT_STATE_BAUDRATE_FOUND;
-        m_Timer.cancel();
+    // A valid frame was received
+    if (m_AliveState->OnFrameReceived()) {
         m_SerialPortHandler->PropagateSerialPortState();
     } // if
     
@@ -232,27 +238,13 @@ void ProtocolState::OpportunityForTransmission() {
     } // if
     
     Frame l_Frame;
-    if (m_PortState == PORT_STATE_BAUDRATE_UNKNOWN) {
-        // The correct baud rate setting is unknown yet. Send an U-TEST frame.
-        m_PortState = PORT_STATE_BAUDRATE_PROBE_SENT;
+    if (m_bSendProbe) {
+        // The correct baud rate setting is unknown yet, or it has to be checked again. Send an U-TEST frame.
+        m_bSendProbe = false;
         l_Frame = PrepareUFrameTEST();
-        
-        // Setup retransmission timer
-        auto self(shared_from_this());
-        m_Timer.expires_from_now(boost::posix_time::milliseconds(500));
-        m_Timer.async_wait([this, self](const boost::system::error_code& ec) {
-            if (!ec) {
-                m_PortState = PORT_STATE_BAUDRATE_UNKNOWN;
-                m_SerialPortHandler->ChangeBaudRate();
-                OpportunityForTransmission();
-            } // if
-        });
-    } else if (m_PortState == PORT_STATE_BAUDRATE_PROBE_SENT) {
-        // We have to wait until the timer expires
-        return;
-    } else {
-        assert(m_PortState == PORT_STATE_BAUDRATE_FOUND);
-
+    } // if
+    
+    if (l_Frame.IsEmpty() && m_AliveState->IsAlive()) {
         // Check the state of the wait queues
         if ((m_WaitQueueReliable.empty()) && (m_WaitQueueUnreliable.empty()) && (!m_bPeerRequiresAck) && (m_SREJs.empty())) {
             // Nothing to transmit. Query all clients for data.

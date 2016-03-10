@@ -11,6 +11,7 @@ main.cpp
 AccessProtocol/ClientHandler.cpp
 AccessProtocol/ClientHandlerCollection.cpp
 AccessProtocol/LockGuard.cpp
+SerialPort/HDLC/AliveState.cpp
 SerialPort/HDLC/FCS16.cpp
 SerialPort/HDLC/Frame.cpp
 SerialPort/HDLC/FrameGenerator.cpp

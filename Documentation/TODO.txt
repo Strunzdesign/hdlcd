@@ -1,7 +1,6 @@
 Issues to be resolved before a first release:
 - Add command line switches and online help ("-h --help") to the HDLCd
 - Doxygen
-- Periodically test idle HDLC links via U-TEST packets; check if the baud rate is still correct, or start another detection procedure.
 - Fix all the TODOs in the source code
 - Check: Session confirmation with error reporting?
 - Implement abortive close ("connection reset by peer") at the HDLCd to detach misbehaving clients without expensive TIMED_WAIT state
@@ -24,6 +23,7 @@ Issues to be resolved after the first release:
 
 
 // DONE
+- Periodically test idle HDLC links via U-TEST packets; check if the baud rate is still correct, or start another detection procedure. (DONE)
 - Add hint to spec: even if s-net(r)-messages indicate non-reliable transfer, reliable transmission via HDLC should be demanded for! (DONE)
 - Implement polling-based scheduler to query data packets to be transmitted, distinguish "unreliable-only" and "all data" (DONE)
   -> - Allow TCP sockets to become congested if the serial port is busy (no data loss on arrival of data bursts) (DONE)

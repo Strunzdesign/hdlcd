@@ -19,13 +19,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef HDLC_PROTOCOL_STATE_H
-#define HDLC_PROTOCOL_STATE_H
+#ifndef PROTOCOL_STATE_H
+#define PROTOCOL_STATE_H
 
 #include <vector>
 #include <boost/asio.hpp>
 #include <memory>
 #include <deque>
+#include "AliveState.h"
 #include "Frame.h"
 #include "FrameParser.h"
 class SerialPortHandler;
@@ -44,7 +45,7 @@ public:
     void InterpretDeserializedFrame(const std::vector<unsigned char> &a_Payload, const Frame& a_Frame, bool a_bMessageValid);
     
     // Query state
-    bool IsAlive() const { return m_PortState == PORT_STATE_BAUDRATE_FOUND; }
+    bool IsAlive() const { return m_AliveState->IsAlive(); }
     bool IsFlowSuspended() const { return (m_bPeerStoppedFlow || !IsAlive()); }
 
 private:
@@ -65,6 +66,7 @@ private:
     unsigned char m_RSeqIncoming; // The start of the RX window we offer our peer, defines which packets we expect
     
     // State of pending actions
+    bool m_bSendProbe;
     bool m_bPeerStoppedFlow;      // RNR condition
     bool m_bPeerRequiresAck;
     bool m_bWaitForAck;
@@ -77,25 +79,13 @@ private:
     // Wait queues
     std::deque<std::vector<unsigned char>> m_WaitQueueReliable;
     std::deque<std::vector<unsigned char>> m_WaitQueueUnreliable;
-
-    // Determine type of HDLC peer
-    typedef enum {
-        HDLC_TYPE_UNKNOWN = 0,
-        HDLC_TYPE_REDUCED = 1,
-        HDLC_TYPE_FULL    = 2
-    } E_HDLC_TYPE;
-    E_HDLC_TYPE m_HDLCType;
     
-    // State of the serial port
-    typedef enum {
-        PORT_STATE_BAUDRATE_UNKNOWN    = 0,
-        PORT_STATE_BAUDRATE_PROBE_SENT = 1,
-        PORT_STATE_BAUDRATE_FOUND      = 2
-    } E_PORT_STATE;
-    E_PORT_STATE m_PortState;
+    // Alive state
+    std::shared_ptr<AliveState> m_AliveState;
     
     // Timer
     boost::asio::deadline_timer m_Timer;
+    bool m_bAliveReceivedSometing;
 };
 
-#endif // HDLC_PROTOCOL_STATE_H
+#endif // PROTOCOL_STATE_H
