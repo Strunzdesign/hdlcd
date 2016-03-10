@@ -6,10 +6,11 @@ Description of the HDLCd access protocol
 
 General:
 ---
-Byte order: all multi-byte fields are in network byte order.
-Error handling: on any error, the TCP socket is closed immediately without any notification!
-Multiple clients can access the same device, just specify the same serial port name.
-Serial ports can be "locked" by using dedicated control packets (see below).
+- Byte order: all multi-byte fields are in network byte order.
+- Error handling: on any error, the TCP socket is closed immediately without any notification!
+- Multiple clients can access the same device, just specify the same serial port name.
+- Serial ports can be "locked" by using dedicated control packets (see below).
+- Clients are encouraged to always demand for reliable transmission. Otherwise data loss due to an overwhelmed device is very probable!
 
 
 Locking ("suspend") and unlocking ("resume") of serial ports:
