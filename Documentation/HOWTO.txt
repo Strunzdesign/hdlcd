@@ -32,6 +32,6 @@ cd build/src/tools/hdlc-dissector
 Example (Microsoft Windows):
 
 cd build\src\tools\hdlc-dissector
-hdlc-dissector.exe 127.0.0.1 10000 "\\.\COM1"
+hdlc-dissector.exe 127.0.0.1 10000 "//./COM1"
 
 

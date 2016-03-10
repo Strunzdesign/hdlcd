@@ -81,7 +81,7 @@ Length of serial port string:
 
 Serial port string:
 - The device name, without null termination.
-- Examples: /dev/ttyUSB0 or "\\.\COM1"
+- Examples: /dev/ttyUSB0 or "//./COM1"
 
 
 Service access point specifier:
