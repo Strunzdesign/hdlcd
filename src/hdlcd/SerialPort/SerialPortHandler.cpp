@@ -164,7 +164,6 @@ void SerialPortHandler::QueryForPayload() {
 void SerialPortHandler::do_read() {
     auto self(shared_from_this());
     m_SerialPort.async_read_some(boost::asio::buffer(m_ReadBuffer, max_length),[this, self](boost::system::error_code a_ErrorCode, std::size_t a_BytesRead) {
-        if (a_ErrorCode == boost::asio::error::operation_aborted) return;
         if (!a_ErrorCode) {
             m_ProtocolState->AddReceivedRawBytes(m_ReadBuffer, a_BytesRead);
             if (m_SerialPortLock.GetSerialPortState() == false) {
@@ -182,7 +181,6 @@ void SerialPortHandler::do_read() {
 void SerialPortHandler::do_write() {
     auto self(shared_from_this());
     m_SerialPort.async_write_some(boost::asio::buffer(&m_SendBuffer[m_SendBufferOffset], (m_SendBuffer.size() - m_SendBufferOffset)),[this, self](boost::system::error_code a_ErrorCode, std::size_t a_BytesRead) {
-        if (a_ErrorCode == boost::asio::error::operation_aborted) return;
         if (!a_ErrorCode) {
             m_SendBufferOffset += a_BytesRead;
             if (m_SendBufferOffset == m_SendBuffer.size()) {
