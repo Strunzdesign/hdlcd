@@ -27,14 +27,14 @@
 #include <vector>
 #include <list>
 #include <boost/asio.hpp>
+#include "HDLC/ISerialPortHandler.h"
 #include "SerialPortLock.h"
 #include "BaudRate.h"
-#include "HDLC/HDLCBuffer.h"
 class SerialPortHandlerCollection;
 class ClientHandler;
 class ProtocolState;
 
-class SerialPortHandler: public std::enable_shared_from_this<SerialPortHandler> {
+class SerialPortHandler: public ISerialPortHandler, public std::enable_shared_from_this<SerialPortHandler> {
 public:
     // CTOR and DTOR
     SerialPortHandler(const std::string &a_SerialPortName, std::shared_ptr<SerialPortHandlerCollection> a_SerialPortHandlerCollection, boost::asio::io_service& a_IOService);

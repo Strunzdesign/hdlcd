@@ -1,5 +1,5 @@
 /**
- * \file FrameParser.h
+ * \file ISerialPortHandler.h
  * \brief 
  *
  * Copyright (c) 2016, Florian Evers, florian-evers@gmx.de
@@ -34,31 +34,23 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef HDLC_FRAME_PARSER_H
-#define HDLC_FRAME_PARSER_H
+#ifndef ISERIAL_PORT_HANDLER_H
+#define ISERIAL_PORT_HANDLER_H
 
 #include <vector>
-#include "Frame.h"
-class ProtocolState;
+#include "HDLCBuffer.h"
 
-class FrameParser {
+class ISerialPortHandler {
 public:
-    FrameParser(ProtocolState& a_ProtocolState);
-    void Reset();
-    void AddReceivedRawBytes(const unsigned char* a_Buffer, size_t a_Bytes);
-    
-private:
-    // Interal helpers
-    size_t AddChunk(const unsigned char* a_Buffer, size_t a_Bytes);
-    bool RemoveEscapeCharacters();
-    Frame DeserializeFrame(const std::vector<unsigned char> &a_UnescapedBuffer) const;
-    
-    // Members
-    ProtocolState& m_ProtocolState;
+    // DTOR
+    virtual ~ISerialPortHandler(){}
 
-    enum { max_length = 1024 };
-    std::vector<unsigned char> m_Buffer;
-    bool m_bStartTokenSeen;
+    // Methods called by the HDLC ProtocolState object
+    virtual void DeliverBufferToClients(E_HDLCBUFFER a_eHDLCBuffer, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent) = 0;
+    virtual void ChangeBaudRate() = 0;
+    virtual void PropagateSerialPortState() = 0;
+    virtual void TransmitHDLCFrame(const std::vector<unsigned char> &a_Payload) = 0;
+    virtual void QueryForPayload() = 0;
 };
 
-#endif // HDLC_FRAME_PARSER_H
+#endif // ISERIAL_PORT_HANDLER_H
