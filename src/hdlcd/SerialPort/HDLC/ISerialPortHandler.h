@@ -38,7 +38,7 @@
 #define ISERIAL_PORT_HANDLER_H
 
 #include <vector>
-#include "HDLCBuffer.h"
+#include "BufferType.h"
 
 class ISerialPortHandler {
 public:
@@ -46,7 +46,7 @@ public:
     virtual ~ISerialPortHandler(){}
 
     // Methods called by the HDLC ProtocolState object
-    virtual void DeliverBufferToClients(E_HDLCBUFFER a_eHDLCBuffer, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent) = 0;
+    virtual void DeliverBufferToClients(E_BUFFER_TYPE a_eBufferType, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent) = 0;
     virtual void ChangeBaudRate() = 0;
     virtual void PropagateSerialPortState() = 0;
     virtual void TransmitHDLCFrame(const std::vector<unsigned char> &a_Payload) = 0;

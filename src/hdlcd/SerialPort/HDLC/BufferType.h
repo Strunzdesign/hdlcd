@@ -1,5 +1,5 @@
 /**
- * \file HDLCBuffer.h
+ * \file BufferType.h
  * \brief 
  *
  * Copyright (c) 2016, Florian Evers, florian-evers@gmx.de
@@ -34,15 +34,15 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef HDLC_BUFFER_H
-#define HDLC_BUFFER_H
+#ifndef BUFFER_TYPE_H
+#define BUFFER_TYPE_H
 
 typedef enum {
-    HDLCBUFFER_NOTHING     = 0,
-    HDLCBUFFER_RAW         = 1,
-    HDLCBUFFER_DISSECTED   = 2,
-    HDLCBUFFER_PAYLOAD     = 3,
-    HDLCBUFFER_PORT_STATUS = 4
-} E_HDLCBUFFER;
+    BUFFER_TYPE_NOTHING     = 0,
+    BUFFER_TYPE_RAW         = 1,
+    BUFFER_TYPE_DISSECTED   = 2,
+    BUFFER_TYPE_PAYLOAD     = 3,
+    BUFFER_TYPE_PORT_STATUS = 4
+} E_BUFFER_TYPE;
 
-#endif // HDLC_BUFFER_H
+#endif // BUFFER_TYPE_H

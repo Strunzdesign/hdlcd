@@ -30,7 +30,7 @@ ClientHandler::ClientHandler(std::weak_ptr<ClientHandlerCollection> a_ClientHand
     m_ClientHandlerCollection(a_ClientHandlerCollection),
     m_TCPSocket(std::move(a_TCPSocket)) {
     m_Registered = false;
-    m_eHDLCBuffer = HDLCBUFFER_NOTHING;
+    m_eBufferType = BUFFER_TYPE_NOTHING;
     m_bDeliverSent = false;
     m_bDeliverRcvd = false;
     m_bDeliverInvalidData = false;
@@ -45,9 +45,9 @@ ClientHandler::~ClientHandler() {
     Stop();
 }
 
-void ClientHandler::DeliverBufferToClient(E_HDLCBUFFER a_eHDLCBuffer, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent) {
+void ClientHandler::DeliverBufferToClient(E_BUFFER_TYPE a_eBufferType, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent) {
     // Check whether this buffer is of interest to this specific client
-    bool l_bDeliver = (a_eHDLCBuffer == m_eHDLCBuffer);
+    bool l_bDeliver = (a_eBufferType == m_eBufferType);
     if ((a_bWasSent && !m_bDeliverSent) || (!a_bWasSent && !m_bDeliverRcvd)) {
         l_bDeliver = false;
     } // if
@@ -144,23 +144,23 @@ void ClientHandler::ReadSessionHeader1() {
             unsigned char l_SAP = m_ReadBuffer[1];
             switch (l_SAP & 0xF0) {
             case 0x00: {
-                m_eHDLCBuffer = HDLCBUFFER_PAYLOAD;
+                m_eBufferType = BUFFER_TYPE_PAYLOAD;
                 break;
             }
             case 0x10: {
-                m_eHDLCBuffer = HDLCBUFFER_PORT_STATUS;
+                m_eBufferType = BUFFER_TYPE_PORT_STATUS;
                 break;
             }
             case 0x20: {
-                m_eHDLCBuffer = HDLCBUFFER_PAYLOAD;
+                m_eBufferType = BUFFER_TYPE_PAYLOAD;
                 break;
             }
             case 0x30: {
-                m_eHDLCBuffer = HDLCBUFFER_RAW;
+                m_eBufferType = BUFFER_TYPE_RAW;
                 break;
             }
             case 0x40: {
-                m_eHDLCBuffer = HDLCBUFFER_DISSECTED;
+                m_eBufferType = BUFFER_TYPE_DISSECTED;
                 break;
             }
             default:

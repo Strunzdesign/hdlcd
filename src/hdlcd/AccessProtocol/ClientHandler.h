@@ -31,7 +31,7 @@
 #include "AliveGuard.h"
 #include "FlowGuard.h"
 #include "LockGuard.h"
-#include "../SerialPort/HDLC/HDLCBuffer.h"
+#include "../SerialPort/HDLC/BufferType.h"
 #include "../../shared/PacketEndpoint.h"
 
 class ClientHandlerCollection;
@@ -43,7 +43,7 @@ public:
     ClientHandler(std::weak_ptr<ClientHandlerCollection> a_ClientHandlerCollection, boost::asio::ip::tcp::socket a_TCPSocket);
     ~ClientHandler();
     
-    void DeliverBufferToClient(E_HDLCBUFFER a_eHDLCBuffer, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent);
+    void DeliverBufferToClient(E_BUFFER_TYPE a_eBufferType, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent);
     void UpdateSerialPortState(bool a_bAlive, bool a_bFlowControl, size_t a_LockHolders);
     void QueryForPayload();
     
@@ -83,7 +83,7 @@ private:
     LockGuard  m_LockGuard;
 
     // SAP specification
-    E_HDLCBUFFER m_eHDLCBuffer;
+    E_BUFFER_TYPE m_eBufferType;
     bool m_bDeliverSent;
     bool m_bDeliverRcvd;
     bool m_bDeliverInvalidData;

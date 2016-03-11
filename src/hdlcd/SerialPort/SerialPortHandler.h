@@ -42,7 +42,7 @@ public:
     
     void AddClientHandler(std::shared_ptr<ClientHandler> a_ClientHandler);
     void DeliverPayloadToHDLC(const std::vector<unsigned char> &a_Payload, bool a_bReliable);
-    void DeliverBufferToClients(E_HDLCBUFFER a_eHDLCBuffer, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent);
+    void DeliverBufferToClients(E_BUFFER_TYPE a_eBufferType, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent);
     
     bool Start();
     void Stop();
