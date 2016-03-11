@@ -42,7 +42,7 @@
 
 class Frame {
 public:
-    Frame(): m_HDLCFrameType(HDLC_FRAMETYPE_UNSET), m_PF(false), m_RSeq(0), m_SSeq(0) {}
+    Frame(): m_eHDLCFrameType(HDLC_FRAMETYPE_UNSET), m_PF(false), m_RSeq(0), m_SSeq(0) {}
     
     void SetAddress(unsigned char a_Address) { m_Address = a_Address; }
     unsigned char GetAddress() const { return m_Address; }
@@ -65,13 +65,13 @@ public:
         HDLC_FRAMETYPE_U_CMDR,
         HDLC_FRAMETYPE_U_TEST,
         HDLC_FRAMETYPE_U_XID,
-    } T_HDLC_FRAMETYPE;
-    void SetHDLCFrameType(T_HDLC_FRAMETYPE a_HDLCFrameType) { m_HDLCFrameType = a_HDLCFrameType; }
-    T_HDLC_FRAMETYPE GetHDLCFrameType() const { return m_HDLCFrameType; }
-    bool IsEmpty() const { return m_HDLCFrameType == HDLC_FRAMETYPE_UNSET; }
-    bool IsIFrame() const { return (m_HDLCFrameType == HDLC_FRAMETYPE_I); }
-    bool IsSFrame() const { return ((m_HDLCFrameType >= HDLC_FRAMETYPE_S_RR) && (m_HDLCFrameType <= HDLC_FRAMETYPE_S_SREJ)); }
-    bool IsUFrame() const { return ((m_HDLCFrameType >= HDLC_FRAMETYPE_U_UI) && (m_HDLCFrameType <= HDLC_FRAMETYPE_U_XID)); }
+    } E_HDLC_FRAMETYPE;
+    void SetHDLCFrameType(E_HDLC_FRAMETYPE a_eHDLCFrameType) { m_eHDLCFrameType = a_eHDLCFrameType; }
+    E_HDLC_FRAMETYPE GetHDLCFrameType() const { return m_eHDLCFrameType; }
+    bool IsEmpty() const { return m_eHDLCFrameType == HDLC_FRAMETYPE_UNSET; }
+    bool IsIFrame() const { return (m_eHDLCFrameType == HDLC_FRAMETYPE_I); }
+    bool IsSFrame() const { return ((m_eHDLCFrameType >= HDLC_FRAMETYPE_S_RR) && (m_eHDLCFrameType <= HDLC_FRAMETYPE_S_SREJ)); }
+    bool IsUFrame() const { return ((m_eHDLCFrameType >= HDLC_FRAMETYPE_U_UI) && (m_eHDLCFrameType <= HDLC_FRAMETYPE_U_XID)); }
     
     void SetPF(bool a_PF) { if (a_PF) { m_PF = 0x10; } else { m_PF = 0; } }
     bool IsPF() const { return ( m_PF & 0x10); }
@@ -91,7 +91,7 @@ public:
 private:
     // Members
     unsigned char m_Address;
-    T_HDLC_FRAMETYPE m_HDLCFrameType;
+    E_HDLC_FRAMETYPE m_eHDLCFrameType;
     unsigned char m_PF;
     unsigned char m_RSeq;
     unsigned char m_SSeq;
