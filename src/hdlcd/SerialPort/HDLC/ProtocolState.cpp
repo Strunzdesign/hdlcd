@@ -36,10 +36,10 @@
 
 #include "ProtocolState.h"
 #include <assert.h>
-#include "../SerialPortHandler.h"
 #include "FrameGenerator.h"
+#include "ISerialPortHandler.h"
 
-ProtocolState::ProtocolState(std::shared_ptr<SerialPortHandler> a_SerialPortHandler, boost::asio::io_service& a_IOService): m_SerialPortHandler(a_SerialPortHandler), m_Timer(a_IOService), m_FrameParser(*this) {
+ProtocolState::ProtocolState(std::shared_ptr<ISerialPortHandler> a_SerialPortHandler, boost::asio::io_service& a_IOService): m_SerialPortHandler(a_SerialPortHandler), m_Timer(a_IOService), m_FrameParser(*this) {
     // Initialize alive state helper
     m_AliveState = std::make_shared<AliveState>(a_IOService);
     m_AliveState->SetSendProbeCallback([this]() {
@@ -181,7 +181,7 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
     // Check the various types of ACKs and NACKs
     if ((a_Frame.IsIFrame()) || (a_Frame.IsSFrame())) {
         if ((a_Frame.IsIFrame()) || (a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_S_RR)) {
-            if (m_bPeerStoppedFlow) {
+            if ((m_bPeerStoppedFlow) && (a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_S_RR)) {
                 // The peer restarted the flow: RR clears RNR condition
                 m_bPeerStoppedFlow = false;
                 m_Timer.cancel();
@@ -261,23 +261,15 @@ void ProtocolState::OpportunityForTransmission() {
     } // if
     
     if (l_Frame.IsEmpty() && m_AliveState->IsAlive()) {
-        // Check the state of the wait queues
-        if ((m_WaitQueueReliable.empty()) && (m_WaitQueueUnreliable.empty()) && (!m_bPeerRequiresAck) && (m_SREJs.empty())) {
-            // Nothing to transmit. Query all clients for data.
-            m_SerialPortHandler->QueryForPayload();
-            
-            // If we got data, the transmission will go on immediately
-            return;
-        } // if
-
-        // Send SREJ?
+        // The serial link to the device is alive. Send all outstanding S-SREJs first.
         if (m_SREJs.empty() == false) {
             // Send SREJs first
             l_Frame = PrepareSFrameSREJ();
         } // if
         
-        // Send I-frame with data?
-        if (l_Frame.IsEmpty() && (m_WaitQueueReliable.empty() == false) && (!m_bWaitForAck)) {
+        // Check if packets are waiting for reliable transmission
+        if (l_Frame.IsEmpty() && (m_WaitQueueReliable.empty() == false) && (!m_bWaitForAck) && (!m_bPeerStoppedFlow)) {
+            // Send an I-Frame now
             l_Frame = PrepareIFrame();
             m_bWaitForAck = true;
             
@@ -296,18 +288,26 @@ void ProtocolState::OpportunityForTransmission() {
             });
         } // if
         
-        // Send RR?
+        // Send outstanding RR ?
         if (l_Frame.IsEmpty() && (m_bPeerRequiresAck)) {
             l_Frame = PrepareSFrameRR();
             m_bPeerRequiresAck = false;
-        } // if
+        } // if        
         
-        // Send U-UI-frame with data?
+        // Check if packets are waiting for unreliable transmission
         if (l_Frame.IsEmpty() && (m_WaitQueueUnreliable.empty() == false)) {
             l_Frame = PrepareUFrameUI();
             m_WaitQueueUnreliable.pop_front();
         } // if
-    } // else
+        
+        // If there is nothing to send, try to fill the wait queues, but only if necessary.
+        if (l_Frame.IsEmpty()) {
+            // These expressions are the result of some boolean logic
+            bool l_bQueryReliable   = (m_WaitQueueUnreliable.empty() && m_WaitQueueReliable.empty() && (!m_bPeerStoppedFlow));
+            bool l_bQueryUnreliable = (m_WaitQueueUnreliable.empty() && m_bPeerStoppedFlow);
+            m_SerialPortHandler->QueryForPayload(l_bQueryReliable, l_bQueryUnreliable);
+        } // if        
+    } // if
 
     if (l_Frame.IsEmpty() == false) {
         // Deliver unescaped frame to clients that have interest

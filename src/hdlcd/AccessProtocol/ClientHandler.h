@@ -45,7 +45,7 @@ public:
     
     void DeliverBufferToClient(E_BUFFER_TYPE a_eBufferType, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent);
     void UpdateSerialPortState(bool a_bAlive, bool a_bFlowControl, size_t a_LockHolders);
-    void QueryForPayload();
+    void QueryForPayload(bool a_bQueryReliable, bool a_bQueryUnreliable);
     
     void Start(std::shared_ptr<SerialPortHandlerCollection> a_SerialPortHandlerCollection);
     void Stop();
@@ -54,7 +54,6 @@ private:
     // Helpers
     void ReadSessionHeader1();
     void ReadSessionHeader2(unsigned char a_BytesUSB);
-    bool TryToDeliverPendingPacket();
     
     // Callbacks
     bool OnDataReceived(std::shared_ptr<const PacketData> a_PacketData);

@@ -44,11 +44,11 @@
 #include "AliveState.h"
 #include "Frame.h"
 #include "FrameParser.h"
-class SerialPortHandler;
+class ISerialPortHandler;
 
 class ProtocolState: public std::enable_shared_from_this<ProtocolState> {
 public:
-    ProtocolState(std::shared_ptr<SerialPortHandler> a_SerialPortHandler, boost::asio::io_service& a_IOService);
+    ProtocolState(std::shared_ptr<ISerialPortHandler> a_SerialPortHandler, boost::asio::io_service& a_IOService);
     
     void Start();
     void Stop();
@@ -88,7 +88,7 @@ private:
     std::deque<unsigned char> m_SREJs;
     
     // Parser and generator
-    std::shared_ptr<SerialPortHandler> m_SerialPortHandler;
+    std::shared_ptr<ISerialPortHandler> m_SerialPortHandler;
     FrameParser m_FrameParser;
     
     // Wait queues

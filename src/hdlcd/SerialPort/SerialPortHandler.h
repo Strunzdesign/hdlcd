@@ -42,22 +42,23 @@ public:
     
     void AddClientHandler(std::shared_ptr<ClientHandler> a_ClientHandler);
     void DeliverPayloadToHDLC(const std::vector<unsigned char> &a_Payload, bool a_bReliable);
-    void DeliverBufferToClients(E_BUFFER_TYPE a_eBufferType, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent);
     
     bool Start();
     void Stop();
-    void ChangeBaudRate();
     
     // Suspend / resume serial port
     void SuspendSerialPort();
     void ResumeSerialPort();
-    void PropagateSerialPortState();
     
-    // Do not use from external, only by the ProtocolState
-    void TransmitHDLCFrame(const std::vector<unsigned char> &a_Payload);
-    void QueryForPayload();
+    void PropagateSerialPortState();
 
 private:
+    // Called by a ProtocolState object
+    void DeliverBufferToClients(E_BUFFER_TYPE a_eBufferType, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent);
+    void ChangeBaudRate();
+    void TransmitHDLCFrame(const std::vector<unsigned char> &a_Payload);
+    void QueryForPayload(bool a_bQueryReliable, bool a_bQueryUnreliable);
+
     // Internal helpers
     void do_read();
     void do_write();

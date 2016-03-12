@@ -155,9 +155,9 @@ void SerialPortHandler::TransmitHDLCFrame(const std::vector<unsigned char> &a_Pa
     do_write();
 }
 
-void SerialPortHandler::QueryForPayload() {
-    ForEachClient([](std::shared_ptr<ClientHandler> a_ClientHandler) {
-        a_ClientHandler->QueryForPayload();
+void SerialPortHandler::QueryForPayload(bool a_bQueryReliable, bool a_bQueryUnreliable) {
+    ForEachClient([a_bQueryReliable, a_bQueryUnreliable](std::shared_ptr<ClientHandler> a_ClientHandler) {
+        a_ClientHandler->QueryForPayload(a_bQueryReliable, a_bQueryUnreliable);
     });
 }
 

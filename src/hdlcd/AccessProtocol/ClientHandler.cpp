@@ -74,7 +74,7 @@ void ClientHandler::UpdateSerialPortState(bool a_bAlive, bool a_bFlowControl, si
     } // if
 }
 
-void ClientHandler::QueryForPayload() {
+void ClientHandler::QueryForPayload(bool a_bQueryReliable, bool a_bQueryUnreliable) {
     // Checks
     if (!m_Registered) {
         return;
@@ -83,13 +83,15 @@ void ClientHandler::QueryForPayload() {
     // Deliver a pending incoming data packet, dependend on the state of packets accepted by the serial port handler.
     // If no suitable packet is pending, set a flag that allows immediate delivery of the next packet.
     if (m_PendingIncomingPacketData) {
-        // A pending packet is available. Deliver it.
-        if (TryToDeliverPendingPacket()) {
-            // It was delivered, and we want to receive more
+        bool l_bDeliver = (a_bQueryReliable   &&  m_PendingIncomingPacketData->GetReliable());
+        l_bDeliver     |= (a_bQueryUnreliable && !m_PendingIncomingPacketData->GetReliable());
+        if (l_bDeliver) {
+            m_SerialPortHandler->DeliverPayloadToHDLC(m_PendingIncomingPacketData->GetData(), m_PendingIncomingPacketData->GetReliable());
+            m_PendingIncomingPacketData.reset();
             m_PacketEndpoint->TriggerNextDataPacket();
         } // if
     } else {
-        // no packet was waiting, but we want to receive more
+        // No packet was pending, but we want to receive more!
         m_bSerialPortHandlerAwaitsPacket = true;
         m_PacketEndpoint->TriggerNextDataPacket();
     } // else
@@ -218,22 +220,6 @@ void ClientHandler::ReadSessionHeader2(unsigned char a_BytesUSB) {
     });
 }
 
-bool ClientHandler::TryToDeliverPendingPacket() {
-    // Checks
-    assert(m_PendingIncomingPacketData);
-    
-    // Check if this type of data packet it is currently accepted
-    if ((m_PendingIncomingPacketData->GetReliable() == false) || (m_FlowGuard.IsFlowSuspended() == false)) {
-        // Deliver the pending packet and re-enable the TCP receiver
-        m_SerialPortHandler->DeliverPayloadToHDLC(m_PendingIncomingPacketData->GetData(), m_PendingIncomingPacketData->GetReliable());
-        m_PendingIncomingPacketData.reset();
-        return true; // Awaits next packet
-    } else {
-        // Stall the TCP receiver
-        return false;
-    } // else
-}
-
 bool ClientHandler::OnDataReceived(std::shared_ptr<const PacketData> a_PacketData) {
     // Checks
     assert(a_PacketData);
@@ -242,16 +228,14 @@ bool ClientHandler::OnDataReceived(std::shared_ptr<const PacketData> a_PacketDat
     // Store the incoming packet, but try to deliver it now
     m_PendingIncomingPacketData = a_PacketData;
     if (m_bSerialPortHandlerAwaitsPacket) {
+        // One packet can be delivered, regardless of its reliablility status and the kind of packets that are accepted.
         m_bSerialPortHandlerAwaitsPacket = false;
-        if (TryToDeliverPendingPacket()) {
-            // Delivery successful, but for now, we must not deliver more. However, we can receive until we have the next packet
-            return true;
-        } // if
-        
-        // We were not able to deliver the incoming packet
+        m_SerialPortHandler->DeliverPayloadToHDLC(m_PendingIncomingPacketData->GetData(), m_PendingIncomingPacketData->GetReliable());
+        m_PendingIncomingPacketData.reset();
+        return true; // continue receiving, we stall with the next data packet
     } // if
     
-    // Stall the receiver
+    // Stall the receiver now!
     return false;
 }
 

@@ -50,7 +50,7 @@ public:
     virtual void ChangeBaudRate() = 0;
     virtual void PropagateSerialPortState() = 0;
     virtual void TransmitHDLCFrame(const std::vector<unsigned char> &a_Payload) = 0;
-    virtual void QueryForPayload() = 0;
+    virtual void QueryForPayload(bool a_bQueryReliable, bool a_bQueryUnreliable) = 0;
 };
 
 #endif // ISERIAL_PORT_HANDLER_H

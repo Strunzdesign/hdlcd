@@ -35,8 +35,8 @@ private:
     // Helpers
     bool SendNextPacket() {
         // Create packet
-        std::vector<unsigned char> l_Buffer = {0x00, 0x00, 0x40, 0x01, 0x3F, 0xF4, 0x00, 0x00, 0x10, 0x00, 0x04, 0x06, 0x02, 0x00, 0x80, 0x02, 0x01, m_ucSeqNr};
-        if (m_AccessClient.Send(std::move(PacketData::CreatePacket(l_Buffer, true)))) {
+        std::vector<unsigned char> l_Buffer = {0x00, 0x00, 0x40, 0x01, 0x00, 0x01, 0x00, 0x00, 0x10, 0x00, 0x04, 0x06, 0x02, 0x00, 0x80, 0x02, 0x01, m_ucSeqNr};
+        if (m_AccessClient.Send(std::move(PacketData::CreatePacket(l_Buffer, false)))) {
             if ((++m_ucSeqNr) == 100) {
                 m_ucSeqNr = 100;
                 std::cout << "100 Packets written" << std::endl;
