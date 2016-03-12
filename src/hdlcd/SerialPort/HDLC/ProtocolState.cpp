@@ -60,7 +60,6 @@ void ProtocolState::Reset() {
     m_bStarted = false;
     m_bAwaitsNextHDLCFrame = true;
     m_SSeqOutgoing = 0;
-    m_SSeqIncoming = 0;
     m_RSeqIncoming = 0;
     m_bSendProbe = false;
     m_bPeerStoppedFlow = false;
@@ -348,7 +347,7 @@ Frame ProtocolState::PrepareSFrameSREJ() {
     Frame l_Frame;
     l_Frame.SetAddress(0x30);
     l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_S_SREJ);
-    l_Frame.SetPF(false);
+    l_Frame.SetPF(m_bPeerStoppedFlow); // This is a hack due to missing command/response support
     l_Frame.SetRSeq(m_SREJs.front());
     m_SREJs.pop_front();
     return(std::move(l_Frame));

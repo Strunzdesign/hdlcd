@@ -77,7 +77,6 @@ private:
     bool m_bStarted;
     bool m_bAwaitsNextHDLCFrame;
     unsigned char m_SSeqOutgoing; // The sequence number we are going to use for the transmission of the next packet
-    unsigned char m_SSeqIncoming; // The sequence number we expect our peer to use for the next packet directed to us
     unsigned char m_RSeqIncoming; // The start of the RX window we offer our peer, defines which packets we expect
     
     // State of pending actions
