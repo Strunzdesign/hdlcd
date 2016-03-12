@@ -339,7 +339,7 @@ Frame ProtocolState::PrepareSFrameRR() {
     Frame l_Frame;
     l_Frame.SetAddress(0x30);
     l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_S_RR);
-    l_Frame.SetPF(false);
+    l_Frame.SetPF(m_bPeerStoppedFlow); // This is a hack due to missing command/response support
     l_Frame.SetRSeq(m_RSeqIncoming);
     return(std::move(l_Frame));
 }
