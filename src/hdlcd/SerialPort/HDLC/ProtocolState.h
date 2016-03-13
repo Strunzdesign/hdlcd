@@ -81,7 +81,8 @@ private:
     
     // State of pending actions
     bool m_bSendProbe;
-    bool m_bPeerStoppedFlow;      // RNR condition
+    bool m_bPeerStoppedFlow;        // RNR condition
+    bool m_bPeerStoppedFlowQueried; // RNR condition
     bool m_bPeerRequiresAck;
     bool m_bWaitForAck;
     std::deque<unsigned char> m_SREJs;

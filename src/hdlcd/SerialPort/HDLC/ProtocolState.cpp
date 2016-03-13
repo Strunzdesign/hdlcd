@@ -63,6 +63,7 @@ void ProtocolState::Reset() {
     m_RSeqIncoming = 0;
     m_bSendProbe = false;
     m_bPeerStoppedFlow = false;
+    m_bPeerStoppedFlowQueried = false;
     m_bPeerRequiresAck = false;
     m_bWaitForAck = false;
     m_SREJs.clear();
@@ -197,14 +198,23 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
             m_SSeqOutgoing = a_Frame.GetRSeq();
         } else if (a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_S_RNR) {
             // The peer wants us to stop sending subsequent data
-            m_bPeerStoppedFlow = true;
-            if ((m_bWaitForAck) && (a_Frame.GetRSeq() == ((m_SSeqOutgoing + 1) & 0x07))) {
-                // We found the respective sequence number to the last transmitted I-frame
+            if (!m_bPeerStoppedFlow) {
+                // Start periodical query
+                m_bPeerStoppedFlow = true;
+                m_bPeerRequiresAck = true;
+                m_bPeerStoppedFlowQueried = false;
+            } // if
+
+            if (m_bWaitForAck) {
                 m_bWaitForAck = false;
                 m_Timer.cancel();
-                m_WaitQueueReliable.pop_front();
+                if (a_Frame.GetRSeq() == ((m_SSeqOutgoing + 1) & 0x07)) {
+                    // We found the respective sequence number to the last transmitted I-frame
+                    m_WaitQueueReliable.pop_front();
+                } // if
             } // if
             
+            // Now we know which SeqNr the peer awaits next... after the RNR condition was cleared
             m_SSeqOutgoing = a_Frame.GetRSeq();
         } else if (a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_S_REJ) {
             if (m_bPeerStoppedFlow) {
@@ -280,17 +290,34 @@ void ProtocolState::OpportunityForTransmission() {
             m_Timer.expires_from_now(boost::posix_time::milliseconds(500));
             m_Timer.async_wait([this, self](const boost::system::error_code& ec) {
                 if (!ec) {
-                    // Send head of wait queue, maybe for a subsequent time.
+                    // Send the head element of the wait queue again
                     m_bWaitForAck = false;
                     OpportunityForTransmission();
                 } // if
             });
         } // if
         
-        // Send outstanding RR ?
+        // Send outstanding RR?
         if (l_Frame.IsEmpty() && (m_bPeerRequiresAck)) {
             l_Frame = PrepareSFrameRR();
             m_bPeerRequiresAck = false;
+            if (m_bPeerStoppedFlow && !m_bPeerStoppedFlowQueried) {
+                // During the RNR confition at the peer, we query it periodically
+                l_Frame.SetPF(true); // This is a hack due to missing command/response support
+                m_bPeerStoppedFlowQueried = true;
+                m_Timer.cancel();
+                auto self(shared_from_this());
+                m_Timer.expires_from_now(boost::posix_time::milliseconds(500));
+                m_Timer.async_wait([this, self](const boost::system::error_code& ec) {
+                    if (!ec) {
+                        if (m_bPeerStoppedFlow) {
+                            m_bPeerRequiresAck = true;
+                            m_bPeerStoppedFlowQueried = false;
+                            OpportunityForTransmission();
+                        } // if
+                    } // if
+                });
+            } // if
         } // if        
         
         // Check if packets are waiting for unreliable transmission
@@ -338,7 +365,7 @@ Frame ProtocolState::PrepareSFrameRR() {
     Frame l_Frame;
     l_Frame.SetAddress(0x30);
     l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_S_RR);
-    l_Frame.SetPF(m_bPeerStoppedFlow); // This is a hack due to missing command/response support
+    l_Frame.SetPF(false);
     l_Frame.SetRSeq(m_RSeqIncoming);
     return(std::move(l_Frame));
 }
@@ -347,7 +374,7 @@ Frame ProtocolState::PrepareSFrameSREJ() {
     Frame l_Frame;
     l_Frame.SetAddress(0x30);
     l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_S_SREJ);
-    l_Frame.SetPF(m_bPeerStoppedFlow); // This is a hack due to missing command/response support
+    l_Frame.SetPF(false);
     l_Frame.SetRSeq(m_SREJs.front());
     m_SREJs.pop_front();
     return(std::move(l_Frame));
@@ -355,7 +382,7 @@ Frame ProtocolState::PrepareSFrameSREJ() {
 
 Frame ProtocolState::PrepareUFrameUI() {
     assert(m_WaitQueueUnreliable.empty() == false);
-    m_SerialPortHandler->DeliverBufferToClients(BUFFER_TYPE_PAYLOAD, m_WaitQueueUnreliable.front(), false, true, true);
+    m_SerialPortHandler->DeliverBufferToClients(BUFFER_TYPE_PAYLOAD, m_WaitQueueUnreliable.front(), false, true, true); // TODO: multiple!
 
     // Prepare UI-Frame
     Frame l_Frame;
