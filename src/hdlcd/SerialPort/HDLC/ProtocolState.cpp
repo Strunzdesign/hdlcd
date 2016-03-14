@@ -331,7 +331,9 @@ void ProtocolState::OpportunityForTransmission() {
             // These expressions are the result of some boolean logic
             bool l_bQueryReliable   = (m_WaitQueueUnreliable.empty() &&  m_WaitQueueReliable.empty() && (!m_bPeerStoppedFlow));
             bool l_bQueryUnreliable = (m_WaitQueueUnreliable.empty() && (m_WaitQueueReliable.empty() ||   m_bPeerStoppedFlow));
-            m_SerialPortHandler->QueryForPayload(l_bQueryReliable, l_bQueryUnreliable);
+            if (l_bQueryReliable || l_bQueryUnreliable) {
+                m_SerialPortHandler->QueryForPayload(l_bQueryReliable, l_bQueryUnreliable);
+            } // if
         } // if        
     } // if
 

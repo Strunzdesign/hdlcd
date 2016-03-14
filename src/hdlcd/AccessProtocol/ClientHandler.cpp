@@ -76,6 +76,7 @@ void ClientHandler::UpdateSerialPortState(bool a_bAlive, bool a_bFlowControl, si
 
 void ClientHandler::QueryForPayload(bool a_bQueryReliable, bool a_bQueryUnreliable) {
     // Checks
+    assert(a_bQueryReliable || a_bQueryUnreliable);
     if (!m_Registered) {
         return;
     } // if
