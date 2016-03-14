@@ -205,14 +205,20 @@ void SerialPortHandler::do_write() {
 }
 
 void SerialPortHandler::ForEachClient(std::function<void(std::shared_ptr<ClientHandler>)> a_Function) {
+    static bool s_bCyclicCallGuard = false;
     for (auto cur = m_ClientHandlerList.begin(); cur != m_ClientHandlerList.end();) {
         auto next = cur;
         ++next;
         if (auto l_ClientHandler = cur->lock()) {
+            // Be careful here, as there are cyclic calls back to this method resulting in an invalid "next" iterator!
+            s_bCyclicCallGuard = true;
             a_Function(l_ClientHandler);
+            s_bCyclicCallGuard = false;
         } else {
-            // Outdated entry
-            m_ClientHandlerList.erase(cur);
+            // Outdated entry. Only remove it if this is not a cyclic call
+            if (!s_bCyclicCallGuard) {
+                m_ClientHandlerList.erase(cur);
+            } // if
         } // else
         
         cur = next;
