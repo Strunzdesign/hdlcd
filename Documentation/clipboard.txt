@@ -4,4 +4,4 @@ Request firmware message:
 
 To specify COM ports on MS Windows:
 
-"\\.\COM140"
+"//./COM140"
