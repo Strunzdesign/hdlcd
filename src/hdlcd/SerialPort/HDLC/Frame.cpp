@@ -107,14 +107,17 @@ const std::vector<unsigned char> Frame::Dissect() const {
                 break;
             }
             case Frame::HDLC_FRAMETYPE_U_CMDR: {
+                l_bHasPayload = true;
                 l_Output << "FRMR/CMDR";
                 break;
             }
             case Frame::HDLC_FRAMETYPE_U_TEST: {
+                l_bHasPayload = true;
                 l_Output << "TEST";
                 break;
             }
             case Frame::HDLC_FRAMETYPE_U_XID: {
+                l_bHasPayload = true;
                 l_Output << "XID";
                 break;
             }
