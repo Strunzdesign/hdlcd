@@ -63,6 +63,7 @@ void ProtocolState::Reset() {
     m_RSeqIncoming = 0;
     m_bSendProbe = false;
     m_bPeerStoppedFlow = false;
+    m_bPeerStoppedFlowNew = false;
     m_bPeerStoppedFlowQueried = false;
     m_bPeerRequiresAck = false;
     m_bWaitForAck = false;
@@ -201,7 +202,7 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
             if (!m_bPeerStoppedFlow) {
                 // Start periodical query
                 m_bPeerStoppedFlow = true;
-                m_bPeerRequiresAck = true;
+                m_bPeerStoppedFlowNew = true;
                 m_bPeerStoppedFlowQueried = false;
             } // if
 
@@ -298,14 +299,25 @@ void ProtocolState::OpportunityForTransmission() {
         } // if
         
         // Send outstanding RR?
-        if (l_Frame.IsEmpty() && (m_bPeerRequiresAck)) {
-            l_Frame = PrepareSFrameRR();
-            m_bPeerRequiresAck = false;
-            if (m_bPeerStoppedFlow && !m_bPeerStoppedFlowQueried) {
-                // During the RNR confition at the peer, we query it periodically
-                l_Frame.SetPF(true); // This is a hack due to missing command/response support
-                m_bPeerStoppedFlowQueried = true;
-                m_Timer.cancel();
+        if (l_Frame.IsEmpty() && ((m_bPeerRequiresAck) || m_bPeerStoppedFlowNew)) {
+            bool l_bStartTimer = false;
+            if (m_bPeerStoppedFlowNew) {
+                m_bPeerStoppedFlowNew = false;
+                l_bStartTimer = true;
+            } else {
+                // Prepare RR
+                l_Frame = PrepareSFrameRR();
+                m_bPeerRequiresAck = false;
+                if (m_bPeerStoppedFlow && !m_bPeerStoppedFlowQueried) {
+                    // During the RNR confition at the peer, we query it periodically
+                    l_Frame.SetPF(true); // This is a hack due to missing command/response support
+                    m_bPeerStoppedFlowQueried = true;
+                    l_bStartTimer = true;
+                } // if
+            } // else
+            
+            if (l_bStartTimer) {
+                m_Timer.cancel();    
                 auto self(shared_from_this());
                 m_Timer.expires_from_now(boost::posix_time::milliseconds(500));
                 m_Timer.async_wait([this, self](const boost::system::error_code& ec) {
