@@ -98,12 +98,12 @@ Serial port string:
 
 
 Service access point specifier:
-++------------------------------------------------------------------++
-|| Service access point specifier (1 byte)                          ||
-++--------------+----------+----------+--------------+--------------++
-|| Bits 7...4   | Bit 3    | Bit 2    | Bit 1        | Bit 0        ||
-|| Type of data | Reserved | Invalids | Deliver sent | Deliver rcvd ||
-++--------------+----------+----------+--------------+--------------++
+++------------------------------------------------------++
+|| Service access point specifier (1 byte)              ||
+++--------------+----------+----------+-----------------++
+|| Bits 7...4   | Bit 3    | Bit 2    | Bits 1...0      ||
+|| Type of data | Reserved | Invalids | Direction flags ||
+++--------------+----------+----------+-----------------++
 Type of data:
 - 0x0*: Payload,          data read and write,   port status read and write
 - 0x1*: Port status only, no data exchange,      port status read and write
@@ -119,9 +119,14 @@ Invalids:
 - Bit 2: set to "1" if invalid data should be delivered, "0" if not
 
 Direction flags:
-- Bit 1: Set to "1" to subscribe for sent data, i.e., data sent to the HDLCd by other clients is delivered also ("sniffer mode")
+- Bit 1: Set to "1" to subscribe for sent data, i.e., data sent to the HDLCd by other clients are delivered also.
 - Bit 0: Set to "1" to subscribe for received data, i.e., data sent by the serially attached device received by the HDLCd.
 - Assure that at least one of the bits 1 and 0 are set for data packet reception. Otherwise no data packets are delivered.
+--> - Bits: "------00" : No data packets are delivered ("quiet mode").
+    - Bits: "------01" : Only data packets that were sent by the device and received by the HDLCd are delivered ("gateway mode")
+    - Bits: "------10" : Only data packets that were sent by the HDLCd to the device are delivered.
+    - Bits: "------11" : All data packets that are either sent or received via HDLC are delivered ("payload sniffer mode")
+
 
 
 
@@ -170,7 +175,7 @@ Before closing a TCP socket, one should assure to perform a shutdown procedure f
 Packets
 ======================
 
-Packets can be "control packets" or "data packets"
+Packets can be "data packets" or "control packets"
 
 Packet header format:
 ++--------------------------------------------------------++--------------------------
@@ -185,16 +190,16 @@ Content:
 - 0x2*-0xF*: reserved for future use  
 
 Reserved:
-- Bit 3: will be "0" and must be set to "0"
+- Bit 3: will be "0" and must be set to "0".
 
 Reliable flag:
-- Bit 2: is set to "1" if the packet was / has to be transmitted reliably by the HDLCd via HDLC
+- Bit 2: is set to "1" if the packet was / has to be transmitted reliably by the HDLCd via HDLC.
 
 Invalid flag:
 - Bit 1: is set to "1" if the packet is damaged, "0" if it is valid. Must be "0" on transmission.
 
 Was sent:
-- Bit 0: is set to "1" if the packet was sent via HDLC, "0" if not (-> then it was received via HDLC)
+- Bit 0: is set to "1" if the packet was sent via HDLC, "0" if it was received via HDLC. Must be "0" on transmission.
 
 
 
@@ -219,6 +224,9 @@ Data packets, if received, have:
 - the "invalid" flag set to "0" if the packet was ok, "1" if it was damaged / invalid (CRC error or junk),
 - the "was sent"-flag packet set to "1" if the packet was sent via HDLC (by the HDLC daemon), "0" if it was received via HDLC,
 ==> The lower nibble of the type byte should be used to filter unwanted types of packets.
+
+
+
 
 
 Control packet format:
