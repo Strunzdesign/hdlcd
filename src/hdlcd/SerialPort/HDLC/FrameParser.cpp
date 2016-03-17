@@ -208,7 +208,7 @@ Frame FrameParser::DeserializeFrame(const std::vector<unsigned char> &a_Unescape
                 case 0b00000: {
                     // Unnumbered information (UI)
                     l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_U_UI);
-                    l_bAppendPayload = true;                    
+                    l_bAppendPayload = true;
                     break;
                 }
                 case 0b00001: {
@@ -249,16 +249,19 @@ Frame FrameParser::DeserializeFrame(const std::vector<unsigned char> &a_Unescape
                 case 0b10001: {
                     // Command reject (FRMR / CMDR)
                     l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_U_CMDR);
+                    l_bAppendPayload = true;
                     break;
                 }
                 case 0b11100: {
                     // Test (TEST)
                     l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_U_TEST);
+                    l_bAppendPayload = true;
                     break;
                 }
                 case 0b11101: {
                     // Exchange Identification (XID)
                     l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_U_XID);
+                    l_bAppendPayload = true;
                     break;
                 }
                 default: {
