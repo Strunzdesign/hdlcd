@@ -27,7 +27,7 @@
 
 class DataSource {
 public:
-    DataSource(boost::asio::io_service& a_IoService, AccessClient& a_AccessClient): m_Timer(a_IoService), m_AccessClient(a_AccessClient), m_ucSeqNr(0) {
+    DataSource(boost::asio::io_service& a_IoService, AccessClient& a_AccessClient): m_Timer(a_IoService), m_AccessClient(a_AccessClient), m_usSeqNr(0) {
         StartTimer();
     }
     
@@ -35,10 +35,9 @@ private:
     // Helpers
     bool SendNextPacket() {
         // Create packet
-        std::vector<unsigned char> l_Buffer = {0x00, 0x00, 0x40, 0x01, 0x3F, 0xF7, 0x00, 0x00, 0x10, 0x00, 0x04, 0x06, 0x02, 0x00, 0x80, 0x02, 0x01, m_ucSeqNr};
+        std::vector<unsigned char> l_Buffer = {0x00, 0x00, 0x40, 0x01, 0x00, 0x01, 0x00, 0x00, 0x10, 0x00, 0x04, 0x06, 0x02, 0x00, 0x80, 0x02, 0x01, (unsigned char)((m_usSeqNr & 0xFF00) >> 8), (unsigned char)(m_usSeqNr & 0x00FF)};
         if (m_AccessClient.Send(std::move(PacketData::CreatePacket(l_Buffer, true)))) {
-            if ((++m_ucSeqNr) == 100) {
-                m_ucSeqNr = 0;
+            if (((++m_usSeqNr) % 100) == 0) {
                 std::cout << "100 Packets written" << std::endl;
             } // if
             
@@ -60,7 +59,7 @@ private:
     
     // Members
     AccessClient& m_AccessClient;
-    unsigned char m_ucSeqNr;
+    unsigned short m_usSeqNr;
     boost::asio::deadline_timer m_Timer;
 };
 
