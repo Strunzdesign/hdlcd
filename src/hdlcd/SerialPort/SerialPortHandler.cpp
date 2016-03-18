@@ -217,7 +217,7 @@ void SerialPortHandler::ForEachClient(std::function<void(std::shared_ptr<ClientH
                 l_bGuardLocked = true;
             } // if
 
-            a_Function(l_ClientHandler);            
+            a_Function(l_ClientHandler);
             if (l_bGuardLocked) {
                 s_bCyclicCallGuard = false;
             } // if
