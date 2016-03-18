@@ -211,9 +211,16 @@ void SerialPortHandler::ForEachClient(std::function<void(std::shared_ptr<ClientH
         ++next;
         if (auto l_ClientHandler = cur->lock()) {
             // Be careful here, as there are cyclic calls back to this method resulting in an invalid "next" iterator!
-            s_bCyclicCallGuard = true;
-            a_Function(l_ClientHandler);
-            s_bCyclicCallGuard = false;
+            bool l_bGuardLocked = false;
+            if (!s_bCyclicCallGuard) {
+                s_bCyclicCallGuard = true;
+                l_bGuardLocked = true;
+            } // if
+
+            a_Function(l_ClientHandler);            
+            if (l_bGuardLocked) {
+                s_bCyclicCallGuard = false;
+            } // if
         } else {
             // Outdated entry. Only remove it if this is not a cyclic call
             if (!s_bCyclicCallGuard) {
