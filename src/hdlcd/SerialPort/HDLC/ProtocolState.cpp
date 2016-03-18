@@ -221,13 +221,13 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
             if (m_bPeerStoppedFlow) {
                 // The peer restarted the flow: REJ clears RNR condition
                 m_bPeerStoppedFlow = false;
+                m_bWaitForAck = false;
                 m_Timer.cancel();
             } // if
             
             // The peer requests for go-back-N. We have to retransmit all affected packets, but not with this version of HDLC.
-            if ((m_bWaitForAck) && (a_Frame.GetRSeq() == m_SSeqOutgoing)) {
+            if (a_Frame.GetRSeq() == m_SSeqOutgoing) {
                 // We found the respective sequence number to the last transmitted I-frame
-                m_bWaitForAck = false;
                 m_Timer.cancel();
             } // if
             
@@ -237,6 +237,7 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
             if (m_bPeerStoppedFlow) {
                 // The peer restarted the flow: SREJ clears RNR condition
                 m_bPeerStoppedFlow = false;
+                m_bWaitForAck = false;
                 m_Timer.cancel();
             } // if
             
@@ -245,7 +246,6 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
             if ((m_bWaitForAck) && (a_Frame.GetRSeq() == m_SSeqOutgoing)) {
                 // We found the respective sequence number to the last transmitted I-frame.
                 // In this version of HDLC, this should not happen!
-                m_bPeerStoppedFlow = false;
                 m_Timer.cancel();
             } // if
         } // else
