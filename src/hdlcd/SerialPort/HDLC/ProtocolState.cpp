@@ -167,15 +167,6 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
 
             m_RSeqIncoming = ((a_Frame.GetSSeq() + 1) & 0x07);
             m_bPeerRequiresAck = true;
-            
-            // Currently, we send only one I-frame at a time and wait until the respective ACK is received
-            if ((m_bWaitForAck) && (a_Frame.GetRSeq() == ((m_SSeqOutgoing + 1) & 0x07))) {
-                // We found the respective sequence number to the last transmitted I-frame
-                m_bWaitForAck = false;
-                m_SSeqOutgoing = a_Frame.GetRSeq();
-                m_Timer.cancel();
-                m_WaitQueueReliable.pop_front();
-            } // if
         } // if
     } // if
     
@@ -185,6 +176,7 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
             if ((m_bPeerStoppedFlow) && (a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_S_RR)) {
                 // The peer restarted the flow: RR clears RNR condition
                 m_bPeerStoppedFlow = false;
+                m_bWaitForAck = false;
                 m_Timer.cancel();
             } // if
 
@@ -228,6 +220,7 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
             // The peer requests for go-back-N. We have to retransmit all affected packets, but not with this version of HDLC.
             if (a_Frame.GetRSeq() == m_SSeqOutgoing) {
                 // We found the respective sequence number to the last transmitted I-frame
+                m_bWaitForAck = false;
                 m_Timer.cancel();
             } // if
             
@@ -246,6 +239,7 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
             if ((m_bWaitForAck) && (a_Frame.GetRSeq() == m_SSeqOutgoing)) {
                 // We found the respective sequence number to the last transmitted I-frame.
                 // In this version of HDLC, this should not happen!
+                m_bWaitForAck = false;
                 m_Timer.cancel();
             } // if
         } // else
