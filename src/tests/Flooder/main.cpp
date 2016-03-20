@@ -66,9 +66,9 @@ private:
 
 int main(int argc, char* argv[]) {
     try {
-        std::cerr << "HDLC flowcontrol tester\n";
+        std::cerr << "HDLC Flooder tool\n";
         if (argc != 4) {
-            std::cerr << "Usage: test-flowcontrol <host> <port> <usb-device>\n";
+            std::cerr << "Usage: Flooder <host> <port> <usb-device>\n";
             return 1;
         } // if
 

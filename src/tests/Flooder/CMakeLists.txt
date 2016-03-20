@@ -6,11 +6,11 @@ INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
 
 find_package(Threads)
 
-add_executable(test-flowcontrol
+add_executable(Flooder
 main.cpp
 )
 
-set_property(TARGET test-flowcontrol PROPERTY CXX_STANDARD 11)
+set_property(TARGET Flooder PROPERTY CXX_STANDARD 11)
 
 if(WIN32)
     set(ADDITIONAL_LIBRARIES wsock32 ws2_32)
@@ -18,10 +18,10 @@ else()
     set(ADDITIONAL_LIBRARIES "")
 endif()
 
-target_link_libraries(test-flowcontrol
+target_link_libraries(Flooder
 ${Boost_LIBRARIES}
 ${CMAKE_THREAD_LIBS_INIT}
 ${ADDITIONAL_LIBRARIES}
 )
 
-install(TARGETS test-flowcontrol RUNTIME DESTINATION bin)
+install(TARGETS Flooder RUNTIME DESTINATION bin)

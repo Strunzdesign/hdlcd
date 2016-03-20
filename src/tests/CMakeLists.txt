@@ -1,3 +1,4 @@
 cmake_minimum_required(VERSION 2.6)
 
-add_subdirectory(test-flowcontrol)
+add_subdirectory(Flooder)
+add_subdirectory(StreamTestClient)
