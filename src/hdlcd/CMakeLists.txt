@@ -17,6 +17,14 @@ SerialPort/HDLC/Frame.cpp
 SerialPort/HDLC/FrameGenerator.cpp
 SerialPort/HDLC/FrameParser.cpp
 SerialPort/HDLC/ProtocolState.cpp
+SerialPort/HDLC/StateMachine/AwaitingConnectionState.cpp
+SerialPort/HDLC/StateMachine/AwaitingReleaseState.cpp
+SerialPort/HDLC/StateMachine/ConnectedState.cpp
+SerialPort/HDLC/StateMachine/DisconnectedState.cpp
+SerialPort/HDLC/StateMachine/State.cpp
+SerialPort/HDLC/StateMachine/StateMachine.cpp
+SerialPort/HDLC/StateMachine/StateMembers.cpp
+SerialPort/HDLC/StateMachine/TimerRecoveryState.cpp
 SerialPort/SerialPortLock.cpp
 SerialPort/SerialPortHandler.cpp
 SerialPort/SerialPortHandlerCollection.cpp

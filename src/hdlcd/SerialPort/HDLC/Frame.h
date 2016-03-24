@@ -47,6 +47,8 @@ public:
     void SetAddress(unsigned char a_Address) { m_Address = a_Address; }
     unsigned char GetAddress() const { return m_Address; }
     
+    bool IsCommand() const { return true; } // TODO
+    
     typedef enum {
         HDLC_FRAMETYPE_UNSET = 0,
         HDLC_FRAMETYPE_I,
