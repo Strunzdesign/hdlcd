@@ -38,13 +38,17 @@
 #include <assert.h>
 
 AliveState::AliveState(boost::asio::io_service& a_IOService): m_StateTimer(a_IOService), m_ProbeTimer(a_IOService) {
-    m_eAliveState = ALIVESTATE_PROBING;
-    m_bFrameWasReceived = false;
-    m_ProbeCounter = 0;
+    Reset();
 }
 
 AliveState::~AliveState() {
     Stop();
+}
+
+void AliveState::Reset() {
+    m_eAliveState = ALIVESTATE_PROBING;
+    m_bFrameWasReceived = false;
+    m_ProbeCounter = 0;
 }
 
 void AliveState::Start() {
@@ -63,6 +67,7 @@ void AliveState::Start() {
 void AliveState::Stop() {
     m_StateTimer.cancel();
     m_ProbeTimer.cancel();
+    Reset();
 }
 
 void AliveState::SetSendProbeCallback(std::function<void()> a_SendProbeCallback) {
