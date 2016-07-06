@@ -83,6 +83,7 @@ void ProtocolState::Stop() {
     if (m_bStarted) {
         // Stop the state machine
         Reset();
+        m_SerialPortHandler->PropagateSerialPortState();
     } // if
 }
 

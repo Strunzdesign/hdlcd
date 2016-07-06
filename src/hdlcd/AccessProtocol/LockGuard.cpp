@@ -44,15 +44,16 @@ void LockGuard::Init(std::shared_ptr<SerialPortHandler> a_SerialPortHandler) {
 
 void LockGuard::AcquireLock() {
     if (!m_bLockedBySelf) {
-        // Lock it now!
+        // Increases lock counter, may actually suspend the serial port
         m_bLockedBySelf = true;
         m_SerialPortHandler->SuspendSerialPort();
     } // if
 }
 
 void LockGuard::ReleaseLock() {
-    if (m_bLockedByOthers) {
-        m_bLockedByOthers = false;
+    if (m_bLockedBySelf) {
+        // Decreases lock counter, may actually resume the serial port
+        m_bLockedBySelf = false;
         m_SerialPortHandler->ResumeSerialPort();
     } // if
 }

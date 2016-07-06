@@ -56,6 +56,7 @@ public:
     
 private:
     // Helpers
+    void Reset();
     void StartStateTimer();
     void StartProbeTimer();
     
