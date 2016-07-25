@@ -1,0 +1,5 @@
+<map id="Frame::IsPF" name="Frame::IsPF">
+<area shape="rect" id="node2" href="$classFrame.html#a1151c62bfba51f5e2fd979dd4b856829" title="Frame::Dissect" alt="" coords="185,13,300,39"/>
+<area shape="rect" id="node4" href="$classFrameGenerator.html#a412b0e1431b1deebda54481be60f9ade" title="FrameGenerator::Serialize\lFrame" alt="" coords="149,64,336,105"/>
+<area shape="rect" id="node3" href="$classProtocolState.html#aab0236c1b098820dbc66b2b41bc22432" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="384,5,551,47"/>
+</map>

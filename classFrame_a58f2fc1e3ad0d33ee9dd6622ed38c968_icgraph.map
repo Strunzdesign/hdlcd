@@ -1,0 +1,5 @@
+<map id="Frame::GetAddress" name="Frame::GetAddress">
+<area shape="rect" id="node2" href="$classFrame.html#a1151c62bfba51f5e2fd979dd4b856829" title="Frame::Dissect" alt="" coords="232,13,347,39"/>
+<area shape="rect" id="node4" href="$classFrameGenerator.html#a412b0e1431b1deebda54481be60f9ade" title="FrameGenerator::Serialize\lFrame" alt="" coords="196,64,383,105"/>
+<area shape="rect" id="node3" href="$classProtocolState.html#aab0236c1b098820dbc66b2b41bc22432" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="431,5,597,47"/>
+</map>

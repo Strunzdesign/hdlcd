@@ -1,0 +1,10 @@
+<map id="Frame::Dissect" name="Frame::Dissect">
+<area shape="rect" id="node2" href="$classFrame.html#ac82e03633b6cd38ced564aa456e0f2d4" title="Frame::IsIFrame" alt="" coords="207,5,330,32"/>
+<area shape="rect" id="node3" href="$classFrame.html#a58f2fc1e3ad0d33ee9dd6622ed38c968" title="Frame::GetAddress" alt="" coords="197,56,340,83"/>
+<area shape="rect" id="node4" href="$classFrame.html#a498584c896fb9b1bcfb4d9feb07d3ce0" title="Frame::IsPF" alt="" coords="221,107,317,133"/>
+<area shape="rect" id="node5" href="$classFrame.html#aa32884d93ca3bfa40c9ee96f89d1e689" title="Frame::GetSSeq" alt="" coords="206,157,331,184"/>
+<area shape="rect" id="node6" href="$classFrame.html#aef3e9688379b3f8db0c13371a576be47" title="Frame::GetRSeq" alt="" coords="205,208,332,235"/>
+<area shape="rect" id="node7" href="$classFrame.html#a13b12ad3561c2058344584ddd6b03470" title="Frame::IsSFrame" alt="" coords="205,259,333,285"/>
+<area shape="rect" id="node8" href="$classFrame.html#abf6b7db82f0c9d1b701c28e89f68607c" title="Frame::GetHDLCFrameType" alt="" coords="168,309,369,336"/>
+<area shape="rect" id="node9" href="$classFrame.html#a34fd3215c8b5cc61fe37f0a096048f32" title="Frame::IsUFrame" alt="" coords="204,360,333,387"/>
+</map>

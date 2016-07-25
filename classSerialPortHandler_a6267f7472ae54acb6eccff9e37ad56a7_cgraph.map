@@ -1,0 +1,5 @@
+<map id="SerialPortHandler::ResumeSerialPort" name="SerialPortHandler::ResumeSerialPort">
+<area shape="rect" id="node2" href="$classSerialPortLock.html#a966d4f332256b3aaad1c04e97c33c5bc" title="SerialPortLock::ResumeSerialPort" alt="" coords="193,5,427,32"/>
+<area shape="rect" id="node3" href="$classSerialPortHandler.html#a6696d0023c77dba03c9c5f6ca475b005" title="SerialPortHandler::\lPropagateSerialPortState" alt="" coords="219,57,401,98"/>
+<area shape="rect" id="node4" href="$classSerialPortLock.html#abd309cceb40ff5823cdb4955ac971300" title="SerialPortLock::GetLockHolders" alt="" coords="475,64,697,91"/>
+</map>

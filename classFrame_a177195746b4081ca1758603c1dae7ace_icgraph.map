@@ -1,0 +1,4 @@
+<map id="Frame::GetPayload" name="Frame::GetPayload">
+<area shape="rect" id="node2" href="$classFrameGenerator.html#a412b0e1431b1deebda54481be60f9ade" title="FrameGenerator::Serialize\lFrame" alt="" coords="196,5,383,47"/>
+<area shape="rect" id="node3" href="$classProtocolState.html#aab0236c1b098820dbc66b2b41bc22432" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="206,71,373,112"/>
+</map>

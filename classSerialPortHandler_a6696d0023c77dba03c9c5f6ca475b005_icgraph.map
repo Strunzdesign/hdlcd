@@ -1,0 +1,4 @@
+<map id="SerialPortHandler::PropagateSerialPortState" name="SerialPortHandler::PropagateSerialPortState">
+<area shape="rect" id="node2" href="$classSerialPortHandler.html#ab64b74149dd5455480ac1437fcc07aeb" title="SerialPortHandler::\lSuspendSerialPort" alt="" coords="236,5,376,47"/>
+<area shape="rect" id="node3" href="$classSerialPortHandler.html#a6267f7472ae54acb6eccff9e37ad56a7" title="SerialPortHandler::\lResumeSerialPort" alt="" coords="236,71,376,112"/>
+</map>

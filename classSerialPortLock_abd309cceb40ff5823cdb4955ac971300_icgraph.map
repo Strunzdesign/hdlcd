@@ -1,0 +1,5 @@
+<map id="SerialPortLock::GetLockHolders" name="SerialPortLock::GetLockHolders">
+<area shape="rect" id="node2" href="$classSerialPortHandler.html#a6696d0023c77dba03c9c5f6ca475b005" title="SerialPortHandler::\lPropagateSerialPortState" alt="" coords="276,39,459,80"/>
+<area shape="rect" id="node3" href="$classSerialPortHandler.html#ab64b74149dd5455480ac1437fcc07aeb" title="SerialPortHandler::\lSuspendSerialPort" alt="" coords="507,5,647,47"/>
+<area shape="rect" id="node4" href="$classSerialPortHandler.html#a6267f7472ae54acb6eccff9e37ad56a7" title="SerialPortHandler::\lResumeSerialPort" alt="" coords="507,71,647,112"/>
+</map>
