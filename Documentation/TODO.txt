@@ -22,6 +22,7 @@ Issues to be resolved after the first release:
 
 
 // DONE
+- Added doxygen files for creation of HTML files and online documention
 - Periodically test idle HDLC links via U-TEST packets; check if the baud rate is still correct, or start another detection procedure. (DONE)
 - Add hint to spec: even if s-net(r)-messages indicate non-reliable transfer, reliable transmission via HDLC should be demanded for! (DONE)
 - Implement polling-based scheduler to query data packets to be transmitted, distinguish "unreliable-only" and "all data" (DONE)
