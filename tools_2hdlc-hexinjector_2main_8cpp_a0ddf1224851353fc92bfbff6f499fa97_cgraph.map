@@ -2,5 +2,5 @@
 <area shape="rect" id="node2" href="$classAccessClient.html#afb844a12b189c8a787de2771d5a81c47" title="Provide a callback method to be called if this client entity is closing. " alt="" coords="105,5,299,47"/>
 <area shape="rect" id="node3" href="$classAccessClient.html#af97ffd57d911794ebf5a83f38749d1e6" title="Send a single data packet to the peer entity. " alt="" coords="131,71,273,98"/>
 <area shape="rect" id="node4" href="$classPacketData.html#aa34b528d730bf6bfbdab657d71e0efca" title="PacketData::CreatePacket" alt="" coords="109,122,295,149"/>
-<area shape="rect" id="node5" href="$classAccessClient.html#a39d2ba6682788f312a2223ee52809e58" title="Shutdowns all TCP connections down. " alt="" coords="117,173,287,199"/>
+<area shape="rect" id="node5" href="$classAccessClient.html#a39d2ba6682788f312a2223ee52809e58" title="Shuts all TCP connections down. " alt="" coords="117,173,287,199"/>
 </map>

@@ -1,9 +1,9 @@
 <map id="ClientHandler::UpdateSerialPortState" name="ClientHandler::UpdateSerialPortState">
 <area shape="rect" id="node2" href="$classFlowGuard.html#a07303c077604a58ab77ad3a3ee1959e1" title="FlowGuard::UpdateSerialPort\lState" alt="" coords="254,5,458,47"/>
-<area shape="rect" id="node3" href="$classAliveGuard.html#a6247939379fe83b7007a8040e844ca0a" title="AliveGuard::UpdateSerial\lPortState" alt="" coords="267,71,445,112"/>
+<area shape="rect" id="node3" href="$classAliveGuard.html#a6247939379fe83b7007a8040e844ca0a" title="Change the serial port state. " alt="" coords="267,71,445,112"/>
 <area shape="rect" id="node4" href="$classLockGuard.html#a8951b29b6f56de4e38821bfe98a06cf7" title="LockGuard::UpdateSerialPort\lState" alt="" coords="253,136,459,177"/>
 <area shape="rect" id="node5" href="$classPacketCtrl.html#aec093a6be6f9ba076ce851593d3366f7" title="PacketCtrl::CreatePortStatus\lResponse" alt="" coords="255,201,457,243"/>
-<area shape="rect" id="node6" href="$classAliveGuard.html#ac9beb654a0f3057bbd38e2ad3ae2c4c3" title="AliveGuard::IsAlive" alt="" coords="287,267,425,294"/>
+<area shape="rect" id="node6" href="$classAliveGuard.html#ac9beb654a0f3057bbd38e2ad3ae2c4c3" title="Query whether the related serial port is currently alive. " alt="" coords="287,267,425,294"/>
 <area shape="rect" id="node7" href="$classLockGuard.html#a034a917b15cbf520adda465fab890d4d" title="LockGuard::IsLockedByOthers" alt="" coords="249,318,463,345"/>
 <area shape="rect" id="node8" href="$classLockGuard.html#a7e81d11c5a00a0ed432bd52a621e559b" title="LockGuard::IsLockedBySelf" alt="" coords="259,369,453,395"/>
 </map>

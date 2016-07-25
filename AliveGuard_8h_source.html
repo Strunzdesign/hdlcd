@@ -107,35 +107,32 @@ $(document).ready(function(){initNavTree('AliveGuard_8h_source.html','');});
 </div><!--header-->
 <div class="contents">
 <a href="AliveGuard_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#ifndef ALIVE_GUARD_H</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#define ALIVE_GUARD_H</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classAliveGuard.html">   25</a></span>&#160;<span class="keyword">class </span><a class="code" href="classAliveGuard.html">AliveGuard</a> {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="comment">// CTOR</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classAliveGuard.html#af51aea9e8ac7459c342f6c6603e3a3d7">   28</a></span>&#160;    <a class="code" href="classAliveGuard.html#af51aea9e8ac7459c342f6c6603e3a3d7">AliveGuard</a>(): m_bAlive(true) {</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    }</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="comment">// Influende the serial port state</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="classAliveGuard.html#a6247939379fe83b7007a8040e844ca0a">   32</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classAliveGuard.html#a6247939379fe83b7007a8040e844ca0a">UpdateSerialPortState</a>(<span class="keywordtype">bool</span> a_bAlive) {</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordtype">bool</span> l_bStateChanged = (m_bAlive != a_bAlive);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        m_bAlive = a_bAlive;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordflow">return</span> l_bStateChanged;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    }</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="comment">// Check status</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="classAliveGuard.html#ac9beb654a0f3057bbd38e2ad3ae2c4c3">   39</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classAliveGuard.html#ac9beb654a0f3057bbd38e2ad3ae2c4c3">IsAlive</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_bAlive; }</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="comment">// Members</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">bool</span> m_bAlive;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;};</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#endif // ALIVE_GUARD_H</span></div>
-<div class="ttc" id="classAliveGuard_html"><div class="ttname"><a href="classAliveGuard.html">AliveGuard</a></div><div class="ttdef"><b>Definition:</b> <a href="AliveGuard_8h_source.html#l00025">AliveGuard.h:25</a></div></div>
-<div class="ttc" id="classAliveGuard_html_a6247939379fe83b7007a8040e844ca0a"><div class="ttname"><a href="classAliveGuard.html#a6247939379fe83b7007a8040e844ca0a">AliveGuard::UpdateSerialPortState</a></div><div class="ttdeci">bool UpdateSerialPortState(bool a_bAlive)</div><div class="ttdef"><b>Definition:</b> <a href="AliveGuard_8h_source.html#l00032">AliveGuard.h:32</a></div></div>
-<div class="ttc" id="classAliveGuard_html_ac9beb654a0f3057bbd38e2ad3ae2c4c3"><div class="ttname"><a href="classAliveGuard.html#ac9beb654a0f3057bbd38e2ad3ae2c4c3">AliveGuard::IsAlive</a></div><div class="ttdeci">bool IsAlive() const </div><div class="ttdef"><b>Definition:</b> <a href="AliveGuard_8h_source.html#l00039">AliveGuard.h:39</a></div></div>
-<div class="ttc" id="classAliveGuard_html_af51aea9e8ac7459c342f6c6603e3a3d7"><div class="ttname"><a href="classAliveGuard.html#af51aea9e8ac7459c342f6c6603e3a3d7">AliveGuard::AliveGuard</a></div><div class="ttdeci">AliveGuard()</div><div class="ttdef"><b>Definition:</b> <a href="AliveGuard_8h_source.html#l00028">AliveGuard.h:28</a></div></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#ifndef ALIVE_GUARD_H</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#define ALIVE_GUARD_H</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="classAliveGuard.html">   32</a></span>&#160;<span class="keyword">class </span><a class="code" href="classAliveGuard.html">AliveGuard</a> {</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="classAliveGuard.html#af51aea9e8ac7459c342f6c6603e3a3d7">   38</a></span>&#160;    <a class="code" href="classAliveGuard.html#af51aea9e8ac7459c342f6c6603e3a3d7">AliveGuard</a>(): m_bAlive(true) {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    }</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    </div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="classAliveGuard.html#a6247939379fe83b7007a8040e844ca0a">   49</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classAliveGuard.html#a6247939379fe83b7007a8040e844ca0a">UpdateSerialPortState</a>(<span class="keywordtype">bool</span> a_bAlive) {</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordtype">bool</span> l_bStateChanged = (m_bAlive != a_bAlive);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        m_bAlive = a_bAlive;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordflow">return</span> l_bStateChanged;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    }</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="classAliveGuard.html#ac9beb654a0f3057bbd38e2ad3ae2c4c3">   61</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classAliveGuard.html#ac9beb654a0f3057bbd38e2ad3ae2c4c3">IsAlive</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_bAlive; }</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="comment">// Members</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">bool</span> m_bAlive; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;};</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">#endif // ALIVE_GUARD_H</span></div>
+<div class="ttc" id="classAliveGuard_html"><div class="ttname"><a href="classAliveGuard.html">AliveGuard</a></div><div class="ttdoc">Class AliveGuard. </div><div class="ttdef"><b>Definition:</b> <a href="AliveGuard_8h_source.html#l00032">AliveGuard.h:32</a></div></div>
+<div class="ttc" id="classAliveGuard_html_a6247939379fe83b7007a8040e844ca0a"><div class="ttname"><a href="classAliveGuard.html#a6247939379fe83b7007a8040e844ca0a">AliveGuard::UpdateSerialPortState</a></div><div class="ttdeci">bool UpdateSerialPortState(bool a_bAlive)</div><div class="ttdoc">Change the serial port state. </div><div class="ttdef"><b>Definition:</b> <a href="AliveGuard_8h_source.html#l00049">AliveGuard.h:49</a></div></div>
+<div class="ttc" id="classAliveGuard_html_ac9beb654a0f3057bbd38e2ad3ae2c4c3"><div class="ttname"><a href="classAliveGuard.html#ac9beb654a0f3057bbd38e2ad3ae2c4c3">AliveGuard::IsAlive</a></div><div class="ttdeci">bool IsAlive() const </div><div class="ttdoc">Query whether the related serial port is currently alive. </div><div class="ttdef"><b>Definition:</b> <a href="AliveGuard_8h_source.html#l00061">AliveGuard.h:61</a></div></div>
+<div class="ttc" id="classAliveGuard_html_af51aea9e8ac7459c342f6c6603e3a3d7"><div class="ttname"><a href="classAliveGuard.html#af51aea9e8ac7459c342f6c6603e3a3d7">AliveGuard::AliveGuard</a></div><div class="ttdeci">AliveGuard()</div><div class="ttdoc">The constructor of class AccessGuard. </div><div class="ttdef"><b>Definition:</b> <a href="AliveGuard_8h_source.html#l00038">AliveGuard.h:38</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
