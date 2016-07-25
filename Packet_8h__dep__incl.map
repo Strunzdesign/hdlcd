@@ -3,7 +3,7 @@
 <area shape="rect" id="node26" href="$PacketCtrl_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="2273,80,2443,107"/>
 <area shape="rect" id="node3" href="$PacketEndpoint_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="2118,155,2321,181"/>
 <area shape="rect" id="node7" href="$ClientHandler_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="5,319,185,360"/>
-<area shape="rect" id="node11" href="$AccessClient_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="2196,237,2381,263"/>
+<area shape="rect" id="node11" href="$AccessClient_8h.html" title="This file contains the header declaration of class AccessClient. " alt="" coords="2196,237,2381,263"/>
 <area shape="rect" id="node25" href="$PacketDataPrinter_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="1367,237,1586,263"/>
 <area shape="rect" id="node4" href="$ClientHandler_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="741,229,921,271"/>
 <area shape="rect" id="node5" href="$ClientAcceptor_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="209,319,389,360"/>

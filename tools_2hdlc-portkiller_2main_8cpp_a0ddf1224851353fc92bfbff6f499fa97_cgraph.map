@@ -1,5 +1,5 @@
 <map id="main" name="main">
-<area shape="rect" id="node2" href="$classAccessClient.html#afb844a12b189c8a787de2771d5a81c47" title="AccessClient::SetOnClosed\lCallback" alt="" coords="105,5,299,47"/>
-<area shape="rect" id="node3" href="$classAccessClient.html#af97ffd57d911794ebf5a83f38749d1e6" title="AccessClient::Send" alt="" coords="131,71,273,98"/>
+<area shape="rect" id="node2" href="$classAccessClient.html#afb844a12b189c8a787de2771d5a81c47" title="Provide a callback method to be called if this client entity is closing. " alt="" coords="105,5,299,47"/>
+<area shape="rect" id="node3" href="$classAccessClient.html#af97ffd57d911794ebf5a83f38749d1e6" title="Send a single data packet to the peer entity. " alt="" coords="131,71,273,98"/>
 <area shape="rect" id="node4" href="$classPacketCtrl.html#abff9d305decbf3794f53d4531f1b4ae6" title="PacketCtrl::CreatePortKill\lRequest" alt="" coords="112,123,292,164"/>
 </map>

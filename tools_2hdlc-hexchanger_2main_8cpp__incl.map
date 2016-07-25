@@ -1,5 +1,5 @@
 <map id="src/tools/hdlc&#45;hexchanger/main.cpp" name="src/tools/hdlc&#45;hexchanger/main.cpp">
-<area shape="rect" id="node5" href="$AccessClient_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="159,95,342,121"/>
+<area shape="rect" id="node5" href="$AccessClient_8h.html" title="This file contains the header declaration of class AccessClient. " alt="" coords="159,95,342,121"/>
 <area shape="rect" id="node13" href="$PacketDataPrinter_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="681,169,897,196"/>
 <area shape="rect" id="node15" href="$LineReader_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="500,169,606,196"/>
 <area shape="rect" id="node7" href="$PacketEndpoint_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="292,169,424,196"/>

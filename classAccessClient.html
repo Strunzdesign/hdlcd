@@ -112,32 +112,46 @@ $(document).ready(function(){initNavTree('classAccessClient.html','');});
 </div><!--header-->
 <div class="contents">
 
+<p>Class <a class="el" href="classAccessClient.html" title="Class AccessClient. ">AccessClient</a>.  
+ <a href="classAccessClient.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="AccessClient_8h_source.html">AccessClient.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a36101434cecd72defd6e4071822e868d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccessClient.html#a36101434cecd72defd6e4071822e868d">AccessClient</a> (boost::asio::io_service &amp;a_IoService, boost::asio::ip::tcp::resolver::iterator a_EndpointIterator, std::string a_SerialPortName, unsigned char a_SAP)</td></tr>
+<tr class="memdesc:a36101434cecd72defd6e4071822e868d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The constructor of class <a class="el" href="classAccessClient.html" title="Class AccessClient. ">AccessClient</a>.  <a href="#a36101434cecd72defd6e4071822e868d">More...</a><br /></td></tr>
 <tr class="separator:a36101434cecd72defd6e4071822e868d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a446691b0e37bcd84fa537562f8375233"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccessClient.html#a446691b0e37bcd84fa537562f8375233">~AccessClient</a> ()</td></tr>
+<tr class="memdesc:a446691b0e37bcd84fa537562f8375233"><td class="mdescLeft">&#160;</td><td class="mdescRight">The destructor of class <a class="el" href="classAccessClient.html" title="Class AccessClient. ">AccessClient</a>.  <a href="#a446691b0e37bcd84fa537562f8375233">More...</a><br /></td></tr>
 <tr class="separator:a446691b0e37bcd84fa537562f8375233"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39d2ba6682788f312a2223ee52809e58"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccessClient.html#a39d2ba6682788f312a2223ee52809e58">Shutdown</a> ()</td></tr>
+<tr class="memdesc:a39d2ba6682788f312a2223ee52809e58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shutdowns all TCP connections down.  <a href="#a39d2ba6682788f312a2223ee52809e58">More...</a><br /></td></tr>
 <tr class="separator:a39d2ba6682788f312a2223ee52809e58"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a2241e51847cabd50ea198871d652b8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccessClient.html#a2a2241e51847cabd50ea198871d652b8">Close</a> ()</td></tr>
+<tr class="memdesc:a2a2241e51847cabd50ea198871d652b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close the client entity.  <a href="#a2a2241e51847cabd50ea198871d652b8">More...</a><br /></td></tr>
 <tr class="separator:a2a2241e51847cabd50ea198871d652b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad9ed3bdbcd397500c681b10ab6716c51"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccessClient.html#ad9ed3bdbcd397500c681b10ab6716c51">SetOnDataCallback</a> (std::function&lt; void(const <a class="el" href="classPacketData.html">PacketData</a> &amp;a_PacketData)&gt; a_OnDataCallback)</td></tr>
+<tr class="memdesc:ad9ed3bdbcd397500c681b10ab6716c51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provide a callback method to be called for received data packets.  <a href="#ad9ed3bdbcd397500c681b10ab6716c51">More...</a><br /></td></tr>
 <tr class="separator:ad9ed3bdbcd397500c681b10ab6716c51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31c4a9e84124954083bd9e1aacddf1ae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccessClient.html#a31c4a9e84124954083bd9e1aacddf1ae">SetOnCtrlCallback</a> (std::function&lt; void(const <a class="el" href="classPacketCtrl.html">PacketCtrl</a> &amp;a_PacketCtrl)&gt; a_OnCtrlCallback)</td></tr>
+<tr class="memdesc:a31c4a9e84124954083bd9e1aacddf1ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provide a callback method to be called for received control packets.  <a href="#a31c4a9e84124954083bd9e1aacddf1ae">More...</a><br /></td></tr>
 <tr class="separator:a31c4a9e84124954083bd9e1aacddf1ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb844a12b189c8a787de2771d5a81c47"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccessClient.html#afb844a12b189c8a787de2771d5a81c47">SetOnClosedCallback</a> (std::function&lt; void()&gt; a_OnClosedCallback)</td></tr>
+<tr class="memdesc:afb844a12b189c8a787de2771d5a81c47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provide a callback method to be called if this client entity is closing.  <a href="#afb844a12b189c8a787de2771d5a81c47">More...</a><br /></td></tr>
 <tr class="separator:afb844a12b189c8a787de2771d5a81c47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af97ffd57d911794ebf5a83f38749d1e6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccessClient.html#af97ffd57d911794ebf5a83f38749d1e6">Send</a> (const <a class="el" href="classPacketData.html">PacketData</a> &amp;a_PacketData)</td></tr>
+<tr class="memdesc:af97ffd57d911794ebf5a83f38749d1e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a single data packet to the peer entity.  <a href="#af97ffd57d911794ebf5a83f38749d1e6">More...</a><br /></td></tr>
 <tr class="separator:af97ffd57d911794ebf5a83f38749d1e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a36d541aa59c83704a1c00ac07d7e5288"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccessClient.html#a36d541aa59c83704a1c00ac07d7e5288">Send</a> (const <a class="el" href="classPacketCtrl.html">PacketCtrl</a> &amp;a_PacketCtrl)</td></tr>
+<tr class="memdesc:a36d541aa59c83704a1c00ac07d7e5288"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a single control packet to the peer entity.  <a href="#a36d541aa59c83704a1c00ac07d7e5288">More...</a><br /></td></tr>
 <tr class="separator:a36d541aa59c83704a1c00ac07d7e5288"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="AccessClient_8h_source.html#l00032">32</a> of file <a class="el" href="AccessClient_8h_source.html">AccessClient.h</a>.</p>
+<div class="textblock"><p>Class <a class="el" href="classAccessClient.html" title="Class AccessClient. ">AccessClient</a>. </p>
+<p>The main helper class to easily implement clients of the HDLCd access protocol </p>
+
+<p>Definition at line <a class="el" href="AccessClient_8h_source.html#l00038">38</a> of file <a class="el" href="AccessClient_8h_source.html">AccessClient.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a36101434cecd72defd6e4071822e868d"></a>
 <div class="memitem">
@@ -183,14 +197,26 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="AccessClient_8h_source.html#l00035">35</a> of file <a class="el" href="AccessClient_8h_source.html">AccessClient.h</a>.</p>
+<p>The constructor of class <a class="el" href="classAccessClient.html" title="Class AccessClient. ">AccessClient</a>. </p>
+<p>The connection is established on instantiation (RAII)</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a_IoService</td><td>the boost IOService object </td></tr>
+    <tr><td class="paramname">a_EndpointIterator</td><td>the boost endpoint iteratior referring to the destination </td></tr>
+    <tr><td class="paramname">a_SerialPortName</td><td>the name of the serial port device </td></tr>
+    <tr><td class="paramname">a_SAP</td><td>the numerical indentifier of the service access protocol </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="AccessClient_8h_source.html#l00049">49</a> of file <a class="el" href="AccessClient_8h_source.html">AccessClient.h</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classAccessClient_a36101434cecd72defd6e4071822e868d_cgraph.png" border="0" usemap="#classAccessClient_a36101434cecd72defd6e4071822e868d_cgraph" alt=""/></div>
 <map name="classAccessClient_a36101434cecd72defd6e4071822e868d_cgraph" id="classAccessClient_a36101434cecd72defd6e4071822e868d_cgraph">
-<area shape="rect" id="node2" href="classAccessClient.html#a2a2241e51847cabd50ea198871d652b8" title="AccessClient::Close" alt="" coords="244,5,389,32"/>
+<area shape="rect" id="node2" href="classAccessClient.html#a2a2241e51847cabd50ea198871d652b8" title="Close the client entity. " alt="" coords="244,5,389,32"/>
 </map>
 </div>
 </p>
@@ -218,14 +244,17 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="AccessClient_8h_source.html#l00079">79</a> of file <a class="el" href="AccessClient_8h_source.html">AccessClient.h</a>.</p>
+<p>The destructor of class <a class="el" href="classAccessClient.html" title="Class AccessClient. ">AccessClient</a>. </p>
+<p>All open connections will automatically be closed by the destructor </p>
+
+<p>Definition at line <a class="el" href="AccessClient_8h_source.html#l00097">97</a> of file <a class="el" href="AccessClient_8h_source.html">AccessClient.h</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classAccessClient_a446691b0e37bcd84fa537562f8375233_cgraph.png" border="0" usemap="#classAccessClient_a446691b0e37bcd84fa537562f8375233_cgraph" alt=""/></div>
 <map name="classAccessClient_a446691b0e37bcd84fa537562f8375233_cgraph" id="classAccessClient_a446691b0e37bcd84fa537562f8375233_cgraph">
-<area shape="rect" id="node2" href="classAccessClient.html#a2a2241e51847cabd50ea198871d652b8" title="AccessClient::Close" alt="" coords="252,5,397,32"/>
+<area shape="rect" id="node2" href="classAccessClient.html#a2a2241e51847cabd50ea198871d652b8" title="Close the client entity. " alt="" coords="252,5,397,32"/>
 </map>
 </div>
 </p>
@@ -254,15 +283,18 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="AccessClient_8h_source.html#l00091">91</a> of file <a class="el" href="AccessClient_8h_source.html">AccessClient.h</a>.</p>
+<p>Close the client entity. </p>
+<p>Close the client entity and all its TCP connections </p>
+
+<p>Definition at line <a class="el" href="AccessClient_8h_source.html#l00117">117</a> of file <a class="el" href="AccessClient_8h_source.html">AccessClient.h</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classAccessClient_a2a2241e51847cabd50ea198871d652b8_icgraph.png" border="0" usemap="#classAccessClient_a2a2241e51847cabd50ea198871d652b8_icgraph" alt=""/></div>
 <map name="classAccessClient_a2a2241e51847cabd50ea198871d652b8_icgraph" id="classAccessClient_a2a2241e51847cabd50ea198871d652b8_icgraph">
-<area shape="rect" id="node2" href="classAccessClient.html#a36101434cecd72defd6e4071822e868d" title="AccessClient::AccessClient" alt="" coords="203,5,393,32"/>
-<area shape="rect" id="node3" href="classAccessClient.html#a446691b0e37bcd84fa537562f8375233" title="AccessClient::~AccessClient" alt="" coords="199,56,397,83"/>
+<area shape="rect" id="node2" href="classAccessClient.html#a36101434cecd72defd6e4071822e868d" title="The constructor of class AccessClient. " alt="" coords="203,5,393,32"/>
+<area shape="rect" id="node3" href="classAccessClient.html#a446691b0e37bcd84fa537562f8375233" title="The destructor of class AccessClient. " alt="" coords="199,56,397,83"/>
 </map>
 </div>
 </p>
@@ -291,7 +323,16 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="AccessClient_8h_source.html#l00127">127</a> of file <a class="el" href="AccessClient_8h_source.html">AccessClient.h</a>.</p>
+<p>Send a single data packet to the peer entity. </p>
+<p>Send a single data packet to the peer entity</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a_PacketData</td><td>the data packet to be transmitted </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="AccessClient_8h_source.html#l00176">176</a> of file <a class="el" href="AccessClient_8h_source.html">AccessClient.h</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -327,7 +368,16 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="AccessClient_8h_source.html#l00131">131</a> of file <a class="el" href="AccessClient_8h_source.html">AccessClient.h</a>.</p>
+<p>Send a single control packet to the peer entity. </p>
+<p>Send a single control packet to the peer entity</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a_PacketCtrl</td><td>the control packet to be transmitted </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="AccessClient_8h_source.html#l00186">186</a> of file <a class="el" href="AccessClient_8h_source.html">AccessClient.h</a>.</p>
 
 </div>
 </div>
@@ -353,7 +403,16 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="AccessClient_8h_source.html#l00123">123</a> of file <a class="el" href="AccessClient_8h_source.html">AccessClient.h</a>.</p>
+<p>Provide a callback method to be called if this client entity is closing. </p>
+<p>This method can be used to provide a function pointer callback to be called if this entoty is closing, e.g., the peer closed its endpoint</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a_OnClosedCallback</td><td>the funtion pointer to the callback method, may be an empty function pointer to remove the callback </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="AccessClient_8h_source.html#l00166">166</a> of file <a class="el" href="AccessClient_8h_source.html">AccessClient.h</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -389,7 +448,16 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="AccessClient_8h_source.html#l00119">119</a> of file <a class="el" href="AccessClient_8h_source.html">AccessClient.h</a>.</p>
+<p>Provide a callback method to be called for received control packets. </p>
+<p>Control packets are received in an asynchronous way. Use this method to specify a callback method to be called on reception of single control packets</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a_OnCtrlCallback</td><td>the funtion pointer to the callback method, may be an empty function pointer to remove the callback </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="AccessClient_8h_source.html#l00156">156</a> of file <a class="el" href="AccessClient_8h_source.html">AccessClient.h</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -425,7 +493,16 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="AccessClient_8h_source.html#l00115">115</a> of file <a class="el" href="AccessClient_8h_source.html">AccessClient.h</a>.</p>
+<p>Provide a callback method to be called for received data packets. </p>
+<p>Data packets are received in an asynchronous way. Use this method to specify a callback method to be called on reception of single data packets</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a_OnDataCallback</td><td>the funtion pointer to the callback method, may be an empty function pointer to remove the callback </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="AccessClient_8h_source.html#l00146">146</a> of file <a class="el" href="AccessClient_8h_source.html">AccessClient.h</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -460,7 +537,10 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="AccessClient_8h_source.html#l00086">86</a> of file <a class="el" href="AccessClient_8h_source.html">AccessClient.h</a>.</p>
+<p>Shutdowns all TCP connections down. </p>
+<p>Initiates a shutdown procedure for correct teardown of all TCP connections </p>
+
+<p>Definition at line <a class="el" href="AccessClient_8h_source.html#l00108">108</a> of file <a class="el" href="AccessClient_8h_source.html">AccessClient.h</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>

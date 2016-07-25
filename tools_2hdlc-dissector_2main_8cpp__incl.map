@@ -1,5 +1,5 @@
 <map id="src/tools/hdlc&#45;dissector/main.cpp" name="src/tools/hdlc&#45;dissector/main.cpp">
-<area shape="rect" id="node4" href="$AccessClient_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="420,95,603,121"/>
+<area shape="rect" id="node4" href="$AccessClient_8h.html" title="This file contains the header declaration of class AccessClient. " alt="" coords="420,95,603,121"/>
 <area shape="rect" id="node13" href="$FramePrinter_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="627,95,742,121"/>
 <area shape="rect" id="node7" href="$PacketEndpoint_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="447,169,579,196"/>
 <area shape="rect" id="node10" href="$PacketData_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="143,244,307,271"/>
