@@ -1,6 +1,8 @@
 /**
  * \file  AccessClient.h
  * \brief This file contains the header declaration of class AccessClient
+ *  \author    Florian Evers, florian-evers@gmx.de
+ *  \copyright GNU Public License version 3.
  *
  * The hdlc-tools implement the HDLC protocol to easily talk to devices connected via serial communications
  * Copyright (C) 2016  Florian Evers, florian-evers@gmx.de
@@ -101,7 +103,7 @@ public:
         Close();
     }
 
-    /*! \brief Shutdowns all TCP connections down
+    /*! \brief Shuts all TCP connections down
      * 
      *  Initiates a shutdown procedure for correct teardown of all TCP connections
      */

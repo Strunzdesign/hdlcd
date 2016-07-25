@@ -8,3 +8,5 @@ The hdlcd itself offers simple TCP-based connectivity using a simple command- an
 
 Current state:
 - As time of this writing, this software is not yet usable but work-in-progess.
+
+See online doxygen documentation at http://strunzdesign.github.io/hdlc-tools/
