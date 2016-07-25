@@ -116,7 +116,7 @@ public:
 
     void PacketReceived(const PacketData& a_PacketData) {
         const std::vector<unsigned char> l_Buffer = a_PacketData.GetData();
-        if ((l_Buffer[8] == 0xCB) && (l_Buffer[9] == 0xCB)) {
+        if ((l_Buffer[8] == 0x22) && (l_Buffer[9] == 0x22)) {
             if (l_Buffer[11] == 0x01) {
                 HandleProbeReply(a_PacketData);
             } else if (l_Buffer[11] == 0x02) {
@@ -208,7 +208,7 @@ private:
 
     bool SendNextProbeRequest() {
         // Create packet
-        std::vector<unsigned char> l_Buffer = {0x00, 0x10, 0x40, 0x01, 0x00, 0x01, 0x80, 0x00, 0xcb, 0xcb, 0x00, 0x00};
+        std::vector<unsigned char> l_Buffer = {0x00, 0x10, 0x40, 0x01, 0x00, 0x01, 0x80, 0x00, 0x22, 0x22, 0x00, 0x00};
         l_Buffer.emplace_back((m_LocalSeed   & 0xFF000000) >> 24);
         l_Buffer.emplace_back((m_LocalSeed   & 0x00FF0000) >> 16);
         l_Buffer.emplace_back((m_LocalSeed   & 0x0000FF00) >>  8);
