@@ -1,6 +1,8 @@
 /**
- * \file AliveGuard.h
- * \brief 
+ * \file      AliveGuard.h
+ * \brief     This file contains the header declaration of class AliveGuard
+ * \author    Florian Evers, florian-evers@gmx.de
+ * \copyright GNU Public License version 3.
  *
  * The hdlc-tools implement the HDLC protocol to easily talk to devices connected via serial communications
  * Copyright (C) 2016  Florian Evers, florian-evers@gmx.de
@@ -22,25 +24,45 @@
 #ifndef ALIVE_GUARD_H
 #define ALIVE_GUARD_H
 
+/*! \class AliveGuard
+ *  \brief Class AliveGuard
+ * 
+ *  This guard object tracks whether a device attached via serial connections is alive, i.e., the baud rate is known and the HDLC protocol is initialized
+ */
 class AliveGuard {
 public:
-    // CTOR
+    /*! \brief The constructor of class AccessGuard
+     * 
+     *  On creation, a serial port is considered as alive
+     */
     AliveGuard(): m_bAlive(true) {
     }
     
-    // Influende the serial port state
+    /*! \brief Change the serial port state
+     * 
+     *  Change the serial port state
+     * 
+     * \param  a_bAlive the new state of the related serial device
+     * \return bool indicates whether the state of the related serial device was changed by the call
+     */
+        
     bool UpdateSerialPortState(bool a_bAlive) {
         bool l_bStateChanged = (m_bAlive != a_bAlive);
         m_bAlive = a_bAlive;
         return l_bStateChanged;
     }
-    
-    // Check status
+
+    /*! \brief Query whether the related serial port is currently alive
+     * 
+     *  Query whether the related serial device is currently alive
+     * 
+     * return bool indicating whether the related serial device is currently alive
+     */
     bool IsAlive() const { return m_bAlive; }
 
 private:
     // Members
-    bool m_bAlive;
+    bool m_bAlive; //! The alive state of the related device
 };
 
 #endif // ALIVE_GUARD_H
