@@ -1,8 +1,8 @@
 /**
- * \file  AccessClient.h
- * \brief This file contains the header declaration of class AccessClient
- *  \author    Florian Evers, florian-evers@gmx.de
- *  \copyright GNU Public License version 3.
+ * \file      AccessClient.h
+ * \brief     This file contains the header declaration of class AccessClient
+ * \author    Florian Evers, florian-evers@gmx.de
+ * \copyright GNU Public License version 3.
  *
  * The hdlc-tools implement the HDLC protocol to easily talk to devices connected via serial communications
  * Copyright (C) 2016  Florian Evers, florian-evers@gmx.de
@@ -36,7 +36,6 @@
  * 
  *  The main helper class to easily implement clients of the HDLCd access protocol
  */
-
 class AccessClient {
 public:
     /*! \brief The constructor of class AccessClient
