@@ -1,7 +1,7 @@
 <map id="src/hdlcd/SerialPort/HDLC/BufferType.h" name="src/hdlcd/SerialPort/HDLC/BufferType.h">
 <area shape="rect" id="node2" href="$ClientHandler_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="435,184,615,225"/>
 <area shape="rect" id="node9" href="$ISerialPortHandler_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="631,95,826,136"/>
-<area shape="rect" id="node3" href="$ClientAcceptor_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="5,273,185,315"/>
+<area shape="rect" id="node3" href="$ClientAcceptor_8h.html" title="This file contains the header declaration of class ClientAcceptor. " alt="" coords="5,273,185,315"/>
 <area shape="rect" id="node5" href="$ClientHandler_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="435,273,615,315"/>
 <area shape="rect" id="node6" href="$ClientHandlerCollection_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="210,273,410,315"/>
 <area shape="rect" id="node7" href="$SerialPortHandler_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="639,273,803,315"/>

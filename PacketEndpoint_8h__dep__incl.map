@@ -1,7 +1,7 @@
 <map id="src/shared/PacketEndpoint.h" name="src/shared/PacketEndpoint.h">
 <area shape="rect" id="node2" href="$ClientHandler_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="527,80,707,121"/>
 <area shape="rect" id="node9" href="$AccessClient_8h.html" title="This file contains the header declaration of class AccessClient. " alt="" coords="2181,87,2367,114"/>
-<area shape="rect" id="node3" href="$ClientAcceptor_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="5,169,185,211"/>
+<area shape="rect" id="node3" href="$ClientAcceptor_8h.html" title="This file contains the header declaration of class ClientAcceptor. " alt="" coords="5,169,185,211"/>
 <area shape="rect" id="node5" href="$ClientHandler_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="209,169,389,211"/>
 <area shape="rect" id="node6" href="$ClientHandlerCollection_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="414,169,614,211"/>
 <area shape="rect" id="node7" href="$SerialPortHandler_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="639,169,803,211"/>

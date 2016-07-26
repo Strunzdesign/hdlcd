@@ -112,18 +112,24 @@ $(document).ready(function(){initNavTree('classClientAcceptor.html','');});
 </div><!--header-->
 <div class="contents">
 
+<p>Class <a class="el" href="classClientAcceptor.html" title="Class ClientAcceptor. ">ClientAcceptor</a>.  
+ <a href="classClientAcceptor.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="ClientAcceptor_8h_source.html">ClientAcceptor.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8e95b57dd52daa10fc53d29992d84120"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClientAcceptor.html#a8e95b57dd52daa10fc53d29992d84120">ClientAcceptor</a> (boost::asio::io_service &amp;io_service, short port, std::shared_ptr&lt; <a class="el" href="classSerialPortHandlerCollection.html">SerialPortHandlerCollection</a> &gt; a_SerialPortHandlerCollection)</td></tr>
-<tr class="separator:a8e95b57dd52daa10fc53d29992d84120"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeaae5b40ff3535285960ba351b331658"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClientAcceptor.html#aeaae5b40ff3535285960ba351b331658">ClientAcceptor</a> (boost::asio::io_service &amp;a_IOService, unsigned short a_usPortNbr, std::shared_ptr&lt; <a class="el" href="classSerialPortHandlerCollection.html">SerialPortHandlerCollection</a> &gt; a_SerialPortHandlerCollection)</td></tr>
+<tr class="memdesc:aeaae5b40ff3535285960ba351b331658"><td class="mdescLeft">&#160;</td><td class="mdescRight">The constructor of class <a class="el" href="classClientAcceptor.html" title="Class ClientAcceptor. ">ClientAcceptor</a>.  <a href="#aeaae5b40ff3535285960ba351b331658">More...</a><br /></td></tr>
+<tr class="separator:aeaae5b40ff3535285960ba351b331658"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="ClientAcceptor_8h_source.html#l00032">32</a> of file <a class="el" href="ClientAcceptor_8h_source.html">ClientAcceptor.h</a>.</p>
+<div class="textblock"><p>Class <a class="el" href="classClientAcceptor.html" title="Class ClientAcceptor. ">ClientAcceptor</a>. </p>
+<p>This class is responsible to accept incoming TCP connections. For each inbound TCP connection, a <a class="el" href="classClientHandler.html">ClientHandler</a> object is creating taking full responsibility of the connection. These TCP connections originate from clients that access the HDLCd and contain PDUs of the HDLCd access protocol. </p>
+
+<p>Definition at line <a class="el" href="ClientAcceptor_8h_source.html#l00041">41</a> of file <a class="el" href="ClientAcceptor_8h_source.html">ClientAcceptor.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a8e95b57dd52daa10fc53d29992d84120"></a>
+<a class="anchor" id="aeaae5b40ff3535285960ba351b331658"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -134,13 +140,13 @@ Public Member Functions</h2></td></tr>
           <td class="memname">ClientAcceptor::ClientAcceptor </td>
           <td>(</td>
           <td class="paramtype">boost::asio::io_service &amp;&#160;</td>
-          <td class="paramname"><em>io_service</em>, </td>
+          <td class="paramname"><em>a_IOService</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">short&#160;</td>
-          <td class="paramname"><em>port</em>, </td>
+          <td class="paramtype">unsigned short&#160;</td>
+          <td class="paramname"><em>a_usPortNbr</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -161,7 +167,18 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ClientAcceptor_8h_source.html#l00034">34</a> of file <a class="el" href="ClientAcceptor_8h_source.html">ClientAcceptor.h</a>.</p>
+<p>The constructor of class <a class="el" href="classClientAcceptor.html" title="Class ClientAcceptor. ">ClientAcceptor</a>. </p>
+<p>Listener is started directly on instantiation (RAII)</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a_IOService</td><td>the boost IOService object </td></tr>
+    <tr><td class="paramname">a_usPortNbr</td><td>the TCP port number to wait for incoming TCP connections </td></tr>
+    <tr><td class="paramname">a_SerialPortHandlerCollection</td><td>the collection helper class of serial port handlers responsible for talking to devices using the HDLC protocol </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="ClientAcceptor_8h_source.html#l00051">51</a> of file <a class="el" href="ClientAcceptor_8h_source.html">ClientAcceptor.h</a>.</p>
 
 </div>
 </div>
