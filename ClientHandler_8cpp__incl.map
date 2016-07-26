@@ -12,5 +12,5 @@
 <area shape="rect" id="node14" href="$Packet_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="618,341,694,367"/>
 <area shape="rect" id="node21" href="$ISerialPortHandler_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="1273,259,1464,285"/>
 <area shape="rect" id="node22" href="$SerialPortLock_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="1539,259,1664,285"/>
-<area shape="rect" id="node24" href="$BaudRate_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="1689,259,1784,285"/>
+<area shape="rect" id="node24" href="$BaudRate_8h.html" title="This file contains the header declaration of class BaudRate. " alt="" coords="1689,259,1784,285"/>
 </map>
