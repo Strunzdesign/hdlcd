@@ -37,8 +37,6 @@ var NAVTREEINDEX0 =
 "FCS16_8h.html#abdc2ed1263d63d127d73b46f25b52a7f":[1,0,0,0,1,0,4,1],
 "FCS16_8h.html#ae9537f06cccf3d496bf3897e55c1efdc":[1,0,0,0,1,0,4,2],
 "FCS16_8h_source.html":[1,0,0,0,1,0,4],
-"FlowGuard_8h.html":[1,0,0,0,0,6],
-"FlowGuard_8h_source.html":[1,0,0,0,0,6],
 "FrameGenerator_8cpp.html":[1,0,0,0,1,0,7],
 "FrameGenerator_8cpp_source.html":[1,0,0,0,1,0,7],
 "FrameGenerator_8h.html":[1,0,0,0,1,0,8],
@@ -58,10 +56,10 @@ var NAVTREEINDEX0 =
 "ISerialPortHandler_8h_source.html":[1,0,0,0,1,0,11],
 "LineReader_8h.html":[1,0,0,3,1,0],
 "LineReader_8h_source.html":[1,0,0,3,1,0],
-"LockGuard_8cpp.html":[1,0,0,0,0,7],
-"LockGuard_8cpp_source.html":[1,0,0,0,0,7],
-"LockGuard_8h.html":[1,0,0,0,0,8],
-"LockGuard_8h_source.html":[1,0,0,0,0,8],
+"LockGuard_8cpp.html":[1,0,0,0,0,6],
+"LockGuard_8cpp_source.html":[1,0,0,0,0,6],
+"LockGuard_8h.html":[1,0,0,0,0,7],
+"LockGuard_8h_source.html":[1,0,0,0,0,7],
 "LogClientFormatter_8h.html":[1,0,0,3,10,0],
 "LogClientFormatter_8h.html#a78269b2cc9e4215bd35b73540aaaad09":[1,0,0,3,10,0,0],
 "LogClientFormatter_8h_source.html":[1,0,0,3,10,0],
@@ -249,5 +247,7 @@ var NAVTREEINDEX0 =
 "classProtocolState.html#ab3aa01c2380aabf86219632c33d22312":[0,0,18,0],
 "classProtocolState.html#ab4b709236e0f76aabc01693735f683ca":[0,0,18,3],
 "classProtocolState.html#aed6d0bdb617025a17b8bcd28a77e5c28":[0,0,18,6],
-"classSerialPortHandler.html":[0,0,19]
+"classSerialPortHandler.html":[0,0,19],
+"classSerialPortHandler.html#a6267f7472ae54acb6eccff9e37ad56a7":[0,0,19,5],
+"classSerialPortHandler.html#a6696d0023c77dba03c9c5f6ca475b005":[0,0,19,4]
 };

@@ -1,7 +1,5 @@
 var NAVTREEINDEX1 =
 {
-"classSerialPortHandler.html#a6267f7472ae54acb6eccff9e37ad56a7":[0,0,19,5],
-"classSerialPortHandler.html#a6696d0023c77dba03c9c5f6ca475b005":[0,0,19,4],
 "classSerialPortHandler.html#a9a9be6af5eba7ac3b2ad9bba67b8c799":[0,0,19,7],
 "classSerialPortHandler.html#a9de1ecaf95c189cc635fe566ac1cf4a9":[0,0,19,6],
 "classSerialPortHandler.html#ab64b74149dd5455480ac1437fcc07aeb":[0,0,19,8],
