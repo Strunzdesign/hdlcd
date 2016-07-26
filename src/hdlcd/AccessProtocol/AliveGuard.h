@@ -31,7 +31,7 @@
  */
 class AliveGuard {
 public:
-    /*! \brief The constructor of class AccessGuard
+    /*! \brief The constructor of AccessGuard objects
      * 
      *  On creation, a serial port is considered as alive
      */

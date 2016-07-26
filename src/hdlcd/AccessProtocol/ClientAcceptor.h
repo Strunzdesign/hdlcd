@@ -40,7 +40,7 @@ using boost::asio::ip::tcp;
  */
 class ClientAcceptor {
 public:
-    /*! \brief The constructor of class ClientAcceptor
+    /*! \brief The constructor of ClientAcceptor objects
      * 
      *  Listener is started directly on instantiation (RAII)
      * 

@@ -1,6 +1,8 @@
 /**
- * \file LockGuard.h
- * \brief 
+ * \file      LockGuard.h
+ * \brief     This file contains the header declaration of class LockGuard
+ * \author    Florian Evers, florian-evers@gmx.de
+ * \copyright GNU Public License version 3.
  *
  * The hdlc-tools implement the HDLC protocol to easily talk to devices connected via serial communications
  * Copyright (C) 2016  Florian Evers, florian-evers@gmx.de
@@ -25,6 +27,11 @@
 #include <memory>
 class SerialPortHandler;
 
+/*! \class LockGuard
+ *  \brief Class LockGuard
+ * 
+ *  This guard object tracks whether a related device attached via serial connections is currently "locked" / suspended or "unlocked" / resumed
+ */
 class LockGuard {
 public:
     // CTOR, DTOR, and initializer
@@ -32,23 +39,45 @@ public:
     ~LockGuard();
     void Init(std::shared_ptr<SerialPortHandler> a_SerialPortHandler);
     
-    // Influende the serial port
+    // Influende the serial port, obtain and release locks, called by a ClientHandler
     void AcquireLock();
     void ReleaseLock();
+    
+    // Update the effective state of a serial port
     bool UpdateSerialPortState(size_t a_LockHolders);
     
-    // Check status
+    
+    /*! \brief Query the lock state of the related serial device
+     * 
+     *  Query the lock state of the related serial device
+     * 
+     *  \return bool indicates whether the serial port is currently "locked" / suspended or "unlocked" / resumed
+     */
     bool IsLocked() const { return (m_bLockedBySelf || m_bLockedByOthers); }
+    
+    /*! \brief Query whether the serial device is currently "locked" by the responsible AccessClient entity
+     * 
+     *  Query whether the serial device is currently locked" by the responsible AccessClient entity
+     * 
+     *  \return bool indicates whether the serial port is currently "locked" by the responsible AccessClient entity
+     */
     bool IsLockedBySelf() const { return m_bLockedBySelf; }
+    
+    /*! \brief Query whether the serial device is currently "locked" by at least one other AccessClient entity
+     * 
+     *  Query whether the serial device is currently "locked" by at least one other AccessClient entity
+     * 
+     *  \return bool indicates whether the serial port is currently "locked" by at least one other AccessClient entity
+     */
     bool IsLockedByOthers() const { return m_bLockedByOthers; }
 
 private:
     // Members
-    std::shared_ptr<SerialPortHandler> m_SerialPortHandler;
-    bool m_bLockedBySelf;
-    bool m_bLockedByOthers;
-    bool m_bLastLockedBySelf;
-    bool m_bLastLockedByOthers;
+    std::shared_ptr<SerialPortHandler> m_SerialPortHandler; //!< The serial port handler responsible for the serial device
+    bool m_bLockedBySelf;       //!< This flag indicates whether the serial device is locked by this entity
+    bool m_bLockedByOthers;     //!< This flag indicates whether the serial device is locked by other entities
+    bool m_bLastLockedBySelf;   //!< The last known effective state whether the serial device is locked by this entity, to detect changes
+    bool m_bLastLockedByOthers; //!< The last known effective state whether the serial device is locked by other entities, to detect changes
 };
 
 #endif // LOCK_GUARD_H

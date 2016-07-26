@@ -38,7 +38,7 @@
  */
 class AccessClient {
 public:
-    /*! \brief The constructor of class AccessClient
+    /*! \brief The constructor of AccessClient objects
      * 
      *  The connection is established on instantiation (RAII)
      * 
@@ -91,7 +91,7 @@ public:
         });
     }
 
-    /*! \brief The destructor of class AccessClient
+    /*! \brief The destructor of AccessClient objects
      * 
      *  All open connections will automatically be closed by the destructor
      */
