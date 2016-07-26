@@ -4,7 +4,6 @@ var searchData=
   ['interpretdeserializedframe',['InterpretDeserializedFrame',['../classProtocolState.html#aab0236c1b098820dbc66b2b41bc22432',1,'ProtocolState']]],
   ['isalive',['IsAlive',['../classAliveGuard.html#ac9beb654a0f3057bbd38e2ad3ae2c4c3',1,'AliveGuard::IsAlive()'],['../classAliveState.html#af1fa1dc78a9388672b7378859f8c2b30',1,'AliveState::IsAlive()'],['../classProtocolState.html#ab4b709236e0f76aabc01693735f683ca',1,'ProtocolState::IsAlive()']]],
   ['isempty',['IsEmpty',['../classFrame.html#a2a5f62465222f252bf8c0098e453d133',1,'Frame']]],
-  ['isflowsuspended',['IsFlowSuspended',['../classProtocolState.html#a0ab9c526c60deafa4eaaa507860c0b2b',1,'ProtocolState']]],
   ['isiframe',['IsIFrame',['../classFrame.html#ac82e03633b6cd38ced564aa456e0f2d4',1,'Frame']]],
   ['islocked',['IsLocked',['../classLockGuard.html#ad64b519319a2fb4846419cc8634cb141',1,'LockGuard']]],
   ['islockedbyothers',['IsLockedByOthers',['../classLockGuard.html#a034a917b15cbf520adda465fab890d4d',1,'LockGuard']]],

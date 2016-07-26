@@ -6,5 +6,5 @@ var classClientHandler =
     [ "QueryForPayload", "classClientHandler.html#ade63a0ed7ccce5c50c3a88c94786e238", null ],
     [ "Start", "classClientHandler.html#a6911bc9b0b7454515642556567bbcefa", null ],
     [ "Stop", "classClientHandler.html#af146dbab274fd18c3d2d4524ad900fa2", null ],
-    [ "UpdateSerialPortState", "classClientHandler.html#a198c8ea4a91de77059064c2389fa83ef", null ]
+    [ "UpdateSerialPortState", "classClientHandler.html#a2f23119d5193011130053342d11fef7f", null ]
 ];

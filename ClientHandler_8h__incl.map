@@ -1,9 +1,9 @@
 <map id="src/hdlcd/AccessProtocol/ClientHandler.h" name="src/hdlcd/AccessProtocol/ClientHandler.h">
-<area shape="rect" id="node8" href="$AliveGuard_8h.html" title="This file contains the header declaration of class AliveGuard. " alt="" coords="686,102,789,129"/>
-<area shape="rect" id="node10" href="$LockGuard_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="37,184,140,211"/>
-<area shape="rect" id="node11" href="$BufferType_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="939,95,1075,136"/>
-<area shape="rect" id="node12" href="$PacketEndpoint_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="279,102,479,129"/>
-<area shape="rect" id="node13" href="$PacketData_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="496,184,660,211"/>
-<area shape="rect" id="node15" href="$PacketCtrl_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="316,184,472,211"/>
-<area shape="rect" id="node14" href="$Packet_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="356,259,432,285"/>
+<area shape="rect" id="node8" href="$AliveGuard_8h.html" title="This file contains the header declaration of class AliveGuard. " alt="" coords="641,102,744,129"/>
+<area shape="rect" id="node9" href="$LockGuard_8h.html" title="This file contains the header declaration of class LockGuard. " alt="" coords="54,102,157,129"/>
+<area shape="rect" id="node10" href="$BufferType_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="768,95,904,136"/>
+<area shape="rect" id="node11" href="$PacketEndpoint_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="234,102,434,129"/>
+<area shape="rect" id="node12" href="$PacketData_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="437,184,601,211"/>
+<area shape="rect" id="node14" href="$PacketCtrl_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="257,184,413,211"/>
+<area shape="rect" id="node13" href="$Packet_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="297,259,373,285"/>
 </map>

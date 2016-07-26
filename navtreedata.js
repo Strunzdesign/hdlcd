@@ -29,7 +29,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "AccessClient_8h.html",
-"classSerialPortHandler.html#a9a9be6af5eba7ac3b2ad9bba67b8c799"
+"classSerialPortHandler.html#a9de1ecaf95c189cc635fe566ac1cf4a9"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -1,7 +1,7 @@
 <map id="src/hdlcd/SerialPort/BaudRate.h" name="src/hdlcd/SerialPort/BaudRate.h">
 <area shape="rect" id="node2" href="$SerialPortHandler_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="322,95,471,136"/>
 <area shape="rect" id="node3" href="$ClientHandler_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="5,184,185,225"/>
-<area shape="rect" id="node4" href="$LockGuard_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="209,184,389,225"/>
+<area shape="rect" id="node4" href="$LockGuard_8cpp.html" title="This file contains the implementation of class LockGuard. " alt="" coords="209,184,389,225"/>
 <area shape="rect" id="node5" href="$SerialPortHandler_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="413,184,577,225"/>
 <area shape="rect" id="node6" href="$SerialPortHandlerCollection_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="602,184,829,225"/>
 </map>

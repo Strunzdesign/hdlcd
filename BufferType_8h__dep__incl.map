@@ -9,5 +9,5 @@
 <area shape="rect" id="node4" href="$hdlcd_2main_8cpp.html" title="src/hdlcd/main.cpp" alt="" coords="26,363,165,389"/>
 <area shape="rect" id="node10" href="$SerialPortHandler_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="842,184,991,225"/>
 <area shape="rect" id="node12" href="$ProtocolState_8cpp.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="639,184,818,225"/>
-<area shape="rect" id="node11" href="$LockGuard_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="1079,273,1259,315"/>
+<area shape="rect" id="node11" href="$LockGuard_8cpp.html" title="This file contains the implementation of class LockGuard. " alt="" coords="1079,273,1259,315"/>
 </map>

@@ -134,50 +134,49 @@ $(document).ready(function(){initNavTree('ProtocolState_8h_source.html','');});
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    </div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="comment">// Query state</span></div>
 <div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="classProtocolState.html#ab4b709236e0f76aabc01693735f683ca">   63</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classProtocolState.html#ab4b709236e0f76aabc01693735f683ca">IsAlive</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_AliveState-&gt;IsAlive(); }</div>
-<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="classProtocolState.html#a0ab9c526c60deafa4eaaa507860c0b2b">   64</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classProtocolState.html#a0ab9c526c60deafa4eaaa507860c0b2b">IsFlowSuspended</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> (m_bPeerStoppedFlow || !<a class="code" href="classProtocolState.html#ab4b709236e0f76aabc01693735f683ca">IsAlive</a>()); }</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="comment">// Internal helpers</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">void</span> Reset();</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">void</span> OpportunityForTransmission();</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <a class="code" href="classFrame.html">Frame</a> PrepareIFrame();</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <a class="code" href="classFrame.html">Frame</a> PrepareSFrameRR();</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="classFrame.html">Frame</a> PrepareSFrameSREJ();</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <a class="code" href="classFrame.html">Frame</a> PrepareUFrameUI();</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <a class="code" href="classFrame.html">Frame</a> PrepareUFrameTEST();</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="comment">// Members</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordtype">bool</span> m_bStarted;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">bool</span> m_bAwaitsNextHDLCFrame;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> m_SSeqOutgoing; <span class="comment">// The sequence number we are going to use for the transmission of the next packet</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> m_RSeqIncoming; <span class="comment">// The start of the RX window we offer our peer, defines which packets we expect</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="comment">// State of pending actions</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">bool</span> m_bSendProbe;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordtype">bool</span> m_bPeerStoppedFlow;        <span class="comment">// RNR condition</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">bool</span> m_bPeerStoppedFlowNew;     <span class="comment">// RNR condition</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">bool</span> m_bPeerStoppedFlowQueried; <span class="comment">// RNR condition</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">bool</span> m_bPeerRequiresAck;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordtype">bool</span> m_bWaitForAck;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    std::deque&lt;unsigned char&gt; m_SREJs;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="comment">// Parser and generator</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    std::shared_ptr&lt;ISerialPortHandler&gt; m_SerialPortHandler;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <a class="code" href="classFrameParser.html">FrameParser</a> m_FrameParser;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    </div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="comment">// Wait queues</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    std::deque&lt;std::vector&lt;unsigned char&gt;&gt; m_WaitQueueReliable;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    std::deque&lt;std::vector&lt;unsigned char&gt;&gt; m_WaitQueueUnreliable;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="comment">// Alive state</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    std::shared_ptr&lt;AliveState&gt; m_AliveState;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    </div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="comment">// Timer</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    boost::asio::deadline_timer m_Timer;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordtype">bool</span> m_bAliveReceivedSometing;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;};</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="preprocessor">#endif // PROTOCOL_STATE_H</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="comment">// Internal helpers</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">void</span> Reset();</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">void</span> OpportunityForTransmission();</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <a class="code" href="classFrame.html">Frame</a> PrepareIFrame();</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <a class="code" href="classFrame.html">Frame</a> PrepareSFrameRR();</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <a class="code" href="classFrame.html">Frame</a> PrepareSFrameSREJ();</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="classFrame.html">Frame</a> PrepareUFrameUI();</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <a class="code" href="classFrame.html">Frame</a> PrepareUFrameTEST();</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="comment">// Members</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordtype">bool</span> m_bStarted;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordtype">bool</span> m_bAwaitsNextHDLCFrame;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> m_SSeqOutgoing; <span class="comment">// The sequence number we are going to use for the transmission of the next packet</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> m_RSeqIncoming; <span class="comment">// The start of the RX window we offer our peer, defines which packets we expect</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="comment">// State of pending actions</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">bool</span> m_bSendProbe;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">bool</span> m_bPeerStoppedFlow;        <span class="comment">// RNR condition</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordtype">bool</span> m_bPeerStoppedFlowNew;     <span class="comment">// RNR condition</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">bool</span> m_bPeerStoppedFlowQueried; <span class="comment">// RNR condition</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">bool</span> m_bPeerRequiresAck;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">bool</span> m_bWaitForAck;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    std::deque&lt;unsigned char&gt; m_SREJs;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    </div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="comment">// Parser and generator</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    std::shared_ptr&lt;ISerialPortHandler&gt; m_SerialPortHandler;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <a class="code" href="classFrameParser.html">FrameParser</a> m_FrameParser;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    </div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="comment">// Wait queues</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    std::deque&lt;std::vector&lt;unsigned char&gt;&gt; m_WaitQueueReliable;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    std::deque&lt;std::vector&lt;unsigned char&gt;&gt; m_WaitQueueUnreliable;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    </div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="comment">// Alive state</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    std::shared_ptr&lt;AliveState&gt; m_AliveState;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    </div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="comment">// Timer</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    boost::asio::deadline_timer m_Timer;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordtype">bool</span> m_bAliveReceivedSometing;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;};</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="preprocessor">#endif // PROTOCOL_STATE_H</span></div>
 <div class="ttc" id="classProtocolState_html_aed6d0bdb617025a17b8bcd28a77e5c28"><div class="ttname"><a href="classProtocolState.html#aed6d0bdb617025a17b8bcd28a77e5c28">ProtocolState::Shutdown</a></div><div class="ttdeci">void Shutdown()</div><div class="ttdef"><b>Definition:</b> <a href="ProtocolState_8cpp_source.html#l00090">ProtocolState.cpp:90</a></div></div>
 <div class="ttc" id="classFrameParser_html"><div class="ttname"><a href="classFrameParser.html">FrameParser</a></div><div class="ttdef"><b>Definition:</b> <a href="FrameParser_8h_source.html#l00044">FrameParser.h:44</a></div></div>
 <div class="ttc" id="classProtocolState_html"><div class="ttname"><a href="classProtocolState.html">ProtocolState</a></div><div class="ttdef"><b>Definition:</b> <a href="ProtocolState_8h_source.html#l00049">ProtocolState.h:49</a></div></div>
@@ -185,7 +184,6 @@ $(document).ready(function(){initNavTree('ProtocolState_8h_source.html','');});
 <div class="ttc" id="classProtocolState_html_a12b612872570fcfb827e9244ba858fcb"><div class="ttname"><a href="classProtocolState.html#a12b612872570fcfb827e9244ba858fcb">ProtocolState::Start</a></div><div class="ttdeci">void Start()</div><div class="ttdef"><b>Definition:</b> <a href="ProtocolState_8cpp_source.html#l00074">ProtocolState.cpp:74</a></div></div>
 <div class="ttc" id="classProtocolState_html_aa24d8bee71b4c2514742b5acf44d39eb"><div class="ttname"><a href="classProtocolState.html#aa24d8bee71b4c2514742b5acf44d39eb">ProtocolState::TriggerNextHDLCFrame</a></div><div class="ttdeci">void TriggerNextHDLCFrame()</div><div class="ttdef"><b>Definition:</b> <a href="ProtocolState_8cpp_source.html#l00115">ProtocolState.cpp:115</a></div></div>
 <div class="ttc" id="Frame_8h_html"><div class="ttname"><a href="Frame_8h.html">Frame.h</a></div><div class="ttdoc">Copyright (c) 2016, Florian Evers, florian-evers@gmx.de All rights reserved. </div></div>
-<div class="ttc" id="classProtocolState_html_a0ab9c526c60deafa4eaaa507860c0b2b"><div class="ttname"><a href="classProtocolState.html#a0ab9c526c60deafa4eaaa507860c0b2b">ProtocolState::IsFlowSuspended</a></div><div class="ttdeci">bool IsFlowSuspended() const </div><div class="ttdef"><b>Definition:</b> <a href="ProtocolState_8h_source.html#l00064">ProtocolState.h:64</a></div></div>
 <div class="ttc" id="classProtocolState_html_ab3aa01c2380aabf86219632c33d22312"><div class="ttname"><a href="classProtocolState.html#ab3aa01c2380aabf86219632c33d22312">ProtocolState::ProtocolState</a></div><div class="ttdeci">ProtocolState(std::shared_ptr&lt; ISerialPortHandler &gt; a_SerialPortHandler, boost::asio::io_service &amp;a_IOService)</div><div class="ttdef"><b>Definition:</b> <a href="ProtocolState_8cpp_source.html#l00042">ProtocolState.cpp:42</a></div></div>
 <div class="ttc" id="FrameParser_8h_html"><div class="ttname"><a href="FrameParser_8h.html">FrameParser.h</a></div><div class="ttdoc">Copyright (c) 2016, Florian Evers, florian-evers@gmx.de All rights reserved. </div></div>
 <div class="ttc" id="classProtocolState_html_a4a05b8126b7d3e716d870395cbe9d5c1"><div class="ttname"><a href="classProtocolState.html#a4a05b8126b7d3e716d870395cbe9d5c1">ProtocolState::SendPayload</a></div><div class="ttdeci">void SendPayload(const std::vector&lt; unsigned char &gt; &amp;a_Payload, bool a_bReliable)</div><div class="ttdef"><b>Definition:</b> <a href="ProtocolState_8cpp_source.html#l00095">ProtocolState.cpp:95</a></div></div>

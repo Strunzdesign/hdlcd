@@ -160,7 +160,7 @@ $(document).ready(function(){initNavTree('SerialPortHandler_8cpp_source.html',''
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
 <div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="classSerialPortHandler.html#a6696d0023c77dba03c9c5f6ca475b005">   73</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classSerialPortHandler.html#a6696d0023c77dba03c9c5f6ca475b005">SerialPortHandler::PropagateSerialPortState</a>() {</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    ForEachClient([<span class="keyword">this</span>](std::shared_ptr&lt;ClientHandler&gt; a_ClientHandler) {</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        a_ClientHandler-&gt;UpdateSerialPortState(m_ProtocolState-&gt;IsAlive(), m_ProtocolState-&gt;IsFlowSuspended(), m_SerialPortLock.<a class="code" href="classSerialPortLock.html#abd309cceb40ff5823cdb4955ac971300">GetLockHolders</a>());</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        a_ClientHandler-&gt;UpdateSerialPortState(m_ProtocolState-&gt;IsAlive(), m_SerialPortLock.<a class="code" href="classSerialPortLock.html#abd309cceb40ff5823cdb4955ac971300">GetLockHolders</a>());</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    });</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;}</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>

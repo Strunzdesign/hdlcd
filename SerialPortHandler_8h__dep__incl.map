@@ -1,6 +1,6 @@
 <map id="src/hdlcd/SerialPort/SerialPortHandler.h" name="src/hdlcd/SerialPort/SerialPortHandler.h">
 <area shape="rect" id="node2" href="$ClientHandler_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="5,95,185,136"/>
-<area shape="rect" id="node3" href="$LockGuard_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="209,95,389,136"/>
+<area shape="rect" id="node3" href="$LockGuard_8cpp.html" title="This file contains the implementation of class LockGuard. " alt="" coords="209,95,389,136"/>
 <area shape="rect" id="node4" href="$SerialPortHandler_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="413,95,577,136"/>
 <area shape="rect" id="node5" href="$SerialPortHandlerCollection_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="602,95,829,136"/>
 </map>

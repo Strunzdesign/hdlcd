@@ -112,32 +112,46 @@ $(document).ready(function(){initNavTree('classLockGuard.html','');});
 </div><!--header-->
 <div class="contents">
 
+<p>Class <a class="el" href="classLockGuard.html" title="Class LockGuard. ">LockGuard</a>.  
+ <a href="classLockGuard.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="LockGuard_8h_source.html">LockGuard.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:afbff32acb779d179fc34ae41627f41bd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLockGuard.html#afbff32acb779d179fc34ae41627f41bd">LockGuard</a> ()</td></tr>
+<tr class="memdesc:afbff32acb779d179fc34ae41627f41bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">The constructor of <a class="el" href="classLockGuard.html" title="Class LockGuard. ">LockGuard</a> objects.  <a href="#afbff32acb779d179fc34ae41627f41bd">More...</a><br /></td></tr>
 <tr class="separator:afbff32acb779d179fc34ae41627f41bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf9fd2e90ecd3b193b6292989a644c2c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLockGuard.html#acf9fd2e90ecd3b193b6292989a644c2c">~LockGuard</a> ()</td></tr>
+<tr class="memdesc:acf9fd2e90ecd3b193b6292989a644c2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The destructor of <a class="el" href="classLockGuard.html" title="Class LockGuard. ">LockGuard</a> objects.  <a href="#acf9fd2e90ecd3b193b6292989a644c2c">More...</a><br /></td></tr>
 <tr class="separator:acf9fd2e90ecd3b193b6292989a644c2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abf473ba70cb354517bdb5b2100772f83"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLockGuard.html#abf473ba70cb354517bdb5b2100772f83">Init</a> (std::shared_ptr&lt; <a class="el" href="classSerialPortHandler.html">SerialPortHandler</a> &gt; a_SerialPortHandler)</td></tr>
+<tr class="memdesc:abf473ba70cb354517bdb5b2100772f83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializer method to register subsequent objects.  <a href="#abf473ba70cb354517bdb5b2100772f83">More...</a><br /></td></tr>
 <tr class="separator:abf473ba70cb354517bdb5b2100772f83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b542624ed5a46ee455b3bdd95e23cf9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLockGuard.html#a1b542624ed5a46ee455b3bdd95e23cf9">AcquireLock</a> ()</td></tr>
+<tr class="memdesc:a1b542624ed5a46ee455b3bdd95e23cf9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to aquire a lock.  <a href="#a1b542624ed5a46ee455b3bdd95e23cf9">More...</a><br /></td></tr>
 <tr class="separator:a1b542624ed5a46ee455b3bdd95e23cf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a044e85555e2ec233c3610a09d0443b53"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLockGuard.html#a044e85555e2ec233c3610a09d0443b53">ReleaseLock</a> ()</td></tr>
+<tr class="memdesc:a044e85555e2ec233c3610a09d0443b53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to release a lock.  <a href="#a044e85555e2ec233c3610a09d0443b53">More...</a><br /></td></tr>
 <tr class="separator:a044e85555e2ec233c3610a09d0443b53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8951b29b6f56de4e38821bfe98a06cf7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLockGuard.html#a8951b29b6f56de4e38821bfe98a06cf7">UpdateSerialPortState</a> (size_t a_LockHolders)</td></tr>
+<tr class="memdesc:a8951b29b6f56de4e38821bfe98a06cf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update the effective lock state of the related serial port.  <a href="#a8951b29b6f56de4e38821bfe98a06cf7">More...</a><br /></td></tr>
 <tr class="separator:a8951b29b6f56de4e38821bfe98a06cf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad64b519319a2fb4846419cc8634cb141"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLockGuard.html#ad64b519319a2fb4846419cc8634cb141">IsLocked</a> () const </td></tr>
+<tr class="memdesc:ad64b519319a2fb4846419cc8634cb141"><td class="mdescLeft">&#160;</td><td class="mdescRight">Query the lock state of the related serial device.  <a href="#ad64b519319a2fb4846419cc8634cb141">More...</a><br /></td></tr>
 <tr class="separator:ad64b519319a2fb4846419cc8634cb141"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e81d11c5a00a0ed432bd52a621e559b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLockGuard.html#a7e81d11c5a00a0ed432bd52a621e559b">IsLockedBySelf</a> () const </td></tr>
+<tr class="memdesc:a7e81d11c5a00a0ed432bd52a621e559b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Query whether the serial device is currently "locked" by the responsible <a class="el" href="classAccessClient.html" title="Class AccessClient. ">AccessClient</a> entity.  <a href="#a7e81d11c5a00a0ed432bd52a621e559b">More...</a><br /></td></tr>
 <tr class="separator:a7e81d11c5a00a0ed432bd52a621e559b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a034a917b15cbf520adda465fab890d4d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLockGuard.html#a034a917b15cbf520adda465fab890d4d">IsLockedByOthers</a> () const </td></tr>
+<tr class="memdesc:a034a917b15cbf520adda465fab890d4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Query whether the serial device is currently "locked" by at least one other <a class="el" href="classAccessClient.html" title="Class AccessClient. ">AccessClient</a> entity.  <a href="#a034a917b15cbf520adda465fab890d4d">More...</a><br /></td></tr>
 <tr class="separator:a034a917b15cbf520adda465fab890d4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="LockGuard_8h_source.html#l00028">28</a> of file <a class="el" href="LockGuard_8h_source.html">LockGuard.h</a>.</p>
+<div class="textblock"><p>Class <a class="el" href="classLockGuard.html" title="Class LockGuard. ">LockGuard</a>. </p>
+<p>This guard object tracks whether a related device attached via serial connections is currently "locked" / suspended or "unlocked" / resumed </p>
+
+<p>Definition at line <a class="el" href="LockGuard_8h_source.html#l00035">35</a> of file <a class="el" href="LockGuard_8h_source.html">LockGuard.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="afbff32acb779d179fc34ae41627f41bd"></a>
 <div class="memitem">
@@ -152,7 +166,10 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="LockGuard_8cpp_source.html#l00025">25</a> of file <a class="el" href="LockGuard_8cpp_source.html">LockGuard.cpp</a>.</p>
+<p>The constructor of <a class="el" href="classLockGuard.html" title="Class LockGuard. ">LockGuard</a> objects. </p>
+<p>On creation, the serial port is "unlocked" / resumed </p>
+
+<p>Definition at line <a class="el" href="LockGuard_8cpp_source.html#l00031">31</a> of file <a class="el" href="LockGuard_8cpp_source.html">LockGuard.cpp</a>.</p>
 
 </div>
 </div>
@@ -169,7 +186,10 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="LockGuard_8cpp_source.html#l00032">32</a> of file <a class="el" href="LockGuard_8cpp_source.html">LockGuard.cpp</a>.</p>
+<p>The destructor of <a class="el" href="classLockGuard.html" title="Class LockGuard. ">LockGuard</a> objects. </p>
+<p>Held locks are automatically released on deletion </p>
+
+<p>Definition at line <a class="el" href="LockGuard_8cpp_source.html#l00043">43</a> of file <a class="el" href="LockGuard_8cpp_source.html">LockGuard.cpp</a>.</p>
 
 </div>
 </div>
@@ -187,7 +207,10 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="LockGuard_8cpp_source.html#l00045">45</a> of file <a class="el" href="LockGuard_8cpp_source.html">LockGuard.cpp</a>.</p>
+<p>Method to aquire a lock. </p>
+<p>Each <a class="el" href="classClientAcceptor.html" title="Class ClientAcceptor. ">ClientAcceptor</a> can aquired a lock only once, subsequent calls have no impact. The serial port handler has a lock counter, so only the first lock attempt will suspend the serial port. </p>
+
+<p>Definition at line <a class="el" href="LockGuard_8cpp_source.html#l00067">67</a> of file <a class="el" href="LockGuard_8cpp_source.html">LockGuard.cpp</a>.</p>
 
 </div>
 </div>
@@ -205,7 +228,16 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="LockGuard_8cpp_source.html#l00038">38</a> of file <a class="el" href="LockGuard_8cpp_source.html">LockGuard.cpp</a>.</p>
+<p>Initializer method to register subsequent objects. </p>
+<p>Registers the serial port handler object that is not available yet on construction</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a_SerialPortHandler</td><td>the serial port handler object </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="LockGuard_8cpp_source.html#l00055">55</a> of file <a class="el" href="LockGuard_8cpp_source.html">LockGuard.cpp</a>.</p>
 
 </div>
 </div>
@@ -230,7 +262,11 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="LockGuard_8h_source.html#l00041">41</a> of file <a class="el" href="LockGuard_8h_source.html">LockGuard.h</a>.</p>
+<p>Query the lock state of the related serial device. </p>
+<p>Query the lock state of the related serial device</p>
+<dl class="section return"><dt>Returns</dt><dd>bool indicates whether the serial port is currently "locked" / suspended or "unlocked" / resumed </dd></dl>
+
+<p>Definition at line <a class="el" href="LockGuard_8h_source.html#l00056">56</a> of file <a class="el" href="LockGuard_8h_source.html">LockGuard.h</a>.</p>
 
 </div>
 </div>
@@ -255,14 +291,18 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="LockGuard_8h_source.html#l00043">43</a> of file <a class="el" href="LockGuard_8h_source.html">LockGuard.h</a>.</p>
+<p>Query whether the serial device is currently "locked" by at least one other <a class="el" href="classAccessClient.html" title="Class AccessClient. ">AccessClient</a> entity. </p>
+<p>Query whether the serial device is currently "locked" by at least one other <a class="el" href="classAccessClient.html" title="Class AccessClient. ">AccessClient</a> entity</p>
+<dl class="section return"><dt>Returns</dt><dd>bool indicates whether the serial port is currently "locked" by at least one other <a class="el" href="classAccessClient.html" title="Class AccessClient. ">AccessClient</a> entity </dd></dl>
+
+<p>Definition at line <a class="el" href="LockGuard_8h_source.html#l00072">72</a> of file <a class="el" href="LockGuard_8h_source.html">LockGuard.h</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classLockGuard_a034a917b15cbf520adda465fab890d4d_icgraph.png" border="0" usemap="#classLockGuard_a034a917b15cbf520adda465fab890d4d_icgraph" alt=""/></div>
 <map name="classLockGuard_a034a917b15cbf520adda465fab890d4d_icgraph" id="classLockGuard_a034a917b15cbf520adda465fab890d4d_icgraph">
-<area shape="rect" id="node2" href="classClientHandler.html#a198c8ea4a91de77059064c2389fa83ef" title="ClientHandler::UpdateSerial\lPortState" alt="" coords="267,5,463,47"/>
+<area shape="rect" id="node2" href="classClientHandler.html#a2f23119d5193011130053342d11fef7f" title="ClientHandler::UpdateSerial\lPortState" alt="" coords="267,5,463,47"/>
 </map>
 </div>
 </p>
@@ -290,14 +330,18 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="LockGuard_8h_source.html#l00042">42</a> of file <a class="el" href="LockGuard_8h_source.html">LockGuard.h</a>.</p>
+<p>Query whether the serial device is currently "locked" by the responsible <a class="el" href="classAccessClient.html" title="Class AccessClient. ">AccessClient</a> entity. </p>
+<p>Query whether the serial device is currently locked" by the responsible <a class="el" href="classAccessClient.html" title="Class AccessClient. ">AccessClient</a> entity</p>
+<dl class="section return"><dt>Returns</dt><dd>bool indicates whether the serial port is currently "locked" by the responsible <a class="el" href="classAccessClient.html" title="Class AccessClient. ">AccessClient</a> entity </dd></dl>
+
+<p>Definition at line <a class="el" href="LockGuard_8h_source.html#l00064">64</a> of file <a class="el" href="LockGuard_8h_source.html">LockGuard.h</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classLockGuard_a7e81d11c5a00a0ed432bd52a621e559b_icgraph.png" border="0" usemap="#classLockGuard_a7e81d11c5a00a0ed432bd52a621e559b_icgraph" alt=""/></div>
 <map name="classLockGuard_a7e81d11c5a00a0ed432bd52a621e559b_icgraph" id="classLockGuard_a7e81d11c5a00a0ed432bd52a621e559b_icgraph">
-<area shape="rect" id="node2" href="classClientHandler.html#a198c8ea4a91de77059064c2389fa83ef" title="ClientHandler::UpdateSerial\lPortState" alt="" coords="248,5,444,47"/>
+<area shape="rect" id="node2" href="classClientHandler.html#a2f23119d5193011130053342d11fef7f" title="ClientHandler::UpdateSerial\lPortState" alt="" coords="248,5,444,47"/>
 </map>
 </div>
 </p>
@@ -317,7 +361,10 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="LockGuard_8cpp_source.html#l00053">53</a> of file <a class="el" href="LockGuard_8cpp_source.html">LockGuard.cpp</a>.</p>
+<p>Method to release a lock. </p>
+<p>Each <a class="el" href="classClientAcceptor.html" title="Class ClientAcceptor. ">ClientAcceptor</a> can release a held lock only once, subsequent calls have no impact. The serial port handler has a lock counter, so it may resume after this call, but this happens only if this was the last lock. </p>
+
+<p>Definition at line <a class="el" href="LockGuard_8cpp_source.html#l00080">80</a> of file <a class="el" href="LockGuard_8cpp_source.html">LockGuard.cpp</a>.</p>
 
 </div>
 </div>
@@ -335,14 +382,24 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="LockGuard_8cpp_source.html#l00061">61</a> of file <a class="el" href="LockGuard_8cpp_source.html">LockGuard.cpp</a>.</p>
+<p>Update the effective lock state of the related serial port. </p>
+<p>This method gets the amount of locks regarding the related serial port. Thus, this entity is able to derive whether subsequent locks by other entities exist.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a_LockHolders</td><td>the amount of locks that currently force the related serial port to be suspended </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>bool indicates whether the internal state of this object changed </dd></dl>
+
+<p>Definition at line <a class="el" href="LockGuard_8cpp_source.html#l00096">96</a> of file <a class="el" href="LockGuard_8cpp_source.html">LockGuard.cpp</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classLockGuard_a8951b29b6f56de4e38821bfe98a06cf7_icgraph.png" border="0" usemap="#classLockGuard_a8951b29b6f56de4e38821bfe98a06cf7_icgraph" alt=""/></div>
 <map name="classLockGuard_a8951b29b6f56de4e38821bfe98a06cf7_icgraph" id="classLockGuard_a8951b29b6f56de4e38821bfe98a06cf7_icgraph">
-<area shape="rect" id="node2" href="classClientHandler.html#a198c8ea4a91de77059064c2389fa83ef" title="ClientHandler::UpdateSerial\lPortState" alt="" coords="259,5,455,47"/>
+<area shape="rect" id="node2" href="classClientHandler.html#a2f23119d5193011130053342d11fef7f" title="ClientHandler::UpdateSerial\lPortState" alt="" coords="259,5,455,47"/>
 </map>
 </div>
 </p>

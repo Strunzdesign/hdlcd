@@ -1,0 +1,8 @@
+<map id="ClientHandler::UpdateSerialPortState" name="ClientHandler::UpdateSerialPortState">
+<area shape="rect" id="node2" href="$classAliveGuard.html#a6247939379fe83b7007a8040e844ca0a" title="Change the serial port state. " alt="" coords="267,5,445,47"/>
+<area shape="rect" id="node3" href="$classLockGuard.html#a8951b29b6f56de4e38821bfe98a06cf7" title="Update the effective lock state of the related serial port. " alt="" coords="253,71,459,112"/>
+<area shape="rect" id="node4" href="$classPacketCtrl.html#aec093a6be6f9ba076ce851593d3366f7" title="PacketCtrl::CreatePortStatus\lResponse" alt="" coords="255,136,457,177"/>
+<area shape="rect" id="node5" href="$classAliveGuard.html#ac9beb654a0f3057bbd38e2ad3ae2c4c3" title="Query whether the related serial port is currently alive. " alt="" coords="287,202,425,229"/>
+<area shape="rect" id="node6" href="$classLockGuard.html#a034a917b15cbf520adda465fab890d4d" title="Query whether the serial device is currently &quot;locked&quot; by at least one other AccessClient entity..." alt="" coords="249,253,463,279"/>
+<area shape="rect" id="node7" href="$classLockGuard.html#a7e81d11c5a00a0ed432bd52a621e559b" title="Query whether the serial device is currently &quot;locked&quot; by the responsible AccessClient entity..." alt="" coords="259,303,453,330"/>
+</map>

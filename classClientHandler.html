@@ -132,8 +132,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a202c875fbf38e4a52975f6c173f78127"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a7485d39ceb3661a5cbf6e466c6ce2d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClientHandler.html#a1a7485d39ceb3661a5cbf6e466c6ce2d">DeliverBufferToClient</a> (<a class="el" href="BufferType_8h.html#a97590998fcd6ffacae36369e5bf24d89">E_BUFFER_TYPE</a> a_eBufferType, const std::vector&lt; unsigned char &gt; &amp;a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent)</td></tr>
 <tr class="separator:a1a7485d39ceb3661a5cbf6e466c6ce2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a198c8ea4a91de77059064c2389fa83ef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClientHandler.html#a198c8ea4a91de77059064c2389fa83ef">UpdateSerialPortState</a> (bool a_bAlive, bool a_bFlowControl, size_t a_LockHolders)</td></tr>
-<tr class="separator:a198c8ea4a91de77059064c2389fa83ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f23119d5193011130053342d11fef7f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClientHandler.html#a2f23119d5193011130053342d11fef7f">UpdateSerialPortState</a> (bool a_bAlive, size_t a_LockHolders)</td></tr>
+<tr class="separator:a2f23119d5193011130053342d11fef7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade63a0ed7ccce5c50c3a88c94786e238"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClientHandler.html#ade63a0ed7ccce5c50c3a88c94786e238">QueryForPayload</a> (bool a_bQueryReliable, bool a_bQueryUnreliable)</td></tr>
 <tr class="separator:ade63a0ed7ccce5c50c3a88c94786e238"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6911bc9b0b7454515642556567bbcefa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClientHandler.html#a6911bc9b0b7454515642556567bbcefa">Start</a> (std::shared_ptr&lt; <a class="el" href="classSerialPortHandlerCollection.html">SerialPortHandlerCollection</a> &gt; a_SerialPortHandlerCollection)</td></tr>
@@ -143,7 +143,7 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="ClientHandler_8h_source.html#l00041">41</a> of file <a class="el" href="ClientHandler_8h_source.html">ClientHandler.h</a>.</p>
+<p>Definition at line <a class="el" href="ClientHandler_8h_source.html#l00040">40</a> of file <a class="el" href="ClientHandler_8h_source.html">ClientHandler.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="af33c35e7eeeb6cebb0c8eec02e17fc70"></a>
 <div class="memitem">
@@ -330,7 +330,7 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a class="anchor" id="a198c8ea4a91de77059064c2389fa83ef"></a>
+<a class="anchor" id="a2f23119d5193011130053342d11fef7f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -339,12 +339,6 @@ Here is the caller graph for this function:</div>
           <td>(</td>
           <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>a_bAlive</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>a_bFlowControl</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -365,14 +359,14 @@ Here is the caller graph for this function:</div>
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classClientHandler_a198c8ea4a91de77059064c2389fa83ef_cgraph.png" border="0" usemap="#classClientHandler_a198c8ea4a91de77059064c2389fa83ef_cgraph" alt=""/></div>
-<map name="classClientHandler_a198c8ea4a91de77059064c2389fa83ef_cgraph" id="classClientHandler_a198c8ea4a91de77059064c2389fa83ef_cgraph">
+<div class="center"><img src="classClientHandler_a2f23119d5193011130053342d11fef7f_cgraph.png" border="0" usemap="#classClientHandler_a2f23119d5193011130053342d11fef7f_cgraph" alt=""/></div>
+<map name="classClientHandler_a2f23119d5193011130053342d11fef7f_cgraph" id="classClientHandler_a2f23119d5193011130053342d11fef7f_cgraph">
 <area shape="rect" id="node2" href="classAliveGuard.html#a6247939379fe83b7007a8040e844ca0a" title="Change the serial port state. " alt="" coords="267,5,445,47"/>
-<area shape="rect" id="node3" href="classLockGuard.html#a8951b29b6f56de4e38821bfe98a06cf7" title="LockGuard::UpdateSerialPort\lState" alt="" coords="253,71,459,112"/>
+<area shape="rect" id="node3" href="classLockGuard.html#a8951b29b6f56de4e38821bfe98a06cf7" title="Update the effective lock state of the related serial port. " alt="" coords="253,71,459,112"/>
 <area shape="rect" id="node4" href="classPacketCtrl.html#aec093a6be6f9ba076ce851593d3366f7" title="PacketCtrl::CreatePortStatus\lResponse" alt="" coords="255,136,457,177"/>
 <area shape="rect" id="node5" href="classAliveGuard.html#ac9beb654a0f3057bbd38e2ad3ae2c4c3" title="Query whether the related serial port is currently alive. " alt="" coords="287,202,425,229"/>
-<area shape="rect" id="node6" href="classLockGuard.html#a034a917b15cbf520adda465fab890d4d" title="LockGuard::IsLockedByOthers" alt="" coords="249,253,463,279"/>
-<area shape="rect" id="node7" href="classLockGuard.html#a7e81d11c5a00a0ed432bd52a621e559b" title="LockGuard::IsLockedBySelf" alt="" coords="259,303,453,330"/>
+<area shape="rect" id="node6" href="classLockGuard.html#a034a917b15cbf520adda465fab890d4d" title="Query whether the serial device is currently &quot;locked&quot; by at least one other AccessClient entity..." alt="" coords="249,253,463,279"/>
+<area shape="rect" id="node7" href="classLockGuard.html#a7e81d11c5a00a0ed432bd52a621e559b" title="Query whether the serial device is currently &quot;locked&quot; by the responsible AccessClient entity..." alt="" coords="259,303,453,330"/>
 </map>
 </div>
 </p>
