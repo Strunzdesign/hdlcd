@@ -2,7 +2,7 @@
 <area shape="rect" id="node2" href="$ClientHandlerCollection_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="5,95,187,121"/>
 <area shape="rect" id="node5" href="$ClientHandler_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="577,95,695,121"/>
 <area shape="rect" id="node11" href="$AliveGuard_8h.html" title="This file contains the header declaration of class AliveGuard. " alt="" coords="185,177,287,203"/>
-<area shape="rect" id="node12" href="$FlowGuard_8h.html" title="This file contains the header declaration of class FlowGuard. " alt="" coords="312,177,413,203"/>
+<area shape="rect" id="node12" href="$FlowGuard_8h.html" title="FlowGuard.h" alt="" coords="312,177,413,203"/>
 <area shape="rect" id="node13" href="$LockGuard_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="263,259,366,285"/>
 <area shape="rect" id="node14" href="$BufferType_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="437,169,573,211"/>
 <area shape="rect" id="node15" href="$PacketEndpoint_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="749,177,949,203"/>

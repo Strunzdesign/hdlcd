@@ -14,7 +14,6 @@ var hierarchy =
       [ "SerialPortHandler", "classSerialPortHandler.html", null ],
       [ "SerialPortHandlerCollection", "classSerialPortHandlerCollection.html", null ]
     ] ],
-    [ "FlowGuard", "classFlowGuard.html", null ],
     [ "Frame", "classFrame.html", null ],
     [ "FrameGenerator", "classFrameGenerator.html", null ],
     [ "FrameParser", "classFrameParser.html", null ],

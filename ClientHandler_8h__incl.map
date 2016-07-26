@@ -1,6 +1,6 @@
 <map id="src/hdlcd/AccessProtocol/ClientHandler.h" name="src/hdlcd/AccessProtocol/ClientHandler.h">
 <area shape="rect" id="node8" href="$AliveGuard_8h.html" title="This file contains the header declaration of class AliveGuard. " alt="" coords="686,102,789,129"/>
-<area shape="rect" id="node9" href="$FlowGuard_8h.html" title="This file contains the header declaration of class FlowGuard. " alt="" coords="814,102,915,129"/>
+<area shape="rect" id="node9" href="$FlowGuard_8h.html" title="FlowGuard.h" alt="" coords="814,102,915,129"/>
 <area shape="rect" id="node10" href="$LockGuard_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="37,184,140,211"/>
 <area shape="rect" id="node11" href="$BufferType_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="939,95,1075,136"/>
 <area shape="rect" id="node12" href="$PacketEndpoint_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="279,102,479,129"/>

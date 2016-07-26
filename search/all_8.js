@@ -6,7 +6,7 @@ var searchData=
   ['isempty',['IsEmpty',['../classFrame.html#a2a5f62465222f252bf8c0098e453d133',1,'Frame']]],
   ['iserialporthandler',['ISerialPortHandler',['../classISerialPortHandler.html',1,'']]],
   ['iserialporthandler_2eh',['ISerialPortHandler.h',['../ISerialPortHandler_8h.html',1,'']]],
-  ['isflowsuspended',['IsFlowSuspended',['../classFlowGuard.html#a50ec08a3b5497d03d50db9726378a11d',1,'FlowGuard::IsFlowSuspended()'],['../classProtocolState.html#a0ab9c526c60deafa4eaaa507860c0b2b',1,'ProtocolState::IsFlowSuspended()']]],
+  ['isflowsuspended',['IsFlowSuspended',['../classProtocolState.html#a0ab9c526c60deafa4eaaa507860c0b2b',1,'ProtocolState']]],
   ['isiframe',['IsIFrame',['../classFrame.html#ac82e03633b6cd38ced564aa456e0f2d4',1,'Frame']]],
   ['islocked',['IsLocked',['../classLockGuard.html#ad64b519319a2fb4846419cc8634cb141',1,'LockGuard']]],
   ['islockedbyothers',['IsLockedByOthers',['../classLockGuard.html#a034a917b15cbf520adda465fab890d4d',1,'LockGuard']]],

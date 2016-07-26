@@ -8,7 +8,6 @@ var annotated_dup =
     [ "ClientHandler", "classClientHandler.html", "classClientHandler" ],
     [ "ClientHandlerCollection", "classClientHandlerCollection.html", "classClientHandlerCollection" ],
     [ "DataSource", "classDataSource.html", "classDataSource" ],
-    [ "FlowGuard", "classFlowGuard.html", "classFlowGuard" ],
     [ "Frame", "classFrame.html", "classFrame" ],
     [ "FrameGenerator", "classFrameGenerator.html", "classFrameGenerator" ],
     [ "FrameParser", "classFrameParser.html", "classFrameParser" ],

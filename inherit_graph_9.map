@@ -1,3 +1,9 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classFrameParser.html" title="FrameParser" alt="" coords="5,5,109,32"/>
+<area shape="rect" id="node2" href="$classAliveState.html" title="AliveState" alt="" coords="291,5,377,32"/>
+<area shape="rect" id="node3" href="$classClientHandler.html" title="ClientHandler" alt="" coords="280,56,388,83"/>
+<area shape="rect" id="node4" href="$classPacketEndpoint.html" title="PacketEndpoint" alt="" coords="273,107,395,133"/>
+<area shape="rect" id="node5" href="$classProtocolState.html" title="ProtocolState" alt="" coords="281,157,387,184"/>
+<area shape="rect" id="node6" href="$classSerialPortHandler.html" title="SerialPortHandler" alt="" coords="267,259,401,285"/>
+<area shape="rect" id="node7" href="$classSerialPortHandlerCollection.html" title="SerialPortHandlerCollection" alt="" coords="236,208,432,235"/>
+<area shape="rect" id="node8" href="$classISerialPortHandler.html" title="ISerialPortHandler" alt="" coords="27,259,166,285"/>
 </map>
