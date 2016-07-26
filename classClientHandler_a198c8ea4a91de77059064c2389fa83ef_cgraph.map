@@ -1,5 +1,5 @@
 <map id="ClientHandler::UpdateSerialPortState" name="ClientHandler::UpdateSerialPortState">
-<area shape="rect" id="node2" href="$classFlowGuard.html#a07303c077604a58ab77ad3a3ee1959e1" title="FlowGuard::UpdateSerialPort\lState" alt="" coords="254,5,458,47"/>
+<area shape="rect" id="node2" href="$classFlowGuard.html#a07303c077604a58ab77ad3a3ee1959e1" title="Influende the suspend / resume state of a serial port. " alt="" coords="254,5,458,47"/>
 <area shape="rect" id="node3" href="$classAliveGuard.html#a6247939379fe83b7007a8040e844ca0a" title="Change the serial port state. " alt="" coords="267,71,445,112"/>
 <area shape="rect" id="node4" href="$classLockGuard.html#a8951b29b6f56de4e38821bfe98a06cf7" title="LockGuard::UpdateSerialPort\lState" alt="" coords="253,136,459,177"/>
 <area shape="rect" id="node5" href="$classPacketCtrl.html#aec093a6be6f9ba076ce851593d3366f7" title="PacketCtrl::CreatePortStatus\lResponse" alt="" coords="255,201,457,243"/>

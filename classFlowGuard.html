@@ -112,20 +112,28 @@ $(document).ready(function(){initNavTree('classFlowGuard.html','');});
 </div><!--header-->
 <div class="contents">
 
+<p>Class <a class="el" href="classFlowGuard.html" title="Class FlowGuard. ">FlowGuard</a>.  
+ <a href="classFlowGuard.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="FlowGuard_8h_source.html">FlowGuard.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a2a49472a6b1de88a75e60675b284cb8c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFlowGuard.html#a2a49472a6b1de88a75e60675b284cb8c">FlowGuard</a> ()</td></tr>
+<tr class="memdesc:a2a49472a6b1de88a75e60675b284cb8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The constructor of class <a class="el" href="classFlowGuard.html" title="Class FlowGuard. ">FlowGuard</a>.  <a href="#a2a49472a6b1de88a75e60675b284cb8c">More...</a><br /></td></tr>
 <tr class="separator:a2a49472a6b1de88a75e60675b284cb8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a07303c077604a58ab77ad3a3ee1959e1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFlowGuard.html#a07303c077604a58ab77ad3a3ee1959e1">UpdateSerialPortState</a> (bool a_bFlowSuspended)</td></tr>
+<tr class="memdesc:a07303c077604a58ab77ad3a3ee1959e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Influende the suspend / resume state of a serial port.  <a href="#a07303c077604a58ab77ad3a3ee1959e1">More...</a><br /></td></tr>
 <tr class="separator:a07303c077604a58ab77ad3a3ee1959e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a50ec08a3b5497d03d50db9726378a11d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFlowGuard.html#a50ec08a3b5497d03d50db9726378a11d">IsFlowSuspended</a> () const </td></tr>
+<tr class="memdesc:a50ec08a3b5497d03d50db9726378a11d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Query the suspend / resume state of a serial port.  <a href="#a50ec08a3b5497d03d50db9726378a11d">More...</a><br /></td></tr>
 <tr class="separator:a50ec08a3b5497d03d50db9726378a11d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="FlowGuard_8h_source.html#l00025">25</a> of file <a class="el" href="FlowGuard_8h_source.html">FlowGuard.h</a>.</p>
+<div class="textblock"><p>Class <a class="el" href="classFlowGuard.html" title="Class FlowGuard. ">FlowGuard</a>. </p>
+<p>This guard object tracks whether a device attached via serial connections is suspended, i.e., one or more clients issued a "lock" on it to suspend exchange of HDLC PDUs. </p>
+
+<p>Definition at line <a class="el" href="FlowGuard_8h_source.html#l00033">33</a> of file <a class="el" href="FlowGuard_8h_source.html">FlowGuard.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a2a49472a6b1de88a75e60675b284cb8c"></a>
 <div class="memitem">
@@ -148,7 +156,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="FlowGuard_8h_source.html#l00028">28</a> of file <a class="el" href="FlowGuard_8h_source.html">FlowGuard.h</a>.</p>
+<p>The constructor of class <a class="el" href="classFlowGuard.html" title="Class FlowGuard. ">FlowGuard</a>. </p>
+<p>On creation, a serial port is considered "unlocked" / resumed. </p>
+
+<p>Definition at line <a class="el" href="FlowGuard_8h_source.html#l00039">39</a> of file <a class="el" href="FlowGuard_8h_source.html">FlowGuard.h</a>.</p>
 
 </div>
 </div>
@@ -174,7 +185,11 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="FlowGuard_8h_source.html#l00037">37</a> of file <a class="el" href="FlowGuard_8h_source.html">FlowGuard.h</a>.</p>
+<p>Query the suspend / resume state of a serial port. </p>
+<p>Query the suspend / resume state of a serial port</p>
+<dl class="section return"><dt>Returns</dt><dd>bool to indicate whether the data flow is currently suspended or resumed </dd></dl>
+
+<p>Definition at line <a class="el" href="FlowGuard_8h_source.html#l00058">58</a> of file <a class="el" href="FlowGuard_8h_source.html">FlowGuard.h</a>.</p>
 
 </div>
 </div>
@@ -200,7 +215,16 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="FlowGuard_8h_source.html#l00032">32</a> of file <a class="el" href="FlowGuard_8h_source.html">FlowGuard.h</a>.</p>
+<p>Influende the suspend / resume state of a serial port. </p>
+<p>Influende the suspend / resume state of a serial port</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a_bFlowSuspended</td><td>the new state of the related serial device </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="FlowGuard_8h_source.html#l00048">48</a> of file <a class="el" href="FlowGuard_8h_source.html">FlowGuard.h</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
