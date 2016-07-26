@@ -1,6 +1,8 @@
 /**
- * \file BaudRate.h
- * \brief 
+ * \file      BaudRate.h
+ * \brief     This file contains the header declaration of class BaudRate
+ * \author    Florian Evers, florian-evers@gmx.de
+ * \copyright GNU Public License version 3.
  *
  * The hdlc-tools implement the HDLC protocol to easily talk to devices connected via serial communications
  * Copyright (C) 2016  Florian Evers, florian-evers@gmx.de
@@ -22,9 +24,23 @@
 #ifndef BAUD_RATE_H
 #define BAUD_RATE_H
 
+/*! \class BaudRate
+ *  \brief Class BaudRate
+ * 
+ *  This class is responsible for selecting and iterating through multiple pre-defined baud rate settings
+ */
 class BaudRate {
 public:
+    /*! \brief The constructor of BaudRate objects
+     * 
+     *  On creation, a rate of 9600 baud is selected
+     */
     BaudRate(): m_CurrentBaudrateIndex(0) {}
+    
+    /*! \brief Iterate to another baud rate setting
+     * 
+     *  All available baud rates are used, then it starts over with the first setting
+     */
     unsigned int GetNextBaudRate() {
         switch (m_CurrentBaudrateIndex) {
             case 0:
@@ -38,7 +54,7 @@ public:
     }
     
 private:
-    size_t m_CurrentBaudrateIndex;
+    unsigned int m_CurrentBaudrateIndex; //!< The current baud rate index
 };
 
 #endif // BAUD_RATE_H
