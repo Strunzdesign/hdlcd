@@ -78,7 +78,6 @@ private:
 
     // Track the status of the serial port, communicate changes
     AliveGuard m_AliveGuard;
-    FlowGuard  m_FlowGuard;
     LockGuard  m_LockGuard;
 
     // SAP specification
