@@ -42,15 +42,15 @@ public:
      * 
      *  The connection is established on instantiation (RAII)
      * 
-     *  \param a_IoService the boost IOService object
+     *  \param a_IOService the boost IOService object
      *  \param a_EndpointIterator the boost endpoint iteratior referring to the destination
      *  \param a_SerialPortName the name of the serial port device
      *  \param a_SAP the numerical indentifier of the service access protocol
      */
-    AccessClient(boost::asio::io_service& a_IoService, boost::asio::ip::tcp::resolver::iterator a_EndpointIterator, std::string a_SerialPortName, unsigned char a_SAP):
+    AccessClient(boost::asio::io_service& a_IOService, boost::asio::ip::tcp::resolver::iterator a_EndpointIterator, std::string a_SerialPortName, unsigned char a_SAP):
         m_bClosed(false),
-        m_TCPDataSocket(a_IoService),
-        m_TCPCtrlSocket(a_IoService),
+        m_TCPDataSocket(a_IOService),
+        m_TCPCtrlSocket(a_IOService),
         m_bDataSocketConnected(false),
         m_bCtrlSocketConnected(false),
         m_SerialPortName(a_SerialPortName),
@@ -274,25 +274,25 @@ private:
     }
     
     // Members
-    unsigned char m_SAP; //! The service access point identifier that specifies the session type
-    bool m_bClosed; //! Indicates whether the HDLCd access protocol entity has already been closed
-    boost::asio::ip::tcp::socket m_TCPDataSocket; //! The TCP connection dedicated to user data
-    boost::asio::ip::tcp::socket m_TCPCtrlSocket; //! The TCP connection dedicated to control data
-    bool m_bDataSocketConnected; //! This flag indicates whether the user data socket is established
-    bool m_bCtrlSocketConnected; //! This flag indicates whether the user control socket is established
+    unsigned char m_SAP; //!< The service access point identifier that specifies the session type
+    bool m_bClosed; //!< Indicates whether the HDLCd access protocol entity has already been closed
+    boost::asio::ip::tcp::socket m_TCPDataSocket; //!< The TCP connection dedicated to user data
+    boost::asio::ip::tcp::socket m_TCPCtrlSocket; //!< The TCP connection dedicated to control data
+    bool m_bDataSocketConnected; //!< This flag indicates whether the user data socket is established
+    bool m_bCtrlSocketConnected; //!< This flag indicates whether the user control socket is established
     
     // Both session headers to be transmitted
-    std::vector<unsigned char> m_SessionHeaderData; //! The buffer containing the session header for the data socket
-    std::vector<unsigned char> m_SessionHeaderCtrl; //! The buffer containing the session header for the control socket
+    std::vector<unsigned char> m_SessionHeaderData; //!< The buffer containing the session header for the data socket
+    std::vector<unsigned char> m_SessionHeaderCtrl; //!< The buffer containing the session header for the control socket
     
-    std::string m_SerialPortName; //! The name of the serial port device
-    std::shared_ptr<PacketEndpoint> m_PacketEndpointData; //! The packet endpoint class responsible for the connected data socket
-    std::shared_ptr<PacketEndpoint> m_PacketEndpointCtrl; //! The packet endpoint class responsible for the connected control socket
+    std::string m_SerialPortName; //!< The name of the serial port device
+    std::shared_ptr<PacketEndpoint> m_PacketEndpointData; //!< The packet endpoint class responsible for the connected data socket
+    std::shared_ptr<PacketEndpoint> m_PacketEndpointCtrl; //!< The packet endpoint class responsible for the connected control socket
     
     // All possible callbacks for a user of this class
-    std::function<void(const PacketData&)> m_OnDataCallback; //! The callback function that is invoked on reception of a data packet
-    std::function<void(const PacketCtrl&)> m_OnCtrlCallback; //! The callback function that is invoked on reception of a control packet
-    std::function<void()> m_OnClosedCallback;  //! The callback function that is invoked if the either this endpoint or that of the peer goes down
+    std::function<void(const PacketData&)> m_OnDataCallback; //!< The callback function that is invoked on reception of a data packet
+    std::function<void(const PacketCtrl&)> m_OnCtrlCallback; //!< The callback function that is invoked on reception of a control packet
+    std::function<void()> m_OnClosedCallback;  //!< The callback function that is invoked if the either this endpoint or that of the peer goes down
 };
 
 #endif // ACCESS_CLIENT_H

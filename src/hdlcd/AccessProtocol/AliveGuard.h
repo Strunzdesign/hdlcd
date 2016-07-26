@@ -62,7 +62,7 @@ public:
 
 private:
     // Members
-    bool m_bAlive; //! The alive state of the related device
+    bool m_bAlive; //!< The alive state of the related device
 };
 
 #endif // ALIVE_GUARD_H

@@ -1,6 +1,8 @@
 /**
- * \file ClientAcceptor.h
- * \brief 
+ * \file      ClientAcceptor.h
+ * \brief     This file contains the header declaration of class ClientAcceptor
+ * \author    Florian Evers, florian-evers@gmx.de
+ * \copyright GNU Public License version 3.
  *
  * The hdlc-tools implement the HDLC protocol to easily talk to devices connected via serial communications
  * Copyright (C) 2016  Florian Evers, florian-evers@gmx.de
@@ -29,14 +31,35 @@
 
 using boost::asio::ip::tcp;
 
+/*! \class ClientAcceptor
+ *  \brief Class ClientAcceptor
+ * 
+ *  This class is responsible to accept incoming TCP connections. For each inbound TCP connection, a ClientHandler object is creating
+ *  taking full responsibility of the connection. These TCP connections originate from clients that access the HDLCd and contain PDUs
+ *  of the HDLCd access protocol.
+ */
 class ClientAcceptor {
 public:
-ClientAcceptor(boost::asio::io_service& io_service, short port, std::shared_ptr<SerialPortHandlerCollection> a_SerialPortHandlerCollection): m_SerialPortHandlerCollection(a_SerialPortHandlerCollection), m_TCPAcceptor(io_service, tcp::endpoint(tcp::v4(), port)), m_TCPSocket(io_service) {
-    m_ClientHandlerCollection = std::make_shared<ClientHandlerCollection>();
-    do_accept();
-}
+    /*! \brief The constructor of class ClientAcceptor
+     * 
+     *  Listener is started directly on instantiation (RAII)
+     * 
+     *  \param a_IOService the boost IOService object
+     *  \param a_usPortNbr the TCP port number to wait for incoming TCP connections
+     *  \param a_SerialPortHandlerCollection the collection helper class of serial port handlers responsible for talking to devices using the HDLC protocol 
+     */
+    ClientAcceptor(boost::asio::io_service& a_IOService, unsigned short a_usPortNbr, std::shared_ptr<SerialPortHandlerCollection> a_SerialPortHandlerCollection): m_SerialPortHandlerCollection(a_SerialPortHandlerCollection), m_TCPAcceptor(a_IOService, tcp::endpoint(tcp::v4(), a_usPortNbr)), m_TCPSocket(a_IOService) {
+        // Create the collection helper regarding accepted clients
+        m_ClientHandlerCollection = std::make_shared<ClientHandlerCollection>();
+        do_accept(); // start accepting TCP connections
+    }
 
 private:
+    /*! \brief Internal callback to handle a single incoming TCP connection
+     * 
+     *  In this internal callback function, for each incoming TCP connection a ClientHandler object is created. This handler consumes the TCP connection and adds itself
+     *  to the collection of client handlers.
+     */
     void do_accept() {
         m_TCPAcceptor.async_accept(m_TCPSocket, [this](boost::system::error_code a_ErrorCode) {
             if (!a_ErrorCode) {
@@ -45,15 +68,16 @@ private:
                 l_ClientHandler->Start(m_SerialPortHandlerCollection);
             } // if
 
+            // Wait for subsequent TCP connections
             do_accept();
         });
     }
 
     // Members
-    std::shared_ptr<ClientHandlerCollection> m_ClientHandlerCollection;
-    std::shared_ptr<SerialPortHandlerCollection> m_SerialPortHandlerCollection;
-    tcp::acceptor m_TCPAcceptor;
-    tcp::socket m_TCPSocket;
+    std::shared_ptr<ClientHandlerCollection> m_ClientHandlerCollection; //!< This object is responsible for holding all client handlers
+    std::shared_ptr<SerialPortHandlerCollection> m_SerialPortHandlerCollection; //!< This object is responsible for holding all serial port handlers
+    tcp::acceptor m_TCPAcceptor; //!< The TCP listener
+    tcp::socket m_TCPSocket; //!< One incoming TCP socket
 };
 
 #endif // CLIENT_ACCEPTOR_H
