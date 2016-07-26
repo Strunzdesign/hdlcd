@@ -42,10 +42,9 @@ public:
      * 
      *  Change the serial port state
      * 
-     * \param  a_bAlive the new state of the related serial device
-     * \return bool indicates whether the state of the related serial device was changed by the call
+     *  \param  a_bAlive the new state of the related serial device
+     *  \return bool indicates whether the state of the related serial device was changed by the call
      */
-        
     bool UpdateSerialPortState(bool a_bAlive) {
         bool l_bStateChanged = (m_bAlive != a_bAlive);
         m_bAlive = a_bAlive;
@@ -56,7 +55,7 @@ public:
      * 
      *  Query whether the related serial device is currently alive
      * 
-     * return bool indicating whether the related serial device is currently alive
+     *  \return bool indicating whether the related serial device is currently alive
      */
     bool IsAlive() const { return m_bAlive; }
 

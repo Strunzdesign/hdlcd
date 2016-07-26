@@ -1,6 +1,8 @@
 /**
- * \file FlowGuard.h
- * \brief 
+ * \file      FlowGuard.h
+ * \brief     This file contains the header declaration of class FlowGuard
+ * \author    Florian Evers, florian-evers@gmx.de
+ * \copyright GNU Public License version 3.
  *
  * The hdlc-tools implement the HDLC protocol to easily talk to devices connected via serial communications
  * Copyright (C) 2016  Florian Evers, florian-evers@gmx.de
@@ -22,23 +24,42 @@
 #ifndef FLOW_GUARD_H
 #define FLOW_GUARD_H
 
+/*! \class FlowGuard
+ *  \brief Class FlowGuard
+ * 
+ *  This guard object tracks whether a device attached via serial connections is suspended, i.e., one or more clients
+ *  issued a "lock" on it to suspend exchange of HDLC PDUs.
+ */
 class FlowGuard {
 public:
-    // CTOR
+    /*! \brief The constructor of class FlowGuard
+     * 
+     *  On creation, a serial port is considered "unlocked" / resumed.
+     */
     FlowGuard(): m_bFlowSuspended(false) {
     }
     
-    // Influende the serial port state
+    /*! \brief Influende the suspend / resume state of a serial port
+     * 
+     *  Influende the suspend / resume state of a serial port
+     * 
+     *  \param a_bFlowSuspended the new state of the related serial device
+     */
     void UpdateSerialPortState(bool a_bFlowSuspended) {
         m_bFlowSuspended = a_bFlowSuspended;
     }
     
-    // Check status
+    /*! \brief Query the suspend / resume state of a serial port
+     * 
+     *  Query the suspend / resume state of a serial port
+     * 
+     *  \return bool to indicate whether the data flow is currently suspended or resumed
+     */
     bool IsFlowSuspended() const { return m_bFlowSuspended; }
 
 private:
     // Members
-    bool m_bFlowSuspended;
+    bool m_bFlowSuspended; //!< The state of the data flow of the related device
 };
 
 #endif // FLOW_GUARD_H
