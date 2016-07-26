@@ -61,7 +61,6 @@ public:
     
     // Query state
     bool IsAlive() const { return m_AliveState->IsAlive(); }
-    bool IsFlowSuspended() const { return (m_bPeerStoppedFlow || !IsAlive()); }
 
 private:
     // Internal helpers

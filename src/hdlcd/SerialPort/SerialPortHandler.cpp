@@ -72,7 +72,7 @@ void SerialPortHandler::ResumeSerialPort() {
 
 void SerialPortHandler::PropagateSerialPortState() {
     ForEachClient([this](std::shared_ptr<ClientHandler> a_ClientHandler) {
-        a_ClientHandler->UpdateSerialPortState(m_ProtocolState->IsAlive(), m_ProtocolState->IsFlowSuspended(), m_SerialPortLock.GetLockHolders());
+        a_ClientHandler->UpdateSerialPortState(m_ProtocolState->IsAlive(), m_SerialPortLock.GetLockHolders());
     });
 }
 

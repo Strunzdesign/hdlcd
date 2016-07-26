@@ -62,7 +62,7 @@ void ClientHandler::DeliverBufferToClient(E_BUFFER_TYPE a_eBufferType, const std
     } // if
 }
 
-void ClientHandler::UpdateSerialPortState(bool a_bAlive, bool a_bFlowControl, size_t a_LockHolders) {
+void ClientHandler::UpdateSerialPortState(bool a_bAlive, size_t a_LockHolders) {
     bool l_bDeliverChangedState = false;
     l_bDeliverChangedState |= m_AliveGuard.UpdateSerialPortState(a_bAlive);
     l_bDeliverChangedState |= m_LockGuard.UpdateSerialPortState(a_LockHolders);
