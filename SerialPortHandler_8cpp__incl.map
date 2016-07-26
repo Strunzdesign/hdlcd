@@ -13,7 +13,7 @@
 <area shape="rect" id="node20" href="$PacketData_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="732,259,896,285"/>
 <area shape="rect" id="node22" href="$PacketCtrl_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="552,259,708,285"/>
 <area shape="rect" id="node21" href="$Packet_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="776,341,852,367"/>
-<area shape="rect" id="node26" href="$AliveState_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="1245,259,1341,285"/>
+<area shape="rect" id="node26" href="$AliveState_8h.html" title="This file contains the header declaration of class AliveState. " alt="" coords="1245,259,1341,285"/>
 <area shape="rect" id="node28" href="$Frame_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="1456,341,1529,367"/>
 <area shape="rect" id="node29" href="$FrameParser_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="1466,259,1581,285"/>
 </map>

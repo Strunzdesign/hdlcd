@@ -107,65 +107,69 @@ $(document).ready(function(){initNavTree('AliveState_8h_source.html','');});
 </div><!--header-->
 <div class="contents">
 <a href="AliveState_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#ifndef ALIVE_STATE_H</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#define ALIVE_STATE_H</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#include &lt;boost/asio/deadline_timer.hpp&gt;</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="classAliveState.html">   43</a></span>&#160;<span class="keyword">class </span><a class="code" href="classAliveState.html">AliveState</a>: <span class="keyword">public</span> std::enable_shared_from_this&lt;AliveState&gt; {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="classAliveState.html#ac7c6df647c0a18d4299da64c6621b453">AliveState</a>(boost::asio::io_service&amp; a_IOService);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="classAliveState.html#a9123e5bb816e57f359f0ee35e1b33c18">~AliveState</a>();</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classAliveState.html#a024a2d86b5c318ecd0ff8c125ba245c3">SetSendProbeCallback</a>(std::function&lt;<span class="keywordtype">void</span>()&gt; a_SendProbeCallback);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classAliveState.html#ae5b694007f49917f8b41f9f8b6dff955">SetChangeBaudrateCallback</a>(std::function&lt;<span class="keywordtype">void</span>()&gt; a_ChangeBaudrateCallback);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classAliveState.html#a885de1f44e29b63e8a6b49d51db5a5c3">Start</a>();</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classAliveState.html#af988f2df8f9a7b0a82e25aa541811541">Stop</a>();</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classAliveState.html#a2c26b962266ee85960084e4f2b5052c3">OnFrameReceived</a>();</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classAliveState.html#af1fa1dc78a9388672b7378859f8c2b30">IsAlive</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="comment">// Helpers</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">void</span> Reset();</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">void</span> StartStateTimer();</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">void</span> StartProbeTimer();</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="comment">// Members</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keyword">typedef</span> <span class="keyword">enum</span> {</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        ALIVESTATE_PROBING   = 0,</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        ALIVESTATE_FOUND     = 1,</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        ALIVESTATE_REPROBING = 2,</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    } E_ALIVESTATE;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    E_ALIVESTATE m_eAliveState;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="comment">// Callbacks</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    std::function&lt;void()&gt; m_SendProbeCallback;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    std::function&lt;void()&gt; m_ChangeBaudrateCallback;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="comment">// Timer and timer handlers</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    boost::asio::deadline_timer m_StateTimer;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    boost::asio::deadline_timer m_ProbeTimer;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">void</span> OnStateTimeout();</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">void</span> OnProbeTimeout();</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="comment">// Observation</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">bool</span> m_bFrameWasReceived;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">int</span> m_ProbeCounter;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;};</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">#endif // ALIVE_STATE_H</span></div>
-<div class="ttc" id="classAliveState_html_ac7c6df647c0a18d4299da64c6621b453"><div class="ttname"><a href="classAliveState.html#ac7c6df647c0a18d4299da64c6621b453">AliveState::AliveState</a></div><div class="ttdeci">AliveState(boost::asio::io_service &amp;a_IOService)</div><div class="ttdef"><b>Definition:</b> <a href="AliveState_8cpp_source.html#l00040">AliveState.cpp:40</a></div></div>
-<div class="ttc" id="classAliveState_html_af1fa1dc78a9388672b7378859f8c2b30"><div class="ttname"><a href="classAliveState.html#af1fa1dc78a9388672b7378859f8c2b30">AliveState::IsAlive</a></div><div class="ttdeci">bool IsAlive() const </div><div class="ttdef"><b>Definition:</b> <a href="AliveState_8cpp_source.html#l00092">AliveState.cpp:92</a></div></div>
-<div class="ttc" id="classAliveState_html_a024a2d86b5c318ecd0ff8c125ba245c3"><div class="ttname"><a href="classAliveState.html#a024a2d86b5c318ecd0ff8c125ba245c3">AliveState::SetSendProbeCallback</a></div><div class="ttdeci">void SetSendProbeCallback(std::function&lt; void()&gt; a_SendProbeCallback)</div><div class="ttdef"><b>Definition:</b> <a href="AliveState_8cpp_source.html#l00073">AliveState.cpp:73</a></div></div>
-<div class="ttc" id="classAliveState_html_a9123e5bb816e57f359f0ee35e1b33c18"><div class="ttname"><a href="classAliveState.html#a9123e5bb816e57f359f0ee35e1b33c18">AliveState::~AliveState</a></div><div class="ttdeci">~AliveState()</div><div class="ttdef"><b>Definition:</b> <a href="AliveState_8cpp_source.html#l00044">AliveState.cpp:44</a></div></div>
-<div class="ttc" id="classAliveState_html_a2c26b962266ee85960084e4f2b5052c3"><div class="ttname"><a href="classAliveState.html#a2c26b962266ee85960084e4f2b5052c3">AliveState::OnFrameReceived</a></div><div class="ttdeci">bool OnFrameReceived()</div><div class="ttdef"><b>Definition:</b> <a href="AliveState_8cpp_source.html#l00081">AliveState.cpp:81</a></div></div>
-<div class="ttc" id="classAliveState_html_af988f2df8f9a7b0a82e25aa541811541"><div class="ttname"><a href="classAliveState.html#af988f2df8f9a7b0a82e25aa541811541">AliveState::Stop</a></div><div class="ttdeci">void Stop()</div><div class="ttdef"><b>Definition:</b> <a href="AliveState_8cpp_source.html#l00067">AliveState.cpp:67</a></div></div>
-<div class="ttc" id="classAliveState_html_ae5b694007f49917f8b41f9f8b6dff955"><div class="ttname"><a href="classAliveState.html#ae5b694007f49917f8b41f9f8b6dff955">AliveState::SetChangeBaudrateCallback</a></div><div class="ttdeci">void SetChangeBaudrateCallback(std::function&lt; void()&gt; a_ChangeBaudrateCallback)</div><div class="ttdef"><b>Definition:</b> <a href="AliveState_8cpp_source.html#l00077">AliveState.cpp:77</a></div></div>
-<div class="ttc" id="classAliveState_html_a885de1f44e29b63e8a6b49d51db5a5c3"><div class="ttname"><a href="classAliveState.html#a885de1f44e29b63e8a6b49d51db5a5c3">AliveState::Start</a></div><div class="ttdeci">void Start()</div><div class="ttdef"><b>Definition:</b> <a href="AliveState_8cpp_source.html#l00054">AliveState.cpp:54</a></div></div>
-<div class="ttc" id="classAliveState_html"><div class="ttname"><a href="classAliveState.html">AliveState</a></div><div class="ttdef"><b>Definition:</b> <a href="AliveState_8h_source.html#l00043">AliveState.h:43</a></div></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#ifndef ALIVE_STATE_H</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#define ALIVE_STATE_H</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#include &lt;boost/asio/deadline_timer.hpp&gt;</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="classAliveState.html">   52</a></span>&#160;<span class="keyword">class </span><a class="code" href="classAliveState.html">AliveState</a>: <span class="keyword">public</span> std::enable_shared_from_this&lt;AliveState&gt; {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="comment">// CTOR and DTOR</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="classAliveState.html#ac7c6df647c0a18d4299da64c6621b453">AliveState</a>(boost::asio::io_service&amp; a_IOService);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="classAliveState.html#a9123e5bb816e57f359f0ee35e1b33c18">~AliveState</a>();</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="comment">// Register callback methods</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classAliveState.html#a024a2d86b5c318ecd0ff8c125ba245c3">SetSendProbeCallback</a>(std::function&lt;<span class="keywordtype">void</span>()&gt; a_SendProbeCallback);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classAliveState.html#ae5b694007f49917f8b41f9f8b6dff955">SetChangeBaudrateCallback</a>(std::function&lt;<span class="keywordtype">void</span>()&gt; a_ChangeBaudrateCallback);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="comment">// Start and stop processing</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classAliveState.html#a885de1f44e29b63e8a6b49d51db5a5c3">Start</a>();</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classAliveState.html#af988f2df8f9a7b0a82e25aa541811541">Stop</a>();</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="comment">// Notification regarding incoming data, and query methods</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classAliveState.html#a2c26b962266ee85960084e4f2b5052c3">OnFrameReceived</a>();</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classAliveState.html#af1fa1dc78a9388672b7378859f8c2b30">IsAlive</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="comment">// Helpers</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">void</span> Reset();</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">void</span> StartStateTimer();</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">void</span> StartProbeTimer();</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="comment">// Members</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment"></span>    <span class="keyword">typedef</span> <span class="keyword">enum</span> {</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        ALIVESTATE_PROBING   = 0, </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        ALIVESTATE_FOUND     = 1, </div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        ALIVESTATE_REPROBING = 2, </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    } E_ALIVESTATE;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    E_ALIVESTATE m_eAliveState;   </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="comment">// Callbacks</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    std::function&lt;void()&gt; m_SendProbeCallback;      </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    std::function&lt;void()&gt; m_ChangeBaudrateCallback; </div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="comment">// Timer and timer handlers</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    boost::asio::deadline_timer m_StateTimer; </div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    boost::asio::deadline_timer m_ProbeTimer; </div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordtype">void</span> OnStateTimeout();</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordtype">void</span> OnProbeTimeout();</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    </div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="comment">// Observation</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordtype">bool</span> m_bFrameWasReceived; </div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordtype">int</span> m_ProbeCounter;       </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;};</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="preprocessor">#endif // ALIVE_STATE_H</span></div>
+<div class="ttc" id="classAliveState_html_ac7c6df647c0a18d4299da64c6621b453"><div class="ttname"><a href="classAliveState.html#ac7c6df647c0a18d4299da64c6621b453">AliveState::AliveState</a></div><div class="ttdeci">AliveState(boost::asio::io_service &amp;a_IOService)</div><div class="ttdoc">The constructor of AliveState objects. </div><div class="ttdef"><b>Definition:</b> <a href="AliveState_8cpp_source.html#l00046">AliveState.cpp:46</a></div></div>
+<div class="ttc" id="classAliveState_html_af1fa1dc78a9388672b7378859f8c2b30"><div class="ttname"><a href="classAliveState.html#af1fa1dc78a9388672b7378859f8c2b30">AliveState::IsAlive</a></div><div class="ttdeci">bool IsAlive() const </div><div class="ttdoc">Query whether the related serialport is currently considered alive. </div><div class="ttdef"><b>Definition:</b> <a href="AliveState_8cpp_source.html#l00141">AliveState.cpp:141</a></div></div>
+<div class="ttc" id="classAliveState_html_a024a2d86b5c318ecd0ff8c125ba245c3"><div class="ttname"><a href="classAliveState.html#a024a2d86b5c318ecd0ff8c125ba245c3">AliveState::SetSendProbeCallback</a></div><div class="ttdeci">void SetSendProbeCallback(std::function&lt; void()&gt; a_SendProbeCallback)</div><div class="ttdoc">Register callback method for sending a probe request via HDLC. </div><div class="ttdef"><b>Definition:</b> <a href="AliveState_8cpp_source.html#l00101">AliveState.cpp:101</a></div></div>
+<div class="ttc" id="classAliveState_html_a9123e5bb816e57f359f0ee35e1b33c18"><div class="ttname"><a href="classAliveState.html#a9123e5bb816e57f359f0ee35e1b33c18">AliveState::~AliveState</a></div><div class="ttdeci">~AliveState()</div><div class="ttdoc">The destructor of AliveState objects. </div><div class="ttdef"><b>Definition:</b> <a href="AliveState_8cpp_source.html#l00054">AliveState.cpp:54</a></div></div>
+<div class="ttc" id="classAliveState_html_a2c26b962266ee85960084e4f2b5052c3"><div class="ttname"><a href="classAliveState.html#a2c26b962266ee85960084e4f2b5052c3">AliveState::OnFrameReceived</a></div><div class="ttdeci">bool OnFrameReceived()</div><div class="ttdoc">Indicate that a HDLC frame was received via the related serial port. </div><div class="ttdef"><b>Definition:</b> <a href="AliveState_8cpp_source.html#l00122">AliveState.cpp:122</a></div></div>
+<div class="ttc" id="classAliveState_html_af988f2df8f9a7b0a82e25aa541811541"><div class="ttname"><a href="classAliveState.html#af988f2df8f9a7b0a82e25aa541811541">AliveState::Stop</a></div><div class="ttdeci">void Stop()</div><div class="ttdoc">Stop all activities. </div><div class="ttdef"><b>Definition:</b> <a href="AliveState_8cpp_source.html#l00089">AliveState.cpp:89</a></div></div>
+<div class="ttc" id="classAliveState_html_ae5b694007f49917f8b41f9f8b6dff955"><div class="ttname"><a href="classAliveState.html#ae5b694007f49917f8b41f9f8b6dff955">AliveState::SetChangeBaudrateCallback</a></div><div class="ttdeci">void SetChangeBaudrateCallback(std::function&lt; void()&gt; a_ChangeBaudrateCallback)</div><div class="ttdoc">Register callback method for changing the baud rate of the related serial port. </div><div class="ttdef"><b>Definition:</b> <a href="AliveState_8cpp_source.html#l00111">AliveState.cpp:111</a></div></div>
+<div class="ttc" id="classAliveState_html_a885de1f44e29b63e8a6b49d51db5a5c3"><div class="ttname"><a href="classAliveState.html#a885de1f44e29b63e8a6b49d51db5a5c3">AliveState::Start</a></div><div class="ttdeci">void Start()</div><div class="ttdoc">Start all activities. </div><div class="ttdef"><b>Definition:</b> <a href="AliveState_8cpp_source.html#l00072">AliveState.cpp:72</a></div></div>
+<div class="ttc" id="classAliveState_html"><div class="ttname"><a href="classAliveState.html">AliveState</a></div><div class="ttdoc">Class AliveState. </div><div class="ttdef"><b>Definition:</b> <a href="AliveState_8h_source.html#l00052">AliveState.h:52</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
