@@ -132,18 +132,18 @@ void ProtocolState::AddReceivedRawBytes(const unsigned char* a_Buffer, size_t a_
     m_FrameParser.AddReceivedRawBytes(a_Buffer, a_Bytes);
 }
 
-void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> &a_Payload, const Frame& a_Frame, bool a_bMessageValid) {
+void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> &a_Payload, const Frame& a_Frame, bool a_bMessageInvalid) {
     // Checks
     if (!m_bStarted) {
         return;
     } // if
 
     // Deliver raw frame to clients that have interest
-    m_SerialPortHandler->DeliverBufferToClients(BUFFER_TYPE_RAW, a_Payload, false, a_bMessageValid, false); // not escaped
-    m_SerialPortHandler->DeliverBufferToClients(BUFFER_TYPE_DISSECTED, a_Frame.Dissect(), false, a_bMessageValid, false);
+    m_SerialPortHandler->DeliverBufferToClients(BUFFER_TYPE_RAW, a_Payload, false, a_bMessageInvalid, false); // not escaped
+    m_SerialPortHandler->DeliverBufferToClients(BUFFER_TYPE_DISSECTED, a_Frame.Dissect(), false, a_bMessageInvalid, false);
     
     // Stop here if the frame was considered broken
-    if (a_bMessageValid == false) {
+    if (a_bMessageInvalid) {
         return;
     } // if
     

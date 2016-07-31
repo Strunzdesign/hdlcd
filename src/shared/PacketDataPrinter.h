@@ -40,10 +40,10 @@ void PacketDataPrinter(const PacketData& a_PacketData) {
     } // for
     
     if (a_PacketData.GetWasSent() == false) {
-        if (a_PacketData.GetValid()) {
-            std::cout << "(CRC OK)";
-        } else {
+        if (a_PacketData.GetInvalid()) {
             std::cout << "(BROKEN)";
+        } else {
+            std::cout << "(CRC OK)";
         } // else
     } // if
 

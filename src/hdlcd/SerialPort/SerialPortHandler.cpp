@@ -80,9 +80,9 @@ void SerialPortHandler::DeliverPayloadToHDLC(const std::vector<unsigned char> &a
     m_ProtocolState->SendPayload(a_Payload, a_bReliable);
 }
 
-void SerialPortHandler::DeliverBufferToClients(E_BUFFER_TYPE a_eBufferType, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent) {
-    ForEachClient([a_eBufferType, &a_Payload, a_bReliable, a_bValid, a_bWasSent](std::shared_ptr<ClientHandler> a_ClientHandler) {
-        a_ClientHandler->DeliverBufferToClient(a_eBufferType, a_Payload, a_bReliable, a_bValid, a_bWasSent);
+void SerialPortHandler::DeliverBufferToClients(E_BUFFER_TYPE a_eBufferType, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bInvalid, bool a_bWasSent) {
+    ForEachClient([a_eBufferType, &a_Payload, a_bReliable, a_bInvalid, a_bWasSent](std::shared_ptr<ClientHandler> a_ClientHandler) {
+        a_ClientHandler->DeliverBufferToClient(a_eBufferType, a_Payload, a_bReliable, a_bInvalid, a_bWasSent);
     });
 }
 

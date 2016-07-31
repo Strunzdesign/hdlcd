@@ -54,7 +54,7 @@ public:
 
 private:
     // Called by a ProtocolState object
-    void DeliverBufferToClients(E_BUFFER_TYPE a_eBufferType, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent);
+    void DeliverBufferToClients(E_BUFFER_TYPE a_eBufferType, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bInvalid, bool a_bWasSent);
     void ChangeBaudRate();
     void TransmitHDLCFrame(const std::vector<unsigned char> &a_Payload);
     void QueryForPayload(bool a_bQueryReliable, bool a_bQueryUnreliable);

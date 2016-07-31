@@ -26,12 +26,12 @@
 
 class PacketData: public Packet {
 public:
-    static PacketData CreatePacket(const std::vector<unsigned char> a_Payload, bool a_bReliable, bool a_bValid = true, bool a_bWasSent = false) {
+    static PacketData CreatePacket(const std::vector<unsigned char> a_Payload, bool a_bReliable, bool a_bInvalid = false, bool a_bWasSent = false) {
         // Called for transmission
         PacketData l_PacketData;
         l_PacketData.m_Payload = std::move(a_Payload);
         l_PacketData.m_bReliable = a_bReliable;
-        l_PacketData.m_bValid = a_bValid;
+        l_PacketData.m_bInvalid = a_bInvalid;
         l_PacketData.m_bWasSent = a_bWasSent;
         return l_PacketData;
     }
@@ -41,7 +41,7 @@ public:
         auto l_PacketData(std::shared_ptr<PacketData>(new PacketData));
         bool l_bReserved = (a_Type & 0x08); // TODO: abort if set
         l_PacketData->m_bReliable = (a_Type & 0x04);
-        l_PacketData->m_bValid    = (a_Type & 0x02);
+        l_PacketData->m_bInvalid  = (a_Type & 0x02);
         l_PacketData->m_bWasSent  = (a_Type & 0x01);
         l_PacketData->m_eDeserialize = DESERIALIZE_SIZE;
         l_PacketData->m_BytesRemaining = 2;
@@ -54,14 +54,14 @@ public:
     }
     
     bool GetReliable() const { return m_bReliable; }
-    bool GetValid() const { return m_bValid; }
-    bool GetWasSent() const { return m_bWasSent; }
+    bool GetInvalid()  const { return m_bInvalid; }
+    bool GetWasSent()  const { return m_bWasSent; }
     
 private:
     // Private CTOR
     PacketData() {
         m_bReliable = false;
-        m_bValid = false;
+        m_bInvalid = false;
         m_bWasSent = false;
         m_eDeserialize = DESERIALIZE_FULL;
         m_BytesRemaining = 0;
@@ -76,7 +76,7 @@ private:
         // Prepare type field
         unsigned char l_Type = 0x00;
         if (m_bReliable) { l_Type |= 0x04; }
-        if (m_bValid)    { l_Type |= 0x02; }
+        if (m_bInvalid)  { l_Type |= 0x02; }
         if (m_bWasSent)  { l_Type |= 0x01; }
         l_Buffer.emplace_back(l_Type);
         
@@ -128,7 +128,7 @@ private:
     // Members
     std::vector<unsigned char> m_Payload;
     bool m_bReliable;
-    bool m_bValid;
+    bool m_bInvalid;
     bool m_bWasSent;
     typedef enum {
         DESERIALIZE_SIZE = 0,

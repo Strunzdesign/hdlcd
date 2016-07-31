@@ -45,19 +45,19 @@ ClientHandler::~ClientHandler() {
     Stop();
 }
 
-void ClientHandler::DeliverBufferToClient(E_BUFFER_TYPE a_eBufferType, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bValid, bool a_bWasSent) {
+void ClientHandler::DeliverBufferToClient(E_BUFFER_TYPE a_eBufferType, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bInvalid, bool a_bWasSent) {
     // Check whether this buffer is of interest to this specific client
     bool l_bDeliver = (a_eBufferType == m_eBufferType);
     if ((a_bWasSent && !m_bDeliverSent) || (!a_bWasSent && !m_bDeliverRcvd)) {
         l_bDeliver = false;
     } // if
     
-    if ((m_bDeliverInvalidData == false) && (a_bValid == false)) {
+    if ((m_bDeliverInvalidData == false) && (a_bInvalid)) {
         l_bDeliver = false;
     } // if
 
     if (l_bDeliver) {
-        auto l_Packet = PacketData::CreatePacket(a_Payload, a_bReliable, a_bValid, a_bWasSent);
+        auto l_Packet = PacketData::CreatePacket(a_Payload, a_bReliable, a_bInvalid, a_bWasSent);
         m_PacketEndpoint->Send(&l_Packet);
     } // if
 }

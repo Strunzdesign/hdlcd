@@ -122,12 +122,10 @@ bool FrameParser::RemoveEscapeCharacters() {
     } // if
     
     // Check for illegal escape sequence at the end of the buffer
-    bool l_bMessageValid = true;
+    bool l_bMessageInvalid = false;
     if (m_Buffer[m_Buffer.size() - 2] == 0x7D) {
-        l_bMessageValid = false;
-    } // if
-
-    if (l_bMessageValid) {
+        l_bMessageInvalid = true;
+    } else {
         // Remove escape sequences
         std::vector<unsigned char> l_UnescapedBuffer;
         l_UnescapedBuffer.reserve(m_Buffer.size());
@@ -141,7 +139,7 @@ bool FrameParser::RemoveEscapeCharacters() {
                     l_UnescapedBuffer.emplace_back(0x7D);
                 } else {
                     // Invalid character. Go ahead with an invalid frame.
-                    l_bMessageValid = false;
+                    l_bMessageInvalid = true;
                     l_UnescapedBuffer.emplace_back(*it);
                 } // else
             } else {
@@ -160,13 +158,13 @@ bool FrameParser::RemoveEscapeCharacters() {
         return false;
     } // if
 
-    if (l_bMessageValid) {
+    if (l_bMessageInvalid == false) {
         // Check FCS
-        l_bMessageValid = (pppfcs16(PPPINITFCS16, (m_Buffer.data() + 1), (m_Buffer.size() - 2)) == PPPGOODFCS16);
+        l_bMessageInvalid = (pppfcs16(PPPINITFCS16, (m_Buffer.data() + 1), (m_Buffer.size() - 2)) != PPPGOODFCS16);
     } // if
 
-    m_ProtocolState.InterpretDeserializedFrame(m_Buffer, DeserializeFrame(m_Buffer), l_bMessageValid);
-    return l_bMessageValid;
+    m_ProtocolState.InterpretDeserializedFrame(m_Buffer, DeserializeFrame(m_Buffer), l_bMessageInvalid);
+    return (l_bMessageInvalid == false);
 }
 
 Frame FrameParser::DeserializeFrame(const std::vector<unsigned char> &a_UnescapedBuffer) const {
