@@ -30,7 +30,7 @@ ClientHandler::ClientHandler(std::weak_ptr<ClientHandlerCollection> a_ClientHand
     m_ClientHandlerCollection(a_ClientHandlerCollection),
     m_TCPSocket(std::move(a_TCPSocket)) {
     m_Registered = false;
-    m_eBufferType = BUFFER_TYPE_NOTHING;
+    m_eBufferType = BUFFER_TYPE_UNSET;
     m_bDeliverSent = false;
     m_bDeliverRcvd = false;
     m_bDeliverInvalidData = false;

@@ -139,8 +139,13 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
     } // if
 
     // Deliver raw frame to clients that have interest
-    m_SerialPortHandler->DeliverBufferToClients(BUFFER_TYPE_RAW, a_Payload, false, a_bMessageInvalid, false); // not escaped
-    m_SerialPortHandler->DeliverBufferToClients(BUFFER_TYPE_DISSECTED, a_Frame.Dissect(), false, a_bMessageInvalid, false);
+    if (m_SerialPortHandler->RequiresBufferType(BUFFER_TYPE_RAW)) {
+        m_SerialPortHandler->DeliverBufferToClients(BUFFER_TYPE_RAW, a_Payload, false, a_bMessageInvalid, false); // not escaped
+    } // if
+    
+    if (m_SerialPortHandler->RequiresBufferType(BUFFER_TYPE_DISSECTED)) {
+        m_SerialPortHandler->DeliverBufferToClients(BUFFER_TYPE_DISSECTED, a_Frame.Dissect(), false, a_bMessageInvalid, false);
+    } // if
     
     // Stop here if the frame was considered broken
     if (a_bMessageInvalid) {
@@ -155,7 +160,9 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
     // Go ahead interpreting the frame we received
     if (a_Frame.HasPayload()) {
         // I-Frame or U-Frame with UI
-        m_SerialPortHandler->DeliverBufferToClients(BUFFER_TYPE_PAYLOAD, a_Frame.GetPayload(), a_Frame.IsIFrame(), a_bMessageInvalid, false);
+        if (m_SerialPortHandler->RequiresBufferType(BUFFER_TYPE_PAYLOAD)) {
+            m_SerialPortHandler->DeliverBufferToClients(BUFFER_TYPE_PAYLOAD, a_Frame.GetPayload(), a_Frame.IsIFrame(), a_bMessageInvalid, false);
+        } // if
         
         // If it is an I-Frame, the data may have to be acked
         if (a_Frame.IsIFrame()) {
@@ -348,8 +355,14 @@ void ProtocolState::OpportunityForTransmission() {
         // Deliver unescaped frame to clients that have interest
         m_bAwaitsNextHDLCFrame = false;
         auto l_HDLCFrameBuffer = FrameGenerator::SerializeFrame(l_Frame);
-        m_SerialPortHandler->DeliverBufferToClients(BUFFER_TYPE_RAW, l_HDLCFrameBuffer, l_Frame.IsIFrame(), false, true); // not escaped
-        m_SerialPortHandler->DeliverBufferToClients(BUFFER_TYPE_DISSECTED, l_Frame.Dissect(), l_Frame.IsIFrame(), false, true);
+        if (m_SerialPortHandler->RequiresBufferType(BUFFER_TYPE_RAW)) {
+            m_SerialPortHandler->DeliverBufferToClients(BUFFER_TYPE_RAW, l_HDLCFrameBuffer, l_Frame.IsIFrame(), false, true); // not escaped
+        } // if
+        
+        if (m_SerialPortHandler->RequiresBufferType(BUFFER_TYPE_DISSECTED)) {
+            m_SerialPortHandler->DeliverBufferToClients(BUFFER_TYPE_DISSECTED, l_Frame.Dissect(), l_Frame.IsIFrame(), false, true);
+        } // if
+        
         m_SerialPortHandler->TransmitHDLCFrame(std::move(FrameGenerator::EscapeFrame(l_HDLCFrameBuffer)));
     } // if
 }
@@ -357,7 +370,9 @@ void ProtocolState::OpportunityForTransmission() {
 Frame ProtocolState::PrepareIFrame() {
     // Fresh Payload to be sent is available.
     assert(m_WaitQueueReliable.empty() == false);
-    m_SerialPortHandler->DeliverBufferToClients(BUFFER_TYPE_PAYLOAD, m_WaitQueueReliable.front(), true, false, true);
+    if (m_SerialPortHandler->RequiresBufferType(BUFFER_TYPE_PAYLOAD)) {
+        m_SerialPortHandler->DeliverBufferToClients(BUFFER_TYPE_PAYLOAD, m_WaitQueueReliable.front(), true, false, true);
+    } // if
 
     // Prepare I-Frame    
     Frame l_Frame;

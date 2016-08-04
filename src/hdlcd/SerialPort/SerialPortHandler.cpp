@@ -24,12 +24,14 @@
 #include "../AccessProtocol/ClientHandler.h"
 #include "SerialPortHandlerCollection.h"
 #include "HDLC/ProtocolState.h"
+#include <string.h>
 
 SerialPortHandler::SerialPortHandler(const std::string &a_SerialPortName, std::shared_ptr<SerialPortHandlerCollection> a_SerialPortHandlerCollection, boost::asio::io_service &a_IOService): m_SerialPort(a_IOService), m_IOService(a_IOService) {
     m_Registered = true;
     m_SerialPortName = a_SerialPortName;
     m_SerialPortHandlerCollection = a_SerialPortHandlerCollection;
     m_SendBufferOffset = 0;
+    ::memset(m_BufferTypeSubscribers, 0x00, sizeof(m_BufferTypeSubscribers));
 }
 
 SerialPortHandler::~SerialPortHandler() {
@@ -37,6 +39,8 @@ SerialPortHandler::~SerialPortHandler() {
 }
 
 void SerialPortHandler::AddClientHandler(std::shared_ptr<ClientHandler> a_ClientHandler) {
+    assert(a_ClientHandler->GetBufferType() < BUFFER_TYPE_ARITHMETIC_ENDMARKER);
+    ++(m_BufferTypeSubscribers[a_ClientHandler->GetBufferType()]);
     m_ClientHandlerList.push_back(a_ClientHandler);
 }
 
@@ -78,6 +82,11 @@ void SerialPortHandler::PropagateSerialPortState() {
 
 void SerialPortHandler::DeliverPayloadToHDLC(const std::vector<unsigned char> &a_Payload, bool a_bReliable) {
     m_ProtocolState->SendPayload(a_Payload, a_bReliable);
+}
+
+bool SerialPortHandler::RequiresBufferType(E_BUFFER_TYPE a_eBufferType) const {
+    assert(a_eBufferType < BUFFER_TYPE_ARITHMETIC_ENDMARKER);
+    return (m_BufferTypeSubscribers[a_eBufferType] != 0);
 }
 
 void SerialPortHandler::DeliverBufferToClients(E_BUFFER_TYPE a_eBufferType, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bInvalid, bool a_bWasSent) {
@@ -205,6 +214,7 @@ void SerialPortHandler::do_write() {
 }
 
 void SerialPortHandler::ForEachClient(std::function<void(std::shared_ptr<ClientHandler>)> a_Function) {
+    bool l_RebuildSubscriptions = false;
     static bool s_bCyclicCallGuard = false;
     for (auto cur = m_ClientHandlerList.begin(); cur != m_ClientHandlerList.end();) {
         auto next = cur;
@@ -225,9 +235,19 @@ void SerialPortHandler::ForEachClient(std::function<void(std::shared_ptr<ClientH
             // Outdated entry. Only remove it if this is not a cyclic call
             if (!s_bCyclicCallGuard) {
                 m_ClientHandlerList.erase(cur);
+                l_RebuildSubscriptions = true;
             } // if
         } // else
         
         cur = next;
     } // for
+    
+    if (l_RebuildSubscriptions) {
+        // Rebuild the subscription database
+        ::memset(m_BufferTypeSubscribers, 0x00, sizeof(m_BufferTypeSubscribers));
+        ForEachClient([this](std::shared_ptr<ClientHandler> a_ClientHandler) {
+            assert(a_ClientHandler->GetBufferType() < BUFFER_TYPE_ARITHMETIC_ENDMARKER);
+            ++(m_BufferTypeSubscribers[a_ClientHandler->GetBufferType()]);
+        });
+    } // if
 }

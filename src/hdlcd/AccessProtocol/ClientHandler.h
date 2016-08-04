@@ -42,6 +42,7 @@ public:
     ClientHandler(std::weak_ptr<ClientHandlerCollection> a_ClientHandlerCollection, boost::asio::ip::tcp::socket a_TCPSocket);
     ~ClientHandler();
     
+    E_BUFFER_TYPE GetBufferType() const { return m_eBufferType; }
     void DeliverBufferToClient(E_BUFFER_TYPE a_eBufferType, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bInvalid, bool a_bWasSent);
     void UpdateSerialPortState(bool a_bAlive, size_t a_LockHolders);
     void QueryForPayload(bool a_bQueryReliable, bool a_bQueryUnreliable);

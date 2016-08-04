@@ -54,6 +54,7 @@ public:
 
 private:
     // Called by a ProtocolState object
+    bool RequiresBufferType(E_BUFFER_TYPE a_eBufferType) const;
     void DeliverBufferToClients(E_BUFFER_TYPE a_eBufferType, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bInvalid, bool a_bWasSent);
     void ChangeBaudRate();
     void TransmitHDLCFrame(const std::vector<unsigned char> &a_Payload);
@@ -79,6 +80,9 @@ private:
     size_t m_SendBufferOffset;
     SerialPortLock m_SerialPortLock;
     BaudRate m_BaudRate;
+    
+    // Track all subscribed clients
+    size_t m_BufferTypeSubscribers[BUFFER_TYPE_ARITHMETIC_ENDMARKER];
 };
 
 #endif // SERIAL_PORT_HANDLER_H

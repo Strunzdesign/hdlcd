@@ -38,11 +38,14 @@
 #define BUFFER_TYPE_H
 
 typedef enum {
-    BUFFER_TYPE_NOTHING     = 0,
-    BUFFER_TYPE_RAW         = 1,
-    BUFFER_TYPE_DISSECTED   = 2,
-    BUFFER_TYPE_PAYLOAD     = 3,
-    BUFFER_TYPE_PORT_STATUS = 4
+    BUFFER_TYPE_RAW                  =    0,
+    BUFFER_TYPE_DISSECTED            =    1,
+    BUFFER_TYPE_PAYLOAD              =    2,
+    BUFFER_TYPE_PORT_STATUS          =    3,
+    
+    // Bookkeeping
+    BUFFER_TYPE_ARITHMETIC_ENDMARKER =    4,
+    BUFFER_TYPE_UNSET                = 0xFF
 } E_BUFFER_TYPE;
 
 #endif // BUFFER_TYPE_H
