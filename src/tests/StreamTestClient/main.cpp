@@ -106,7 +106,7 @@ private:
 
 class DataSource {
 public:
-    DataSource(boost::asio::io_service& a_IoService, AccessClient& a_AccessClient): m_Timer(a_IoService), m_AccessClient(a_AccessClient), m_LocalSeqNbr(0), m_RemoteStatistic("remote      "), m_LocalStatistic("local       ") {
+    DataSource(boost::asio::io_service& a_IoService, AccessClient& a_AccessClient, uint16_t a_UnicastSSA): m_Timer(a_IoService), m_AccessClient(a_AccessClient), m_LocalSeqNbr(0), m_RemoteStatistic("remote      "), m_LocalStatistic("local       "), m_UnicastSSA(a_UnicastSSA) {
         srand(::time(NULL));
         m_LocalSeed = rand();
         m_RemoteSeed = 0;
@@ -116,7 +116,7 @@ public:
 
     void PacketReceived(const PacketData& a_PacketData) {
         const std::vector<unsigned char> l_Buffer = a_PacketData.GetData();
-        if ((l_Buffer[8] == 0x22) && (l_Buffer[9] == 0x22)) {
+        if ((l_Buffer[4] == ((m_UnicastSSA & 0xFF00) >> 8)) && (l_Buffer[5] == (m_UnicastSSA & 0x00FF)) && (l_Buffer[8] == 0x22) && (l_Buffer[8] == 0x22)) {
             if (l_Buffer[11] == 0x01) {
                 HandleProbeReply(a_PacketData);
             } else if (l_Buffer[11] == 0x02) {
@@ -208,7 +208,19 @@ private:
 
     bool SendNextProbeRequest() {
         // Create packet
-        std::vector<unsigned char> l_Buffer = {0x00, 0x10, 0x40, 0x01, 0x00, 0x01, 0x80, 0x00, 0x22, 0x22, 0x00, 0x00};
+        std::vector<unsigned char> l_Buffer;
+        l_Buffer.emplace_back(0x00);
+        l_Buffer.emplace_back(0x10);
+        l_Buffer.emplace_back(0x40);
+        l_Buffer.emplace_back(0x01);
+        l_Buffer.emplace_back((m_UnicastSSA & 0xFF00) >> 8);
+        l_Buffer.emplace_back (m_UnicastSSA & 0x00FF);
+        l_Buffer.emplace_back(0x80);
+        l_Buffer.emplace_back(0x00);
+        l_Buffer.emplace_back(0x22);
+        l_Buffer.emplace_back(0x22);
+        l_Buffer.emplace_back(0x00);
+        l_Buffer.emplace_back(0x00);
         l_Buffer.emplace_back((m_LocalSeed   & 0xFF000000) >> 24);
         l_Buffer.emplace_back((m_LocalSeed   & 0x00FF0000) >> 16);
         l_Buffer.emplace_back((m_LocalSeed   & 0x0000FF00) >>  8);
@@ -241,6 +253,7 @@ private:
     }
     
     // Members
+    uint16_t m_UnicastSSA;
     uint32_t m_RemoteSeed;
     uint32_t m_LocalSeed;
     AccessClient& m_AccessClient;
@@ -256,10 +269,15 @@ private:
 int main(int argc, char* argv[]) {
     try {
         std::cerr << "Stream Test Client\n";
-        if (argc != 4) {
-            std::cerr << "Usage: StreamTestClient <host> <port> <usb-device>\n";
+        if (argc != 5) {
+            std::cerr << "Usage: StreamTestClient <host> <port> <usb-device> <Unicast-HEX-SSA>\n";
             return 1;
         } // if
+        
+        // Convert the provided hexadecimal SSA
+        uint16_t l_UnicastSSA;
+        std::istringstream l_Converter(argv[4]);
+        l_Converter >> std::hex >> l_UnicastSSA;
 
         // Install signal handlers
         boost::asio::io_service io_service;
@@ -277,7 +295,7 @@ int main(int argc, char* argv[]) {
         l_AccessClient.SetOnClosedCallback([&io_service](){io_service.stop();});
 
         // Prepare input
-        DataSource l_DataSource(io_service, l_AccessClient);
+        DataSource l_DataSource(io_service, l_AccessClient, l_UnicastSSA);
         l_AccessClient.SetOnDataCallback([&l_DataSource](const PacketData& a_PacketData){ 
             l_DataSource.PacketReceived(a_PacketData);
         });
