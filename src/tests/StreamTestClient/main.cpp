@@ -116,7 +116,7 @@ public:
 
     void PacketReceived(const PacketData& a_PacketData) {
         const std::vector<unsigned char> l_Buffer = a_PacketData.GetData();
-        if ((l_Buffer[4] == ((m_UnicastSSA & 0xFF00) >> 8)) && (l_Buffer[5] == (m_UnicastSSA & 0x00FF)) && (l_Buffer[8] == 0x22) && (l_Buffer[8] == 0x22)) {
+        if ((l_Buffer[2] == ((m_UnicastSSA & 0xFF00) >> 8)) && (l_Buffer[3] == (m_UnicastSSA & 0x00FF)) && (l_Buffer[8] == 0x22) && (l_Buffer[8] == 0x22)) {
             if (l_Buffer[11] == 0x01) {
                 HandleProbeReply(a_PacketData);
             } else if (l_Buffer[11] == 0x02) {
