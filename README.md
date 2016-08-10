@@ -8,6 +8,9 @@ This software is intended to be portable and makes use of the boost libraries. I
 The HDLCd itself offers simple TCP-based connectivity using a simple command- and framing structure. It offers multiple client-like tools to access the HDLCd
 for multiple use-cases.
 
+Releases:
+- v1.0 from 10.08.2016 (first tested version without any open issues)
+
 Current state:
 - Since 25.07.2016 the master branch is considered stable to be used for the s-net(r) devices of the Fraunhofer-Institute for Integrated Circuits IIS
 - The hdlc-vanilla branch containing an early development stage regarding an implementation of HDLC that conforms to the standard is not ready yet
