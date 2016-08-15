@@ -10,8 +10,6 @@ add_executable(hdlc-dissector
 main.cpp
 )
 
-set_property(TARGET hdlc-dissector PROPERTY CXX_STANDARD 11)
-
 if(WIN32)
     set(ADDITIONAL_LIBRARIES wsock32 ws2_32)
 else()

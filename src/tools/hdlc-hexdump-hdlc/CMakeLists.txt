@@ -10,8 +10,6 @@ add_executable(hdlc-hexdump-hdlc
 main.cpp
 )
 
-set_property(TARGET hdlc-hexdump-hdlc PROPERTY CXX_STANDARD 11)
-
 if(WIN32)
     set(ADDITIONAL_LIBRARIES wsock32 ws2_32)
 else()

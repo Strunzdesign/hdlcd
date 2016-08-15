@@ -10,8 +10,6 @@ add_executable(logclient
 main.cpp
 )
 
-set_property(TARGET logclient PROPERTY CXX_STANDARD 11)
-
 if(WIN32)
     set(ADDITIONAL_LIBRARIES wsock32 ws2_32)
 else()

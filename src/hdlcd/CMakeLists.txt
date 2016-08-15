@@ -22,8 +22,6 @@ SerialPort/SerialPortHandler.cpp
 SerialPort/SerialPortHandlerCollection.cpp
 )
 
-set_property(TARGET hdlcd PROPERTY CXX_STANDARD 11)
-
 if(WIN32)
     set(ADDITIONAL_LIBRARIES wsock32 ws2_32)
 else()
