@@ -149,7 +149,7 @@ private:
         m_bReceiving = true;
         auto self(shared_from_this());
         if (m_bStopped) return;
-        assert(m_IncomingPacket == false);
+        assert(!m_IncomingPacket);
         boost::asio::async_read(m_TCPSocket, boost::asio::buffer(m_ReadBuffer, 1),
                                 [this, self](boost::system::error_code a_ErrorCode, std::size_t a_BytesRead) {
             if (a_ErrorCode == boost::asio::error::operation_aborted) return;
