@@ -106,12 +106,14 @@ private:
 
 class DataSource {
 public:
-    DataSource(boost::asio::io_service& a_IoService, AccessClient& a_AccessClient, uint16_t a_UnicastSSA): m_Timer(a_IoService), m_AccessClient(a_AccessClient), m_LocalSeqNbr(0), m_RemoteStatistic("remote      "), m_LocalStatistic("local       "), m_UnicastSSA(a_UnicastSSA) {
+    DataSource(AccessClient& a_AccessClient, uint16_t a_UnicastSSA): m_AccessClient(a_AccessClient), m_LocalSeqNbr(0), m_RemoteStatistic("remote      "), m_LocalStatistic("local       "), m_UnicastSSA(a_UnicastSSA) {
         srand(::time(NULL));
         m_LocalSeed = rand();
         m_RemoteSeed = 0;
         m_TotalBytesWritten = 0;
-        StartTimer();
+        
+        // Trigger activity
+        SendNextProbeRequest();
     }
 
     void PacketReceived(const PacketData& a_PacketData) {
@@ -206,7 +208,7 @@ private:
         m_LocalStatistic.Update(a_LocalSeqNbr);
     }
 
-    bool SendNextProbeRequest() {
+    void SendNextProbeRequest() {
         // Create packet
         std::vector<unsigned char> l_Buffer;
         l_Buffer.emplace_back(0x00);
@@ -230,26 +232,14 @@ private:
         l_Buffer.emplace_back((m_LocalSeqNbr & 0x0000FF00) >>  8);
         l_Buffer.emplace_back (m_LocalSeqNbr & 0x000000FF);
 
-        if (m_AccessClient.Send(std::move(PacketData::CreatePacket(l_Buffer, true)))) {
+        // Send one packet, and if done, call this method again via a provided lambda-callback
+        if (m_AccessClient.Send(std::move(PacketData::CreatePacket(l_Buffer, true)), [this](){ SendNextProbeRequest(); })) {
+            // One packet is on its way
             m_TotalBytesWritten += 20;
             if (((++m_LocalSeqNbr) % 0xFF) == 0) {
                 std::cout << "256 Packets written (" << std::dec << m_TotalBytesWritten << " bytes total)" << std::endl;
             } // if
-            
-            return true;
         } // if
-        
-        return false;
-    }
-    
-    void StartTimer() {
-        m_Timer.expires_from_now(boost::posix_time::milliseconds(1));
-        m_Timer.async_wait([this](const boost::system::error_code& a_ErrorCode) {
-            if (!a_ErrorCode) {
-                while (SendNextProbeRequest());
-                StartTimer();
-            } // if
-        });
     }
     
     // Members
@@ -258,7 +248,6 @@ private:
     uint32_t m_LocalSeed;
     AccessClient& m_AccessClient;
     uint32_t m_LocalSeqNbr;
-    boost::asio::deadline_timer m_Timer;
     Statistic m_RemoteStatistic;
     Statistic m_LocalStatistic;
     unsigned long m_TotalBytesWritten;
@@ -295,7 +284,7 @@ int main(int argc, char* argv[]) {
         l_AccessClient.SetOnClosedCallback([&io_service](){io_service.stop();});
 
         // Prepare input
-        DataSource l_DataSource(io_service, l_AccessClient, l_UnicastSSA);
+        DataSource l_DataSource(l_AccessClient, l_UnicastSSA);
         l_AccessClient.SetOnDataCallback([&l_DataSource](const PacketData& a_PacketData){ 
             l_DataSource.PacketReceived(a_PacketData);
         });

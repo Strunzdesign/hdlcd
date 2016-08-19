@@ -173,9 +173,10 @@ public:
      *  Send a single data packet to the peer entity
      * 
      *  \param a_PacketData the data packet to be transmitted
+     *  \param a_OnSendDoneCallback the callback handler to be called if the provided data packet was sent (optional)
      */
-    bool Send(const PacketData& a_PacketData) {
-        return m_PacketEndpointData->Send(&a_PacketData);
+    bool Send(const PacketData& a_PacketData, std::function<void()> a_OnSendDoneCallback = std::function<void()>()) {
+        return m_PacketEndpointData->Send(&a_PacketData, a_OnSendDoneCallback);
     }
 
     /*! \brief Send a single control packet to the peer entity
@@ -183,8 +184,9 @@ public:
      *  Send a single control packet to the peer entity
      * 
      *  \param a_PacketCtrl the control packet to be transmitted
+     *  \param a_OnSendDoneCallback the callback handler to be called if the provided control packet was sent (optional)
      */
-    bool Send(const PacketCtrl& a_PacketCtrl) {
+    bool Send(const PacketCtrl& a_PacketCtrl, std::function<void()> a_OnSendDoneCallback = std::function<void()>()) {
         return m_PacketEndpointCtrl->Send(&a_PacketCtrl);
     }
     

@@ -25,6 +25,7 @@
 #include <deque>
 #include <iostream>
 #include <memory>
+#include <utility>
 #include <boost/asio.hpp>
 #include "../shared/PacketData.h"
 #include "../shared/PacketCtrl.h"
@@ -64,7 +65,7 @@ public:
         m_OnClosedCallback = a_OnClosedCallback;
     }
     
-    bool Send(const Packet* a_Packet) {
+    bool Send(const Packet* a_Packet, std::function<void()> a_OnSendDoneCallback = std::function<void()>()) {
         assert(a_Packet != NULL);
         if (m_SEPState == SEPSTATE_SHUTDOWN) {
             return false;
@@ -72,10 +73,14 @@ public:
 
         // TODO: check size of the queue. If it reaches a specific limit: kill the socket to prevent DoS attacks
         if (m_SendQueue.size() >= 10) {
+            if (a_OnSendDoneCallback) {
+                a_OnSendDoneCallback();
+            } // if
+
             return false;
         } // if
         
-        m_SendQueue.emplace_back(std::move(a_Packet->Serialize()));
+        m_SendQueue.emplace_back(std::make_pair(std::move(a_Packet->Serialize()), a_OnSendDoneCallback));
         bool write_in_progress = !m_SendQueue.empty();
         if ((!m_bWriteInProgress) && (!m_SendQueue.empty()) && (m_SEPState == SEPSTATE_CONNECTED)) {
             do_write();
@@ -243,11 +248,16 @@ private:
         auto self(shared_from_this());
         if (m_bStopped) return;
         m_bWriteInProgress = true;
-        boost::asio::async_write(m_TCPSocket, boost::asio::buffer(m_SendQueue.front().data(), m_SendQueue.front().size()),
+        boost::asio::async_write(m_TCPSocket, boost::asio::buffer(m_SendQueue.front().first.data(), m_SendQueue.front().first.size()),
                                  [this, self](boost::system::error_code a_ErrorCode, std::size_t a_BytesSent) {
             if (a_ErrorCode == boost::asio::error::operation_aborted) return;
             if (m_bStopped) return;
             if (!a_ErrorCode) {
+                // If a callback was provided, call it now to demand for a subsequent packet
+                if (m_SendQueue.front().second) {
+                    m_SendQueue.front().second();
+                } // if
+
                 m_SendQueue.pop_front();
                 if (!m_SendQueue.empty()) {
                     do_write();
@@ -274,7 +284,7 @@ private:
     
     boost::asio::ip::tcp::socket &m_TCPSocket;
     std::shared_ptr<Packet> m_IncomingPacket;
-    std::deque<std::vector<unsigned char>> m_SendQueue; // To be transmitted
+    std::deque<std::pair<std::vector<unsigned char>, std::function<void()>>> m_SendQueue; // To be transmitted
     bool m_bWriteInProgress;
     enum { max_length = 65535 };
     unsigned char m_ReadBuffer[max_length];

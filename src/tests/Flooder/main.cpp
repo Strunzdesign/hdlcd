@@ -27,40 +27,29 @@
 
 class DataSource {
 public:
-    DataSource(boost::asio::io_service& a_IoService, AccessClient& a_AccessClient): m_Timer(a_IoService), m_AccessClient(a_AccessClient), m_usSeqNr(0) {
-        StartTimer();
+    DataSource(AccessClient& a_AccessClient): m_AccessClient(a_AccessClient), m_usSeqNr(0) {
+        // Trigger activity
+        SendNextPacket();
     }
     
 private:
     // Helpers
-    bool SendNextPacket() {
+    void SendNextPacket() {
         // Create packet
         std::vector<unsigned char> l_Buffer = {0x00, 0x00, 0x40, 0x01, 0x00, 0x01, 0x00, 0x00, 0x10, 0x00, 0x04, 0x06, 0x02, 0x00, 0x80, 0x02, 0x01, (unsigned char)((m_usSeqNr & 0xFF00) >> 8), (unsigned char)(m_usSeqNr & 0x00FF)};
-        if (m_AccessClient.Send(std::move(PacketData::CreatePacket(l_Buffer, true)))) {
+        
+        // Send one packet, and if done, call this method again via a provided lambda-callback
+        if (m_AccessClient.Send(std::move(PacketData::CreatePacket(l_Buffer, true)), [this](){ SendNextPacket(); })) {
+            // One packet is on its way
             if (((++m_usSeqNr) % 100) == 0) {
                 std::cout << "100 Packets written" << std::endl;
             } // if
-            
-            return true;
         } // if
-        
-        return false;
-    }
-    
-    void StartTimer() {
-        m_Timer.expires_from_now(boost::posix_time::milliseconds(2));
-        m_Timer.async_wait([this](const boost::system::error_code& a_ErrorCode) {
-            if (!a_ErrorCode) {
-                while (SendNextPacket());
-                StartTimer();
-            } // if
-        });
     }
     
     // Members
     AccessClient& m_AccessClient;
     unsigned short m_usSeqNr;
-    boost::asio::deadline_timer m_Timer;
 };
 
 
@@ -88,7 +77,7 @@ int main(int argc, char* argv[]) {
         l_AccessClient.SetOnClosedCallback([&io_service](){io_service.stop();});
 
         // Prepare input
-        DataSource l_DataSource(io_service, l_AccessClient);
+        DataSource l_DataSource(l_AccessClient);
 
         // Start event processing
         io_service.run();
