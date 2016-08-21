@@ -1,6 +1,7 @@
 The source code files provided in this project differ in their licences.
 All source code files of this project are under the GPLv3 or later (see file LICENSE.GPLv3), EXCEPT:
 - All source code files in the folder "src/hdlcd/SerialPort/HDLC", which are under the "BSD 3 Clause" licence (see file LICENSE.BSD3Clause).
+- All header files that are installed into the system in the folder "src/include", which are also have the "BSD 3 Clause" licence.
 
 The author permits the use of all files under the LICENCE.BSD3Clause for the development of proprietary software.
 However, any restictions of the licences of involved toolkits, i.e., the boost libraries, must be followed as long
