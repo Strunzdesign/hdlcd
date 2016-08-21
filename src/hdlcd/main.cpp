@@ -35,7 +35,7 @@ int main(int argc, char **argv) {
     boost::asio::signal_set signals_(io_service);
     signals_.add(SIGINT);
     signals_.add(SIGTERM);
-    signals_.async_wait([&io_service](boost::system::error_code errorCode, int signalNumber){io_service.stop();});
+    signals_.async_wait([&io_service](boost::system::error_code a_ErrorCode, int a_SignalNumber){io_service.stop();});
     
     auto l_SerialPortHandlerCollection = std::make_shared<SerialPortHandlerCollection>(io_service);
     ClientAcceptor l_ClientAcceptor(io_service, atoi(argv[1]), l_SerialPortHandlerCollection);

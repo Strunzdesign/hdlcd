@@ -31,7 +31,7 @@
 #include "AliveGuard.h"
 #include "LockGuard.h"
 #include "../SerialPort/HDLC/BufferType.h"
-#include "../../shared/PacketEndpoint.h"
+#include "HdlcdPacketEndpoint.h"
 
 class ClientHandlerCollection;
 class SerialPortHandler;
@@ -56,13 +56,13 @@ private:
     void ReadSessionHeader2(unsigned char a_BytesUSB);
     
     // Callbacks
-    bool OnDataReceived(std::shared_ptr<const PacketData> a_PacketData);
-    void OnCtrlReceived(const PacketCtrl& a_PacketCtrl);
+    bool OnDataReceived(std::shared_ptr<const HdlcdPacketData> a_PacketData);
+    void OnCtrlReceived(const HdlcdPacketCtrl& a_PacketCtrl);
     void OnClosed();
 
     // Members
     std::weak_ptr<ClientHandlerCollection> m_ClientHandlerCollection;
-    std::shared_ptr<PacketEndpoint> m_PacketEndpoint;
+    std::shared_ptr<HdlcdPacketEndpoint> m_PacketEndpoint;
     
     bool m_Registered;
     boost::asio::ip::tcp::socket m_TCPSocket;
@@ -74,7 +74,7 @@ private:
     
     // Pending incoming data packets
     bool m_bSerialPortHandlerAwaitsPacket;
-    std::shared_ptr<const PacketData> m_PendingIncomingPacketData;
+    std::shared_ptr<const HdlcdPacketData> m_PendingIncomingPacketData;
 
     // Track the status of the serial port, communicate changes
     AliveGuard m_AliveGuard;

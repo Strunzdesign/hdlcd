@@ -23,8 +23,8 @@
 #include "ClientHandlerCollection.h"
 #include "../SerialPort/SerialPortHandlerCollection.h"
 #include "../SerialPort/SerialPortHandler.h"
-#include "../../shared/PacketData.h"
-#include "../../shared/PacketCtrl.h"
+#include "HdlcdPacketData.h"
+#include "HdlcdPacketCtrl.h"
 
 ClientHandler::ClientHandler(std::weak_ptr<ClientHandlerCollection> a_ClientHandlerCollection, boost::asio::ip::tcp::socket a_TCPSocket):
     m_ClientHandlerCollection(a_ClientHandlerCollection),
@@ -35,9 +35,9 @@ ClientHandler::ClientHandler(std::weak_ptr<ClientHandlerCollection> a_ClientHand
     m_bDeliverRcvd = false;
     m_bDeliverInvalidData = false;
     m_bSerialPortHandlerAwaitsPacket = false;
-    m_PacketEndpoint = std::make_shared<PacketEndpoint>(m_TCPSocket);
-    m_PacketEndpoint->SetOnDataCallback([this](std::shared_ptr<const PacketData> a_PacketData){ return OnDataReceived(a_PacketData); });
-    m_PacketEndpoint->SetOnCtrlCallback([this](const PacketCtrl& a_PacketCtrl){ OnCtrlReceived(a_PacketCtrl); });
+    m_PacketEndpoint = std::make_shared<HdlcdPacketEndpoint>(m_TCPSocket);
+    m_PacketEndpoint->SetOnDataCallback([this](std::shared_ptr<const HdlcdPacketData> a_PacketData){ return OnDataReceived(a_PacketData); });
+    m_PacketEndpoint->SetOnCtrlCallback([this](const HdlcdPacketCtrl& a_PacketCtrl){ OnCtrlReceived(a_PacketCtrl); });
     m_PacketEndpoint->SetOnClosedCallback([this](){ OnClosed(); });
 }
 
@@ -57,7 +57,7 @@ void ClientHandler::DeliverBufferToClient(E_BUFFER_TYPE a_eBufferType, const std
     } // if
 
     if (l_bDeliver) {
-        auto l_Packet = PacketData::CreatePacket(a_Payload, a_bReliable, a_bInvalid, a_bWasSent);
+        auto l_Packet = HdlcdPacketData::CreatePacket(a_Payload, a_bReliable, a_bInvalid, a_bWasSent);
         m_PacketEndpoint->Send(&l_Packet);
     } // if
 }
@@ -68,7 +68,7 @@ void ClientHandler::UpdateSerialPortState(bool a_bAlive, size_t a_LockHolders) {
     l_bDeliverChangedState |= m_LockGuard.UpdateSerialPortState(a_LockHolders);
     if (l_bDeliverChangedState) {
         // The state of the serial port state changed. Communicate the new state to the client.
-        auto l_Packet = PacketCtrl::CreatePortStatusResponse(m_AliveGuard.IsAlive(), m_LockGuard.IsLockedByOthers(), m_LockGuard.IsLockedBySelf());
+        auto l_Packet = HdlcdPacketCtrl::CreatePortStatusResponse(m_AliveGuard.IsAlive(), m_LockGuard.IsLockedByOthers(), m_LockGuard.IsLockedBySelf());
         m_PacketEndpoint->Send(&l_Packet);
     } // if
 }
@@ -220,7 +220,7 @@ void ClientHandler::ReadSessionHeader2(unsigned char a_BytesUSB) {
     });
 }
 
-bool ClientHandler::OnDataReceived(std::shared_ptr<const PacketData> a_PacketData) {
+bool ClientHandler::OnDataReceived(std::shared_ptr<const HdlcdPacketData> a_PacketData) {
     // Checks
     assert(a_PacketData);
     assert(!m_PendingIncomingPacketData);
@@ -239,10 +239,10 @@ bool ClientHandler::OnDataReceived(std::shared_ptr<const PacketData> a_PacketDat
     return false;
 }
 
-void ClientHandler::OnCtrlReceived(const PacketCtrl& a_PacketCtrl) {
+void ClientHandler::OnCtrlReceived(const HdlcdPacketCtrl& a_PacketCtrl) {
     // Check control packet: suspend / resume? Port kill request?
     switch(a_PacketCtrl.GetPacketType()) {
-        case PacketCtrl::CTRL_TYPE_PORT_STATUS: {
+        case HdlcdPacketCtrl::CTRL_TYPE_PORT_STATUS: {
             if (a_PacketCtrl.GetDesiredLockState()) {
                 // Acquire a lock, if not already held. On acquisition, suspend the serial port
                 m_LockGuard.AcquireLock();
@@ -252,12 +252,12 @@ void ClientHandler::OnCtrlReceived(const PacketCtrl& a_PacketCtrl) {
             } // else
             break;
         }
-        case PacketCtrl::CTRL_TYPE_ECHO: {
+        case HdlcdPacketCtrl::CTRL_TYPE_ECHO: {
             // Respond with an echo reply control packet: simply send it back
             m_PacketEndpoint->Send(&a_PacketCtrl);
             break;
         }
-        case PacketCtrl::CTRL_TYPE_PORT_KILL: {
+        case HdlcdPacketCtrl::CTRL_TYPE_PORT_KILL: {
             // Kill the serial port immediately and detach all related clients
             m_SerialPortHandler->Stop();
             break;
