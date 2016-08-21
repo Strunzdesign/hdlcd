@@ -11,6 +11,5 @@ var searchData=
   ['framegenerator_2eh',['FrameGenerator.h',['../FrameGenerator_8h.html',1,'']]],
   ['frameparser',['FrameParser',['../classFrameParser.html',1,'FrameParser'],['../classFrameParser.html#ab3b14155fd8cffc9ab4a69dc96c1e6d5',1,'FrameParser::FrameParser()']]],
   ['frameparser_2ecpp',['FrameParser.cpp',['../FrameParser_8cpp.html',1,'']]],
-  ['frameparser_2eh',['FrameParser.h',['../FrameParser_8h.html',1,'']]],
-  ['frameprinter_2eh',['FramePrinter.h',['../FramePrinter_8h.html',1,'']]]
+  ['frameparser_2eh',['FrameParser.h',['../FrameParser_8h.html',1,'']]]
 ];

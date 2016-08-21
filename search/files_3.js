@@ -7,6 +7,5 @@ var searchData=
   ['framegenerator_2ecpp',['FrameGenerator.cpp',['../FrameGenerator_8cpp.html',1,'']]],
   ['framegenerator_2eh',['FrameGenerator.h',['../FrameGenerator_8h.html',1,'']]],
   ['frameparser_2ecpp',['FrameParser.cpp',['../FrameParser_8cpp.html',1,'']]],
-  ['frameparser_2eh',['FrameParser.h',['../FrameParser_8h.html',1,'']]],
-  ['frameprinter_2eh',['FramePrinter.h',['../FramePrinter_8h.html',1,'']]]
+  ['frameparser_2eh',['FrameParser.h',['../FrameParser_8h.html',1,'']]]
 ];

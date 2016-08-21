@@ -1,0 +1,13 @@
+<map id="src/include/HdlcdPacket.h" name="src/include/HdlcdPacket.h">
+<area shape="rect" id="node2" href="$HdlcdPacketData_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="609,80,822,107"/>
+<area shape="rect" id="node12" href="$HdlcdPacketCtrl_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="886,80,1091,107"/>
+<area shape="rect" id="node3" href="$ClientHandler_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="875,319,1055,360"/>
+<area shape="rect" id="node4" href="$HdlcdPacketEndpoint_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="733,155,972,181"/>
+<area shape="rect" id="node11" href="$HdlcdAccessClient_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="742,237,963,263"/>
+<area shape="rect" id="node5" href="$ClientHandler_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="427,229,607,271"/>
+<area shape="rect" id="node6" href="$ClientAcceptor_8h.html" title="This file contains the header declaration of class ClientAcceptor. " alt="" coords="5,319,185,360"/>
+<area shape="rect" id="node8" href="$ClientHandlerCollection_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="210,319,410,360"/>
+<area shape="rect" id="node9" href="$SerialPortHandler_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="435,319,599,360"/>
+<area shape="rect" id="node10" href="$SerialPortHandlerCollection_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="623,319,850,360"/>
+<area shape="rect" id="node7" href="$main_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="26,408,165,435"/>
+</map>

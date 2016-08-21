@@ -1,0 +1,8 @@
+<map id="ISerialPortHandler::~ISerialPortHandler" name="ISerialPortHandler::~ISerialPortHandler">
+<area shape="rect" id="node2" href="$classISerialPortHandler.html#a48fbc9a1186cc8fe0b100fbfe706404d" title="ISerialPortHandler\l::RequiresBufferType" alt="" coords="223,5,377,47"/>
+<area shape="rect" id="node3" href="$classISerialPortHandler.html#ae134227c5934936de7d3b011f8990e89" title="ISerialPortHandler\l::DeliverBufferToClients" alt="" coords="215,71,385,112"/>
+<area shape="rect" id="node4" href="$classISerialPortHandler.html#a271ba7ea50b4ef8068601929cdfb3710" title="ISerialPortHandler\l::ChangeBaudRate" alt="" coords="230,136,370,177"/>
+<area shape="rect" id="node5" href="$classISerialPortHandler.html#a0c5392df3b152e02071476b9a32cf213" title="ISerialPortHandler\l::PropagateSerialPortState" alt="" coords="205,201,395,243"/>
+<area shape="rect" id="node6" href="$classISerialPortHandler.html#ab979c96d8799b79cbe30249f86f1b422" title="ISerialPortHandler\l::TransmitHDLCFrame" alt="" coords="219,267,381,308"/>
+<area shape="rect" id="node7" href="$classISerialPortHandler.html#a4bed05fb57b74ae8471bd260632d4857" title="ISerialPortHandler\l::QueryForPayload" alt="" coords="231,332,369,373"/>
+</map>

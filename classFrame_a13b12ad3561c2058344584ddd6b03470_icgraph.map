@@ -1,4 +1,7 @@
 <map id="Frame::IsSFrame" name="Frame::IsSFrame">
-<area shape="rect" id="node2" href="$classFrame.html#a1151c62bfba51f5e2fd979dd4b856829" title="Frame::Dissect" alt="" coords="181,5,296,32"/>
-<area shape="rect" id="node3" href="$classProtocolState.html#aab0236c1b098820dbc66b2b41bc22432" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="344,23,511,65"/>
+<area shape="rect" id="node2" href="$classFrame.html#a1151c62bfba51f5e2fd979dd4b856829" title="Frame::Dissect" alt="" coords="181,56,296,83"/>
+<area shape="rect" id="node4" href="$classProtocolState.html#a444c95c26410e631068fa56012d342fe" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="536,49,703,90"/>
+<area shape="rect" id="node3" href="$classFrame.html#a13630eb08ee9c95f5102051d9dea1256" title="Frame::HasPayload" alt="" coords="344,5,488,32"/>
+<area shape="rect" id="node5" href="$classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="751,49,945,90"/>
+<area shape="rect" id="node6" href="$classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c" title="ProtocolState::AddReceived\lRawBytes" alt="" coords="993,49,1191,90"/>
 </map>

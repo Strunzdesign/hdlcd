@@ -1,0 +1,4 @@
+<map id="HdlcdPacketCtrl::CreateKeepAliveRequest" name="HdlcdPacketCtrl::CreateKeepAliveRequest">
+<area shape="rect" id="node2" href="$classHdlcdPacketEndpoint.html#a3f035e49735765d15b7a4156f10062a1" title="HdlcdPacketEndpoint\l::TriggerNextDataPacket" alt="" coords="259,5,435,47"/>
+<area shape="rect" id="node3" href="$classHdlcdPacketEndpoint.html#a6f316b1ff172b355335482027d68c454" title="HdlcdPacketEndpoint\l::Start" alt="" coords="483,5,640,47"/>
+</map>

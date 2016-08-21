@@ -1,3 +1,4 @@
 <map id="AliveGuard::UpdateSerialPortState" name="AliveGuard::UpdateSerialPortState">
 <area shape="rect" id="node2" href="$classClientHandler.html#a2f23119d5193011130053342d11fef7f" title="ClientHandler::UpdateSerial\lPortState" alt="" coords="232,5,428,47"/>
+<area shape="rect" id="node3" href="$classClientHandler.html#acf0f0dc0d4991bfc7c2f1f280cd88440" title="ClientHandler::GetBufferType" alt="" coords="476,13,683,39"/>
 </map>

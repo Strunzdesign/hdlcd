@@ -1,0 +1,5 @@
+<map id="LockGuard::AcquireLock" name="LockGuard::AcquireLock">
+<area shape="rect" id="node2" href="$classClientHandler.html#af146dbab274fd18c3d2d4524ad900fa2" title="ClientHandler::Stop" alt="" coords="228,31,371,57"/>
+<area shape="rect" id="node3" href="$classClientHandler.html#a202c875fbf38e4a52975f6c173f78127" title="ClientHandler::~ClientHandler" alt="" coords="419,5,627,32"/>
+<area shape="rect" id="node4" href="$classClientHandler.html#acf0f0dc0d4991bfc7c2f1f280cd88440" title="ClientHandler::GetBufferType" alt="" coords="419,56,626,83"/>
+</map>

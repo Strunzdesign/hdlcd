@@ -1,0 +1,4 @@
+<map id="HdlcdPacketData::CreatePacket" name="HdlcdPacketData::CreatePacket">
+<area shape="rect" id="node2" href="$classClientHandler.html#a4479c2ca60c1757df59e007f10c3858a" title="ClientHandler::DeliverBuffer\lToClient" alt="" coords="276,5,471,47"/>
+<area shape="rect" id="node3" href="$classClientHandler.html#acf0f0dc0d4991bfc7c2f1f280cd88440" title="ClientHandler::GetBufferType" alt="" coords="519,13,725,39"/>
+</map>

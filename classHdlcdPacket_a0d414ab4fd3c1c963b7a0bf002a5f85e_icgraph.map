@@ -1,0 +1,6 @@
+<map id="HdlcdPacket::Serialize" name="HdlcdPacket::Serialize">
+<area shape="rect" id="node2" href="$classHdlcdPacket.html#af06deb706b5d3a7475d534c48a20ec63" title="HdlcdPacket::~HdlcdPacket" alt="" coords="215,5,409,32"/>
+<area shape="rect" id="node3" href="$classHdlcdPacketEndpoint.html#a6e06062dc770293925634412a5a943a2" title="HdlcdPacketEndpoint\l::Send" alt="" coords="233,57,391,98"/>
+<area shape="rect" id="node4" href="$classHdlcdPacketEndpoint.html#a3f035e49735765d15b7a4156f10062a1" title="HdlcdPacketEndpoint\l::TriggerNextDataPacket" alt="" coords="457,57,633,98"/>
+<area shape="rect" id="node5" href="$classHdlcdPacketEndpoint.html#a6f316b1ff172b355335482027d68c454" title="HdlcdPacketEndpoint\l::Start" alt="" coords="681,57,839,98"/>
+</map>
