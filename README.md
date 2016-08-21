@@ -1,17 +1,21 @@
 # The HDLC Daemon (HDLCd)
-The HDLCd implement the HDLC protocol to easily talk to devices connected via serial communications
+The HDLC Daemon (HDLCd) implement the HDLC protocol to easily talk to devices connected via serial communications.
 
-This package offers the system deamon "HDLCd" that implements the "High-level Data Link Control" protocol (HDLC).
+This package offers the "HDLC Daemon" (HDLCd) that implements the "High-level Data Link Control" protocol (HDLC).
 The purpose of this deamon is to easily use serial devices that make use of the HDLC protocol for communication.
-This software is intended to be portable and makes use of the boost libraries. It was tested on GNU/Linux (GCC toolchain) and Microsoft Windows (nuwen MinGW).
+Currently it is tailored to the stripped-down flavor of HDLC offered by the s-net(r) sensor tags by the Fraunhofer-Institute
+for Integrated Circuits (IIS).
+
+This software is intended to be portable and makes use of the boost libraries. It was tested on GNU/Linux (GCC toolchain)
+and Microsoft Windows (nuwen MinGW).
 
 The HDLCd itself offers simple TCP-based connectivity using a simple command- and framing structure.
 
-Multiple client-like tools to access the HDLCd for multiple use-cases are in a seperate repository
+Multiple client-like tools to access the HDLCd for multiple use-cases are available in a seperate repository:
 - https://github.com/Strunzdesign/hdlcd-tools
 - Install the HDLCd and its bundeled header files before compiling the software from the hdlcd-tools repository!
 
-Releases:
+Releases of the HDLCd:
 - v1.1 from 16.08.2016
   - Fixed compiler error triggered with GCC 6.1 / nuwen MinGW 14.0
 
