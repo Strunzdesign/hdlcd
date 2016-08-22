@@ -28,7 +28,7 @@
 int main(int argc, char **argv) {
     std::cerr << "HDLC daemon " << HDLCD_VERSION_MAJOR << "." << HDLCD_VERSION_MINOR << std::endl;
     if (argc != 2) {
-        std::cerr << "Usage: hdlcd <port>\n";
+        std::cerr << "Usage: hdlcd <TCP port>\n";
         return 1;
     } // if
         
