@@ -19,14 +19,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "Config.h"
 #include <iostream>
 #include <boost/asio.hpp>
-#include "Config.h"
 #include "SerialPort/SerialPortHandlerCollection.h"
 #include "AccessProtocol/ClientAcceptor.h"
 
 int main(int argc, char **argv) {
-    std::cerr << "HDLC daemon " << HDLCD_VERSION_MAJOR << "." << HDLCD_VERSION_MINOR << std::endl;
+    std::cerr << "HDLC daemon v" << HDLCD_VERSION_MAJOR << "." << HDLCD_VERSION_MINOR << std::endl;
     if (argc != 2) {
         std::cerr << "Usage: hdlcd <TCP port>\n";
         return 1;
