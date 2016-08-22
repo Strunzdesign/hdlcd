@@ -1,7 +1,0 @@
-Request firmware message:
-
-00 00 40 01 3F F4 00 00 10 00 04 06 02 00 80 02 01
-
-To specify COM ports on MS Windows:
-
-"//./COM140"
