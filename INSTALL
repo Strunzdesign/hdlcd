@@ -12,7 +12,6 @@ Preparations:
 - Install the "CMake" build system
 
 To compile the HDLC daemon and to install it along with the header files, just follow these steps:
-
 1.) git clone https://github.com/Strunzdesign/hdlcd.git
 2.) cd hdlcd
 3.) mkdir build
