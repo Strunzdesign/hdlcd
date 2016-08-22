@@ -13,4 +13,13 @@ else()
     message(FATAL_ERROR "Compiler ${CMAKE_CXX_COMPILER} has no C++11 support.")
 endif()
 
+# Automatically set the version number
+set(HDLCD_VERSION_MAJOR 1)
+set(HDLCD_VERSION_MINOR 2)
+include_directories("${PROJECT_BINARY_DIR}/src")
+configure_file (
+    "${PROJECT_SOURCE_DIR}/src/Config.h.in"
+    "${PROJECT_BINARY_DIR}/src/Config.h"
+)
+
 add_subdirectory(src)
