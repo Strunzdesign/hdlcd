@@ -2,7 +2,7 @@
  * \file SerialPortHandler.h
  * \brief 
  *
- * The hdlc-tools implement the HDLC protocol to easily talk to devices connected via serial communications
+ * The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communications.
  * Copyright (C) 2016  Florian Evers, florian-evers@gmx.de
  *
  * This program is free software: you can redistribute it and/or modify
