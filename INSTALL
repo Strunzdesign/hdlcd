@@ -1,5 +1,53 @@
-mkdir build
-cd build
-cmake ..
-make
-make install (as root)
+===
+How to install the HDLC Daemon "hdlcd" and the header files
+===
+
+For GNU/Linux:
+---
+On GNU/Linux systems, installation is easy, as long as the required tools are available.
+
+Preparations:
+- Install the "GCC toolchain"
+- Install the "Boost Libraries"
+- Install the "CMake" build system
+
+To compile the HDLC daemon and to install it along with the header files, just follow these steps:
+
+1.) git clone https://github.com/Strunzdesign/hdlcd.git
+2.) cd hdlcd
+3.) mkdir build
+4.) cd build
+5.) cmake ..
+6.) make
+7.) make install (as root)
+
+The "hdlcd" binary will be installed to "/usr/local/bin/", the header files to "/usr/local/include/"
+
+
+
+For Microsoft Windows 7:
+---
+For Microsoft Windows, one has to install the toolchain first.
+
+Preparations:
+- Download the latest "nuwen MinGW" distribution from https://nuwen.net/mingw.html
+- Assure that you pick a MinGW distribution that already includes "Git" and the "Boost Libraries"
+- Follow the installation guide, e.g., unpack MinGW to C:\MinGW
+- Add MinGW to the path according to the installation guide
+- Download and install "CMake" from https://cmake.org/download
+
+To compile the HDLC daemon and to install it along with the header files, just follow these steps:
+1.) Go to your projects' folder and open a shell there
+2.) git clone https://github.com/Strunzdesign/hdlcd.git
+3.) cd hdlcd
+4.) mkdir build
+5.) cd build
+6.) Pick yourself a directory to install the compiled files, e.g., consider C:\hdlcd
+7.) cmake -G "MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=/c/hdlcd ..
+8.) If you get an error message on step 7, repeat step 7 once
+9.) make
+10.) make install
+
+The "hdlcd" binary will be installed to "C:\hdlcd\bin\", the header files to "C:\hdlcd\include\".
+
+Have fun :-)
