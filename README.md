@@ -15,7 +15,7 @@ Multiple client-like tools to access the HDLCd for multiple use-cases are availa
 - https://github.com/Strunzdesign/hdlcd-tools
 - Install the HDLCd and its bundeled header files before compiling the software from the hdlcd-tools repository!
 
-Releases of the HDLCd:
+Stable releases of the HDLCd:
 - v1.2 from 23.08.2016
   - Fixed installation issues on Microsoft Windows / MinGW
   - Documentation updates
