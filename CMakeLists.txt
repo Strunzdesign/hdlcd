@@ -14,8 +14,8 @@ else()
 endif()
 
 # Automatically set the version number
-set(HDLCD_VERSION_MAJOR 1)
-set(HDLCD_VERSION_MINOR 2)
+set(HDLCD_VERSION_MAJOR  \"1\")
+set(HDLCD_VERSION_MINOR  \"2pre\")
 include_directories("${PROJECT_BINARY_DIR}/src")
 configure_file (
     "${PROJECT_SOURCE_DIR}/src/Config.h.in"
