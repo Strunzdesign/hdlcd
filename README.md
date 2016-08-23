@@ -16,6 +16,12 @@ Multiple client-like tools to access the HDLCd for multiple use-cases are availa
 - Install the HDLCd and its bundeled header files before compiling the software from the hdlcd-tools repository!
 
 Releases of the HDLCd:
+- v1.2 from 23.08.2016
+  - Fixed installation issues on Microsoft Windows / MinGW
+  - Documentation updates
+  - The HDLCd tools were excluded and moved to the hdlcd-tools repository at https://github.com/Strunzdesign/hdlcd-tools
+  - The s-net(r) tools  were excluded and moved to the hdlcd-tools repository at https://github.com/Strunzdesign/snet-tools
+
 - v1.1 from 16.08.2016
   - Fixed compiler error triggered with GCC 6.1 / nuwen MinGW 14.0
 
