@@ -42,7 +42,6 @@
 
 class FrameGenerator {
 public:
-    FrameGenerator();
     static const std::vector<unsigned char> SerializeFrame(const Frame& a_Frame);
     static std::vector<unsigned char> EscapeFrame(const std::vector<unsigned char> &a_HDLCFrame);
 

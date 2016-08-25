@@ -92,11 +92,11 @@ public:
                 a_OnSendDoneCallback();
             } // if
 
+            // TODO: check what happens if this is caused by an important packet, e.g., a keep alive or an echo response packet
             return false;
         } // if
         
         m_SendQueue.emplace_back(std::make_pair(std::move(a_Packet->Serialize()), a_OnSendDoneCallback));
-        bool write_in_progress = !m_SendQueue.empty();
         if ((!m_bWriteInProgress) && (!m_SendQueue.empty()) && (m_SEPState == SEPSTATE_CONNECTED)) {
             do_write();
         } // if
