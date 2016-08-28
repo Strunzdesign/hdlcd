@@ -11,9 +11,12 @@ and Microsoft Windows (nuwen MinGW).
 
 The HDLCd itself offers simple TCP-based connectivity using a simple command- and framing structure.
 
-Multiple client-like tools to access the HDLCd for multiple use-cases are available in a seperate repository:
+- https://github.com/Strunzdesign/hdlcd-devel
+
+Multiple client-like tools to access the HDLCd for multiple use-cases are available in seperate repositories:
 - https://github.com/Strunzdesign/hdlcd-tools
-- Install the HDLCd and its bundeled header files before compiling the software from the hdlcd-tools repository!
+- https://github.com/Strunzdesign/snet-tools
+- You must install the header files from the hdlcd-devel first to be able to compile the software from these repositories!
 
 Stable releases of the HDLCd:
 - v1.2 from 23.08.2016
@@ -21,14 +24,20 @@ Stable releases of the HDLCd:
   - Documentation updates
   - The HDLCd tools were moved to the "hdlcd-tools" repository at https://github.com/Strunzdesign/hdlcd-tools
   - The s-net(r) tools were moved to the "snet-tools" repository at https://github.com/Strunzdesign/snet-tools
+  - Works well with s-net(r) BASE release 3.6
 
 - v1.1 from 16.08.2016
   - Fixed compiler error triggered with GCC 6.1 / nuwen MinGW 14.0
+  - Works well with s-net(r) BASE release 3.6
 
 - v1.0 from 10.08.2016
   - First tested version without any open issues
 
 Current state:
+- v1.3pre (git master branch)
+  - The shared header files were moved to the hdlcd-devel repository at https://github.com/Strunzdesign/hdlcd-devel
+  - Requires the header files from https://github.com/Strunzdesign/hdlcd-devel for compilation!
+
 - Since 25.07.2016 the master branch is considered stable to be used for the s-net(r) devices of the Fraunhofer-Institute for Integrated Circuits IIS
 - HDLCd v1.1 works well with s-net(r) BASE release 3.6
 - HDLCd v1.1: Still no flow control and error correction for incoming I-frames (TAG to HDLCd via UART)
