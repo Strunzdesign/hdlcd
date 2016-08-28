@@ -7,12 +7,12 @@ The baud rate of the attached device may be 9600 baud or 115200 baud and is auto
 Example (GNU/Linux):
 ---
 cd build/src/hdlcd
-./hdlcd 10000
+./hdlcd --port 10000
 
 Example (Microsoft Windows):
 ---
 cd build\src\hdlcd
-hdlcd.exe 10000
+hdlcd.exe --port 10000
 
 Try creating a symbolic link to hdlcd.exe. This allows to specify the command line parameter and offers
 you a very quick possibility to start the HDLC Daemon with one click.
