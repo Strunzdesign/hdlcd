@@ -9,8 +9,8 @@ for Integrated Circuits (IIS).
 This software is intended to be portable and makes use of the boost libraries. It was tested on GNU/Linux (GCC toolchain)
 and Microsoft Windows (nuwen MinGW).
 
-The HDLCd itself offers simple TCP-based connectivity using a simple command- and framing structure.
-
+The HDLCd itself offers simple TCP-based connectivity using a simple command- and framing structure. Before being able
+to compile it from the provided sources, you have to install the shared header files from this repository:
 - https://github.com/Strunzdesign/hdlcd-devel
 
 Multiple client-like tools to access the HDLCd for multiple use-cases are available in seperate repositories:
