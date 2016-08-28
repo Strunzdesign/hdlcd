@@ -1,3 +1,4 @@
 // The configured options and settings for the HDLC Daemon
+#include "HdlcdConfig.h"
 #define HDLCD_VERSION_MAJOR @HDLCD_VERSION_MAJOR@
 #define HDLCD_VERSION_MINOR @HDLCD_VERSION_MINOR@

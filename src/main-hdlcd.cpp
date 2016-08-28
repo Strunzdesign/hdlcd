@@ -26,7 +26,8 @@
 #include "AccessProtocol/ClientAcceptor.h"
 
 int main(int argc, char **argv) {
-    std::cerr << "HDLC daemon v" << HDLCD_VERSION_MAJOR << "." << HDLCD_VERSION_MINOR << std::endl;
+    std::cerr << "HDLC daemon v" << HDLCD_VERSION_MAJOR << "." << HDLCD_VERSION_MINOR
+              << " built with hdlcd-devel v" << HDLCD_DEVEL_VERSION_MAJOR << "." << HDLCD_DEVEL_VERSION_MINOR << std::endl;
     if (argc != 2) {
         std::cerr << "Usage: hdlcd <TCP port>\n";
         return 1;
