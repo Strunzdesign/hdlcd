@@ -31,9 +31,10 @@ int main(int argc, char **argv) {
         // Declare the supported options.
         boost::program_options::options_description l_Description("Allowed options");
         l_Description.add_options()
-            ("help,h", "produce this help message")
+            ("help,h",    "produce this help message")
             ("version,v", "show version information")
-            ("port,p", boost::program_options::value<uint16_t>(), "the TCP port to accept clients on")
+            ("port,p",    boost::program_options::value<uint16_t>(),
+                          "the TCP port to accept clients on")
         ;
 
         // Parse the command line
@@ -41,8 +42,8 @@ int main(int argc, char **argv) {
         boost::program_options::store(boost::program_options::parse_command_line(argc, argv, l_Description), l_VariablesMap);
         boost::program_options::notify(l_VariablesMap);
         if (l_VariablesMap.count("version")) {
-            std::cerr << "HDLC daemon v" << HDLCD_VERSION_MAJOR << "." << HDLCD_VERSION_MINOR
-                      << " built with hdlcd-devel v" << HDLCD_DEVEL_VERSION_MAJOR << "." << HDLCD_DEVEL_VERSION_MINOR << std::endl;
+            std::cerr << "HDLC daemon version " << HDLCD_VERSION_MAJOR << "." << HDLCD_VERSION_MINOR
+                      << " built with hdlcd-devel version " << HDLCD_DEVEL_VERSION_MAJOR << "." << HDLCD_DEVEL_VERSION_MINOR << std::endl;
         } // if
 
         if (l_VariablesMap.count("help")) {
@@ -60,7 +61,7 @@ int main(int argc, char **argv) {
         boost::asio::signal_set l_Signals(l_IoService);
         l_Signals.add(SIGINT);
         l_Signals.add(SIGTERM);
-        l_Signals.async_wait([&l_IoService](boost::system::error_code a_ErrorCode, int a_SignalNumber){ l_IoService.stop(); });
+        l_Signals.async_wait([&l_IoService](boost::system::error_code, int){ l_IoService.stop(); });
         
         // Create the HDLCd entity
         auto l_SerialPortHandlerCollection = std::make_shared<SerialPortHandlerCollection>(l_IoService);
@@ -68,8 +69,8 @@ int main(int argc, char **argv) {
         
         // Start event processing
         l_IoService.run();
-    } catch (std::exception& a_ErrorCode) {
-        std::cerr << "Exception: " << a_ErrorCode.what() << "\n";
+    } catch (std::exception& a_Error) {
+        std::cerr << "Exception: " << a_Error.what() << "\n";
         return 1;
     } // catch
     
