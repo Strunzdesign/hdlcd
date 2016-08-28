@@ -45,7 +45,7 @@ To compile and to install the HDLC daemon, just follow these steps:
 5.) cd build
 6.) Pick yourself a directory to install the compiled files, e.g., consider C:\hdlcd
 7.) Remember the directory where you installed the shared header files, e.g., C:\hdlcd-devel
-8.) cmake -G "MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=/c/hdlcd -DHDLCD_INCLUDE_DIR=/c/hdlcd-devel/include ..
+8.) cmake -G "MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=/c/hdlcd -DHDLCD_DEVEL_INCLUDE_DIR=/c/hdlcd-devel/include ..
 9.) If you get an error message on step 8, repeat step 8 once
 10.) make
 11.) make install
