@@ -1,7 +1,7 @@
-<map id="src/hdlcd/SerialPort/SerialPortHandlerCollection.h" name="src/hdlcd/SerialPort/SerialPortHandlerCollection.h">
-<area shape="rect" id="node2" href="$ClientAcceptor_8h.html" title="This file contains the header declaration of class ClientAcceptor. " alt="" coords="5,95,185,136"/>
-<area shape="rect" id="node3" href="$main_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="90,184,229,211"/>
-<area shape="rect" id="node4" href="$ClientHandler_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="261,95,441,136"/>
-<area shape="rect" id="node5" href="$SerialPortHandler_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="465,95,629,136"/>
-<area shape="rect" id="node6" href="$SerialPortHandlerCollection_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="654,95,881,136"/>
+<map id="src/SerialPort/SerialPortHandlerCollection.h" name="src/SerialPort/SerialPortHandlerCollection.h">
+<area shape="rect" id="node2" href="$ClientAcceptor_8h.html" title="This file contains the header declaration of class ClientAcceptor. " alt="" coords="5,95,148,136"/>
+<area shape="rect" id="node3" href="$main-hdlcd_8cpp.html" title="src/main&#45;hdlcd.cpp" alt="" coords="62,184,201,211"/>
+<area shape="rect" id="node4" href="$ClientHandler_8cpp.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="224,95,367,136"/>
+<area shape="rect" id="node5" href="$SerialPortHandler_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="391,95,565,136"/>
+<area shape="rect" id="node6" href="$SerialPortHandlerCollection_8cpp.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="589,95,762,136"/>
 </map>

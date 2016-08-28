@@ -1,6 +1,6 @@
-<map id="src/hdlcd/AccessProtocol/ClientHandlerCollection.h" name="src/hdlcd/AccessProtocol/ClientHandlerCollection.h">
-<area shape="rect" id="node2" href="$ClientAcceptor_8h.html" title="This file contains the header declaration of class ClientAcceptor. " alt="" coords="5,95,185,136"/>
-<area shape="rect" id="node4" href="$ClientHandler_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="209,95,389,136"/>
-<area shape="rect" id="node5" href="$ClientHandlerCollection_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="414,95,614,136"/>
-<area shape="rect" id="node3" href="$main_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="26,184,165,211"/>
+<map id="src/AccessProtocol/ClientHandlerCollection.h" name="src/AccessProtocol/ClientHandlerCollection.h">
+<area shape="rect" id="node2" href="$ClientAcceptor_8h.html" title="This file contains the header declaration of class ClientAcceptor. " alt="" coords="5,95,148,136"/>
+<area shape="rect" id="node4" href="$ClientHandler_8cpp.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="172,95,315,136"/>
+<area shape="rect" id="node5" href="$ClientHandlerCollection_8cpp.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="338,95,538,136"/>
+<area shape="rect" id="node3" href="$main-hdlcd_8cpp.html" title="src/main&#45;hdlcd.cpp" alt="" coords="7,184,146,211"/>
 </map>

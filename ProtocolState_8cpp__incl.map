@@ -1,4 +1,4 @@
-<map id="src/hdlcd/SerialPort/HDLC/ProtocolState.cpp" name="src/hdlcd/SerialPort/HDLC/ProtocolState.cpp">
+<map id="src/SerialPort/HDLC/ProtocolState.cpp" name="src/SerialPort/HDLC/ProtocolState.cpp">
 <area shape="rect" id="node2" href="$ProtocolState_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="262,95,381,121"/>
 <area shape="rect" id="node13" href="$FrameGenerator_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="640,169,779,196"/>
 <area shape="rect" id="node14" href="$ISerialPortHandler_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="780,95,929,121"/>

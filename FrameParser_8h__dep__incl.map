@@ -1,6 +1,6 @@
-<map id="src/hdlcd/SerialPort/HDLC/FrameParser.h" name="src/hdlcd/SerialPort/HDLC/FrameParser.h">
-<area shape="rect" id="node2" href="$FrameParser_8cpp.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="5,184,181,225"/>
-<area shape="rect" id="node3" href="$ProtocolState_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="191,95,355,136"/>
-<area shape="rect" id="node4" href="$ProtocolState_8cpp.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="205,184,384,225"/>
-<area shape="rect" id="node5" href="$SerialPortHandler_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="409,184,573,225"/>
+<map id="src/SerialPort/HDLC/FrameParser.h" name="src/SerialPort/HDLC/FrameParser.h">
+<area shape="rect" id="node2" href="$FrameParser_8cpp.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="5,184,155,225"/>
+<area shape="rect" id="node3" href="$ProtocolState_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="163,95,312,136"/>
+<area shape="rect" id="node4" href="$ProtocolState_8cpp.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="179,184,328,225"/>
+<area shape="rect" id="node5" href="$SerialPortHandler_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="352,184,525,225"/>
 </map>

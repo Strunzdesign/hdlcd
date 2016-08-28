@@ -28,8 +28,7 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"AliveGuard_8h.html",
-"dir_271a38dbe5e9b3eafdef2728551a70ba.html"
+"AliveGuard_8h.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

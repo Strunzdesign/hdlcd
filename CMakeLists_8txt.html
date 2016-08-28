@@ -102,10 +102,57 @@ $(document).ready(function(){initNavTree('CMakeLists_8txt.html','');});
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">src/CMakeLists.txt File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:aaac8fe0ae3468421595cef16d502c6fb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="CMakeLists_8txt.html#aaac8fe0ae3468421595cef16d502c6fb">set</a> (Boost_USE_STATIC_LIBS OFF) set(Boost_USE_MULTITHREADED ON) set(Boost_USE_STATIC_RUNTIME OFF) find_package(Boost REQUIRED COMPONENTS system signals) <a class="el" href="CMakeLists_8txt.html#a3b8528942589ad9f54e396a5752038cf">include_directories</a>($</td></tr>
+<tr class="separator:aaac8fe0ae3468421595cef16d502c6fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b8528942589ad9f54e396a5752038cf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="CMakeLists_8txt.html#a3b8528942589ad9f54e396a5752038cf">include_directories</a> (&quot;${PROJECT_SOURCE_DIR}/src/include&quot;) find_package(Threads) add_executable(hdlcd <a class="el" href="main-hdlcd_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>-hdlcd.cpp AccessProtocol/ClientHandler.cpp AccessProtocol/ClientHandlerCollection.cpp AccessProtocol/LockGuard.cpp SerialPort/HDLC/AliveState.cpp SerialPort/HDLC/FCS16.cpp SerialPort/HDLC/Frame.cpp SerialPort/HDLC/FrameGenerator.cpp SerialPort/HDLC/FrameParser.cpp SerialPort/HDLC/ProtocolState.cpp SerialPort/SerialPortLock.cpp SerialPort/SerialPortHandler.cpp SerialPort/SerialPortHandlerCollection.cpp) if(WIN32) <a class="el" href="CMakeLists_8txt.html#aaac8fe0ae3468421595cef16d502c6fb">set</a>(ADDITIONAL_LIBRARIES wsock32 ws2_32) else() <a class="el" href="CMakeLists_8txt.html#aaac8fe0ae3468421595cef16d502c6fb">set</a>(ADDITIONAL_LIBRARIES&quot;&quot;) endif() target_link_libraries(hdlcd $</td></tr>
+<tr class="separator:a3b8528942589ad9f54e396a5752038cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a3b8528942589ad9f54e396a5752038cf"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">include_directories </td>
+          <td>(</td>
+          <td class="paramtype">&quot;${PROJECT_SOURCE_DIR}/src/include&quot;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="CMakeLists_8txt_source.html#l00006">6</a> of file <a class="el" href="CMakeLists_8txt_source.html">CMakeLists.txt</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aaac8fe0ae3468421595cef16d502c6fb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">set </td>
+          <td>(</td>
+          <td class="paramtype">Boost_USE_STATIC_LIBS&#160;</td>
+          <td class="paramname"><em>OFF</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="CMakeLists_8txt_source.html#l00001">1</a> of file <a class="el" href="CMakeLists_8txt_source.html">CMakeLists.txt</a>.</p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

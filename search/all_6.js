@@ -2,21 +2,12 @@ var searchData=
 [
   ['getaddress',['GetAddress',['../classFrame.html#a58f2fc1e3ad0d33ee9dd6622ed38c968',1,'Frame']]],
   ['getbuffertype',['GetBufferType',['../classClientHandler.html#acf0f0dc0d4991bfc7c2f1f280cd88440',1,'ClientHandler']]],
-  ['getdata',['GetData',['../classHdlcdPacketData.html#abc690e2d3d84998df23221f10f893f81',1,'HdlcdPacketData']]],
-  ['getdesiredlockstate',['GetDesiredLockState',['../classHdlcdPacketCtrl.html#addd115864ff204e792b2a2ba705b614d',1,'HdlcdPacketCtrl']]],
   ['gethdlcframetype',['GetHDLCFrameType',['../classFrame.html#abf6b7db82f0c9d1b701c28e89f68607c',1,'Frame']]],
-  ['getinvalid',['GetInvalid',['../classHdlcdPacketData.html#a8797aee7e556ae194f9a3a12e1900895',1,'HdlcdPacketData']]],
-  ['getisalive',['GetIsAlive',['../classHdlcdPacketCtrl.html#a12fc2b37905df9cbcaa84a9bee84fc1a',1,'HdlcdPacketCtrl']]],
-  ['getislockedbyothers',['GetIsLockedByOthers',['../classHdlcdPacketCtrl.html#a128533b3f7e1d3d9386055171b227e80',1,'HdlcdPacketCtrl']]],
-  ['getislockedbyself',['GetIsLockedBySelf',['../classHdlcdPacketCtrl.html#a00bca303fa168370388c078edd041e60',1,'HdlcdPacketCtrl']]],
   ['getlockholders',['GetLockHolders',['../classSerialPortLock.html#abd309cceb40ff5823cdb4955ac971300',1,'SerialPortLock']]],
   ['getnextbaudrate',['GetNextBaudRate',['../classBaudRate.html#a3ce25521e528f620f7c1082d87abee3c',1,'BaudRate']]],
-  ['getpackettype',['GetPacketType',['../classHdlcdPacketCtrl.html#a8f4d35576f4ed5163ef49f8eb5f4d37d',1,'HdlcdPacketCtrl']]],
   ['getpayload',['GetPayload',['../classFrame.html#a177195746b4081ca1758603c1dae7ace',1,'Frame']]],
-  ['getreliable',['GetReliable',['../classHdlcdPacketData.html#a8507220f68c484c80527e708a85d0034',1,'HdlcdPacketData']]],
   ['getrseq',['GetRSeq',['../classFrame.html#aef3e9688379b3f8db0c13371a576be47',1,'Frame']]],
   ['getserialporthandler',['GetSerialPortHandler',['../classSerialPortHandlerCollection.html#a2b5263a91d22e039c899e6f919e87431',1,'SerialPortHandlerCollection']]],
   ['getserialportstate',['GetSerialPortState',['../classSerialPortLock.html#a00aeb4f16d6c1035ebf6629bafe85f78',1,'SerialPortLock']]],
-  ['getsseq',['GetSSeq',['../classFrame.html#aa32884d93ca3bfa40c9ee96f89d1e689',1,'Frame']]],
-  ['getwassent',['GetWasSent',['../classHdlcdPacketData.html#a3e3ed17e50f5689f9f044c62582f3194',1,'HdlcdPacketData']]]
+  ['getsseq',['GetSSeq',['../classFrame.html#aa32884d93ca3bfa40c9ee96f89d1e689',1,'Frame']]]
 ];
