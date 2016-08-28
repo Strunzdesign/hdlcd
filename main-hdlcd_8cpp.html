@@ -108,9 +108,13 @@ $(document).ready(function(){initNavTree('main-hdlcd_8cpp.html','');});
 <div class="title">main-hdlcd.cpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>The hdlc-tools implement the HDLC protocol to easily talk to devices connected via serial communications Copyright (C) 2016 Florian Evers, <a href="#" onclick="location.href='mai'+'lto:'+'flo'+'ri'+'an-'+'ev'+'ers'+'@g'+'mx.'+'de'; return false;">flori<span style="display: none;">.nosp@m.</span>an-e<span style="display: none;">.nosp@m.</span>vers@<span style="display: none;">.nosp@m.</span>gmx.<span style="display: none;">.nosp@m.</span>de</a>.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;Config.h&quot;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;boost/asio.hpp&gt;</code><br />
+<code>#include &lt;boost/program_options.hpp&gt;</code><br />
 <code>#include &quot;<a class="el" href="SerialPortHandlerCollection_8h_source.html">SerialPort/SerialPortHandlerCollection.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ClientAcceptor_8h_source.html">AccessProtocol/ClientAcceptor.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
@@ -118,13 +122,13 @@ Include dependency graph for main-hdlcd.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="main-hdlcd_8cpp__incl.png" border="0" usemap="#src_2main-hdlcd_8cpp" alt=""/></div>
 <map name="src_2main-hdlcd_8cpp" id="src_2main-hdlcd_8cpp">
-<area shape="rect" id="node5" href="SerialPortHandlerCollection_8h.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="155,155,355,196"/>
-<area shape="rect" id="node9" href="ClientAcceptor_8h.html" title="This file contains the header declaration of class ClientAcceptor. " alt="" coords="429,80,656,107"/>
-<area shape="rect" id="node10" href="ClientHandler_8h.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="571,162,690,189"/>
-<area shape="rect" id="node17" href="ClientHandlerCollection_8h.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="1224,162,1405,189"/>
-<area shape="rect" id="node13" href="AliveGuard_8h.html" title="This file contains the header declaration of class AliveGuard. " alt="" coords="771,251,874,278"/>
-<area shape="rect" id="node14" href="LockGuard_8h.html" title="This file contains the header declaration of class LockGuard. " alt="" coords="473,251,575,278"/>
-<area shape="rect" id="node15" href="BufferType_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="899,244,1035,285"/>
+<area shape="rect" id="node6" href="SerialPortHandlerCollection_8h.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="180,155,380,196"/>
+<area shape="rect" id="node10" href="ClientAcceptor_8h.html" title="This file contains the header declaration of class ClientAcceptor. " alt="" coords="475,80,701,107"/>
+<area shape="rect" id="node11" href="ClientHandler_8h.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="617,162,735,189"/>
+<area shape="rect" id="node18" href="ClientHandlerCollection_8h.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="1269,162,1451,189"/>
+<area shape="rect" id="node14" href="AliveGuard_8h.html" title="This file contains the header declaration of class AliveGuard. " alt="" coords="817,251,919,278"/>
+<area shape="rect" id="node15" href="LockGuard_8h.html" title="This file contains the header declaration of class LockGuard. " alt="" coords="518,251,621,278"/>
+<area shape="rect" id="node16" href="BufferType_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="944,244,1080,285"/>
 </map>
 </div>
 </div>
@@ -135,7 +139,14 @@ Functions</h2></td></tr>
 <tr class="memitem:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main-hdlcd_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a> (int argc, char **argv)</td></tr>
 <tr class="separator:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The hdlc-tools implement the HDLC protocol to easily talk to devices connected via serial communications Copyright (C) 2016 Florian Evers, <a href="#" onclick="location.href='mai'+'lto:'+'flo'+'ri'+'an-'+'ev'+'ers'+'@g'+'mx.'+'de'; return false;">flori<span style="display: none;">.nosp@m.</span>an-e<span style="display: none;">.nosp@m.</span>vers@<span style="display: none;">.nosp@m.</span>gmx.<span style="display: none;">.nosp@m.</span>de</a>. </p>
+<p>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
+<p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License along with this program. If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>. </p>
+
+<p>Definition in file <a class="el" href="main-hdlcd_8cpp_source.html">main-hdlcd.cpp</a>.</p>
+</div><h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="a3c04138a5bfe5d72780bb7e82a18e627"></a>
 <div class="memitem">
 <div class="memproto">
@@ -160,7 +171,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="main-hdlcd_8cpp_source.html#l00028">28</a> of file <a class="el" href="main-hdlcd_8cpp_source.html">main-hdlcd.cpp</a>.</p>
+<p>Definition at line <a class="el" href="main-hdlcd_8cpp_source.html#l00029">29</a> of file <a class="el" href="main-hdlcd_8cpp_source.html">main-hdlcd.cpp</a>.</p>
 
 </div>
 </div>

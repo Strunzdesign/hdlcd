@@ -1,9 +1,9 @@
 <map id="src/main&#45;hdlcd.cpp" name="src/main&#45;hdlcd.cpp">
-<area shape="rect" id="node5" href="$SerialPortHandlerCollection_8h.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="155,155,355,196"/>
-<area shape="rect" id="node9" href="$ClientAcceptor_8h.html" title="This file contains the header declaration of class ClientAcceptor. " alt="" coords="429,80,656,107"/>
-<area shape="rect" id="node10" href="$ClientHandler_8h.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="571,162,690,189"/>
-<area shape="rect" id="node17" href="$ClientHandlerCollection_8h.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="1224,162,1405,189"/>
-<area shape="rect" id="node13" href="$AliveGuard_8h.html" title="This file contains the header declaration of class AliveGuard. " alt="" coords="771,251,874,278"/>
-<area shape="rect" id="node14" href="$LockGuard_8h.html" title="This file contains the header declaration of class LockGuard. " alt="" coords="473,251,575,278"/>
-<area shape="rect" id="node15" href="$BufferType_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="899,244,1035,285"/>
+<area shape="rect" id="node6" href="$SerialPortHandlerCollection_8h.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="180,155,380,196"/>
+<area shape="rect" id="node10" href="$ClientAcceptor_8h.html" title="This file contains the header declaration of class ClientAcceptor. " alt="" coords="475,80,701,107"/>
+<area shape="rect" id="node11" href="$ClientHandler_8h.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="617,162,735,189"/>
+<area shape="rect" id="node18" href="$ClientHandlerCollection_8h.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="1269,162,1451,189"/>
+<area shape="rect" id="node14" href="$AliveGuard_8h.html" title="This file contains the header declaration of class AliveGuard. " alt="" coords="817,251,919,278"/>
+<area shape="rect" id="node15" href="$LockGuard_8h.html" title="This file contains the header declaration of class LockGuard. " alt="" coords="518,251,621,278"/>
+<area shape="rect" id="node16" href="$BufferType_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="944,244,1080,285"/>
 </map>
