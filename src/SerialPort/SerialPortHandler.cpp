@@ -189,9 +189,9 @@ void SerialPortHandler::do_read() {
 
 void SerialPortHandler::do_write() {
     auto self(shared_from_this());
-    m_SerialPort.async_write_some(boost::asio::buffer(&m_SendBuffer[m_SendBufferOffset], (m_SendBuffer.size() - m_SendBufferOffset)),[this, self](boost::system::error_code a_ErrorCode, std::size_t a_BytesRead) {
+    m_SerialPort.async_write_some(boost::asio::buffer(&m_SendBuffer[m_SendBufferOffset], (m_SendBuffer.size() - m_SendBufferOffset)),[this, self](boost::system::error_code a_ErrorCode, std::size_t a_BytesSent) {
         if (!a_ErrorCode) {
-            m_SendBufferOffset += a_BytesRead;
+            m_SendBufferOffset += a_BytesSent;
             if (m_SendBufferOffset == m_SendBuffer.size()) {
                 // Indicate that we are ready to transmit the next HDLC frame
                 m_SendBufferOffset = 0;
