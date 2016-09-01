@@ -7,6 +7,9 @@ Issues to be resolved before a first release:
 
 Issues to be resolved after the first release:
 - Sophisticated HDLC support as specified by the extensive AX.25 documentation at http://www.ax25.net/AX25.2.2-Jul%2098-2.pdf (STARTED in branch hdlc-vanilla)
+  - Currently there is no ARQ for data sent by the device to the HDLCd!
+  - Currently there is no congestion control for data sent by the device to the HDLCd!
+  - Also check both TODOs in HdlcdPacketEndpoint.h from the hdlcd-devel repository when fixing that... can and should be made asynchronous-only (via callbacks)
 - New session type to obtain global status information of the HDLC daemon
 - New session type to obtain status information regarding a specific serial interface
 - New session type for remote logging
