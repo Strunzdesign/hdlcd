@@ -30,6 +30,7 @@ std::shared_ptr<std::shared_ptr<SerialPortHandler>> SerialPortHandlerCollection:
     std::shared_ptr<std::shared_ptr<SerialPortHandler>> l_SerialPortHandler;
     bool l_HasToBeStarted = false;
     {
+        // This is some magic here to implement automatic cleanup
         auto& l_SerialPortHandlerWeak(m_SerialPortHandlerMap[a_SerialPortName]);
         l_SerialPortHandler = l_SerialPortHandlerWeak.lock();
         if (l_SerialPortHandler == NULL) {

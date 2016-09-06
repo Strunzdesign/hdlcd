@@ -61,6 +61,7 @@ public:
     
     // Query state
     bool IsAlive() const { return m_AliveState->IsAlive(); }
+    bool IsRunning() const  { return m_bStarted; }
 
 private:
     // Internal helpers

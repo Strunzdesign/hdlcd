@@ -42,6 +42,10 @@ void SerialPortHandler::AddClientHandler(std::shared_ptr<ClientHandler> a_Client
     assert(a_ClientHandler->GetBufferType() < BUFFER_TYPE_ARITHMETIC_ENDMARKER);
     ++(m_BufferTypeSubscribers[a_ClientHandler->GetBufferType()]);
     m_ClientHandlerList.push_back(a_ClientHandler);
+    if (m_ProtocolState->IsRunning()) {
+        // Trigger state update messages, to inform the freshly added client
+        PropagateSerialPortState();
+    } // if
 }
 
 void SerialPortHandler::SuspendSerialPort() {
@@ -109,6 +113,9 @@ bool SerialPortHandler::Start() {
         // Start processing
         m_ProtocolState->Start();
         do_read();
+        
+        // Trigger first state update message
+        PropagateSerialPortState();
     } catch (boost::system::system_error& error) {
         std::cerr << error.what() << std::endl;
         l_bResult = false;

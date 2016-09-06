@@ -30,6 +30,7 @@ ClientHandler::ClientHandler(std::weak_ptr<ClientHandlerCollection> a_ClientHand
     m_ClientHandlerCollection(a_ClientHandlerCollection),
     m_TCPSocket(std::move(a_TCPSocket)) {
     m_Registered = false;
+    m_bDeliverInitialState = true;
     m_eBufferType = BUFFER_TYPE_UNSET;
     m_bDeliverSent = false;
     m_bDeliverRcvd = false;
@@ -63,7 +64,8 @@ void ClientHandler::DeliverBufferToClient(E_BUFFER_TYPE a_eBufferType, const std
 }
 
 void ClientHandler::UpdateSerialPortState(bool a_bAlive, size_t a_LockHolders) {
-    bool l_bDeliverChangedState = false;
+    bool l_bDeliverChangedState = m_bDeliverInitialState;
+    m_bDeliverInitialState = false;
     l_bDeliverChangedState |= m_AliveGuard.UpdateSerialPortState(a_bAlive);
     l_bDeliverChangedState |= m_LockGuard.UpdateSerialPortState(a_LockHolders);
     if (l_bDeliverChangedState) {

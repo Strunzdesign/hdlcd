@@ -77,6 +77,7 @@ private:
     std::shared_ptr<const HdlcdPacketData> m_PendingIncomingPacketData;
 
     // Track the status of the serial port, communicate changes
+    bool m_bDeliverInitialState;
     AliveGuard m_AliveGuard;
     LockGuard  m_LockGuard;
 
