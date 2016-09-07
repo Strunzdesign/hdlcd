@@ -37,19 +37,31 @@ public:
      */
     BaudRate(): m_CurrentBaudrateIndex(0) {}
     
+    /*! \brief Deliver the currently used baud rate setting
+     * 
+     *  Deliver the currently used baud rate setting
+     */
+    unsigned int GetBaudRate() const {
+        switch (m_CurrentBaudrateIndex) {
+            case 0:
+                return 9600;
+            default:
+            case 1:
+                return 115200;
+        } // switch
+    }
+
     /*! \brief Iterate to another baud rate setting
      * 
      *  All available baud rates are used, then it starts over with the first setting
      */
-    unsigned int GetNextBaudRate() {
+    void ToggleBaudRate() {
         switch (m_CurrentBaudrateIndex) {
             case 0:
                 m_CurrentBaudrateIndex = 1;
-                return 9600;
             default:
             case 1:
                 m_CurrentBaudrateIndex = 0;
-                return 115200;
         } // switch
     }
     

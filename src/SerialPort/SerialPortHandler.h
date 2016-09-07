@@ -56,6 +56,7 @@ private:
     // Called by a ProtocolState object
     bool RequiresBufferType(E_BUFFER_TYPE a_eBufferType) const;
     void DeliverBufferToClients(E_BUFFER_TYPE a_eBufferType, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bInvalid, bool a_bWasSent);
+    bool OpenSerialPort();
     void ChangeBaudRate();
     void TransmitHDLCFrame(const std::vector<unsigned char> &a_Payload);
     void QueryForPayload(bool a_bQueryReliable, bool a_bQueryUnreliable);

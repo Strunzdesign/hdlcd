@@ -69,13 +69,11 @@ void SerialPortHandler::ResumeSerialPort() {
     } // if
 
     if (m_SerialPortLock.ResumeSerialPort()) {
-        // The serial port is now resumed!
-        m_SerialPort.open(m_SerialPortName);
-        m_ProtocolState->Start();
-        do_read();
-    } // if
-    
-    PropagateSerialPortState();
+        // The serial port is now resumed. Restart activity.
+        OpenSerialPort();
+    } else {
+        PropagateSerialPortState();
+    } // else
 }
 
 void SerialPortHandler::PropagateSerialPortState() {
@@ -100,15 +98,39 @@ void SerialPortHandler::DeliverBufferToClients(E_BUFFER_TYPE a_eBufferType, cons
 }
 
 bool SerialPortHandler::Start() {
-    bool l_bResult = true;
     m_ProtocolState = std::make_shared<ProtocolState>(shared_from_this(), m_IOService);
+    return OpenSerialPort();
+}
+
+void SerialPortHandler::Stop() {
+    if (m_Registered) {
+        m_Registered = false;
+        
+        // Keep a copy here to keep this object alive!
+        auto self(shared_from_this());
+        m_SerialPort.cancel();
+        m_SerialPort.close();
+        m_ProtocolState->Shutdown();
+        if (auto l_SerialPortHandlerCollection = m_SerialPortHandlerCollection.lock()) {
+            l_SerialPortHandlerCollection->DeregisterSerialPortHandler(self);
+        } // if
+        
+        ForEachClient([](std::shared_ptr<ClientHandler> a_ClientHandler) {
+            a_ClientHandler->Stop();
+        });
+    } // if
+}
+
+bool SerialPortHandler::OpenSerialPort() {
+    bool l_bResult = true;
     try {
+        // Open the serial port and start processing
         m_SerialPort.open(m_SerialPortName);
         m_SerialPort.set_option(boost::asio::serial_port::parity(boost::asio::serial_port::parity::none));
         m_SerialPort.set_option(boost::asio::serial_port::character_size(boost::asio::serial_port::character_size(8)));
         m_SerialPort.set_option(boost::asio::serial_port::stop_bits(boost::asio::serial_port::stop_bits::one));
         m_SerialPort.set_option(boost::asio::serial_port::flow_control(boost::asio::serial_port::flow_control::none));
-        ChangeBaudRate();
+        m_SerialPort.set_option(boost::asio::serial_port::baud_rate(m_BaudRate.GetBaudRate()));
         
         // Start processing
         m_ProtocolState->Start();
@@ -136,28 +158,10 @@ bool SerialPortHandler::Start() {
     return l_bResult;
 }
 
-void SerialPortHandler::Stop() {
-    if (m_Registered) {
-        m_Registered = false;
-        
-        // Keep a copy here to keep this object alive!
-        auto self(shared_from_this());
-        m_SerialPort.cancel();
-        m_SerialPort.close();
-        m_ProtocolState->Shutdown();
-        if (auto l_SerialPortHandlerCollection = m_SerialPortHandlerCollection.lock()) {
-            l_SerialPortHandlerCollection->DeregisterSerialPortHandler(self);
-        } // if
-        
-        ForEachClient([](std::shared_ptr<ClientHandler> a_ClientHandler) {
-            a_ClientHandler->Stop();
-        });
-    } // if
-}
-
 void SerialPortHandler::ChangeBaudRate() {
     if (m_Registered) {
-        m_SerialPort.set_option(boost::asio::serial_port::baud_rate(m_BaudRate.GetNextBaudRate()));
+        m_BaudRate.ToggleBaudRate();
+        m_SerialPort.set_option(boost::asio::serial_port::baud_rate(m_BaudRate.GetBaudRate()));
     } // if
 }
 
