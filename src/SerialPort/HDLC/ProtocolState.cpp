@@ -132,7 +132,7 @@ void ProtocolState::AddReceivedRawBytes(const unsigned char* a_Buffer, size_t a_
     m_FrameParser.AddReceivedRawBytes(a_Buffer, a_Bytes);
 }
 
-void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> &a_Payload, const Frame& a_Frame, bool a_bMessageInvalid) {
+void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> &a_Payload, const HdlcFrame& a_HdlcFrame, bool a_bMessageInvalid) {
     // Checks
     if (!m_bStarted) {
         return;
@@ -144,7 +144,7 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
     } // if
     
     if (m_SerialPortHandler->RequiresBufferType(BUFFER_TYPE_DISSECTED)) {
-        m_SerialPortHandler->DeliverBufferToClients(BUFFER_TYPE_DISSECTED, a_Frame.Dissect(), false, a_bMessageInvalid, false);
+        m_SerialPortHandler->DeliverBufferToClients(BUFFER_TYPE_DISSECTED, a_HdlcFrame.Dissect(), false, a_bMessageInvalid, false);
     } // if
     
     // Stop here if the frame was considered broken
@@ -158,30 +158,30 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
     } // if
     
     // Go ahead interpreting the frame we received
-    if (a_Frame.HasPayload()) {
+    if (a_HdlcFrame.HasPayload()) {
         // I-Frame or U-Frame with UI
         if (m_SerialPortHandler->RequiresBufferType(BUFFER_TYPE_PAYLOAD)) {
-            m_SerialPortHandler->DeliverBufferToClients(BUFFER_TYPE_PAYLOAD, a_Frame.GetPayload(), a_Frame.IsIFrame(), a_bMessageInvalid, false);
+            m_SerialPortHandler->DeliverBufferToClients(BUFFER_TYPE_PAYLOAD, a_HdlcFrame.GetPayload(), a_HdlcFrame.IsIFrame(), a_bMessageInvalid, false);
         } // if
         
         // If it is an I-Frame, the data may have to be acked
-        if (a_Frame.IsIFrame()) {
-            if (m_RSeqIncoming != a_Frame.GetSSeq()) {
+        if (a_HdlcFrame.IsIFrame()) {
+            if (m_RSeqIncoming != a_HdlcFrame.GetSSeq()) {
                 m_SREJs.clear();
-                for (unsigned char it = m_RSeqIncoming; (it & 0x07) != a_Frame.GetSSeq(); ++it) {
+                for (unsigned char it = m_RSeqIncoming; (it & 0x07) != a_HdlcFrame.GetSSeq(); ++it) {
                     m_SREJs.emplace_back(it);
                 } // for
             } // if
 
-            m_RSeqIncoming = ((a_Frame.GetSSeq() + 1) & 0x07);
+            m_RSeqIncoming = ((a_HdlcFrame.GetSSeq() + 1) & 0x07);
             m_bPeerRequiresAck = true;
         } // if
     } // if
     
     // Check the various types of ACKs and NACKs
-    if ((a_Frame.IsIFrame()) || (a_Frame.IsSFrame())) {
-        if ((a_Frame.IsIFrame()) || (a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_S_RR)) {
-            if ((m_bPeerStoppedFlow) && (a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_S_RR)) {
+    if ((a_HdlcFrame.IsIFrame()) || (a_HdlcFrame.IsSFrame())) {
+        if ((a_HdlcFrame.IsIFrame()) || (a_HdlcFrame.GetHDLCFrameType() == HdlcFrame::HDLC_FRAMETYPE_S_RR)) {
+            if ((m_bPeerStoppedFlow) && (a_HdlcFrame.GetHDLCFrameType() == HdlcFrame::HDLC_FRAMETYPE_S_RR)) {
                 // The peer restarted the flow: RR clears RNR condition
                 m_bPeerStoppedFlow = false;
                 m_bWaitForAck = false;
@@ -189,15 +189,15 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
             } // if
 
             // Currently, we send only one I-frame at a time and wait until the respective ACK is received
-            if ((m_bWaitForAck) && (a_Frame.GetRSeq() == ((m_SSeqOutgoing + 1) & 0x07))) {
+            if ((m_bWaitForAck) && (a_HdlcFrame.GetRSeq() == ((m_SSeqOutgoing + 1) & 0x07))) {
                 // We found the respective sequence number to the last transmitted I-frame
                 m_bWaitForAck = false;
                 m_Timer.cancel();
                 m_WaitQueueReliable.pop_front();
             } // if
             
-            m_SSeqOutgoing = a_Frame.GetRSeq();
-        } else if (a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_S_RNR) {
+            m_SSeqOutgoing = a_HdlcFrame.GetRSeq();
+        } else if (a_HdlcFrame.GetHDLCFrameType() == HdlcFrame::HDLC_FRAMETYPE_S_RNR) {
             // The peer wants us to stop sending subsequent data
             if (!m_bPeerStoppedFlow) {
                 // Start periodical query
@@ -209,15 +209,15 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
             if (m_bWaitForAck) {
                 m_bWaitForAck = false;
                 m_Timer.cancel();
-                if (a_Frame.GetRSeq() == ((m_SSeqOutgoing + 1) & 0x07)) {
+                if (a_HdlcFrame.GetRSeq() == ((m_SSeqOutgoing + 1) & 0x07)) {
                     // We found the respective sequence number to the last transmitted I-frame
                     m_WaitQueueReliable.pop_front();
                 } // if
             } // if
             
             // Now we know which SeqNr the peer awaits next... after the RNR condition was cleared
-            m_SSeqOutgoing = a_Frame.GetRSeq();
-        } else if (a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_S_REJ) {
+            m_SSeqOutgoing = a_HdlcFrame.GetRSeq();
+        } else if (a_HdlcFrame.GetHDLCFrameType() == HdlcFrame::HDLC_FRAMETYPE_S_REJ) {
             if (m_bPeerStoppedFlow) {
                 // The peer restarted the flow: REJ clears RNR condition
                 m_bPeerStoppedFlow = false;
@@ -226,15 +226,15 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
             } // if
             
             // The peer requests for go-back-N. We have to retransmit all affected packets, but not with this version of HDLC.
-            if (a_Frame.GetRSeq() == m_SSeqOutgoing) {
+            if (a_HdlcFrame.GetRSeq() == m_SSeqOutgoing) {
                 // We found the respective sequence number to the last transmitted I-frame
                 m_bWaitForAck = false;
                 m_Timer.cancel();
             } // if
             
-            m_SSeqOutgoing = ((a_Frame.GetRSeq() + 0x07) & 0x07);
+            m_SSeqOutgoing = ((a_HdlcFrame.GetRSeq() + 0x07) & 0x07);
         } else {
-            assert(a_Frame.GetHDLCFrameType() == Frame::HDLC_FRAMETYPE_S_SREJ);
+            assert(a_HdlcFrame.GetHDLCFrameType() == HdlcFrame::HDLC_FRAMETYPE_S_SREJ);
             if (m_bPeerStoppedFlow) {
                 // The peer restarted the flow: SREJ clears RNR condition
                 m_bPeerStoppedFlow = false;
@@ -244,7 +244,7 @@ void ProtocolState::InterpretDeserializedFrame(const std::vector<unsigned char> 
             
             // The peer requests for the retransmission of a single segment with a specific sequence number
             // This cannot be implemented using this reduced version of HDLC!
-            if ((m_bWaitForAck) && (a_Frame.GetRSeq() == m_SSeqOutgoing)) {
+            if ((m_bWaitForAck) && (a_HdlcFrame.GetRSeq() == m_SSeqOutgoing)) {
                 // We found the respective sequence number to the last transmitted I-frame.
                 // In this version of HDLC, this should not happen!
                 m_bWaitForAck = false;
@@ -265,24 +265,24 @@ void ProtocolState::OpportunityForTransmission() {
         return;
     } // if
     
-    Frame l_Frame;
+    HdlcFrame l_HdlcFrame;
     if (m_bSendProbe) {
         // The correct baud rate setting is unknown yet, or it has to be checked again. Send an U-TEST frame.
         m_bSendProbe = false;
-        l_Frame = PrepareUFrameTEST();
+        l_HdlcFrame = PrepareUFrameTEST();
     } // if
     
-    if (l_Frame.IsEmpty() && m_AliveState->IsAlive()) {
+    if (l_HdlcFrame.IsEmpty() && m_AliveState->IsAlive()) {
         // The serial link to the device is alive. Send all outstanding S-SREJs first.
         if (m_SREJs.empty() == false) {
             // Send SREJs first
-            l_Frame = PrepareSFrameSREJ();
+            l_HdlcFrame = PrepareSFrameSREJ();
         } // if
         
         // Check if packets are waiting for reliable transmission
-        if (l_Frame.IsEmpty() && (m_WaitQueueReliable.empty() == false) && (!m_bWaitForAck) && (!m_bPeerStoppedFlow)) {
+        if (l_HdlcFrame.IsEmpty() && (m_WaitQueueReliable.empty() == false) && (!m_bWaitForAck) && (!m_bPeerStoppedFlow)) {
             // Send an I-Frame now
-            l_Frame = PrepareIFrame();
+            l_HdlcFrame = PrepareIFrame();
             m_bWaitForAck = true;
             
             // I-frames carry an ACK
@@ -301,18 +301,18 @@ void ProtocolState::OpportunityForTransmission() {
         } // if
         
         // Send outstanding RR?
-        if (l_Frame.IsEmpty() && ((m_bPeerRequiresAck) || m_bPeerStoppedFlowNew)) {
+        if (l_HdlcFrame.IsEmpty() && ((m_bPeerRequiresAck) || m_bPeerStoppedFlowNew)) {
             bool l_bStartTimer = false;
             if (m_bPeerStoppedFlowNew) {
                 m_bPeerStoppedFlowNew = false;
                 l_bStartTimer = true;
             } else {
                 // Prepare RR
-                l_Frame = PrepareSFrameRR();
+                l_HdlcFrame = PrepareSFrameRR();
                 m_bPeerRequiresAck = false;
                 if (m_bPeerStoppedFlow && !m_bPeerStoppedFlowQueried) {
                     // During the RNR confition at the peer, we query it periodically
-                    l_Frame.SetPF(true); // This is a hack due to missing command/response support
+                    l_HdlcFrame.SetPF(true); // This is a hack due to missing command/response support
                     m_bPeerStoppedFlowQueried = true;
                     l_bStartTimer = true;
                 } // if
@@ -335,13 +335,13 @@ void ProtocolState::OpportunityForTransmission() {
         } // if        
         
         // Check if packets are waiting for unreliable transmission
-        if (l_Frame.IsEmpty() && (m_WaitQueueUnreliable.empty() == false)) {
-            l_Frame = PrepareUFrameUI();
+        if (l_HdlcFrame.IsEmpty() && (m_WaitQueueUnreliable.empty() == false)) {
+            l_HdlcFrame = PrepareUFrameUI();
             m_WaitQueueUnreliable.pop_front();
         } // if
         
         // If there is nothing to send, try to fill the wait queues, but only if necessary.
-        if (l_Frame.IsEmpty()) {
+        if (l_HdlcFrame.IsEmpty()) {
             // These expressions are the result of some boolean logic
             bool l_bQueryReliable   = (m_WaitQueueUnreliable.empty() &&  m_WaitQueueReliable.empty() && (!m_bPeerStoppedFlow));
             bool l_bQueryUnreliable = (m_WaitQueueUnreliable.empty() && (m_WaitQueueReliable.empty() ||   m_bPeerStoppedFlow));
@@ -351,23 +351,23 @@ void ProtocolState::OpportunityForTransmission() {
         } // if        
     } // if
 
-    if (l_Frame.IsEmpty() == false) {
+    if (l_HdlcFrame.IsEmpty() == false) {
         // Deliver unescaped frame to clients that have interest
         m_bAwaitsNextHDLCFrame = false;
-        auto l_HDLCFrameBuffer = FrameGenerator::SerializeFrame(l_Frame);
+        auto l_HDLCFrameBuffer = FrameGenerator::SerializeFrame(l_HdlcFrame);
         if (m_SerialPortHandler->RequiresBufferType(BUFFER_TYPE_RAW)) {
-            m_SerialPortHandler->DeliverBufferToClients(BUFFER_TYPE_RAW, l_HDLCFrameBuffer, l_Frame.IsIFrame(), false, true); // not escaped
+            m_SerialPortHandler->DeliverBufferToClients(BUFFER_TYPE_RAW, l_HDLCFrameBuffer, l_HdlcFrame.IsIFrame(), false, true); // not escaped
         } // if
         
         if (m_SerialPortHandler->RequiresBufferType(BUFFER_TYPE_DISSECTED)) {
-            m_SerialPortHandler->DeliverBufferToClients(BUFFER_TYPE_DISSECTED, l_Frame.Dissect(), l_Frame.IsIFrame(), false, true);
+            m_SerialPortHandler->DeliverBufferToClients(BUFFER_TYPE_DISSECTED, l_HdlcFrame.Dissect(), l_HdlcFrame.IsIFrame(), false, true);
         } // if
         
         m_SerialPortHandler->TransmitHDLCFrame(std::move(FrameGenerator::EscapeFrame(l_HDLCFrameBuffer)));
     } // if
 }
 
-Frame ProtocolState::PrepareIFrame() {
+HdlcFrame ProtocolState::PrepareIFrame() {
     // Fresh Payload to be sent is available.
     assert(m_WaitQueueReliable.empty() == false);
     if (m_SerialPortHandler->RequiresBufferType(BUFFER_TYPE_PAYLOAD)) {
@@ -375,52 +375,52 @@ Frame ProtocolState::PrepareIFrame() {
     } // if
 
     // Prepare I-Frame    
-    Frame l_Frame;
-    l_Frame.SetAddress(0x30);
-    l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_I);
-    l_Frame.SetPF(false);
-    l_Frame.SetSSeq(m_SSeqOutgoing);
-    l_Frame.SetRSeq(m_RSeqIncoming);
-    l_Frame.SetPayload(m_WaitQueueReliable.front());
-    return(std::move(l_Frame));
+    HdlcFrame l_HdlcFrame;
+    l_HdlcFrame.SetAddress(0x30);
+    l_HdlcFrame.SetHDLCFrameType(HdlcFrame::HDLC_FRAMETYPE_I);
+    l_HdlcFrame.SetPF(false);
+    l_HdlcFrame.SetSSeq(m_SSeqOutgoing);
+    l_HdlcFrame.SetRSeq(m_RSeqIncoming);
+    l_HdlcFrame.SetPayload(m_WaitQueueReliable.front());
+    return(l_HdlcFrame);
 }
 
-Frame ProtocolState::PrepareSFrameRR() {
-    Frame l_Frame;
-    l_Frame.SetAddress(0x30);
-    l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_S_RR);
-    l_Frame.SetPF(false);
-    l_Frame.SetRSeq(m_RSeqIncoming);
-    return(std::move(l_Frame));
+HdlcFrame ProtocolState::PrepareSFrameRR() {
+    HdlcFrame l_HdlcFrame;
+    l_HdlcFrame.SetAddress(0x30);
+    l_HdlcFrame.SetHDLCFrameType(HdlcFrame::HDLC_FRAMETYPE_S_RR);
+    l_HdlcFrame.SetPF(false);
+    l_HdlcFrame.SetRSeq(m_RSeqIncoming);
+    return(l_HdlcFrame);
 }
 
-Frame ProtocolState::PrepareSFrameSREJ() {
-    Frame l_Frame;
-    l_Frame.SetAddress(0x30);
-    l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_S_SREJ);
-    l_Frame.SetPF(false);
-    l_Frame.SetRSeq(m_SREJs.front());
+HdlcFrame ProtocolState::PrepareSFrameSREJ() {
+    HdlcFrame l_HdlcFrame;
+    l_HdlcFrame.SetAddress(0x30);
+    l_HdlcFrame.SetHDLCFrameType(HdlcFrame::HDLC_FRAMETYPE_S_SREJ);
+    l_HdlcFrame.SetPF(false);
+    l_HdlcFrame.SetRSeq(m_SREJs.front());
     m_SREJs.pop_front();
-    return(std::move(l_Frame));
+    return(l_HdlcFrame);
 }
 
-Frame ProtocolState::PrepareUFrameUI() {
+HdlcFrame ProtocolState::PrepareUFrameUI() {
     assert(m_WaitQueueUnreliable.empty() == false);
     m_SerialPortHandler->DeliverBufferToClients(BUFFER_TYPE_PAYLOAD, m_WaitQueueUnreliable.front(), false, false, true);
 
     // Prepare UI-Frame
-    Frame l_Frame;
-    l_Frame.SetAddress(0x30);
-    l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_U_UI);
-    l_Frame.SetPF(false);
-    l_Frame.SetPayload(m_WaitQueueUnreliable.front());
-    return(std::move(l_Frame));
+    HdlcFrame l_HdlcFrame;
+    l_HdlcFrame.SetAddress(0x30);
+    l_HdlcFrame.SetHDLCFrameType(HdlcFrame::HDLC_FRAMETYPE_U_UI);
+    l_HdlcFrame.SetPF(false);
+    l_HdlcFrame.SetPayload(m_WaitQueueUnreliable.front());
+    return(l_HdlcFrame);
 }
 
-Frame ProtocolState::PrepareUFrameTEST() {
-    Frame l_Frame;
-    l_Frame.SetAddress(0x30);
-    l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_U_TEST);
-    l_Frame.SetPF(false);
-    return(std::move(l_Frame));
+HdlcFrame ProtocolState::PrepareUFrameTEST() {
+    HdlcFrame l_HdlcFrame;
+    l_HdlcFrame.SetAddress(0x30);
+    l_HdlcFrame.SetHDLCFrameType(HdlcFrame::HDLC_FRAMETYPE_U_TEST);
+    l_HdlcFrame.SetPF(false);
+    return(l_HdlcFrame);
 }

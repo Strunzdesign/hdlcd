@@ -38,11 +38,11 @@
 #define HDLC_FRAME_GENERATOR_H
 
 #include <vector>
-#include "Frame.h"
+#include "HdlcFrame.h"
 
 class FrameGenerator {
 public:
-    static const std::vector<unsigned char> SerializeFrame(const Frame& a_Frame);
+    static const std::vector<unsigned char> SerializeFrame(const HdlcFrame& a_HdlcFrame);
     static std::vector<unsigned char> EscapeFrame(const std::vector<unsigned char> &a_HDLCFrame);
 
 private:

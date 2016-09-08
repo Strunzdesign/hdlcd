@@ -38,61 +38,61 @@
 #include <assert.h>
 #include "FCS16.h"
 
-const std::vector<unsigned char> FrameGenerator::SerializeFrame(const Frame& a_Frame) {
+const std::vector<unsigned char> FrameGenerator::SerializeFrame(const HdlcFrame& a_HdlcFrame) {
     unsigned char l_ControlField = 0;
     bool l_bAppendPayload = false;
-    switch (a_Frame.GetHDLCFrameType()) {
-        case Frame::HDLC_FRAMETYPE_I: {
-            l_ControlField = (((a_Frame.GetSSeq() & 0x07) << 1) | ((a_Frame.GetRSeq() & 0x07) << 5)); // I-Frame, PF=0
+    switch (a_HdlcFrame.GetHDLCFrameType()) {
+        case HdlcFrame::HDLC_FRAMETYPE_I: {
+            l_ControlField = (((a_HdlcFrame.GetSSeq() & 0x07) << 1) | ((a_HdlcFrame.GetRSeq() & 0x07) << 5)); // I-Frame, PF=0
             l_bAppendPayload = true;            
             break;
         }
-        case Frame::HDLC_FRAMETYPE_S_RR: {
-            l_ControlField = (0x01 | ((a_Frame.GetRSeq() & 0x07) << 5));
+        case HdlcFrame::HDLC_FRAMETYPE_S_RR: {
+            l_ControlField = (0x01 | ((a_HdlcFrame.GetRSeq() & 0x07) << 5));
             break;
         }
-        case Frame::HDLC_FRAMETYPE_S_RNR: {
-            l_ControlField = (0x05 | ((a_Frame.GetRSeq() & 0x07) << 5));
+        case HdlcFrame::HDLC_FRAMETYPE_S_RNR: {
+            l_ControlField = (0x05 | ((a_HdlcFrame.GetRSeq() & 0x07) << 5));
             break;
         }
-        case Frame::HDLC_FRAMETYPE_S_REJ: {
-            l_ControlField = (0x09 | ((a_Frame.GetRSeq() & 0x07) << 5));
+        case HdlcFrame::HDLC_FRAMETYPE_S_REJ: {
+            l_ControlField = (0x09 | ((a_HdlcFrame.GetRSeq() & 0x07) << 5));
             break;
         }
-        case Frame::HDLC_FRAMETYPE_S_SREJ: {
-            l_ControlField = (0x0d | ((a_Frame.GetRSeq() & 0x07) << 5));
+        case HdlcFrame::HDLC_FRAMETYPE_S_SREJ: {
+            l_ControlField = (0x0d | ((a_HdlcFrame.GetRSeq() & 0x07) << 5));
             break;
         }
-        case Frame::HDLC_FRAMETYPE_U_UI: {
+        case HdlcFrame::HDLC_FRAMETYPE_U_UI: {
             l_ControlField = 0x03;
             l_bAppendPayload = true;            
             break;
         }
-        case Frame::HDLC_FRAMETYPE_U_SABM: {
+        case HdlcFrame::HDLC_FRAMETYPE_U_SABM: {
             l_ControlField = 0x2F;
             break;
         }
-        case Frame::HDLC_FRAMETYPE_U_DISC: {
+        case HdlcFrame::HDLC_FRAMETYPE_U_DISC: {
             l_ControlField = 0x43;
             break;
         }
-        case Frame::HDLC_FRAMETYPE_U_UA: {
+        case HdlcFrame::HDLC_FRAMETYPE_U_UA: {
             l_ControlField = 0x63;
             break;
         }
-        case Frame::HDLC_FRAMETYPE_U_CMDR: {
+        case HdlcFrame::HDLC_FRAMETYPE_U_CMDR: {
             l_ControlField = 0x83;
             break;
         }
-        case Frame::HDLC_FRAMETYPE_U_TEST: {
+        case HdlcFrame::HDLC_FRAMETYPE_U_TEST: {
             l_ControlField = 0xE3;
             break;
         }
-        case Frame::HDLC_FRAMETYPE_U_SIM:
-        case Frame::HDLC_FRAMETYPE_U_SARM:
-        case Frame::HDLC_FRAMETYPE_U_UP:
-        case Frame::HDLC_FRAMETYPE_U_SNRM:
-        case Frame::HDLC_FRAMETYPE_U_XID: {
+        case HdlcFrame::HDLC_FRAMETYPE_U_SIM:
+        case HdlcFrame::HDLC_FRAMETYPE_U_SARM:
+        case HdlcFrame::HDLC_FRAMETYPE_U_UP:
+        case HdlcFrame::HDLC_FRAMETYPE_U_SNRM:
+        case HdlcFrame::HDLC_FRAMETYPE_U_XID: {
             // Unknown structure, not implemented yet
             assert(false);
             break;
@@ -103,22 +103,22 @@ const std::vector<unsigned char> FrameGenerator::SerializeFrame(const Frame& a_F
     
     // Assemble Frame
     std::vector<unsigned char> l_HDLCFrame;
-    l_HDLCFrame.reserve(a_Frame.GetPayload().size() + 6); // 6 = FD, ADDR, TYPE, FCS, FCS, FD
+    l_HDLCFrame.reserve(a_HdlcFrame.GetPayload().size() + 6); // 6 = FD, ADDR, TYPE, FCS, FCS, FD
     l_HDLCFrame.emplace_back(0x7E);
-    l_HDLCFrame.emplace_back(a_Frame.GetAddress());
-    if (a_Frame.IsPF()) {
+    l_HDLCFrame.emplace_back(a_HdlcFrame.GetAddress());
+    if (a_HdlcFrame.IsPF()) {
         l_ControlField |= 0x10;
     } // if
     
     l_HDLCFrame.emplace_back(l_ControlField);
     if (l_bAppendPayload) {
-        l_HDLCFrame.insert(l_HDLCFrame.end(), &(a_Frame.GetPayload())[0], &(a_Frame.GetPayload())[0] + a_Frame.GetPayload().size());
+        l_HDLCFrame.insert(l_HDLCFrame.end(), &(a_HdlcFrame.GetPayload())[0], &(a_HdlcFrame.GetPayload())[0] + a_HdlcFrame.GetPayload().size());
     } // if
     
     // Calculate FCS, perform escaping, and deliver
     ApplyFCS(l_HDLCFrame); // Plus 2 bytes
     l_HDLCFrame.emplace_back(0x7E);
-    return std::move(l_HDLCFrame);
+    return l_HDLCFrame;
 }
 
 void FrameGenerator::ApplyFCS(std::vector<unsigned char> &a_HDLCFrame) {
@@ -154,5 +154,5 @@ std::vector<unsigned char> FrameGenerator::EscapeFrame(const std::vector<unsigne
     } // for
     
     l_EscapedHDLCFrame.emplace_back(0x7E);
-    return std::move(l_EscapedHDLCFrame);
+    return l_EscapedHDLCFrame;
 }

@@ -1,5 +1,5 @@
 /**
- * \file Frame.h
+ * \file HdlcFrame.h
  * \brief 
  *
  * Copyright (c) 2016, Florian Evers, florian-evers@gmx.de
@@ -40,9 +40,9 @@
 #include <string>
 #include <vector>
 
-class Frame {
+class HdlcFrame {
 public:
-    Frame(): m_eHDLCFrameType(HDLC_FRAMETYPE_UNSET), m_PF(false), m_RSeq(0), m_SSeq(0) {}
+    HdlcFrame(): m_eHDLCFrameType(HDLC_FRAMETYPE_UNSET), m_PF(false), m_RSeq(0), m_SSeq(0) {}
     
     void SetAddress(unsigned char a_Address) { m_Address = a_Address; }
     unsigned char GetAddress() const { return m_Address; }

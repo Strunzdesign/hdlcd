@@ -1,5 +1,5 @@
 /**
- * \file Frame.cpp
+ * \file HdlcFrame.cpp
  * \brief 
  *
  * Copyright (c) 2016, Florian Evers, florian-evers@gmx.de
@@ -34,11 +34,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "Frame.h"
+#include "HdlcFrame.h"
 #include <sstream>
 #include <iomanip> 
 
-const std::vector<unsigned char> Frame::Dissect() const {
+const std::vector<unsigned char> HdlcFrame::Dissect() const {
     bool l_bHasPayload = false;
     std::stringstream l_Output;
     if (IsIFrame()) {
@@ -48,19 +48,19 @@ const std::vector<unsigned char> Frame::Dissect() const {
     } else if (IsSFrame()) {
         l_Output << "HDLC frame, Addr=0x" << std::hex << (int)GetAddress() << std::dec << ", S-Frame: ";
         switch (GetHDLCFrameType()) {
-            case Frame::HDLC_FRAMETYPE_S_RR: {
+            case HdlcFrame::HDLC_FRAMETYPE_S_RR: {
                 l_Output << "RR";
                 break;
             }
-            case Frame::HDLC_FRAMETYPE_S_RNR: {
+            case HdlcFrame::HDLC_FRAMETYPE_S_RNR: {
                 l_Output << "RNR";
                 break;
             }
-            case Frame::HDLC_FRAMETYPE_S_REJ: {
+            case HdlcFrame::HDLC_FRAMETYPE_S_REJ: {
                 l_Output << "REJ";
                 break;
             }
-            case Frame::HDLC_FRAMETYPE_S_SREJ: {
+            case HdlcFrame::HDLC_FRAMETYPE_S_SREJ: {
                 l_Output << "SREJ";
                 break;
             }
@@ -73,50 +73,50 @@ const std::vector<unsigned char> Frame::Dissect() const {
     } else if (IsUFrame()) {
         l_Output << "HDLC frame, Addr=0x" << std::hex << (int)GetAddress() << std::dec << ", U-Frame: ";
         switch (GetHDLCFrameType()) {
-            case Frame::HDLC_FRAMETYPE_U_UI: {
+            case HdlcFrame::HDLC_FRAMETYPE_U_UI: {
                 l_bHasPayload = true;
                 l_Output << "UI";
                 break;
             }
-            case Frame::HDLC_FRAMETYPE_U_SIM: {
+            case HdlcFrame::HDLC_FRAMETYPE_U_SIM: {
                 l_Output << "SIM";
                 break;
             }
-            case Frame::HDLC_FRAMETYPE_U_SARM: {
+            case HdlcFrame::HDLC_FRAMETYPE_U_SARM: {
                 l_Output << "SARM";
                 break;
             }
-            case Frame::HDLC_FRAMETYPE_U_UP: {
+            case HdlcFrame::HDLC_FRAMETYPE_U_UP: {
                 l_Output << "UP";
                 break;
             }
-            case Frame::HDLC_FRAMETYPE_U_SABM: {
+            case HdlcFrame::HDLC_FRAMETYPE_U_SABM: {
                 l_Output << "SABM";
                 break;
             }
-            case Frame::HDLC_FRAMETYPE_U_DISC: {
+            case HdlcFrame::HDLC_FRAMETYPE_U_DISC: {
                 l_Output << "DISC";
                 break;
             }
-            case Frame::HDLC_FRAMETYPE_U_UA: {
+            case HdlcFrame::HDLC_FRAMETYPE_U_UA: {
                 l_Output << "UA";
                 break;
             }
-            case Frame::HDLC_FRAMETYPE_U_SNRM: {
+            case HdlcFrame::HDLC_FRAMETYPE_U_SNRM: {
                 l_Output << "SNRM";
                 break;
             }
-            case Frame::HDLC_FRAMETYPE_U_CMDR: {
+            case HdlcFrame::HDLC_FRAMETYPE_U_CMDR: {
                 l_bHasPayload = true;
                 l_Output << "FRMR/CMDR";
                 break;
             }
-            case Frame::HDLC_FRAMETYPE_U_TEST: {
+            case HdlcFrame::HDLC_FRAMETYPE_U_TEST: {
                 l_bHasPayload = true;
                 l_Output << "TEST";
                 break;
             }
-            case Frame::HDLC_FRAMETYPE_U_XID: {
+            case HdlcFrame::HDLC_FRAMETYPE_U_XID: {
                 l_bHasPayload = true;
                 l_Output << "XID";
                 break;
@@ -141,5 +141,5 @@ const std::vector<unsigned char> Frame::Dissect() const {
     std::vector<unsigned char> l_DissectedFrame;
     std::string l_String(l_Output.str());
     l_DissectedFrame.insert(l_DissectedFrame.begin(), l_String.data(), (l_String.data() + l_String.size()));
-    return std::move(l_DissectedFrame);
+    return l_DissectedFrame;
 }

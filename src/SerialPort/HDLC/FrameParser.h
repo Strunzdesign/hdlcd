@@ -38,7 +38,7 @@
 #define HDLC_FRAME_PARSER_H
 
 #include <vector>
-#include "Frame.h"
+#include "HdlcFrame.h"
 class ProtocolState;
 
 class FrameParser {
@@ -51,7 +51,7 @@ private:
     // Interal helpers
     size_t AddChunk(const unsigned char* a_Buffer, size_t a_Bytes);
     bool RemoveEscapeCharacters();
-    Frame DeserializeFrame(const std::vector<unsigned char> &a_UnescapedBuffer) const;
+    HdlcFrame DeserializeFrame(const std::vector<unsigned char> &a_UnescapedBuffer) const;
     
     // Members
     ProtocolState& m_ProtocolState;

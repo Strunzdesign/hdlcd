@@ -167,37 +167,37 @@ bool FrameParser::RemoveEscapeCharacters() {
     return (l_bMessageInvalid == false);
 }
 
-Frame FrameParser::DeserializeFrame(const std::vector<unsigned char> &a_UnescapedBuffer) const {
+HdlcFrame FrameParser::DeserializeFrame(const std::vector<unsigned char> &a_UnescapedBuffer) const {
     // Parse byte buffer to get the HDLC frame
-    Frame l_Frame;
-    l_Frame.SetAddress(a_UnescapedBuffer[1]);
+    HdlcFrame l_HdlcFrame;
+    l_HdlcFrame.SetAddress(a_UnescapedBuffer[1]);
     unsigned char l_ucCtrl = a_UnescapedBuffer[2];
-    l_Frame.SetPF((l_ucCtrl & 0x10) >> 4);
+    l_HdlcFrame.SetPF((l_ucCtrl & 0x10) >> 4);
     bool l_bAppendPayload = false;
     if ((l_ucCtrl & 0x01) == 0) {
         // I-Frame
-        l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_I);
-        l_Frame.SetSSeq((l_ucCtrl & 0x0E) >> 1);
-        l_Frame.SetRSeq((l_ucCtrl & 0xE0) >> 5);
+        l_HdlcFrame.SetHDLCFrameType(HdlcFrame::HDLC_FRAMETYPE_I);
+        l_HdlcFrame.SetSSeq((l_ucCtrl & 0x0E) >> 1);
+        l_HdlcFrame.SetRSeq((l_ucCtrl & 0xE0) >> 5);
         l_bAppendPayload = true;
     } else {
         // S-Frame or U-Frame
         if ((l_ucCtrl & 0x02) == 0x00) {
             // S-Frame    
-            l_Frame.SetRSeq((l_ucCtrl & 0xE0) >> 5);
+            l_HdlcFrame.SetRSeq((l_ucCtrl & 0xE0) >> 5);
             unsigned char l_ucType = ((l_ucCtrl & 0x0c) >> 2);
             if (l_ucType == 0x00) {
                 // Receive-Ready (RR)
-                l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_S_RR);
+                l_HdlcFrame.SetHDLCFrameType(HdlcFrame::HDLC_FRAMETYPE_S_RR);
             } else if (l_ucType == 0x01) {
                 // Receive-Not-Ready (RNR)
-                l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_S_RNR);
+                l_HdlcFrame.SetHDLCFrameType(HdlcFrame::HDLC_FRAMETYPE_S_RNR);
             } else if (l_ucType == 0x02) {
                 // Reject (REJ)
-                l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_S_REJ);
+                l_HdlcFrame.SetHDLCFrameType(HdlcFrame::HDLC_FRAMETYPE_S_REJ);
             } else {
                 // Selective Reject (SREJ)
-                l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_S_SREJ);
+                l_HdlcFrame.SetHDLCFrameType(HdlcFrame::HDLC_FRAMETYPE_S_SREJ);
             } // else
         } else {
             // U-Frame
@@ -205,65 +205,65 @@ Frame FrameParser::DeserializeFrame(const std::vector<unsigned char> &a_Unescape
             switch (l_ucType) {
                 case 0b00000: {
                     // Unnumbered information (UI)
-                    l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_U_UI);
+                    l_HdlcFrame.SetHDLCFrameType(HdlcFrame::HDLC_FRAMETYPE_U_UI);
                     l_bAppendPayload = true;
                     break;
                 }
                 case 0b00001: {
                     // Set Init. Mode (SIM)
-                    l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_U_SIM);
+                    l_HdlcFrame.SetHDLCFrameType(HdlcFrame::HDLC_FRAMETYPE_U_SIM);
                     break;
                 }
                 case 0b00011: {
                     // Set Async. Response Mode (SARM)
-                    l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_U_SARM);
+                    l_HdlcFrame.SetHDLCFrameType(HdlcFrame::HDLC_FRAMETYPE_U_SARM);
                     break;
                 }
                 case 0b00100: {
                     // Unnumbered Poll (UP)
-                    l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_U_UP);
+                    l_HdlcFrame.SetHDLCFrameType(HdlcFrame::HDLC_FRAMETYPE_U_UP);
                     break;
                 }
                 case 0b00111: {
                     // Set Async. Balance Mode (SABM)
-                    l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_U_SABM);
+                    l_HdlcFrame.SetHDLCFrameType(HdlcFrame::HDLC_FRAMETYPE_U_SABM);
                     break;
                 }
                 case 0b01000: {
                     // Disconnect (DISC)
-                    l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_U_DISC);
+                    l_HdlcFrame.SetHDLCFrameType(HdlcFrame::HDLC_FRAMETYPE_U_DISC);
                     break;
                 }
                 case 0b01100: {
                     // Unnumbered Ack. (UA)
-                    l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_U_UA);
+                    l_HdlcFrame.SetHDLCFrameType(HdlcFrame::HDLC_FRAMETYPE_U_UA);
                     break;
                 }
                 case 0b10000: {
                     // Set normal response mode (SNRM)
-                    l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_U_SNRM);
+                    l_HdlcFrame.SetHDLCFrameType(HdlcFrame::HDLC_FRAMETYPE_U_SNRM);
                     break;
                 }
                 case 0b10001: {
                     // Command reject (FRMR / CMDR)
-                    l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_U_CMDR);
+                    l_HdlcFrame.SetHDLCFrameType(HdlcFrame::HDLC_FRAMETYPE_U_CMDR);
                     l_bAppendPayload = true;
                     break;
                 }
                 case 0b11100: {
                     // Test (TEST)
-                    l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_U_TEST);
+                    l_HdlcFrame.SetHDLCFrameType(HdlcFrame::HDLC_FRAMETYPE_U_TEST);
                     l_bAppendPayload = true;
                     break;
                 }
                 case 0b11101: {
                     // Exchange Identification (XID)
-                    l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_U_XID);
+                    l_HdlcFrame.SetHDLCFrameType(HdlcFrame::HDLC_FRAMETYPE_U_XID);
                     l_bAppendPayload = true;
                     break;
                 }
                 default: {
-                    l_Frame.SetHDLCFrameType(Frame::HDLC_FRAMETYPE_UNSET);
+                    l_HdlcFrame.SetHDLCFrameType(HdlcFrame::HDLC_FRAMETYPE_UNSET);
                     break;
                 }
             } // switch
@@ -274,8 +274,8 @@ Frame FrameParser::DeserializeFrame(const std::vector<unsigned char> &a_Unescape
         // I-Frames and UI-Frames have additional payload
         std::vector<unsigned char> l_Payload;
         l_Payload.assign(&a_UnescapedBuffer[3], (&a_UnescapedBuffer[3] + (a_UnescapedBuffer.size() - 6)));
-        l_Frame.SetPayload(std::move(l_Payload));
+        l_HdlcFrame.SetPayload(std::move(l_Payload));
     } // if
     
-    return std::move(l_Frame);
+    return l_HdlcFrame;
 }

@@ -42,7 +42,7 @@
 #include <memory>
 #include <deque>
 #include "AliveState.h"
-#include "Frame.h"
+#include "HdlcFrame.h"
 #include "FrameParser.h"
 class ISerialPortHandler;
 
@@ -57,7 +57,7 @@ public:
     void SendPayload(const std::vector<unsigned char> &a_Payload, bool a_bReliable);
     void TriggerNextHDLCFrame();
     void AddReceivedRawBytes(const unsigned char* a_Buffer, size_t a_Bytes);
-    void InterpretDeserializedFrame(const std::vector<unsigned char> &a_Payload, const Frame& a_Frame, bool a_bMessageInvalid);
+    void InterpretDeserializedFrame(const std::vector<unsigned char> &a_Payload, const HdlcFrame& a_HdlcFrame, bool a_bMessageInvalid);
     
     // Query state
     bool IsAlive() const { return m_AliveState->IsAlive(); }
@@ -67,11 +67,11 @@ private:
     // Internal helpers
     void Reset();
     void OpportunityForTransmission();
-    Frame PrepareIFrame();
-    Frame PrepareSFrameRR();
-    Frame PrepareSFrameSREJ();
-    Frame PrepareUFrameUI();
-    Frame PrepareUFrameTEST();
+    HdlcFrame PrepareIFrame();
+    HdlcFrame PrepareSFrameRR();
+    HdlcFrame PrepareSFrameSREJ();
+    HdlcFrame PrepareUFrameUI();
+    HdlcFrame PrepareUFrameTEST();
     
     // Members
     bool m_bStarted;
