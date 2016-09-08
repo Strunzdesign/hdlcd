@@ -59,9 +59,11 @@ public:
         switch (m_CurrentBaudrateIndex) {
             case 0:
                 m_CurrentBaudrateIndex = 1;
+                break;
             default:
             case 1:
                 m_CurrentBaudrateIndex = 0;
+                break;
         } // switch
     }
     
