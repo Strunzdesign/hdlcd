@@ -39,7 +39,7 @@ class SerialPortHandlerCollection;
 
 class ClientHandler: public std::enable_shared_from_this<ClientHandler> {
 public:
-    ClientHandler(std::weak_ptr<ClientHandlerCollection> a_ClientHandlerCollection, boost::asio::ip::tcp::socket a_TCPSocket);
+    ClientHandler(boost::asio::io_service& a_IOService, std::weak_ptr<ClientHandlerCollection> a_ClientHandlerCollection, boost::asio::ip::tcp::socket a_TCPSocket);
     ~ClientHandler();
     
     E_BUFFER_TYPE GetBufferType() const { return m_eBufferType; }
@@ -61,6 +61,7 @@ private:
     void OnClosed();
 
     // Members
+    boost::asio::io_service& m_IOService;
     std::weak_ptr<ClientHandlerCollection> m_ClientHandlerCollection;
     std::shared_ptr<HdlcdPacketEndpoint> m_PacketEndpoint;
     

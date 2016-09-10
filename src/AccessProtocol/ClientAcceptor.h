@@ -48,7 +48,7 @@ public:
      *  \param a_usPortNbr the TCP port number to wait for incoming TCP connections
      *  \param a_SerialPortHandlerCollection the collection helper class of serial port handlers responsible for talking to devices using the HDLC protocol 
      */
-    ClientAcceptor(boost::asio::io_service& a_IOService, unsigned short a_usPortNbr, std::shared_ptr<SerialPortHandlerCollection> a_SerialPortHandlerCollection): m_SerialPortHandlerCollection(a_SerialPortHandlerCollection), m_TCPAcceptor(a_IOService, tcp::endpoint(tcp::v4(), a_usPortNbr)), m_TCPSocket(a_IOService) {
+    ClientAcceptor(boost::asio::io_service& a_IOService, unsigned short a_usPortNbr, std::shared_ptr<SerialPortHandlerCollection> a_SerialPortHandlerCollection): m_IOService(a_IOService), m_SerialPortHandlerCollection(a_SerialPortHandlerCollection), m_TCPAcceptor(a_IOService, tcp::endpoint(tcp::v4(), a_usPortNbr)), m_TCPSocket(a_IOService) {
         // Create the collection helper regarding accepted clients
         m_ClientHandlerCollection = std::make_shared<ClientHandlerCollection>();
         do_accept(); // start accepting TCP connections
@@ -64,7 +64,7 @@ private:
         m_TCPAcceptor.async_accept(m_TCPSocket, [this](boost::system::error_code a_ErrorCode) {
             if (!a_ErrorCode) {
                 // Create ClientHandler, store, and start it
-                auto l_ClientHandler = std::make_shared<ClientHandler>(m_ClientHandlerCollection, std::move(m_TCPSocket));
+                auto l_ClientHandler = std::make_shared<ClientHandler>(m_IOService, m_ClientHandlerCollection, std::move(m_TCPSocket));
                 l_ClientHandler->Start(m_SerialPortHandlerCollection);
             } // if
 
@@ -74,6 +74,7 @@ private:
     }
 
     // Members
+    boost::asio::io_service& m_IOService;
     std::shared_ptr<ClientHandlerCollection> m_ClientHandlerCollection; //!< This object is responsible for holding all client handlers
     std::shared_ptr<SerialPortHandlerCollection> m_SerialPortHandlerCollection; //!< This object is responsible for holding all serial port handlers
     tcp::acceptor m_TCPAcceptor; //!< The TCP listener

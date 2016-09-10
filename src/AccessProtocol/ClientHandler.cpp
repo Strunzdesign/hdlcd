@@ -26,9 +26,7 @@
 #include "HdlcdPacketData.h"
 #include "HdlcdPacketCtrl.h"
 
-ClientHandler::ClientHandler(std::weak_ptr<ClientHandlerCollection> a_ClientHandlerCollection, boost::asio::ip::tcp::socket a_TCPSocket):
-    m_ClientHandlerCollection(a_ClientHandlerCollection),
-    m_TCPSocket(std::move(a_TCPSocket)) {
+ClientHandler::ClientHandler(boost::asio::io_service& a_IOService, std::weak_ptr<ClientHandlerCollection> a_ClientHandlerCollection, boost::asio::ip::tcp::socket a_TCPSocket): m_IOService(a_IOService), m_ClientHandlerCollection(a_ClientHandlerCollection), m_TCPSocket(std::move(a_TCPSocket)) {
     m_Registered = false;
     m_bDeliverInitialState = true;
     m_eBufferType = BUFFER_TYPE_UNSET;
@@ -36,10 +34,6 @@ ClientHandler::ClientHandler(std::weak_ptr<ClientHandlerCollection> a_ClientHand
     m_bDeliverRcvd = false;
     m_bDeliverInvalidData = false;
     m_bSerialPortHandlerAwaitsPacket = false;
-    m_PacketEndpoint = std::make_shared<HdlcdPacketEndpoint>(m_TCPSocket);
-    m_PacketEndpoint->SetOnDataCallback([this](std::shared_ptr<const HdlcdPacketData> a_PacketData){ return OnDataReceived(a_PacketData); });
-    m_PacketEndpoint->SetOnCtrlCallback([this](const HdlcdPacketCtrl& a_PacketCtrl){ OnCtrlReceived(a_PacketCtrl); });
-    m_PacketEndpoint->SetOnClosedCallback([this](){ OnClosed(); });
 }
 
 ClientHandler::~ClientHandler() {
@@ -58,8 +52,7 @@ void ClientHandler::DeliverBufferToClient(E_BUFFER_TYPE a_eBufferType, const std
     } // if
 
     if (l_bDeliver) {
-        auto l_Packet = HdlcdPacketData::CreatePacket(a_Payload, a_bReliable, a_bInvalid, a_bWasSent);
-        m_PacketEndpoint->Send(&l_Packet);
+        m_PacketEndpoint->Send(HdlcdPacketData::CreatePacket(a_Payload, a_bReliable, a_bInvalid, a_bWasSent));
     } // if
 }
 
@@ -70,8 +63,7 @@ void ClientHandler::UpdateSerialPortState(bool a_bAlive, size_t a_LockHolders) {
     l_bDeliverChangedState |= m_LockGuard.UpdateSerialPortState(a_LockHolders);
     if (l_bDeliverChangedState) {
         // The state of the serial port state changed. Communicate the new state to the client.
-        auto l_Packet = HdlcdPacketCtrl::CreatePortStatusResponse(m_AliveGuard.IsAlive(), m_LockGuard.IsLockedByOthers(), m_LockGuard.IsLockedBySelf());
-        m_PacketEndpoint->Send(&l_Packet);
+        m_PacketEndpoint->Send(HdlcdPacketCtrl::CreatePortStatusResponse(m_AliveGuard.IsAlive(), m_LockGuard.IsLockedByOthers(), m_LockGuard.IsLockedBySelf()));
     } // if
 }
 
@@ -110,6 +102,10 @@ void ClientHandler::Start(std::shared_ptr<SerialPortHandlerCollection> a_SerialP
     } // else
 
     m_SerialPortHandlerCollection = a_SerialPortHandlerCollection;
+    m_PacketEndpoint = std::make_shared<HdlcdPacketEndpoint>(m_IOService, m_TCPSocket);
+    m_PacketEndpoint->SetOnDataCallback([this](std::shared_ptr<const HdlcdPacketData> a_PacketData){ return OnDataReceived(a_PacketData); });
+    m_PacketEndpoint->SetOnCtrlCallback([this](const HdlcdPacketCtrl& a_PacketCtrl){ OnCtrlReceived(a_PacketCtrl); });
+    m_PacketEndpoint->SetOnClosedCallback([this](){ OnClosed(); });
     ReadSessionHeader1();
 }
 
@@ -118,11 +114,12 @@ void ClientHandler::Stop() {
     if (m_Registered) {
         m_Registered = false;
         m_bSerialPortHandlerAwaitsPacket = false;
-        if (m_PacketEndpoint->WasStarted() == false) {
+        if (m_PacketEndpoint) {
+            m_PacketEndpoint->Close();
+            m_PacketEndpoint.reset();
+        } else {    
             m_TCPSocket.cancel();
             m_TCPSocket.close();
-        } else {
-            m_PacketEndpoint->Close();
         } // else
 
         if (auto lock = m_ClientHandlerCollection.lock()) {
@@ -256,7 +253,7 @@ void ClientHandler::OnCtrlReceived(const HdlcdPacketCtrl& a_PacketCtrl) {
         }
         case HdlcdPacketCtrl::CTRL_TYPE_ECHO: {
             // Respond with an echo reply control packet: simply send it back
-            m_PacketEndpoint->Send(&a_PacketCtrl);
+            m_PacketEndpoint->Send(a_PacketCtrl);
             break;
         }
         case HdlcdPacketCtrl::CTRL_TYPE_PORT_KILL: {
