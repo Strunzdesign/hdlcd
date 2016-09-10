@@ -1,6 +1,6 @@
 <map id="pppfcs16" name="pppfcs16">
-<area shape="rect" id="node2" href="$classFrameGenerator.html#a412b0e1431b1deebda54481be60f9ade" title="FrameGenerator::Serialize\lFrame" alt="" coords="133,5,320,47"/>
+<area shape="rect" id="node2" href="$classFrameGenerator.html#a3cb84123d4295b7d84f15b8d302b5c51" title="FrameGenerator::Serialize\lFrame" alt="" coords="133,5,320,47"/>
 <area shape="rect" id="node4" href="$classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="583,35,777,76"/>
-<area shape="rect" id="node3" href="$classProtocolState.html#a444c95c26410e631068fa56012d342fe" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="368,5,535,47"/>
+<area shape="rect" id="node3" href="$classProtocolState.html#a453318c18a9876275e2c731ebe206881" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="368,5,535,47"/>
 <area shape="rect" id="node5" href="$classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c" title="ProtocolState::AddReceived\lRawBytes" alt="" coords="825,35,1023,76"/>
 </map>

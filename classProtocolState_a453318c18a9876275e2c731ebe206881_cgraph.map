@@ -1,0 +1,23 @@
+<map id="ProtocolState::InterpretDeserializedFrame" name="ProtocolState::InterpretDeserializedFrame">
+<area shape="rect" id="node2" href="$classHdlcFrame.html#ad82961a2b0b3ade8d3ebaf268da5d6ae" title="HdlcFrame::Dissect" alt="" coords="517,199,659,226"/>
+<area shape="rect" id="node3" href="$classHdlcFrame.html#ab3c40f0431f0913d3edf1dae4b8f2dda" title="HdlcFrame::IsIFrame" alt="" coords="769,26,919,53"/>
+<area shape="rect" id="node6" href="$classHdlcFrame.html#aae393128667daa43232bfec91fbf5292" title="HdlcFrame::GetSSeq" alt="" coords="767,178,921,205"/>
+<area shape="rect" id="node7" href="$classHdlcFrame.html#a5498d3a0a063d3fccea58b5c400a27af" title="HdlcFrame::GetRSeq" alt="" coords="767,330,921,357"/>
+<area shape="rect" id="node8" href="$classHdlcFrame.html#a081ecab443d58fc313a29fed7fd3ebf6" title="HdlcFrame::IsSFrame" alt="" coords="766,77,922,103"/>
+<area shape="rect" id="node9" href="$classHdlcFrame.html#a2cf4dc6a946d21878cf9bb45429aa3f2" title="HdlcFrame::GetHDLCFrameType" alt="" coords="729,381,959,407"/>
+<area shape="rect" id="node11" href="$classHdlcFrame.html#adfeea753419e7757fde7868b81a52a69" title="HdlcFrame::HasPayload" alt="" coords="247,229,419,255"/>
+<area shape="rect" id="node12" href="$classHdlcFrame.html#a8df3aeca82bc8fc103264cba6aed07de" title="HdlcFrame::GetPayload" alt="" coords="759,507,929,534"/>
+<area shape="rect" id="node13" href="$classHdlcFrame.html#a38222c5ea917a4491ec5cd1202bb8dd9" title="HdlcFrame::IsEmpty" alt="" coords="260,431,407,458"/>
+<area shape="rect" id="node14" href="$classHdlcFrame.html#ab1f7362c199ad9ad2ebc2cc7f352b16d" title="HdlcFrame::SetPF" alt="" coords="266,482,401,509"/>
+<area shape="rect" id="node15" href="$classFrameGenerator.html#a3cb84123d4295b7d84f15b8d302b5c51" title="FrameGenerator::Serialize\lFrame" alt="" coords="495,323,681,364"/>
+<area shape="rect" id="node17" href="$classFrameGenerator.html#a745e607407d204ee646c5806d92b4a29" title="FrameGenerator::EscapeFrame" alt="" coords="223,583,443,610"/>
+<area shape="rect" id="node18" href="$classHdlcFrame.html#a04e3a7f2ccddf6d9c63b177aaad88f9f" title="HdlcFrame::SetAddress" alt="" coords="249,634,418,661"/>
+<area shape="rect" id="node19" href="$classHdlcFrame.html#a6ecb5e60001342e446f2b3ea085e7b05" title="HdlcFrame::SetHDLCFrameType" alt="" coords="220,685,447,711"/>
+<area shape="rect" id="node20" href="$classHdlcFrame.html#a5a7fffeebc507add7c7badf2d4f86f36" title="HdlcFrame::SetSSeq" alt="" coords="258,735,409,762"/>
+<area shape="rect" id="node21" href="$classHdlcFrame.html#a90e62b2e0688dabd889d2472f3d456ad" title="HdlcFrame::SetRSeq" alt="" coords="257,786,409,813"/>
+<area shape="rect" id="node22" href="$classHdlcFrame.html#afd307ebb83d9dbab0d5645fa5b5a11fb" title="HdlcFrame::SetPayload" alt="" coords="249,837,417,863"/>
+<area shape="rect" id="node4" href="$classHdlcFrame.html#a257b3119724416e4c140e15079bf05dd" title="HdlcFrame::GetAddress" alt="" coords="759,229,929,255"/>
+<area shape="rect" id="node5" href="$classHdlcFrame.html#a54170cebf2a779228e74cb5027714085" title="HdlcFrame::IsPF" alt="" coords="782,279,906,306"/>
+<area shape="rect" id="node10" href="$classHdlcFrame.html#aa40453333632894b483473ce170734a8" title="HdlcFrame::IsUFrame" alt="" coords="765,127,923,154"/>
+<area shape="rect" id="node16" href="$FCS16_8cpp.html#ae9537f06cccf3d496bf3897e55c1efdc" title="pppfcs16" alt="" coords="804,431,884,458"/>
+</map>

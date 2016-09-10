@@ -5,5 +5,5 @@ var searchData=
   ['deliverpayloadtohdlc',['DeliverPayloadToHDLC',['../classSerialPortHandler.html#aeefc82356b789b628385c7ee602d90f0',1,'SerialPortHandler']]],
   ['deregisterclienthandler',['DeregisterClientHandler',['../classClientHandlerCollection.html#af6429b0f96ddd6db7406669061376e5a',1,'ClientHandlerCollection']]],
   ['deregisterserialporthandler',['DeregisterSerialPortHandler',['../classSerialPortHandlerCollection.html#adca27a4585c1b617bed2bd01df12c68e',1,'SerialPortHandlerCollection']]],
-  ['dissect',['Dissect',['../classFrame.html#a1151c62bfba51f5e2fd979dd4b856829',1,'Frame']]]
+  ['dissect',['Dissect',['../classHdlcFrame.html#ad82961a2b0b3ade8d3ebaf268da5d6ae',1,'HdlcFrame']]]
 ];

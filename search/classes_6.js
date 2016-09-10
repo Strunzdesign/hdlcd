@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['protocolstate',['ProtocolState',['../classProtocolState.html',1,'']]]
+  ['lockguard',['LockGuard',['../classLockGuard.html',1,'']]]
 ];

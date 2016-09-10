@@ -122,9 +122,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a617b9dbeb70dc2f94552026cddf5d02e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBaudRate.html#a617b9dbeb70dc2f94552026cddf5d02e">BaudRate</a> ()</td></tr>
 <tr class="memdesc:a617b9dbeb70dc2f94552026cddf5d02e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The constructor of <a class="el" href="classBaudRate.html" title="Class BaudRate. ">BaudRate</a> objects.  <a href="#a617b9dbeb70dc2f94552026cddf5d02e">More...</a><br /></td></tr>
 <tr class="separator:a617b9dbeb70dc2f94552026cddf5d02e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ce25521e528f620f7c1082d87abee3c"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBaudRate.html#a3ce25521e528f620f7c1082d87abee3c">GetNextBaudRate</a> ()</td></tr>
-<tr class="memdesc:a3ce25521e528f620f7c1082d87abee3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Iterate to another baud rate setting.  <a href="#a3ce25521e528f620f7c1082d87abee3c">More...</a><br /></td></tr>
-<tr class="separator:a3ce25521e528f620f7c1082d87abee3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa94fd82968948e059dd3ee0623c40712"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBaudRate.html#aa94fd82968948e059dd3ee0623c40712">GetBaudRate</a> () const </td></tr>
+<tr class="memdesc:aa94fd82968948e059dd3ee0623c40712"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deliver the currently used baud rate setting.  <a href="#aa94fd82968948e059dd3ee0623c40712">More...</a><br /></td></tr>
+<tr class="separator:aa94fd82968948e059dd3ee0623c40712"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34358dccd02bfea827b0d1e84d6e22ed"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBaudRate.html#a34358dccd02bfea827b0d1e84d6e22ed">ToggleBaudRate</a> ()</td></tr>
+<tr class="memdesc:a34358dccd02bfea827b0d1e84d6e22ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Iterate to another baud rate setting.  <a href="#a34358dccd02bfea827b0d1e84d6e22ed">More...</a><br /></td></tr>
+<tr class="separator:a34358dccd02bfea827b0d1e84d6e22ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class <a class="el" href="classBaudRate.html" title="Class BaudRate. ">BaudRate</a>. </p>
@@ -161,7 +164,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a3ce25521e528f620f7c1082d87abee3c"></a>
+<a class="anchor" id="aa94fd82968948e059dd3ee0623c40712"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -169,7 +172,46 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">unsigned int BaudRate::GetNextBaudRate </td>
+          <td class="memname">unsigned int BaudRate::GetBaudRate </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Deliver the currently used baud rate setting. </p>
+<p>Deliver the currently used baud rate setting </p>
+
+<p>Definition at line <a class="el" href="BaudRate_8h_source.html#l00044">44</a> of file <a class="el" href="BaudRate_8h_source.html">BaudRate.h</a>.</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classBaudRate_aa94fd82968948e059dd3ee0623c40712_icgraph.png" border="0" usemap="#classBaudRate_aa94fd82968948e059dd3ee0623c40712_icgraph" alt=""/></div>
+<map name="classBaudRate_aa94fd82968948e059dd3ee0623c40712_icgraph" id="classBaudRate_aa94fd82968948e059dd3ee0623c40712_icgraph">
+<area shape="rect" id="node2" href="classSerialPortHandler.html#a9a9be6af5eba7ac3b2ad9bba67b8c799" title="SerialPortHandler::Stop" alt="" coords="228,13,397,39"/>
+<area shape="rect" id="node3" href="classSerialPortHandler.html#ad1743bf4b92fccbf5031d3128e5507f3" title="SerialPortHandler::\l~SerialPortHandler" alt="" coords="445,5,588,47"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a34358dccd02bfea827b0d1e84d6e22ed"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BaudRate::ToggleBaudRate </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -185,15 +227,15 @@ Public Member Functions</h2></td></tr>
 <p>Iterate to another baud rate setting. </p>
 <p>All available baud rates are used, then it starts over with the first setting </p>
 
-<p>Definition at line <a class="el" href="BaudRate_8h_source.html#l00044">44</a> of file <a class="el" href="BaudRate_8h_source.html">BaudRate.h</a>.</p>
+<p>Definition at line <a class="el" href="BaudRate_8h_source.html#l00058">58</a> of file <a class="el" href="BaudRate_8h_source.html">BaudRate.h</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classBaudRate_a3ce25521e528f620f7c1082d87abee3c_icgraph.png" border="0" usemap="#classBaudRate_a3ce25521e528f620f7c1082d87abee3c_icgraph" alt=""/></div>
-<map name="classBaudRate_a3ce25521e528f620f7c1082d87abee3c_icgraph" id="classBaudRate_a3ce25521e528f620f7c1082d87abee3c_icgraph">
-<area shape="rect" id="node2" href="classSerialPortHandler.html#a9a9be6af5eba7ac3b2ad9bba67b8c799" title="SerialPortHandler::Stop" alt="" coords="257,13,427,39"/>
-<area shape="rect" id="node3" href="classSerialPortHandler.html#ad1743bf4b92fccbf5031d3128e5507f3" title="SerialPortHandler::\l~SerialPortHandler" alt="" coords="475,5,617,47"/>
+<div class="center"><img src="classBaudRate_a34358dccd02bfea827b0d1e84d6e22ed_icgraph.png" border="0" usemap="#classBaudRate_a34358dccd02bfea827b0d1e84d6e22ed_icgraph" alt=""/></div>
+<map name="classBaudRate_a34358dccd02bfea827b0d1e84d6e22ed_icgraph" id="classBaudRate_a34358dccd02bfea827b0d1e84d6e22ed_icgraph">
+<area shape="rect" id="node2" href="classSerialPortHandler.html#a9a9be6af5eba7ac3b2ad9bba67b8c799" title="SerialPortHandler::Stop" alt="" coords="249,13,419,39"/>
+<area shape="rect" id="node3" href="classSerialPortHandler.html#ad1743bf4b92fccbf5031d3128e5507f3" title="SerialPortHandler::\l~SerialPortHandler" alt="" coords="467,5,609,47"/>
 </map>
 </div>
 </p>

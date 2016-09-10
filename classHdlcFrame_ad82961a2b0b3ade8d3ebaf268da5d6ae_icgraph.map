@@ -1,0 +1,6 @@
+<map id="HdlcFrame::Dissect" name="HdlcFrame::Dissect">
+<area shape="rect" id="node2" href="$classHdlcFrame.html#adfeea753419e7757fde7868b81a52a69" title="HdlcFrame::HasPayload" alt="" coords="196,5,368,32"/>
+<area shape="rect" id="node3" href="$classProtocolState.html#a453318c18a9876275e2c731ebe206881" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="416,23,583,65"/>
+<area shape="rect" id="node4" href="$classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="631,23,825,65"/>
+<area shape="rect" id="node5" href="$classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c" title="ProtocolState::AddReceived\lRawBytes" alt="" coords="873,23,1071,65"/>
+</map>

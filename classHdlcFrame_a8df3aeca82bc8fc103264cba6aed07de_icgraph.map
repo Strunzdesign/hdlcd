@@ -1,0 +1,6 @@
+<map id="HdlcFrame::GetPayload" name="HdlcFrame::GetPayload">
+<area shape="rect" id="node2" href="$classFrameGenerator.html#a3cb84123d4295b7d84f15b8d302b5c51" title="FrameGenerator::Serialize\lFrame" alt="" coords="224,5,411,47"/>
+<area shape="rect" id="node3" href="$classProtocolState.html#a453318c18a9876275e2c731ebe206881" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="459,35,625,76"/>
+<area shape="rect" id="node4" href="$classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="673,35,868,76"/>
+<area shape="rect" id="node5" href="$classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c" title="ProtocolState::AddReceived\lRawBytes" alt="" coords="916,35,1113,76"/>
+</map>

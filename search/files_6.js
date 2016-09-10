@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['main_2dhdlcd_2ecpp',['main-hdlcd.cpp',['../main-hdlcd_8cpp.html',1,'']]]
+  ['lockguard_2ecpp',['LockGuard.cpp',['../LockGuard_8cpp.html',1,'']]],
+  ['lockguard_2eh',['LockGuard.h',['../LockGuard_8h.html',1,'']]]
 ];

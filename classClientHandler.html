@@ -126,8 +126,8 @@ Collaboration diagram for ClientHandler:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af33c35e7eeeb6cebb0c8eec02e17fc70"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClientHandler.html#af33c35e7eeeb6cebb0c8eec02e17fc70">ClientHandler</a> (std::weak_ptr&lt; <a class="el" href="classClientHandlerCollection.html">ClientHandlerCollection</a> &gt; a_ClientHandlerCollection, boost::asio::ip::tcp::socket a_TCPSocket)</td></tr>
-<tr class="separator:af33c35e7eeeb6cebb0c8eec02e17fc70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2966720be1a80f576b55ea53f53b826a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClientHandler.html#a2966720be1a80f576b55ea53f53b826a">ClientHandler</a> (boost::asio::io_service &amp;a_IOService, std::weak_ptr&lt; <a class="el" href="classClientHandlerCollection.html">ClientHandlerCollection</a> &gt; a_ClientHandlerCollection, boost::asio::ip::tcp::socket a_TCPSocket)</td></tr>
+<tr class="separator:a2966720be1a80f576b55ea53f53b826a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a202c875fbf38e4a52975f6c173f78127"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClientHandler.html#a202c875fbf38e4a52975f6c173f78127">~ClientHandler</a> ()</td></tr>
 <tr class="separator:a202c875fbf38e4a52975f6c173f78127"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf0f0dc0d4991bfc7c2f1f280cd88440"><td class="memItemLeft" align="right" valign="top"><a class="el" href="BufferType_8h.html#a97590998fcd6ffacae36369e5bf24d89">E_BUFFER_TYPE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classClientHandler.html#acf0f0dc0d4991bfc7c2f1f280cd88440">GetBufferType</a> () const </td></tr>
@@ -147,13 +147,19 @@ Public Member Functions</h2></td></tr>
 <div class="textblock">
 <p>Definition at line <a class="el" href="ClientHandler_8h_source.html#l00040">40</a> of file <a class="el" href="ClientHandler_8h_source.html">ClientHandler.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="af33c35e7eeeb6cebb0c8eec02e17fc70"></a>
+<a class="anchor" id="a2966720be1a80f576b55ea53f53b826a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">ClientHandler::ClientHandler </td>
           <td>(</td>
+          <td class="paramtype">boost::asio::io_service &amp;&#160;</td>
+          <td class="paramname"><em>a_IOService</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">std::weak_ptr&lt; <a class="el" href="classClientHandlerCollection.html">ClientHandlerCollection</a> &gt;&#160;</td>
           <td class="paramname"><em>a_ClientHandlerCollection</em>, </td>
         </tr>
@@ -188,7 +194,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ClientHandler_8cpp_source.html#l00044">44</a> of file <a class="el" href="ClientHandler_8cpp_source.html">ClientHandler.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ClientHandler_8cpp_source.html#l00039">39</a> of file <a class="el" href="ClientHandler_8cpp_source.html">ClientHandler.cpp</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
@@ -248,7 +254,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ClientHandler_8cpp_source.html#l00048">48</a> of file <a class="el" href="ClientHandler_8cpp_source.html">ClientHandler.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ClientHandler_8cpp_source.html#l00043">43</a> of file <a class="el" href="ClientHandler_8cpp_source.html">ClientHandler.cpp</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -333,7 +339,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ClientHandler_8cpp_source.html#l00076">76</a> of file <a class="el" href="ClientHandler_8cpp_source.html">ClientHandler.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ClientHandler_8cpp_source.html#l00070">70</a> of file <a class="el" href="ClientHandler_8cpp_source.html">ClientHandler.cpp</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -361,7 +367,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ClientHandler_8cpp_source.html#l00100">100</a> of file <a class="el" href="ClientHandler_8cpp_source.html">ClientHandler.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ClientHandler_8cpp_source.html#l00094">94</a> of file <a class="el" href="ClientHandler_8cpp_source.html">ClientHandler.cpp</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -388,7 +394,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ClientHandler_8cpp_source.html#l00114">114</a> of file <a class="el" href="ClientHandler_8cpp_source.html">ClientHandler.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ClientHandler_8cpp_source.html#l00112">112</a> of file <a class="el" href="ClientHandler_8cpp_source.html">ClientHandler.cpp</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
@@ -439,7 +445,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ClientHandler_8cpp_source.html#l00065">65</a> of file <a class="el" href="ClientHandler_8cpp_source.html">ClientHandler.cpp</a>.</p>
+<p>Definition at line <a class="el" href="ClientHandler_8cpp_source.html#l00059">59</a> of file <a class="el" href="ClientHandler_8cpp_source.html">ClientHandler.cpp</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>

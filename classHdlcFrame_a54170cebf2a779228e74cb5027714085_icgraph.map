@@ -1,0 +1,8 @@
+<map id="HdlcFrame::IsPF" name="HdlcFrame::IsPF">
+<area shape="rect" id="node2" href="$classFrameGenerator.html#a3cb84123d4295b7d84f15b8d302b5c51" title="FrameGenerator::Serialize\lFrame" alt="" coords="368,5,555,47"/>
+<area shape="rect" id="node6" href="$classHdlcFrame.html#ad82961a2b0b3ade8d3ebaf268da5d6ae" title="HdlcFrame::Dissect" alt="" coords="177,71,320,98"/>
+<area shape="rect" id="node3" href="$classProtocolState.html#a453318c18a9876275e2c731ebe206881" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="603,64,769,105"/>
+<area shape="rect" id="node4" href="$classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="817,64,1012,105"/>
+<area shape="rect" id="node5" href="$classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c" title="ProtocolState::AddReceived\lRawBytes" alt="" coords="1060,64,1257,105"/>
+<area shape="rect" id="node7" href="$classHdlcFrame.html#adfeea753419e7757fde7868b81a52a69" title="HdlcFrame::HasPayload" alt="" coords="375,122,547,149"/>
+</map>

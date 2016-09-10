@@ -1,0 +1,9 @@
+<map id="FrameGenerator::SerializeFrame" name="FrameGenerator::SerializeFrame">
+<area shape="rect" id="node2" href="$classHdlcFrame.html#a2cf4dc6a946d21878cf9bb45429aa3f2" title="HdlcFrame::GetHDLCFrameType" alt="" coords="240,5,469,32"/>
+<area shape="rect" id="node3" href="$classHdlcFrame.html#aae393128667daa43232bfec91fbf5292" title="HdlcFrame::GetSSeq" alt="" coords="278,56,431,83"/>
+<area shape="rect" id="node4" href="$classHdlcFrame.html#a5498d3a0a063d3fccea58b5c400a27af" title="HdlcFrame::GetRSeq" alt="" coords="277,107,432,133"/>
+<area shape="rect" id="node5" href="$classHdlcFrame.html#a8df3aeca82bc8fc103264cba6aed07de" title="HdlcFrame::GetPayload" alt="" coords="269,157,440,184"/>
+<area shape="rect" id="node6" href="$classHdlcFrame.html#a257b3119724416e4c140e15079bf05dd" title="HdlcFrame::GetAddress" alt="" coords="269,208,440,235"/>
+<area shape="rect" id="node7" href="$classHdlcFrame.html#a54170cebf2a779228e74cb5027714085" title="HdlcFrame::IsPF" alt="" coords="293,259,417,285"/>
+<area shape="rect" id="node8" href="$FCS16_8cpp.html#ae9537f06cccf3d496bf3897e55c1efdc" title="pppfcs16" alt="" coords="315,309,395,336"/>
+</map>

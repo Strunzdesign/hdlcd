@@ -116,8 +116,8 @@ $(document).ready(function(){initNavTree('classFrameGenerator.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a412b0e1431b1deebda54481be60f9ade"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; unsigned char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrameGenerator.html#a412b0e1431b1deebda54481be60f9ade">SerializeFrame</a> (const <a class="el" href="classFrame.html">Frame</a> &amp;a_Frame)</td></tr>
-<tr class="separator:a412b0e1431b1deebda54481be60f9ade"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3cb84123d4295b7d84f15b8d302b5c51"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; unsigned char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrameGenerator.html#a3cb84123d4295b7d84f15b8d302b5c51">SerializeFrame</a> (const <a class="el" href="classHdlcFrame.html">HdlcFrame</a> &amp;a_HdlcFrame)</td></tr>
+<tr class="separator:a3cb84123d4295b7d84f15b8d302b5c51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a745e607407d204ee646c5806d92b4a29"><td class="memItemLeft" align="right" valign="top">static std::vector&lt; unsigned char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrameGenerator.html#a745e607407d204ee646c5806d92b4a29">EscapeFrame</a> (const std::vector&lt; unsigned char &gt; &amp;a_HDLCFrame)</td></tr>
 <tr class="separator:a745e607407d204ee646c5806d92b4a29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -154,7 +154,7 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classFrameGenerator_a745e607407d204ee646c5806d92b4a29_icgraph.png" border="0" usemap="#classFrameGenerator_a745e607407d204ee646c5806d92b4a29_icgraph" alt=""/></div>
 <map name="classFrameGenerator_a745e607407d204ee646c5806d92b4a29_icgraph" id="classFrameGenerator_a745e607407d204ee646c5806d92b4a29_icgraph">
-<area shape="rect" id="node2" href="classProtocolState.html#a444c95c26410e631068fa56012d342fe" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="273,5,440,47"/>
+<area shape="rect" id="node2" href="classProtocolState.html#a453318c18a9876275e2c731ebe206881" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="273,5,440,47"/>
 <area shape="rect" id="node3" href="classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="488,5,683,47"/>
 <area shape="rect" id="node4" href="classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c" title="ProtocolState::AddReceived\lRawBytes" alt="" coords="731,5,928,47"/>
 </map>
@@ -163,7 +163,7 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a class="anchor" id="a412b0e1431b1deebda54481be60f9ade"></a>
+<a class="anchor" id="a3cb84123d4295b7d84f15b8d302b5c51"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -173,8 +173,8 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">const std::vector&lt; unsigned char &gt; FrameGenerator::SerializeFrame </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classFrame.html">Frame</a> &amp;&#160;</td>
-          <td class="paramname"><em>a_Frame</em></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="classHdlcFrame.html">HdlcFrame</a> &amp;&#160;</td>
+          <td class="paramname"><em>a_HdlcFrame</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -190,15 +190,15 @@ Here is the caller graph for this function:</div>
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classFrameGenerator_a412b0e1431b1deebda54481be60f9ade_cgraph.png" border="0" usemap="#classFrameGenerator_a412b0e1431b1deebda54481be60f9ade_cgraph" alt=""/></div>
-<map name="classFrameGenerator_a412b0e1431b1deebda54481be60f9ade_cgraph" id="classFrameGenerator_a412b0e1431b1deebda54481be60f9ade_cgraph">
-<area shape="rect" id="node2" href="classFrame.html#abf6b7db82f0c9d1b701c28e89f68607c" title="Frame::GetHDLCFrameType" alt="" coords="240,5,441,32"/>
-<area shape="rect" id="node3" href="classFrame.html#aa32884d93ca3bfa40c9ee96f89d1e689" title="Frame::GetSSeq" alt="" coords="278,56,403,83"/>
-<area shape="rect" id="node4" href="classFrame.html#aef3e9688379b3f8db0c13371a576be47" title="Frame::GetRSeq" alt="" coords="277,107,404,133"/>
-<area shape="rect" id="node5" href="classFrame.html#a177195746b4081ca1758603c1dae7ace" title="Frame::GetPayload" alt="" coords="269,157,412,184"/>
-<area shape="rect" id="node6" href="classFrame.html#a58f2fc1e3ad0d33ee9dd6622ed38c968" title="Frame::GetAddress" alt="" coords="269,208,412,235"/>
-<area shape="rect" id="node7" href="classFrame.html#a498584c896fb9b1bcfb4d9feb07d3ce0" title="Frame::IsPF" alt="" coords="293,259,389,285"/>
-<area shape="rect" id="node8" href="FCS16_8cpp.html#ae9537f06cccf3d496bf3897e55c1efdc" title="pppfcs16" alt="" coords="301,309,381,336"/>
+<div class="center"><img src="classFrameGenerator_a3cb84123d4295b7d84f15b8d302b5c51_cgraph.png" border="0" usemap="#classFrameGenerator_a3cb84123d4295b7d84f15b8d302b5c51_cgraph" alt=""/></div>
+<map name="classFrameGenerator_a3cb84123d4295b7d84f15b8d302b5c51_cgraph" id="classFrameGenerator_a3cb84123d4295b7d84f15b8d302b5c51_cgraph">
+<area shape="rect" id="node2" href="classHdlcFrame.html#a2cf4dc6a946d21878cf9bb45429aa3f2" title="HdlcFrame::GetHDLCFrameType" alt="" coords="240,5,469,32"/>
+<area shape="rect" id="node3" href="classHdlcFrame.html#aae393128667daa43232bfec91fbf5292" title="HdlcFrame::GetSSeq" alt="" coords="278,56,431,83"/>
+<area shape="rect" id="node4" href="classHdlcFrame.html#a5498d3a0a063d3fccea58b5c400a27af" title="HdlcFrame::GetRSeq" alt="" coords="277,107,432,133"/>
+<area shape="rect" id="node5" href="classHdlcFrame.html#a8df3aeca82bc8fc103264cba6aed07de" title="HdlcFrame::GetPayload" alt="" coords="269,157,440,184"/>
+<area shape="rect" id="node6" href="classHdlcFrame.html#a257b3119724416e4c140e15079bf05dd" title="HdlcFrame::GetAddress" alt="" coords="269,208,440,235"/>
+<area shape="rect" id="node7" href="classHdlcFrame.html#a54170cebf2a779228e74cb5027714085" title="HdlcFrame::IsPF" alt="" coords="293,259,417,285"/>
+<area shape="rect" id="node8" href="FCS16_8cpp.html#ae9537f06cccf3d496bf3897e55c1efdc" title="pppfcs16" alt="" coords="315,309,395,336"/>
 </map>
 </div>
 </p>
@@ -206,9 +206,9 @@ Here is the call graph for this function:</div>
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classFrameGenerator_a412b0e1431b1deebda54481be60f9ade_icgraph.png" border="0" usemap="#classFrameGenerator_a412b0e1431b1deebda54481be60f9ade_icgraph" alt=""/></div>
-<map name="classFrameGenerator_a412b0e1431b1deebda54481be60f9ade_icgraph" id="classFrameGenerator_a412b0e1431b1deebda54481be60f9ade_icgraph">
-<area shape="rect" id="node2" href="classProtocolState.html#a444c95c26410e631068fa56012d342fe" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="240,5,407,47"/>
+<div class="center"><img src="classFrameGenerator_a3cb84123d4295b7d84f15b8d302b5c51_icgraph.png" border="0" usemap="#classFrameGenerator_a3cb84123d4295b7d84f15b8d302b5c51_icgraph" alt=""/></div>
+<map name="classFrameGenerator_a3cb84123d4295b7d84f15b8d302b5c51_icgraph" id="classFrameGenerator_a3cb84123d4295b7d84f15b8d302b5c51_icgraph">
+<area shape="rect" id="node2" href="classProtocolState.html#a453318c18a9876275e2c731ebe206881" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="240,5,407,47"/>
 <area shape="rect" id="node3" href="classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="455,5,649,47"/>
 <area shape="rect" id="node4" href="classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c" title="ProtocolState::AddReceived\lRawBytes" alt="" coords="697,5,895,47"/>
 </map>

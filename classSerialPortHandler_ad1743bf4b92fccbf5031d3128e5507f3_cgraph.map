@@ -1,5 +1,8 @@
 <map id="SerialPortHandler::~SerialPortHandler" name="SerialPortHandler::~SerialPortHandler">
-<area shape="rect" id="node2" href="$classSerialPortHandler.html#a9a9be6af5eba7ac3b2ad9bba67b8c799" title="SerialPortHandler::Stop" alt="" coords="196,35,365,61"/>
-<area shape="rect" id="node3" href="$classBaudRate.html#a3ce25521e528f620f7c1082d87abee3c" title="Iterate to another baud rate setting. " alt="" coords="413,5,617,32"/>
-<area shape="rect" id="node4" href="$classSerialPortLock.html#a00aeb4f16d6c1035ebf6629bafe85f78" title="SerialPortLock::GetSerial\lPortState" alt="" coords="426,57,605,98"/>
+<area shape="rect" id="node2" href="$classSerialPortHandler.html#a9a9be6af5eba7ac3b2ad9bba67b8c799" title="SerialPortHandler::Stop" alt="" coords="196,93,365,120"/>
+<area shape="rect" id="node3" href="$classBaudRate.html#aa94fd82968948e059dd3ee0623c40712" title="Deliver the currently used baud rate setting. " alt="" coords="424,5,599,32"/>
+<area shape="rect" id="node4" href="$classSerialPortHandler.html#a6696d0023c77dba03c9c5f6ca475b005" title="SerialPortHandler::\lPropagateSerialPortState" alt="" coords="420,57,603,98"/>
+<area shape="rect" id="node6" href="$classBaudRate.html#a34358dccd02bfea827b0d1e84d6e22ed" title="Iterate to another baud rate setting. " alt="" coords="413,123,609,149"/>
+<area shape="rect" id="node7" href="$classSerialPortLock.html#a00aeb4f16d6c1035ebf6629bafe85f78" title="SerialPortLock::GetSerial\lPortState" alt="" coords="422,174,601,215"/>
+<area shape="rect" id="node5" href="$classSerialPortLock.html#abd309cceb40ff5823cdb4955ac971300" title="SerialPortLock::GetLockHolders" alt="" coords="657,64,880,91"/>
 </map>

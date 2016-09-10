@@ -1,0 +1,5 @@
+<map id="HdlcFrame::SetHDLCFrameType" name="HdlcFrame::SetHDLCFrameType">
+<area shape="rect" id="node2" href="$classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="495,5,689,47"/>
+<area shape="rect" id="node4" href="$classProtocolState.html#a453318c18a9876275e2c731ebe206881" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="280,35,447,76"/>
+<area shape="rect" id="node3" href="$classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c" title="ProtocolState::AddReceived\lRawBytes" alt="" coords="737,5,935,47"/>
+</map>

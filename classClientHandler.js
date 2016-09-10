@@ -1,6 +1,6 @@
 var classClientHandler =
 [
-    [ "ClientHandler", "classClientHandler.html#af33c35e7eeeb6cebb0c8eec02e17fc70", null ],
+    [ "ClientHandler", "classClientHandler.html#a2966720be1a80f576b55ea53f53b826a", null ],
     [ "~ClientHandler", "classClientHandler.html#a202c875fbf38e4a52975f6c173f78127", null ],
     [ "DeliverBufferToClient", "classClientHandler.html#a4479c2ca60c1757df59e007f10c3858a", null ],
     [ "GetBufferType", "classClientHandler.html#acf0f0dc0d4991bfc7c2f1f280cd88440", null ],

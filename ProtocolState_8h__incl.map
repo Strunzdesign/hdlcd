@@ -1,5 +1,5 @@
 <map id="src/SerialPort/HDLC/ProtocolState.h" name="src/SerialPort/HDLC/ProtocolState.h">
 <area shape="rect" id="node6" href="$AliveState_8h.html" title="This file contains the header declaration of class AliveState. " alt="" coords="299,95,395,121"/>
-<area shape="rect" id="node8" href="$Frame_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="507,177,581,203"/>
+<area shape="rect" id="node8" href="$HdlcFrame_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="503,177,604,203"/>
 <area shape="rect" id="node10" href="$FrameParser_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="419,95,533,121"/>
 </map>

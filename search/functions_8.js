@@ -1,15 +1,16 @@
 var searchData=
 [
-  ['include_5fdirectories',['include_directories',['../CMakeLists_8txt.html#a3b8528942589ad9f54e396a5752038cf',1,'CMakeLists.txt']]],
+  ['include_5fdirectories',['include_directories',['../CMakeLists_8txt.html#aaa6512dfd65f0af6aa4f70a0c025ad9e',1,'CMakeLists.txt']]],
   ['init',['Init',['../classLockGuard.html#abf473ba70cb354517bdb5b2100772f83',1,'LockGuard']]],
-  ['interpretdeserializedframe',['InterpretDeserializedFrame',['../classProtocolState.html#a444c95c26410e631068fa56012d342fe',1,'ProtocolState']]],
+  ['interpretdeserializedframe',['InterpretDeserializedFrame',['../classProtocolState.html#a453318c18a9876275e2c731ebe206881',1,'ProtocolState']]],
   ['isalive',['IsAlive',['../classAliveGuard.html#ac9beb654a0f3057bbd38e2ad3ae2c4c3',1,'AliveGuard::IsAlive()'],['../classAliveState.html#af1fa1dc78a9388672b7378859f8c2b30',1,'AliveState::IsAlive()'],['../classProtocolState.html#ab4b709236e0f76aabc01693735f683ca',1,'ProtocolState::IsAlive()']]],
-  ['isempty',['IsEmpty',['../classFrame.html#a2a5f62465222f252bf8c0098e453d133',1,'Frame']]],
-  ['isiframe',['IsIFrame',['../classFrame.html#ac82e03633b6cd38ced564aa456e0f2d4',1,'Frame']]],
+  ['isempty',['IsEmpty',['../classHdlcFrame.html#a38222c5ea917a4491ec5cd1202bb8dd9',1,'HdlcFrame']]],
+  ['isiframe',['IsIFrame',['../classHdlcFrame.html#ab3c40f0431f0913d3edf1dae4b8f2dda',1,'HdlcFrame']]],
   ['islocked',['IsLocked',['../classLockGuard.html#ad64b519319a2fb4846419cc8634cb141',1,'LockGuard']]],
   ['islockedbyothers',['IsLockedByOthers',['../classLockGuard.html#a034a917b15cbf520adda465fab890d4d',1,'LockGuard']]],
   ['islockedbyself',['IsLockedBySelf',['../classLockGuard.html#a7e81d11c5a00a0ed432bd52a621e559b',1,'LockGuard']]],
-  ['ispf',['IsPF',['../classFrame.html#a498584c896fb9b1bcfb4d9feb07d3ce0',1,'Frame']]],
-  ['issframe',['IsSFrame',['../classFrame.html#a13b12ad3561c2058344584ddd6b03470',1,'Frame']]],
-  ['isuframe',['IsUFrame',['../classFrame.html#a34fd3215c8b5cc61fe37f0a096048f32',1,'Frame']]]
+  ['ispf',['IsPF',['../classHdlcFrame.html#a54170cebf2a779228e74cb5027714085',1,'HdlcFrame']]],
+  ['isrunning',['IsRunning',['../classProtocolState.html#a3d62d93888b63d695934d7a12d212ab5',1,'ProtocolState']]],
+  ['issframe',['IsSFrame',['../classHdlcFrame.html#a081ecab443d58fc313a29fed7fd3ebf6',1,'HdlcFrame']]],
+  ['isuframe',['IsUFrame',['../classHdlcFrame.html#aa40453333632894b483473ce170734a8',1,'HdlcFrame']]]
 ];

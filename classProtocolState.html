@@ -140,10 +140,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aa24d8bee71b4c2514742b5acf44d39eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f17bf029028c9d05fc88edb7b71e75c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c">AddReceivedRawBytes</a> (const unsigned char *a_Buffer, size_t a_Bytes)</td></tr>
 <tr class="separator:a3f17bf029028c9d05fc88edb7b71e75c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a444c95c26410e631068fa56012d342fe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProtocolState.html#a444c95c26410e631068fa56012d342fe">InterpretDeserializedFrame</a> (const std::vector&lt; unsigned char &gt; &amp;a_Payload, const <a class="el" href="classFrame.html">Frame</a> &amp;a_Frame, bool a_bMessageInvalid)</td></tr>
-<tr class="separator:a444c95c26410e631068fa56012d342fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a453318c18a9876275e2c731ebe206881"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProtocolState.html#a453318c18a9876275e2c731ebe206881">InterpretDeserializedFrame</a> (const std::vector&lt; unsigned char &gt; &amp;a_Payload, const <a class="el" href="classHdlcFrame.html">HdlcFrame</a> &amp;a_HdlcFrame, bool a_bMessageInvalid)</td></tr>
+<tr class="separator:a453318c18a9876275e2c731ebe206881"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab4b709236e0f76aabc01693735f683ca"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProtocolState.html#ab4b709236e0f76aabc01693735f683ca">IsAlive</a> () const </td></tr>
 <tr class="separator:ab4b709236e0f76aabc01693735f683ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d62d93888b63d695934d7a12d212ab5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProtocolState.html#a3d62d93888b63d695934d7a12d212ab5">IsRunning</a> () const </td></tr>
+<tr class="separator:a3d62d93888b63d695934d7a12d212ab5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
@@ -219,36 +221,36 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classProtocolState_a3f17bf029028c9d05fc88edb7b71e75c_cgraph.png" border="0" usemap="#classProtocolState_a3f17bf029028c9d05fc88edb7b71e75c_cgraph" alt=""/></div>
 <map name="classProtocolState_a3f17bf029028c9d05fc88edb7b71e75c_cgraph" id="classProtocolState_a3f17bf029028c9d05fc88edb7b71e75c_cgraph">
-<area shape="rect" id="node2" href="classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="251,692,445,733"/>
-<area shape="rect" id="node3" href="FCS16_8cpp.html#ae9537f06cccf3d496bf3897e55c1efdc" title="pppfcs16" alt="" coords="1271,17,1351,43"/>
-<area shape="rect" id="node4" href="classProtocolState.html#a444c95c26410e631068fa56012d342fe" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="493,489,660,531"/>
-<area shape="rect" id="node17" href="classFrame.html#a7a25fcede21f86b2cd32ae31c36bfad5" title="Frame::SetPF" alt="" coords="765,623,871,650"/>
-<area shape="rect" id="node20" href="classFrame.html#a6be2696299c5ef388cf7207c93719956" title="Frame::SetAddress" alt="" coords="747,674,889,701"/>
-<area shape="rect" id="node21" href="classFrame.html#a1315c8f7f4b3ff734d52ba9916d31f07" title="Frame::SetHDLCFrameType" alt="" coords="719,725,917,751"/>
-<area shape="rect" id="node22" href="classFrame.html#a4060e97604cb4b8da35032e10ee3c895" title="Frame::SetSSeq" alt="" coords="757,775,879,802"/>
-<area shape="rect" id="node23" href="classFrame.html#a549cb75253c36b4e6461b132de8416a2" title="Frame::SetRSeq" alt="" coords="756,826,880,853"/>
-<area shape="rect" id="node24" href="classFrame.html#ae71f5145fcc08f58e383fb36c6382f69" title="Frame::SetPayload" alt="" coords="748,877,888,903"/>
-<area shape="rect" id="node5" href="classFrame.html#a1151c62bfba51f5e2fd979dd4b856829" title="Frame::Dissect" alt="" coords="1012,353,1127,379"/>
-<area shape="rect" id="node6" href="classFrame.html#ac82e03633b6cd38ced564aa456e0f2d4" title="Frame::IsIFrame" alt="" coords="1250,525,1373,551"/>
-<area shape="rect" id="node9" href="classFrame.html#aa32884d93ca3bfa40c9ee96f89d1e689" title="Frame::GetSSeq" alt="" coords="1249,171,1374,198"/>
-<area shape="rect" id="node10" href="classFrame.html#aef3e9688379b3f8db0c13371a576be47" title="Frame::GetRSeq" alt="" coords="1248,323,1375,350"/>
-<area shape="rect" id="node11" href="classFrame.html#a13b12ad3561c2058344584ddd6b03470" title="Frame::IsSFrame" alt="" coords="1247,119,1375,146"/>
-<area shape="rect" id="node12" href="classFrame.html#abf6b7db82f0c9d1b701c28e89f68607c" title="Frame::GetHDLCFrameType" alt="" coords="1211,425,1412,451"/>
-<area shape="rect" id="node14" href="classFrame.html#a13630eb08ee9c95f5102051d9dea1256" title="Frame::HasPayload" alt="" coords="746,471,890,498"/>
-<area shape="rect" id="node15" href="classFrame.html#a177195746b4081ca1758603c1dae7ace" title="Frame::GetPayload" alt="" coords="1240,67,1383,94"/>
-<area shape="rect" id="node16" href="classFrame.html#a2a5f62465222f252bf8c0098e453d133" title="Frame::IsEmpty" alt="" coords="759,319,877,346"/>
-<area shape="rect" id="node18" href="classFrameGenerator.html#a412b0e1431b1deebda54481be60f9ade" title="FrameGenerator::Serialize\lFrame" alt="" coords="976,219,1163,260"/>
-<area shape="rect" id="node19" href="classFrameGenerator.html#a745e607407d204ee646c5806d92b4a29" title="FrameGenerator::EscapeFrame" alt="" coords="708,370,928,397"/>
-<area shape="rect" id="node7" href="classFrame.html#a58f2fc1e3ad0d33ee9dd6622ed38c968" title="Frame::GetAddress" alt="" coords="1240,273,1383,299"/>
-<area shape="rect" id="node8" href="classFrame.html#a498584c896fb9b1bcfb4d9feb07d3ce0" title="Frame::IsPF" alt="" coords="1263,222,1359,249"/>
-<area shape="rect" id="node13" href="classFrame.html#a34fd3215c8b5cc61fe37f0a096048f32" title="Frame::IsUFrame" alt="" coords="1247,374,1376,401"/>
+<area shape="rect" id="node2" href="classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="251,695,445,736"/>
+<area shape="rect" id="node3" href="FCS16_8cpp.html#ae9537f06cccf3d496bf3897e55c1efdc" title="pppfcs16" alt="" coords="1292,19,1372,46"/>
+<area shape="rect" id="node4" href="classProtocolState.html#a453318c18a9876275e2c731ebe206881" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="493,492,660,533"/>
+<area shape="rect" id="node17" href="classHdlcFrame.html#ab1f7362c199ad9ad2ebc2cc7f352b16d" title="HdlcFrame::SetPF" alt="" coords="754,626,889,653"/>
+<area shape="rect" id="node20" href="classHdlcFrame.html#a04e3a7f2ccddf6d9c63b177aaad88f9f" title="HdlcFrame::SetAddress" alt="" coords="737,677,906,703"/>
+<area shape="rect" id="node21" href="classHdlcFrame.html#a6ecb5e60001342e446f2b3ea085e7b05" title="HdlcFrame::SetHDLCFrameType" alt="" coords="708,727,935,754"/>
+<area shape="rect" id="node22" href="classHdlcFrame.html#a5a7fffeebc507add7c7badf2d4f86f36" title="HdlcFrame::SetSSeq" alt="" coords="746,778,897,805"/>
+<area shape="rect" id="node23" href="classHdlcFrame.html#a90e62b2e0688dabd889d2472f3d456ad" title="HdlcFrame::SetRSeq" alt="" coords="745,829,897,855"/>
+<area shape="rect" id="node24" href="classHdlcFrame.html#afd307ebb83d9dbab0d5645fa5b5a11fb" title="HdlcFrame::SetPayload" alt="" coords="737,879,905,906"/>
+<area shape="rect" id="node5" href="classHdlcFrame.html#ad82961a2b0b3ade8d3ebaf268da5d6ae" title="HdlcFrame::Dissect" alt="" coords="1005,355,1147,382"/>
+<area shape="rect" id="node6" href="classHdlcFrame.html#ab3c40f0431f0913d3edf1dae4b8f2dda" title="HdlcFrame::IsIFrame" alt="" coords="1257,527,1407,554"/>
+<area shape="rect" id="node9" href="classHdlcFrame.html#aae393128667daa43232bfec91fbf5292" title="HdlcFrame::GetSSeq" alt="" coords="1255,174,1409,201"/>
+<area shape="rect" id="node10" href="classHdlcFrame.html#a5498d3a0a063d3fccea58b5c400a27af" title="HdlcFrame::GetRSeq" alt="" coords="1255,326,1409,353"/>
+<area shape="rect" id="node11" href="classHdlcFrame.html#a081ecab443d58fc313a29fed7fd3ebf6" title="HdlcFrame::IsSFrame" alt="" coords="1254,122,1410,149"/>
+<area shape="rect" id="node12" href="classHdlcFrame.html#a2cf4dc6a946d21878cf9bb45429aa3f2" title="HdlcFrame::GetHDLCFrameType" alt="" coords="1217,427,1447,454"/>
+<area shape="rect" id="node14" href="classHdlcFrame.html#adfeea753419e7757fde7868b81a52a69" title="HdlcFrame::HasPayload" alt="" coords="735,474,907,501"/>
+<area shape="rect" id="node15" href="classHdlcFrame.html#a8df3aeca82bc8fc103264cba6aed07de" title="HdlcFrame::GetPayload" alt="" coords="1247,70,1417,97"/>
+<area shape="rect" id="node16" href="classHdlcFrame.html#a38222c5ea917a4491ec5cd1202bb8dd9" title="HdlcFrame::IsEmpty" alt="" coords="748,322,895,349"/>
+<area shape="rect" id="node18" href="classFrameGenerator.html#a3cb84123d4295b7d84f15b8d302b5c51" title="FrameGenerator::Serialize\lFrame" alt="" coords="983,221,1169,263"/>
+<area shape="rect" id="node19" href="classFrameGenerator.html#a745e607407d204ee646c5806d92b4a29" title="FrameGenerator::EscapeFrame" alt="" coords="711,373,931,399"/>
+<area shape="rect" id="node7" href="classHdlcFrame.html#a257b3119724416e4c140e15079bf05dd" title="HdlcFrame::GetAddress" alt="" coords="1247,275,1417,302"/>
+<area shape="rect" id="node8" href="classHdlcFrame.html#a54170cebf2a779228e74cb5027714085" title="HdlcFrame::IsPF" alt="" coords="1270,225,1394,251"/>
+<area shape="rect" id="node13" href="classHdlcFrame.html#aa40453333632894b483473ce170734a8" title="HdlcFrame::IsUFrame" alt="" coords="1253,377,1411,403"/>
 </map>
 </div>
 </p>
 
 </div>
 </div>
-<a class="anchor" id="a444c95c26410e631068fa56012d342fe"></a>
+<a class="anchor" id="a453318c18a9876275e2c731ebe206881"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -261,8 +263,8 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classFrame.html">Frame</a> &amp;&#160;</td>
-          <td class="paramname"><em>a_Frame</em>, </td>
+          <td class="paramtype">const <a class="el" href="classHdlcFrame.html">HdlcFrame</a> &amp;&#160;</td>
+          <td class="paramname"><em>a_HdlcFrame</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -283,29 +285,29 @@ Here is the call graph for this function:</div>
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classProtocolState_a444c95c26410e631068fa56012d342fe_cgraph.png" border="0" usemap="#classProtocolState_a444c95c26410e631068fa56012d342fe_cgraph" alt=""/></div>
-<map name="classProtocolState_a444c95c26410e631068fa56012d342fe_cgraph" id="classProtocolState_a444c95c26410e631068fa56012d342fe_cgraph">
-<area shape="rect" id="node2" href="classFrame.html#a1151c62bfba51f5e2fd979dd4b856829" title="Frame::Dissect" alt="" coords="524,205,639,232"/>
-<area shape="rect" id="node3" href="classFrame.html#ac82e03633b6cd38ced564aa456e0f2d4" title="Frame::IsIFrame" alt="" coords="762,32,885,58"/>
-<area shape="rect" id="node6" href="classFrame.html#aa32884d93ca3bfa40c9ee96f89d1e689" title="Frame::GetSSeq" alt="" coords="761,184,886,210"/>
-<area shape="rect" id="node7" href="classFrame.html#aef3e9688379b3f8db0c13371a576be47" title="Frame::GetRSeq" alt="" coords="760,336,887,362"/>
-<area shape="rect" id="node8" href="classFrame.html#a13b12ad3561c2058344584ddd6b03470" title="Frame::IsSFrame" alt="" coords="759,82,887,109"/>
-<area shape="rect" id="node9" href="classFrame.html#abf6b7db82f0c9d1b701c28e89f68607c" title="Frame::GetHDLCFrameType" alt="" coords="723,386,924,413"/>
-<area shape="rect" id="node11" href="classFrame.html#a13630eb08ee9c95f5102051d9dea1256" title="Frame::HasPayload" alt="" coords="258,234,402,261"/>
-<area shape="rect" id="node12" href="classFrame.html#a177195746b4081ca1758603c1dae7ace" title="Frame::GetPayload" alt="" coords="752,513,895,540"/>
-<area shape="rect" id="node13" href="classFrame.html#a2a5f62465222f252bf8c0098e453d133" title="Frame::IsEmpty" alt="" coords="271,437,389,464"/>
-<area shape="rect" id="node14" href="classFrame.html#a7a25fcede21f86b2cd32ae31c36bfad5" title="Frame::SetPF" alt="" coords="277,488,383,514"/>
-<area shape="rect" id="node15" href="classFrameGenerator.html#a412b0e1431b1deebda54481be60f9ade" title="FrameGenerator::Serialize\lFrame" alt="" coords="488,328,675,370"/>
-<area shape="rect" id="node17" href="classFrameGenerator.html#a745e607407d204ee646c5806d92b4a29" title="FrameGenerator::EscapeFrame" alt="" coords="220,589,440,616"/>
-<area shape="rect" id="node18" href="classFrame.html#a6be2696299c5ef388cf7207c93719956" title="Frame::SetAddress" alt="" coords="259,640,401,666"/>
-<area shape="rect" id="node19" href="classFrame.html#a1315c8f7f4b3ff734d52ba9916d31f07" title="Frame::SetHDLCFrameType" alt="" coords="231,690,429,717"/>
-<area shape="rect" id="node20" href="classFrame.html#a4060e97604cb4b8da35032e10ee3c895" title="Frame::SetSSeq" alt="" coords="269,741,391,768"/>
-<area shape="rect" id="node21" href="classFrame.html#a549cb75253c36b4e6461b132de8416a2" title="Frame::SetRSeq" alt="" coords="268,792,392,818"/>
-<area shape="rect" id="node22" href="classFrame.html#ae71f5145fcc08f58e383fb36c6382f69" title="Frame::SetPayload" alt="" coords="260,842,400,869"/>
-<area shape="rect" id="node4" href="classFrame.html#a58f2fc1e3ad0d33ee9dd6622ed38c968" title="Frame::GetAddress" alt="" coords="752,234,895,261"/>
-<area shape="rect" id="node5" href="classFrame.html#a498584c896fb9b1bcfb4d9feb07d3ce0" title="Frame::IsPF" alt="" coords="775,285,871,312"/>
-<area shape="rect" id="node10" href="classFrame.html#a34fd3215c8b5cc61fe37f0a096048f32" title="Frame::IsUFrame" alt="" coords="759,133,888,160"/>
-<area shape="rect" id="node16" href="FCS16_8cpp.html#ae9537f06cccf3d496bf3897e55c1efdc" title="pppfcs16" alt="" coords="783,437,863,464"/>
+<div class="center"><img src="classProtocolState_a453318c18a9876275e2c731ebe206881_cgraph.png" border="0" usemap="#classProtocolState_a453318c18a9876275e2c731ebe206881_cgraph" alt=""/></div>
+<map name="classProtocolState_a453318c18a9876275e2c731ebe206881_cgraph" id="classProtocolState_a453318c18a9876275e2c731ebe206881_cgraph">
+<area shape="rect" id="node2" href="classHdlcFrame.html#ad82961a2b0b3ade8d3ebaf268da5d6ae" title="HdlcFrame::Dissect" alt="" coords="517,199,659,226"/>
+<area shape="rect" id="node3" href="classHdlcFrame.html#ab3c40f0431f0913d3edf1dae4b8f2dda" title="HdlcFrame::IsIFrame" alt="" coords="769,26,919,53"/>
+<area shape="rect" id="node6" href="classHdlcFrame.html#aae393128667daa43232bfec91fbf5292" title="HdlcFrame::GetSSeq" alt="" coords="767,178,921,205"/>
+<area shape="rect" id="node7" href="classHdlcFrame.html#a5498d3a0a063d3fccea58b5c400a27af" title="HdlcFrame::GetRSeq" alt="" coords="767,330,921,357"/>
+<area shape="rect" id="node8" href="classHdlcFrame.html#a081ecab443d58fc313a29fed7fd3ebf6" title="HdlcFrame::IsSFrame" alt="" coords="766,77,922,103"/>
+<area shape="rect" id="node9" href="classHdlcFrame.html#a2cf4dc6a946d21878cf9bb45429aa3f2" title="HdlcFrame::GetHDLCFrameType" alt="" coords="729,381,959,407"/>
+<area shape="rect" id="node11" href="classHdlcFrame.html#adfeea753419e7757fde7868b81a52a69" title="HdlcFrame::HasPayload" alt="" coords="247,229,419,255"/>
+<area shape="rect" id="node12" href="classHdlcFrame.html#a8df3aeca82bc8fc103264cba6aed07de" title="HdlcFrame::GetPayload" alt="" coords="759,507,929,534"/>
+<area shape="rect" id="node13" href="classHdlcFrame.html#a38222c5ea917a4491ec5cd1202bb8dd9" title="HdlcFrame::IsEmpty" alt="" coords="260,431,407,458"/>
+<area shape="rect" id="node14" href="classHdlcFrame.html#ab1f7362c199ad9ad2ebc2cc7f352b16d" title="HdlcFrame::SetPF" alt="" coords="266,482,401,509"/>
+<area shape="rect" id="node15" href="classFrameGenerator.html#a3cb84123d4295b7d84f15b8d302b5c51" title="FrameGenerator::Serialize\lFrame" alt="" coords="495,323,681,364"/>
+<area shape="rect" id="node17" href="classFrameGenerator.html#a745e607407d204ee646c5806d92b4a29" title="FrameGenerator::EscapeFrame" alt="" coords="223,583,443,610"/>
+<area shape="rect" id="node18" href="classHdlcFrame.html#a04e3a7f2ccddf6d9c63b177aaad88f9f" title="HdlcFrame::SetAddress" alt="" coords="249,634,418,661"/>
+<area shape="rect" id="node19" href="classHdlcFrame.html#a6ecb5e60001342e446f2b3ea085e7b05" title="HdlcFrame::SetHDLCFrameType" alt="" coords="220,685,447,711"/>
+<area shape="rect" id="node20" href="classHdlcFrame.html#a5a7fffeebc507add7c7badf2d4f86f36" title="HdlcFrame::SetSSeq" alt="" coords="258,735,409,762"/>
+<area shape="rect" id="node21" href="classHdlcFrame.html#a90e62b2e0688dabd889d2472f3d456ad" title="HdlcFrame::SetRSeq" alt="" coords="257,786,409,813"/>
+<area shape="rect" id="node22" href="classHdlcFrame.html#afd307ebb83d9dbab0d5645fa5b5a11fb" title="HdlcFrame::SetPayload" alt="" coords="249,837,417,863"/>
+<area shape="rect" id="node4" href="classHdlcFrame.html#a257b3119724416e4c140e15079bf05dd" title="HdlcFrame::GetAddress" alt="" coords="759,229,929,255"/>
+<area shape="rect" id="node5" href="classHdlcFrame.html#a54170cebf2a779228e74cb5027714085" title="HdlcFrame::IsPF" alt="" coords="782,279,906,306"/>
+<area shape="rect" id="node10" href="classHdlcFrame.html#aa40453333632894b483473ce170734a8" title="HdlcFrame::IsUFrame" alt="" coords="765,127,923,154"/>
+<area shape="rect" id="node16" href="FCS16_8cpp.html#ae9537f06cccf3d496bf3897e55c1efdc" title="pppfcs16" alt="" coords="804,431,884,458"/>
 </map>
 </div>
 </p>
@@ -313,8 +315,8 @@ Here is the call graph for this function:</div>
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classProtocolState_a444c95c26410e631068fa56012d342fe_icgraph.png" border="0" usemap="#classProtocolState_a444c95c26410e631068fa56012d342fe_icgraph" alt=""/></div>
-<map name="classProtocolState_a444c95c26410e631068fa56012d342fe_icgraph" id="classProtocolState_a444c95c26410e631068fa56012d342fe_icgraph">
+<div class="center"><img src="classProtocolState_a453318c18a9876275e2c731ebe206881_icgraph.png" border="0" usemap="#classProtocolState_a453318c18a9876275e2c731ebe206881_icgraph" alt=""/></div>
+<map name="classProtocolState_a453318c18a9876275e2c731ebe206881_icgraph" id="classProtocolState_a453318c18a9876275e2c731ebe206881_icgraph">
 <area shape="rect" id="node2" href="classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="220,5,415,47"/>
 <area shape="rect" id="node3" href="classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c" title="ProtocolState::AddReceived\lRawBytes" alt="" coords="463,5,660,47"/>
 </map>
@@ -345,6 +347,31 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="ProtocolState_8h_source.html#l00063">63</a> of file <a class="el" href="ProtocolState_8h_source.html">ProtocolState.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3d62d93888b63d695934d7a12d212ab5"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ProtocolState::IsRunning </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="ProtocolState_8h_source.html#l00064">64</a> of file <a class="el" href="ProtocolState_8h_source.html">ProtocolState.h</a>.</p>
 
 </div>
 </div>
