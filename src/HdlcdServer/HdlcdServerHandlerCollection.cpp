@@ -59,7 +59,7 @@ void HdlcdServerHandlerCollection::DoAccept() {
     m_TcpAcceptor.async_accept(m_TcpSocket, [this](boost::system::error_code a_ErrorCode) {
         if (!a_ErrorCode) {
             // Create a HDLCd server handler object and start it. It registers itself to the HDLCd server handler collection
-            auto l_HdlcdServerHandler = std::make_shared<HdlcdServerHandler>(m_IOService, shared_from_this(), std::move(m_TcpSocket));
+            auto l_HdlcdServerHandler = std::make_shared<HdlcdServerHandler>(m_IOService, shared_from_this(), m_TcpSocket);
             l_HdlcdServerHandler->Start(m_SerialPortHandlerCollection);
         } // if
 

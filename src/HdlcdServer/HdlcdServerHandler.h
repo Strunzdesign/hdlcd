@@ -30,15 +30,19 @@
 #include <boost/asio.hpp>
 #include "AliveGuard.h"
 #include "LockGuard.h"
-#include "HDLC/BufferType.h"
-#include "HdlcdPacketEndpoint.h"
+#include "BufferType.h"
+class Frame;
+class HdlcdPacketData;
+class HdlcdPacketCtrl;
+class HdlcdPacketEndpoint;
+class FrameEndpoint;
 class HdlcdServerHandlerCollection;
 class SerialPortHandler;
 class SerialPortHandlerCollection;
 
 class HdlcdServerHandler: public std::enable_shared_from_this<HdlcdServerHandler> {
 public:
-    HdlcdServerHandler(boost::asio::io_service& a_IOService, std::weak_ptr<HdlcdServerHandlerCollection> a_HdlcdServerHandlerCollection, boost::asio::ip::tcp::socket a_TCPSocket);
+    HdlcdServerHandler(boost::asio::io_service& a_IOService, std::weak_ptr<HdlcdServerHandlerCollection> a_HdlcdServerHandlerCollection, boost::asio::ip::tcp::socket& a_TcpSocket);
     ~HdlcdServerHandler();
     
     E_BUFFER_TYPE GetBufferType() const { return m_eBufferType; }
@@ -50,11 +54,8 @@ public:
     void Stop();
     
 private:
-    // Helpers
-    void ReadSessionHeader1();
-    void ReadSessionHeader2(unsigned char a_BytesUSB);
-    
     // Callbacks
+    bool OnFrame(const std::shared_ptr<Frame> a_Frame); // To parse the session header
     bool OnDataReceived(std::shared_ptr<const HdlcdPacketData> a_PacketData);
     void OnCtrlReceived(const HdlcdPacketCtrl& a_PacketCtrl);
     void OnClosed();
@@ -62,15 +63,13 @@ private:
     // Members
     boost::asio::io_service& m_IOService;
     std::weak_ptr<HdlcdServerHandlerCollection> m_HdlcdServerHandlerCollection;
+    std::shared_ptr<FrameEndpoint> m_FrameEndpoint;
     std::shared_ptr<HdlcdPacketEndpoint> m_PacketEndpoint;
     
     bool m_Registered;
-    boost::asio::ip::tcp::socket m_TCPSocket;
     std::shared_ptr<SerialPortHandlerCollection> m_SerialPortHandlerCollection;
     std::shared_ptr<std::shared_ptr<SerialPortHandler>> m_SerialPortHandlerStopper;
     std::shared_ptr<SerialPortHandler> m_SerialPortHandler;
-    enum { max_length = 256 };
-    unsigned char m_ReadBuffer[max_length];
     
     // Pending incoming data packets
     bool m_bSerialPortHandlerAwaitsPacket;

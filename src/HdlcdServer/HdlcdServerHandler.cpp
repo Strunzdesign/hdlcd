@@ -25,8 +25,13 @@
 #include "SerialPortHandler.h"
 #include "HdlcdPacketData.h"
 #include "HdlcdPacketCtrl.h"
+#include "HdlcdPacketEndpoint.h"
+#include "HdlcdSessionHeader.h"
+#include "FrameEndpoint.h"
+#include <utility>
 
-HdlcdServerHandler::HdlcdServerHandler(boost::asio::io_service& a_IOService, std::weak_ptr<HdlcdServerHandlerCollection> a_HdlcdServerHandlerCollection, boost::asio::ip::tcp::socket a_TCPSocket): m_IOService(a_IOService), m_HdlcdServerHandlerCollection(a_HdlcdServerHandlerCollection), m_TCPSocket(std::move(a_TCPSocket)) {
+HdlcdServerHandler::HdlcdServerHandler(boost::asio::io_service& a_IOService, std::weak_ptr<HdlcdServerHandlerCollection> a_HdlcdServerHandlerCollection, boost::asio::ip::tcp::socket& a_TcpSocket): m_IOService(a_IOService), m_HdlcdServerHandlerCollection(a_HdlcdServerHandlerCollection) {
+    // Initialize members
     m_Registered = false;
     m_bDeliverInitialState = true;
     m_eBufferType = BUFFER_TYPE_UNSET;
@@ -34,6 +39,12 @@ HdlcdServerHandler::HdlcdServerHandler(boost::asio::io_service& a_IOService, std
     m_bDeliverRcvd = false;
     m_bDeliverInvalidData = false;
     m_bSerialPortHandlerAwaitsPacket = false;
+    
+    // Prepare frame endpoint
+    m_FrameEndpoint = std::make_shared<FrameEndpoint>(a_IOService, a_TcpSocket);
+    m_FrameEndpoint->RegisterFrameFactory(0x00, []()->std::shared_ptr<Frame>{ return HdlcdSessionHeader::CreateDeserializedFrame(); });
+    m_FrameEndpoint->SetOnFrameCallback([this](std::shared_ptr<Frame> a_Frame)->bool{ return OnFrame(a_Frame); });
+    m_FrameEndpoint->SetOnClosedCallback ([this](){ OnClosed(); });
 }
 
 HdlcdServerHandler::~HdlcdServerHandler() {
@@ -93,6 +104,8 @@ void HdlcdServerHandler::QueryForPayload(bool a_bQueryReliable, bool a_bQueryUnr
 
 void HdlcdServerHandler::Start(std::shared_ptr<SerialPortHandlerCollection> a_SerialPortHandlerCollection) {
     assert(m_Registered == false);
+    assert(a_SerialPortHandlerCollection);
+    m_SerialPortHandlerCollection = a_SerialPortHandlerCollection;
     if (auto lock = m_HdlcdServerHandlerCollection.lock()) {
         m_Registered = true;
         m_bSerialPortHandlerAwaitsPacket = true;
@@ -101,12 +114,8 @@ void HdlcdServerHandler::Start(std::shared_ptr<SerialPortHandlerCollection> a_Se
         assert(false);
     } // else
 
-    m_SerialPortHandlerCollection = a_SerialPortHandlerCollection;
-    m_PacketEndpoint = std::make_shared<HdlcdPacketEndpoint>(m_IOService, m_TCPSocket);
-    m_PacketEndpoint->SetOnDataCallback([this](std::shared_ptr<const HdlcdPacketData> a_PacketData){ return OnDataReceived(a_PacketData); });
-    m_PacketEndpoint->SetOnCtrlCallback([this](const HdlcdPacketCtrl& a_PacketCtrl){ OnCtrlReceived(a_PacketCtrl); });
-    m_PacketEndpoint->SetOnClosedCallback([this](){ OnClosed(); });
-    ReadSessionHeader1();
+    // Start waiting for the session header
+    m_FrameEndpoint->Start();
 }
 
 void HdlcdServerHandler::Stop() {
@@ -115,11 +124,13 @@ void HdlcdServerHandler::Stop() {
         m_Registered = false;
         m_bSerialPortHandlerAwaitsPacket = false;
         if (m_PacketEndpoint) {
+            assert(!m_FrameEndpoint);
             m_PacketEndpoint->Close();
             m_PacketEndpoint.reset();
         } else {    
-            m_TCPSocket.cancel();
-            m_TCPSocket.close();
+            m_FrameEndpoint->Shutdown();
+            m_FrameEndpoint->Close();
+            m_FrameEndpoint.reset();
         } // else
 
         if (auto lock = m_HdlcdServerHandlerCollection.lock()) {
@@ -128,95 +139,82 @@ void HdlcdServerHandler::Stop() {
     } // if
 }
 
-void HdlcdServerHandler::ReadSessionHeader1() {
-    boost::asio::async_read(m_TCPSocket, boost::asio::buffer(m_ReadBuffer, 3),[this](boost::system::error_code a_ErrorCode, std::size_t length) {
-        if (a_ErrorCode == boost::asio::error::operation_aborted) return;
-        if (!a_ErrorCode) {
-            // Check version of the access protocol
-            unsigned char l_Version = m_ReadBuffer[0];
-            if (l_Version != 0x00) {
-                // Unknown version of the access protocol
-                std::cerr << "Unsupported access protocol version rejected: " << (int)l_Version << std::endl;
-                Stop();
-                return;
-            } // if
-            
-            // Check service access point specifier: type of data
-            unsigned char l_SAP = m_ReadBuffer[1];
-            switch (l_SAP & 0xF0) {
-            case 0x00: {
-                m_eBufferType = BUFFER_TYPE_PAYLOAD;
-                break;
-            }
-            case 0x10: {
-                m_eBufferType = BUFFER_TYPE_PORT_STATUS;
-                break;
-            }
-            case 0x20: {
-                m_eBufferType = BUFFER_TYPE_PAYLOAD;
-                break;
-            }
-            case 0x30: {
-                m_eBufferType = BUFFER_TYPE_RAW;
-                break;
-            }
-            case 0x40: {
-                m_eBufferType = BUFFER_TYPE_DISSECTED;
-                break;
-            }
-            default:
-                // Unknown session type
-                std::cerr << "Unknown session type rejected: " << (int)(l_SAP & 0xF0) << std::endl;
-                Stop();
-                return;
-            } // switch
-            
-            // Check service access point specifier: reserved bit
-            if (l_SAP & 0x08) {
-                // The reserved bit was set... aborting
-                std::cerr << "Invalid reserved bit within SAP specifier of session header: " << (int)l_SAP << std::endl;
-                Stop();
-                return;
-            } // if
-            
-            // Check service access point specifier: invalids, deliver sent, and deliver rcvd
-            m_bDeliverInvalidData = (l_SAP & 0x04); 
-            m_bDeliverSent = (l_SAP & 0x02);
-            m_bDeliverRcvd = (l_SAP & 0x01); 
+bool HdlcdServerHandler::OnFrame(const std::shared_ptr<Frame> a_Frame) {
+    // Checks
+    assert(a_Frame);
+    assert(m_FrameEndpoint);
+    assert(!m_PacketEndpoint);
 
-            // Now read the name of the serial port
-            ReadSessionHeader2(m_ReadBuffer[2]);
+    // Parse the session header
+    auto l_HdlcdSessionHeader = std::dynamic_pointer_cast<HdlcdSessionHeader>(a_Frame);
+    if (l_HdlcdSessionHeader) {
+        // The session header is now available. Check service access point specifier: type of data
+        uint8_t l_SAP = l_HdlcdSessionHeader->GetServiceAccessPointSpecifier();
+        switch (l_SAP & 0xF0) {
+        case 0x00: {
+            m_eBufferType = BUFFER_TYPE_PAYLOAD;
+            break;
+        }
+        case 0x10: {
+            m_eBufferType = BUFFER_TYPE_PORT_STATUS;
+            break;
+        }
+        case 0x20: {
+            m_eBufferType = BUFFER_TYPE_PAYLOAD;
+            break;
+        }
+        case 0x30: {
+            m_eBufferType = BUFFER_TYPE_RAW;
+            break;
+        }
+        case 0x40: {
+            m_eBufferType = BUFFER_TYPE_DISSECTED;
+            break;
+        }
+        default:
+            // Unknown session type
+            std::cerr << "Unknown session type rejected: " << (int)(l_SAP & 0xF0) << std::endl;
+            Stop();
+            return false;
+        } // switch
+        
+        // Check service access point specifier: reserved bit
+        if (l_SAP & 0x08) {
+            // The reserved bit was set... aborting
+            std::cerr << "Invalid reserved bit within SAP specifier of session header: " << (int)l_SAP << std::endl;
+            Stop();
+            return false;
+        } // if
+        
+        // Check service access point specifier: invalids, deliver sent, and deliver rcvd
+        m_bDeliverInvalidData = (l_SAP & 0x04); 
+        m_bDeliverSent        = (l_SAP & 0x02);
+        m_bDeliverRcvd        = (l_SAP & 0x01);
+        
+        // Start the PacketEndpoint. It takes full control over the TCP socket.
+        m_PacketEndpoint = std::make_shared<HdlcdPacketEndpoint>(m_IOService, m_FrameEndpoint);
+        m_PacketEndpoint->SetOnDataCallback([this](std::shared_ptr<const HdlcdPacketData> a_PacketData){ return OnDataReceived(a_PacketData); });
+        m_PacketEndpoint->SetOnCtrlCallback([this](const HdlcdPacketCtrl& a_PacketCtrl){ OnCtrlReceived(a_PacketCtrl); });
+        m_PacketEndpoint->SetOnClosedCallback([this](){ OnClosed(); });
+        m_FrameEndpoint.reset();
+        m_PacketEndpoint->Start();
+        m_SerialPortHandlerStopper = m_SerialPortHandlerCollection->GetSerialPortHandler(l_HdlcdSessionHeader->GetSerialPortName(), shared_from_this());
+        if (m_SerialPortHandlerStopper) {
+            m_SerialPortHandler = (*m_SerialPortHandlerStopper.get());
+            m_LockGuard.Init(m_SerialPortHandler);
+            m_SerialPortHandler->PropagateSerialPortState(); // Sends initial port status message
         } else {
-            std::cerr << "TCP READ ERROR HEADER1:" << a_ErrorCode << std::endl;
             Stop();
         } // else
-    });
-}
-
-void HdlcdServerHandler::ReadSessionHeader2(unsigned char a_BytesUSB) {
-    boost::asio::async_read(m_TCPSocket, boost::asio::buffer(m_ReadBuffer, a_BytesUSB),[this](boost::system::error_code a_ErrorCode, std::size_t length) {
-        if (a_ErrorCode == boost::asio::error::operation_aborted) return;
-        auto self(shared_from_this());
-        if (!a_ErrorCode) {
-            // Now we know the USB port
-            std::string l_UsbPortString;
-            l_UsbPortString.append((char*)m_ReadBuffer, length);
-            m_SerialPortHandlerStopper = m_SerialPortHandlerCollection->GetSerialPortHandler(l_UsbPortString, self);
-            if (m_SerialPortHandlerStopper) {
-                m_SerialPortHandler = (*m_SerialPortHandlerStopper.get());
-                m_LockGuard.Init(m_SerialPortHandler);
-                m_SerialPortHandler->PropagateSerialPortState(); // May sent initial port status message
-
-                // Start the PacketEndpoint. It takes full control over the TCP socket.
-                m_PacketEndpoint->Start();
-            } else {
-                Stop();
-            } // else
-        } else {
-            std::cerr << "TCP READ ERROR:" << a_ErrorCode << std::endl;
-            Stop();
-        } // else
-    });
+        
+    } else {
+        // Instead of a session header we received junk! This is impossible.
+        assert(false);
+        Stop();
+    } // else
+    
+    // In each case: stall the receiver! The HdlcdPacketEndpoint continues...
+    return false;
 }
 
 bool HdlcdServerHandler::OnDataReceived(std::shared_ptr<const HdlcdPacketData> a_PacketData) {
