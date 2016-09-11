@@ -1,0 +1,7 @@
+<map id="HdlcdServerHandler::UpdateSerialPortState" name="HdlcdServerHandler::UpdateSerialPortState">
+<area shape="rect" id="node2" href="$classAliveGuard.html#a6247939379fe83b7007a8040e844ca0a" title="Change the serial port state. " alt="" coords="240,5,419,47"/>
+<area shape="rect" id="node3" href="$classLockGuard.html#a8951b29b6f56de4e38821bfe98a06cf7" title="Update the effective lock state of the related serial port. " alt="" coords="227,71,432,112"/>
+<area shape="rect" id="node4" href="$classAliveGuard.html#ac9beb654a0f3057bbd38e2ad3ae2c4c3" title="Query whether the related serial port is currently alive. " alt="" coords="260,137,399,163"/>
+<area shape="rect" id="node5" href="$classLockGuard.html#a034a917b15cbf520adda465fab890d4d" title="Query whether the serial device is currently &quot;locked&quot; by at least one other AccessClient entity..." alt="" coords="223,187,436,214"/>
+<area shape="rect" id="node6" href="$classLockGuard.html#a7e81d11c5a00a0ed432bd52a621e559b" title="Query whether the serial device is currently &quot;locked&quot; by the responsible AccessClient entity..." alt="" coords="232,238,427,265"/>
+</map>

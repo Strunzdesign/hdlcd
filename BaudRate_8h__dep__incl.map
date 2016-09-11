@@ -1,7 +1,7 @@
 <map id="src/SerialPort/BaudRate.h" name="src/SerialPort/BaudRate.h">
-<area shape="rect" id="node2" href="$SerialPortHandler_8h.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="247,80,421,121"/>
-<area shape="rect" id="node3" href="$ClientHandler_8cpp.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="5,169,148,211"/>
-<area shape="rect" id="node4" href="$LockGuard_8cpp.html" title="This file contains the implementation of class LockGuard. " alt="" coords="172,169,315,211"/>
-<area shape="rect" id="node5" href="$SerialPortHandler_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="339,169,513,211"/>
-<area shape="rect" id="node6" href="$SerialPortHandlerCollection_8cpp.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="537,169,710,211"/>
+<area shape="rect" id="node2" href="$SerialPortHandler_8h.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="371,80,544,121"/>
+<area shape="rect" id="node3" href="$HdlcdServerHandler_8cpp.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="5,169,211,211"/>
+<area shape="rect" id="node4" href="$LockGuard_8cpp.html" title="This file contains the implementation of class LockGuard. " alt="" coords="235,177,458,203"/>
+<area shape="rect" id="node5" href="$SerialPortHandler_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="483,169,656,211"/>
+<area shape="rect" id="node6" href="$SerialPortHandlerCollection_8cpp.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="680,169,853,211"/>
 </map>

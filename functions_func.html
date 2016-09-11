@@ -140,8 +140,8 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 <li>AcquireLock()
 : <a class="el" href="classLockGuard.html#a1b542624ed5a46ee455b3bdd95e23cf9">LockGuard</a>
 </li>
-<li>AddClientHandler()
-: <a class="el" href="classSerialPortHandler.html#ae9d2ee2ea68b60dbf8abc3ce390e7afb">SerialPortHandler</a>
+<li>AddHdlcdServerHandler()
+: <a class="el" href="classSerialPortHandler.html#a3e871761765005ab15ffa34b4ff155fe">SerialPortHandler</a>
 </li>
 <li>AddReceivedRawBytes()
 : <a class="el" href="classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779">FrameParser</a>
@@ -167,18 +167,12 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 <li>ChangeBaudRate()
 : <a class="el" href="classISerialPortHandler.html#a271ba7ea50b4ef8068601929cdfb3710">ISerialPortHandler</a>
 </li>
-<li>ClientAcceptor()
-: <a class="el" href="classClientAcceptor.html#aeaae5b40ff3535285960ba351b331658">ClientAcceptor</a>
-</li>
-<li>ClientHandler()
-: <a class="el" href="classClientHandler.html#a2966720be1a80f576b55ea53f53b826a">ClientHandler</a>
-</li>
 </ul>
 
 
 <h3><a class="anchor" id="index_d"></a>- d -</h3><ul>
 <li>DeliverBufferToClient()
-: <a class="el" href="classClientHandler.html#a4479c2ca60c1757df59e007f10c3858a">ClientHandler</a>
+: <a class="el" href="classHdlcdServerHandler.html#a2c1cb9629ac1c44ed08f6ca6838af45e">HdlcdServerHandler</a>
 </li>
 <li>DeliverBufferToClients()
 : <a class="el" href="classISerialPortHandler.html#ae134227c5934936de7d3b011f8990e89">ISerialPortHandler</a>
@@ -186,8 +180,8 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 <li>DeliverPayloadToHDLC()
 : <a class="el" href="classSerialPortHandler.html#aeefc82356b789b628385c7ee602d90f0">SerialPortHandler</a>
 </li>
-<li>DeregisterClientHandler()
-: <a class="el" href="classClientHandlerCollection.html#af6429b0f96ddd6db7406669061376e5a">ClientHandlerCollection</a>
+<li>DeregisterHdlcdServerHandler()
+: <a class="el" href="classHdlcdServerHandlerCollection.html#a679a3006ae848513fa044d23c758ed24">HdlcdServerHandlerCollection</a>
 </li>
 <li>DeregisterSerialPortHandler()
 : <a class="el" href="classSerialPortHandlerCollection.html#adca27a4585c1b617bed2bd01df12c68e">SerialPortHandlerCollection</a>
@@ -220,7 +214,7 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 : <a class="el" href="classBaudRate.html#aa94fd82968948e059dd3ee0623c40712">BaudRate</a>
 </li>
 <li>GetBufferType()
-: <a class="el" href="classClientHandler.html#acf0f0dc0d4991bfc7c2f1f280cd88440">ClientHandler</a>
+: <a class="el" href="classHdlcdServerHandler.html#ac964d2c5ca38c68a4c3e0c5133c2c721">HdlcdServerHandler</a>
 </li>
 <li>GetHDLCFrameType()
 : <a class="el" href="classHdlcFrame.html#a2cf4dc6a946d21878cf9bb45429aa3f2">HdlcFrame</a>
@@ -235,7 +229,7 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 : <a class="el" href="classHdlcFrame.html#a5498d3a0a063d3fccea58b5c400a27af">HdlcFrame</a>
 </li>
 <li>GetSerialPortHandler()
-: <a class="el" href="classSerialPortHandlerCollection.html#a2b5263a91d22e039c899e6f919e87431">SerialPortHandlerCollection</a>
+: <a class="el" href="classSerialPortHandlerCollection.html#a69b7724f8cbbc2d0f6f52cfa7acc3d8e">SerialPortHandlerCollection</a>
 </li>
 <li>GetSerialPortState()
 : <a class="el" href="classSerialPortLock.html#a00aeb4f16d6c1035ebf6629bafe85f78">SerialPortLock</a>
@@ -249,6 +243,12 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 <h3><a class="anchor" id="index_h"></a>- h -</h3><ul>
 <li>HasPayload()
 : <a class="el" href="classHdlcFrame.html#adfeea753419e7757fde7868b81a52a69">HdlcFrame</a>
+</li>
+<li>HdlcdServerHandler()
+: <a class="el" href="classHdlcdServerHandler.html#a122e6c634e0d88c5fed3a93d2d7e413f">HdlcdServerHandler</a>
+</li>
+<li>HdlcdServerHandlerCollection()
+: <a class="el" href="classHdlcdServerHandlerCollection.html#a2b1c3156e01c396b949c546295c750a8">HdlcdServerHandlerCollection</a>
 </li>
 <li>HdlcFrame()
 : <a class="el" href="classHdlcFrame.html#aa3384cad38d64b61541cfc34b5fee6e7">HdlcFrame</a>
@@ -325,15 +325,15 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 
 <h3><a class="anchor" id="index_q"></a>- q -</h3><ul>
 <li>QueryForPayload()
-: <a class="el" href="classClientHandler.html#ade63a0ed7ccce5c50c3a88c94786e238">ClientHandler</a>
+: <a class="el" href="classHdlcdServerHandler.html#a98937525dcbe3af66671b68d5886bcd9">HdlcdServerHandler</a>
 , <a class="el" href="classISerialPortHandler.html#a4bed05fb57b74ae8471bd260632d4857">ISerialPortHandler</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_r"></a>- r -</h3><ul>
-<li>RegisterClientHandler()
-: <a class="el" href="classClientHandlerCollection.html#a59bd8b7d963f3c3707ab4c57066a4bc4">ClientHandlerCollection</a>
+<li>RegisterHdlcdServerHandler()
+: <a class="el" href="classHdlcdServerHandlerCollection.html#a6dd79cc6de228e7f952177af180ba87d">HdlcdServerHandlerCollection</a>
 </li>
 <li>ReleaseLock()
 : <a class="el" href="classLockGuard.html#a044e85555e2ec233c3610a09d0443b53">LockGuard</a>
@@ -392,17 +392,19 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 : <a class="el" href="classHdlcFrame.html#a5a7fffeebc507add7c7badf2d4f86f36">HdlcFrame</a>
 </li>
 <li>Shutdown()
-: <a class="el" href="classProtocolState.html#aed6d0bdb617025a17b8bcd28a77e5c28">ProtocolState</a>
+: <a class="el" href="classHdlcdServerHandlerCollection.html#a705db409ab79f00fa462d0f520e32952">HdlcdServerHandlerCollection</a>
+, <a class="el" href="classProtocolState.html#aed6d0bdb617025a17b8bcd28a77e5c28">ProtocolState</a>
+, <a class="el" href="classSerialPortHandlerCollection.html#a06df3edbc9754bdb914ac1f834a894cf">SerialPortHandlerCollection</a>
 </li>
 <li>Start()
 : <a class="el" href="classAliveState.html#a885de1f44e29b63e8a6b49d51db5a5c3">AliveState</a>
-, <a class="el" href="classClientHandler.html#a6911bc9b0b7454515642556567bbcefa">ClientHandler</a>
+, <a class="el" href="classHdlcdServerHandler.html#aa253c288dc5d3619d67a2f793a40030c">HdlcdServerHandler</a>
 , <a class="el" href="classProtocolState.html#a12b612872570fcfb827e9244ba858fcb">ProtocolState</a>
 , <a class="el" href="classSerialPortHandler.html#a9de1ecaf95c189cc635fe566ac1cf4a9">SerialPortHandler</a>
 </li>
 <li>Stop()
 : <a class="el" href="classAliveState.html#af988f2df8f9a7b0a82e25aa541811541">AliveState</a>
-, <a class="el" href="classClientHandler.html#af146dbab274fd18c3d2d4524ad900fa2">ClientHandler</a>
+, <a class="el" href="classHdlcdServerHandler.html#a12342559d3c79c2b1d2605a107e459a4">HdlcdServerHandler</a>
 , <a class="el" href="classProtocolState.html#a0b6c36b1aa68f47caef98c9ad397dd57">ProtocolState</a>
 , <a class="el" href="classSerialPortHandler.html#a9a9be6af5eba7ac3b2ad9bba67b8c799">SerialPortHandler</a>
 </li>
@@ -429,7 +431,7 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 <h3><a class="anchor" id="index_u"></a>- u -</h3><ul>
 <li>UpdateSerialPortState()
 : <a class="el" href="classAliveGuard.html#a6247939379fe83b7007a8040e844ca0a">AliveGuard</a>
-, <a class="el" href="classClientHandler.html#a2f23119d5193011130053342d11fef7f">ClientHandler</a>
+, <a class="el" href="classHdlcdServerHandler.html#a0dad42345b3ee06bbcc146b95d0b8177">HdlcdServerHandler</a>
 , <a class="el" href="classLockGuard.html#a8951b29b6f56de4e38821bfe98a06cf7">LockGuard</a>
 </li>
 </ul>
@@ -439,8 +441,8 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 <li>~AliveState()
 : <a class="el" href="classAliveState.html#a9123e5bb816e57f359f0ee35e1b33c18">AliveState</a>
 </li>
-<li>~ClientHandler()
-: <a class="el" href="classClientHandler.html#a202c875fbf38e4a52975f6c173f78127">ClientHandler</a>
+<li>~HdlcdServerHandler()
+: <a class="el" href="classHdlcdServerHandler.html#a678c8611f6dbe21e5421f254f3f17845">HdlcdServerHandler</a>
 </li>
 <li>~ISerialPortHandler()
 : <a class="el" href="classISerialPortHandler.html#a9ae26f161c3d052fd1d8b4c2f3ff3e4f">ISerialPortHandler</a>

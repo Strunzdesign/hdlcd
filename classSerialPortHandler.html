@@ -136,8 +136,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:af2973e5bb7373319fdf9222dc063b79f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad1743bf4b92fccbf5031d3128e5507f3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSerialPortHandler.html#ad1743bf4b92fccbf5031d3128e5507f3">~SerialPortHandler</a> ()</td></tr>
 <tr class="separator:ad1743bf4b92fccbf5031d3128e5507f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae9d2ee2ea68b60dbf8abc3ce390e7afb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSerialPortHandler.html#ae9d2ee2ea68b60dbf8abc3ce390e7afb">AddClientHandler</a> (std::shared_ptr&lt; <a class="el" href="classClientHandler.html">ClientHandler</a> &gt; a_ClientHandler)</td></tr>
-<tr class="separator:ae9d2ee2ea68b60dbf8abc3ce390e7afb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e871761765005ab15ffa34b4ff155fe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSerialPortHandler.html#a3e871761765005ab15ffa34b4ff155fe">AddHdlcdServerHandler</a> (std::shared_ptr&lt; <a class="el" href="classHdlcdServerHandler.html">HdlcdServerHandler</a> &gt; a_HdlcdServerHandler)</td></tr>
+<tr class="separator:a3e871761765005ab15ffa34b4ff155fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeefc82356b789b628385c7ee602d90f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSerialPortHandler.html#aeefc82356b789b628385c7ee602d90f0">DeliverPayloadToHDLC</a> (const std::vector&lt; unsigned char &gt; &amp;a_Payload, bool a_bReliable)</td></tr>
 <tr class="separator:aeefc82356b789b628385c7ee602d90f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9de1ecaf95c189cc635fe566ac1cf4a9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSerialPortHandler.html#a9de1ecaf95c189cc635fe566ac1cf4a9">Start</a> ()</td></tr>
@@ -225,15 +225,15 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ae9d2ee2ea68b60dbf8abc3ce390e7afb"></a>
+<a class="anchor" id="a3e871761765005ab15ffa34b4ff155fe"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void SerialPortHandler::AddClientHandler </td>
+          <td class="memname">void SerialPortHandler::AddHdlcdServerHandler </td>
           <td>(</td>
-          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classClientHandler.html">ClientHandler</a> &gt;&#160;</td>
-          <td class="paramname"><em>a_ClientHandler</em></td><td>)</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classHdlcdServerHandler.html">HdlcdServerHandler</a> &gt;&#160;</td>
+          <td class="paramname"><em>a_HdlcdServerHandler</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -244,10 +244,10 @@ Here is the call graph for this function:</div>
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classSerialPortHandler_ae9d2ee2ea68b60dbf8abc3ce390e7afb_cgraph.png" border="0" usemap="#classSerialPortHandler_ae9d2ee2ea68b60dbf8abc3ce390e7afb_cgraph" alt=""/></div>
-<map name="classSerialPortHandler_ae9d2ee2ea68b60dbf8abc3ce390e7afb_cgraph" id="classSerialPortHandler_ae9d2ee2ea68b60dbf8abc3ce390e7afb_cgraph">
-<area shape="rect" id="node2" href="classSerialPortHandler.html#a6696d0023c77dba03c9c5f6ca475b005" title="SerialPortHandler::\lPropagateSerialPortState" alt="" coords="193,5,376,47"/>
-<area shape="rect" id="node3" href="classSerialPortLock.html#abd309cceb40ff5823cdb4955ac971300" title="SerialPortLock::GetLockHolders" alt="" coords="424,13,647,39"/>
+<div class="center"><img src="classSerialPortHandler_a3e871761765005ab15ffa34b4ff155fe_cgraph.png" border="0" usemap="#classSerialPortHandler_a3e871761765005ab15ffa34b4ff155fe_cgraph" alt=""/></div>
+<map name="classSerialPortHandler_a3e871761765005ab15ffa34b4ff155fe_cgraph" id="classSerialPortHandler_a3e871761765005ab15ffa34b4ff155fe_cgraph">
+<area shape="rect" id="node2" href="classSerialPortHandler.html#a6696d0023c77dba03c9c5f6ca475b005" title="SerialPortHandler::\lPropagateSerialPortState" alt="" coords="228,5,411,47"/>
+<area shape="rect" id="node3" href="classSerialPortLock.html#abd309cceb40ff5823cdb4955ac971300" title="SerialPortLock::GetLockHolders" alt="" coords="459,13,681,39"/>
 </map>
 </div>
 </p>
@@ -322,11 +322,11 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classSerialPortHandler_a6696d0023c77dba03c9c5f6ca475b005_icgraph.png" border="0" usemap="#classSerialPortHandler_a6696d0023c77dba03c9c5f6ca475b005_icgraph" alt=""/></div>
 <map name="classSerialPortHandler_a6696d0023c77dba03c9c5f6ca475b005_icgraph" id="classSerialPortHandler_a6696d0023c77dba03c9c5f6ca475b005_icgraph">
-<area shape="rect" id="node2" href="classSerialPortHandler.html#ae9d2ee2ea68b60dbf8abc3ce390e7afb" title="SerialPortHandler::\lAddClientHandler" alt="" coords="251,5,391,47"/>
-<area shape="rect" id="node3" href="classSerialPortHandler.html#ab64b74149dd5455480ac1437fcc07aeb" title="SerialPortHandler::\lSuspendSerialPort" alt="" coords="251,71,391,112"/>
-<area shape="rect" id="node4" href="classSerialPortHandler.html#a6267f7472ae54acb6eccff9e37ad56a7" title="SerialPortHandler::\lResumeSerialPort" alt="" coords="251,136,391,177"/>
-<area shape="rect" id="node5" href="classSerialPortHandler.html#a9a9be6af5eba7ac3b2ad9bba67b8c799" title="SerialPortHandler::Stop" alt="" coords="236,202,405,229"/>
-<area shape="rect" id="node6" href="classSerialPortHandler.html#ad1743bf4b92fccbf5031d3128e5507f3" title="SerialPortHandler::\l~SerialPortHandler" alt="" coords="453,195,596,236"/>
+<area shape="rect" id="node2" href="classSerialPortHandler.html#a3e871761765005ab15ffa34b4ff155fe" title="SerialPortHandler::\lAddHdlcdServerHandler" alt="" coords="236,5,411,47"/>
+<area shape="rect" id="node3" href="classSerialPortHandler.html#ab64b74149dd5455480ac1437fcc07aeb" title="SerialPortHandler::\lSuspendSerialPort" alt="" coords="253,71,393,112"/>
+<area shape="rect" id="node4" href="classSerialPortHandler.html#a6267f7472ae54acb6eccff9e37ad56a7" title="SerialPortHandler::\lResumeSerialPort" alt="" coords="253,136,393,177"/>
+<area shape="rect" id="node5" href="classSerialPortHandler.html#a9a9be6af5eba7ac3b2ad9bba67b8c799" title="SerialPortHandler::Stop" alt="" coords="239,202,408,229"/>
+<area shape="rect" id="node6" href="classSerialPortHandler.html#ad1743bf4b92fccbf5031d3128e5507f3" title="SerialPortHandler::\l~SerialPortHandler" alt="" coords="459,195,601,236"/>
 </map>
 </div>
 </p>

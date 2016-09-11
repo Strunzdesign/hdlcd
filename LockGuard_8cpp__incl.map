@@ -1,8 +1,8 @@
-<map id="src/AccessProtocol/LockGuard.cpp" name="src/AccessProtocol/LockGuard.cpp">
-<area shape="rect" id="node2" href="$LockGuard_8h.html" title="This file contains the header declaration of class LockGuard. " alt="" coords="19,102,122,129"/>
-<area shape="rect" id="node4" href="$SerialPortHandler_8h.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="175,95,335,136"/>
-<area shape="rect" id="node9" href="$ISerialPortHandler_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="435,184,626,211"/>
-<area shape="rect" id="node11" href="$SerialPortLock_8h.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="651,184,776,211"/>
-<area shape="rect" id="node13" href="$BaudRate_8h.html" title="This file contains the header declaration of class BaudRate. " alt="" coords="801,184,895,211"/>
-<area shape="rect" id="node10" href="$BufferType_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="479,259,582,285"/>
+<map id="src/HdlcdServer/LockGuard.cpp" name="src/HdlcdServer/LockGuard.cpp">
+<area shape="rect" id="node2" href="$LockGuard_8h.html" title="This file contains the header declaration of class LockGuard. " alt="" coords="23,80,126,107"/>
+<area shape="rect" id="node4" href="$SerialPortHandler_8h.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="182,80,327,107"/>
+<area shape="rect" id="node9" href="$ISerialPortHandler_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="436,155,585,181"/>
+<area shape="rect" id="node11" href="$SerialPortLock_8h.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="609,155,735,181"/>
+<area shape="rect" id="node13" href="$BaudRate_8h.html" title="This file contains the header declaration of class BaudRate. " alt="" coords="759,155,854,181"/>
+<area shape="rect" id="node10" href="$BufferType_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="459,229,562,256"/>
 </map>

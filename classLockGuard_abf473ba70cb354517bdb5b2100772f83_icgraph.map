@@ -1,5 +1,5 @@
 <map id="LockGuard::Init" name="LockGuard::Init">
-<area shape="rect" id="node2" href="$classClientHandler.html#af146dbab274fd18c3d2d4524ad900fa2" title="ClientHandler::Stop" alt="" coords="169,31,312,57"/>
-<area shape="rect" id="node3" href="$classClientHandler.html#a202c875fbf38e4a52975f6c173f78127" title="ClientHandler::~ClientHandler" alt="" coords="360,5,568,32"/>
-<area shape="rect" id="node4" href="$classClientHandler.html#acf0f0dc0d4991bfc7c2f1f280cd88440" title="ClientHandler::GetBufferType" alt="" coords="361,56,567,83"/>
+<area shape="rect" id="node2" href="$classHdlcdServerHandler.html#a12342559d3c79c2b1d2605a107e459a4" title="HdlcdServerHandler\l::Stop" alt="" coords="169,39,320,80"/>
+<area shape="rect" id="node3" href="$classHdlcdServerHandler.html#a678c8611f6dbe21e5421f254f3f17845" title="HdlcdServerHandler\l::~HdlcdServerHandler" alt="" coords="368,5,532,47"/>
+<area shape="rect" id="node4" href="$classHdlcdServerHandler.html#ac964d2c5ca38c68a4c3e0c5133c2c721" title="HdlcdServerHandler\l::GetBufferType" alt="" coords="375,71,525,112"/>
 </map>

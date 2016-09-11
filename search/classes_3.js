@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['framegenerator',['FrameGenerator',['../classFrameGenerator.html',1,'']]],
-  ['frameparser',['FrameParser',['../classFrameParser.html',1,'']]]
+  ['hdlcdserverhandler',['HdlcdServerHandler',['../classHdlcdServerHandler.html',1,'']]],
+  ['hdlcdserverhandlercollection',['HdlcdServerHandlerCollection',['../classHdlcdServerHandlerCollection.html',1,'']]],
+  ['hdlcframe',['HdlcFrame',['../classHdlcFrame.html',1,'']]]
 ];

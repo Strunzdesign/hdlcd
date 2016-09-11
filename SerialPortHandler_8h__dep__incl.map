@@ -1,6 +1,6 @@
 <map id="src/SerialPort/SerialPortHandler.h" name="src/SerialPort/SerialPortHandler.h">
-<area shape="rect" id="node2" href="$ClientHandler_8cpp.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="5,95,148,136"/>
-<area shape="rect" id="node3" href="$LockGuard_8cpp.html" title="This file contains the implementation of class LockGuard. " alt="" coords="172,95,315,136"/>
-<area shape="rect" id="node4" href="$SerialPortHandler_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="339,95,513,136"/>
-<area shape="rect" id="node5" href="$SerialPortHandlerCollection_8cpp.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="537,95,710,136"/>
+<area shape="rect" id="node2" href="$HdlcdServerHandler_8cpp.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="5,95,211,136"/>
+<area shape="rect" id="node3" href="$LockGuard_8cpp.html" title="This file contains the implementation of class LockGuard. " alt="" coords="235,102,458,129"/>
+<area shape="rect" id="node4" href="$SerialPortHandler_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="483,95,656,136"/>
+<area shape="rect" id="node5" href="$SerialPortHandlerCollection_8cpp.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="680,95,853,136"/>
 </map>

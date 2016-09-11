@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['iserialporthandler',['ISerialPortHandler',['../classISerialPortHandler.html',1,'']]]
+  ['lockguard',['LockGuard',['../classLockGuard.html',1,'']]]
 ];

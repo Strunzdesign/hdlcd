@@ -1,8 +1,8 @@
 <map id="SerialPortLock::GetLockHolders" name="SerialPortLock::GetLockHolders">
 <area shape="rect" id="node2" href="$classSerialPortHandler.html#a6696d0023c77dba03c9c5f6ca475b005" title="SerialPortHandler::\lPropagateSerialPortState" alt="" coords="276,104,459,145"/>
-<area shape="rect" id="node3" href="$classSerialPortHandler.html#ae9d2ee2ea68b60dbf8abc3ce390e7afb" title="SerialPortHandler::\lAddClientHandler" alt="" coords="521,5,661,47"/>
-<area shape="rect" id="node4" href="$classSerialPortHandler.html#ab64b74149dd5455480ac1437fcc07aeb" title="SerialPortHandler::\lSuspendSerialPort" alt="" coords="521,71,661,112"/>
-<area shape="rect" id="node5" href="$classSerialPortHandler.html#a6267f7472ae54acb6eccff9e37ad56a7" title="SerialPortHandler::\lResumeSerialPort" alt="" coords="521,136,661,177"/>
-<area shape="rect" id="node6" href="$classSerialPortHandler.html#a9a9be6af5eba7ac3b2ad9bba67b8c799" title="SerialPortHandler::Stop" alt="" coords="507,202,676,229"/>
-<area shape="rect" id="node7" href="$classSerialPortHandler.html#ad1743bf4b92fccbf5031d3128e5507f3" title="SerialPortHandler::\l~SerialPortHandler" alt="" coords="724,195,867,236"/>
+<area shape="rect" id="node3" href="$classSerialPortHandler.html#a3e871761765005ab15ffa34b4ff155fe" title="SerialPortHandler::\lAddHdlcdServerHandler" alt="" coords="507,5,681,47"/>
+<area shape="rect" id="node4" href="$classSerialPortHandler.html#ab64b74149dd5455480ac1437fcc07aeb" title="SerialPortHandler::\lSuspendSerialPort" alt="" coords="524,71,664,112"/>
+<area shape="rect" id="node5" href="$classSerialPortHandler.html#a6267f7472ae54acb6eccff9e37ad56a7" title="SerialPortHandler::\lResumeSerialPort" alt="" coords="524,136,664,177"/>
+<area shape="rect" id="node6" href="$classSerialPortHandler.html#a9a9be6af5eba7ac3b2ad9bba67b8c799" title="SerialPortHandler::Stop" alt="" coords="509,202,679,229"/>
+<area shape="rect" id="node7" href="$classSerialPortHandler.html#ad1743bf4b92fccbf5031d3128e5507f3" title="SerialPortHandler::\l~SerialPortHandler" alt="" coords="729,195,872,236"/>
 </map>

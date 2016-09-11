@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['hdlcframe',['HdlcFrame',['../classHdlcFrame.html',1,'']]]
+  ['iserialporthandler',['ISerialPortHandler',['../classISerialPortHandler.html',1,'']]]
 ];
