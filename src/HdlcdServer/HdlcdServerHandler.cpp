@@ -121,6 +121,8 @@ void HdlcdServerHandler::Start(std::shared_ptr<SerialPortHandlerCollection> a_Se
 void HdlcdServerHandler::Stop() {
     m_SerialPortHandler.reset();
     if (m_Registered) {
+        // Keep this object alive
+        auto self(shared_from_this());
         m_Registered = false;
         m_bSerialPortHandlerAwaitsPacket = false;
         if (m_PacketEndpoint) {
