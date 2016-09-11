@@ -39,7 +39,7 @@
 #include "FrameGenerator.h"
 #include "ISerialPortHandler.h"
 
-ProtocolState::ProtocolState(std::shared_ptr<ISerialPortHandler> a_SerialPortHandler, boost::asio::io_service& a_IOService): m_SerialPortHandler(a_SerialPortHandler), m_Timer(a_IOService), m_FrameParser(*this) {
+ProtocolState::ProtocolState(std::shared_ptr<ISerialPortHandler> a_SerialPortHandler, boost::asio::io_service& a_IOService): m_SerialPortHandler(a_SerialPortHandler), m_FrameParser(*this), m_Timer(a_IOService) {
     // Initialize alive state helper
     m_AliveState = std::make_shared<AliveState>(a_IOService);
     m_AliveState->SetSendProbeCallback([this]() {
