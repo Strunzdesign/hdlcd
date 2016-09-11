@@ -1,5 +1,5 @@
 /**
- * \file ClientHandler.cpp
+ * \file HdlcdServerHandler.cpp
  * \brief 
  *
  * The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communications.
@@ -19,14 +19,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "ClientHandler.h"
-#include "ClientHandlerCollection.h"
-#include "../SerialPort/SerialPortHandlerCollection.h"
-#include "../SerialPort/SerialPortHandler.h"
+#include "HdlcdServerHandler.h"
+#include "HdlcdServerHandlerCollection.h"
+#include "SerialPortHandlerCollection.h"
+#include "SerialPortHandler.h"
 #include "HdlcdPacketData.h"
 #include "HdlcdPacketCtrl.h"
 
-ClientHandler::ClientHandler(boost::asio::io_service& a_IOService, std::weak_ptr<ClientHandlerCollection> a_ClientHandlerCollection, boost::asio::ip::tcp::socket a_TCPSocket): m_IOService(a_IOService), m_ClientHandlerCollection(a_ClientHandlerCollection), m_TCPSocket(std::move(a_TCPSocket)) {
+HdlcdServerHandler::HdlcdServerHandler(boost::asio::io_service& a_IOService, std::weak_ptr<HdlcdServerHandlerCollection> a_HdlcdServerHandlerCollection, boost::asio::ip::tcp::socket a_TCPSocket): m_IOService(a_IOService), m_HdlcdServerHandlerCollection(a_HdlcdServerHandlerCollection), m_TCPSocket(std::move(a_TCPSocket)) {
     m_Registered = false;
     m_bDeliverInitialState = true;
     m_eBufferType = BUFFER_TYPE_UNSET;
@@ -36,11 +36,11 @@ ClientHandler::ClientHandler(boost::asio::io_service& a_IOService, std::weak_ptr
     m_bSerialPortHandlerAwaitsPacket = false;
 }
 
-ClientHandler::~ClientHandler() {
+HdlcdServerHandler::~HdlcdServerHandler() {
     Stop();
 }
 
-void ClientHandler::DeliverBufferToClient(E_BUFFER_TYPE a_eBufferType, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bInvalid, bool a_bWasSent) {
+void HdlcdServerHandler::DeliverBufferToClient(E_BUFFER_TYPE a_eBufferType, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bInvalid, bool a_bWasSent) {
     // Check whether this buffer is of interest to this specific client
     bool l_bDeliver = (a_eBufferType == m_eBufferType);
     if ((a_bWasSent && !m_bDeliverSent) || (!a_bWasSent && !m_bDeliverRcvd)) {
@@ -56,7 +56,7 @@ void ClientHandler::DeliverBufferToClient(E_BUFFER_TYPE a_eBufferType, const std
     } // if
 }
 
-void ClientHandler::UpdateSerialPortState(bool a_bAlive, size_t a_LockHolders) {
+void HdlcdServerHandler::UpdateSerialPortState(bool a_bAlive, size_t a_LockHolders) {
     bool l_bDeliverChangedState = m_bDeliverInitialState;
     m_bDeliverInitialState = false;
     l_bDeliverChangedState |= m_AliveGuard.UpdateSerialPortState(a_bAlive);
@@ -67,7 +67,7 @@ void ClientHandler::UpdateSerialPortState(bool a_bAlive, size_t a_LockHolders) {
     } // if
 }
 
-void ClientHandler::QueryForPayload(bool a_bQueryReliable, bool a_bQueryUnreliable) {
+void HdlcdServerHandler::QueryForPayload(bool a_bQueryReliable, bool a_bQueryUnreliable) {
     // Checks
     assert(a_bQueryReliable || a_bQueryUnreliable);
     if (!m_Registered) {
@@ -91,12 +91,12 @@ void ClientHandler::QueryForPayload(bool a_bQueryReliable, bool a_bQueryUnreliab
     } // else
 }
 
-void ClientHandler::Start(std::shared_ptr<SerialPortHandlerCollection> a_SerialPortHandlerCollection) {
+void HdlcdServerHandler::Start(std::shared_ptr<SerialPortHandlerCollection> a_SerialPortHandlerCollection) {
     assert(m_Registered == false);
-    if (auto lock = m_ClientHandlerCollection.lock()) {
+    if (auto lock = m_HdlcdServerHandlerCollection.lock()) {
         m_Registered = true;
         m_bSerialPortHandlerAwaitsPacket = true;
-        lock->RegisterClientHandler(shared_from_this());
+        lock->RegisterHdlcdServerHandler(shared_from_this());
     } else {
         assert(false);
     } // else
@@ -109,7 +109,7 @@ void ClientHandler::Start(std::shared_ptr<SerialPortHandlerCollection> a_SerialP
     ReadSessionHeader1();
 }
 
-void ClientHandler::Stop() {
+void HdlcdServerHandler::Stop() {
     m_SerialPortHandler.reset();
     if (m_Registered) {
         m_Registered = false;
@@ -122,13 +122,13 @@ void ClientHandler::Stop() {
             m_TCPSocket.close();
         } // else
 
-        if (auto lock = m_ClientHandlerCollection.lock()) {
-            lock->DeregisterClientHandler(shared_from_this());
+        if (auto lock = m_HdlcdServerHandlerCollection.lock()) {
+            lock->DeregisterHdlcdServerHandler(shared_from_this());
         } // if
     } // if
 }
 
-void ClientHandler::ReadSessionHeader1() {
+void HdlcdServerHandler::ReadSessionHeader1() {
     boost::asio::async_read(m_TCPSocket, boost::asio::buffer(m_ReadBuffer, 3),[this](boost::system::error_code a_ErrorCode, std::size_t length) {
         if (a_ErrorCode == boost::asio::error::operation_aborted) return;
         if (!a_ErrorCode) {
@@ -193,7 +193,7 @@ void ClientHandler::ReadSessionHeader1() {
     });
 }
 
-void ClientHandler::ReadSessionHeader2(unsigned char a_BytesUSB) {
+void HdlcdServerHandler::ReadSessionHeader2(unsigned char a_BytesUSB) {
     boost::asio::async_read(m_TCPSocket, boost::asio::buffer(m_ReadBuffer, a_BytesUSB),[this](boost::system::error_code a_ErrorCode, std::size_t length) {
         if (a_ErrorCode == boost::asio::error::operation_aborted) return;
         auto self(shared_from_this());
@@ -219,7 +219,7 @@ void ClientHandler::ReadSessionHeader2(unsigned char a_BytesUSB) {
     });
 }
 
-bool ClientHandler::OnDataReceived(std::shared_ptr<const HdlcdPacketData> a_PacketData) {
+bool HdlcdServerHandler::OnDataReceived(std::shared_ptr<const HdlcdPacketData> a_PacketData) {
     // Checks
     assert(a_PacketData);
     assert(!m_PendingIncomingPacketData);
@@ -238,7 +238,7 @@ bool ClientHandler::OnDataReceived(std::shared_ptr<const HdlcdPacketData> a_Pack
     return false;
 }
 
-void ClientHandler::OnCtrlReceived(const HdlcdPacketCtrl& a_PacketCtrl) {
+void HdlcdServerHandler::OnCtrlReceived(const HdlcdPacketCtrl& a_PacketCtrl) {
     // Check control packet: suspend / resume? Port kill request?
     switch(a_PacketCtrl.GetPacketType()) {
         case HdlcdPacketCtrl::CTRL_TYPE_PORT_STATUS: {
@@ -266,6 +266,6 @@ void ClientHandler::OnCtrlReceived(const HdlcdPacketCtrl& a_PacketCtrl) {
     } // switch
 }
 
-void ClientHandler::OnClosed() {
+void HdlcdServerHandler::OnClosed() {
     Stop();
 }

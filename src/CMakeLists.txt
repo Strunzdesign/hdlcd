@@ -4,14 +4,19 @@ set(Boost_USE_STATIC_RUNTIME OFF)
 find_package(Boost REQUIRED COMPONENTS system signals program_options)
 include_directories(${Boost_INCLUDE_DIR})
 include_directories("${PROJECT_SOURCE_DIR}/src/include")
+include_directories(
+    "HdlcdServer"
+    "SerialPort"
+    "SerialPort/HDLC"
+)
 
 find_package(Threads)
 
 add_executable(hdlcd
     main-hdlcd.cpp
-    AccessProtocol/ClientHandler.cpp
-    AccessProtocol/ClientHandlerCollection.cpp
-    AccessProtocol/LockGuard.cpp
+    HdlcdServer/HdlcdServerHandler.cpp
+    HdlcdServer/HdlcdServerHandlerCollection.cpp
+    HdlcdServer/LockGuard.cpp
     SerialPort/HDLC/AliveState.cpp
     SerialPort/HDLC/FCS16.cpp
     SerialPort/HDLC/HdlcFrame.cpp

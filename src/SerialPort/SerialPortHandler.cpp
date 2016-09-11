@@ -21,9 +21,9 @@
 
 #include "SerialPortHandler.h"
 #include <boost/system/system_error.hpp>
-#include "../AccessProtocol/ClientHandler.h"
+#include "HdlcdServerHandler.h"
 #include "SerialPortHandlerCollection.h"
-#include "HDLC/ProtocolState.h"
+#include "ProtocolState.h"
 #include <string.h>
 
 SerialPortHandler::SerialPortHandler(const std::string &a_SerialPortName, std::shared_ptr<SerialPortHandlerCollection> a_SerialPortHandlerCollection, boost::asio::io_service &a_IOService): m_SerialPort(a_IOService), m_IOService(a_IOService) {
@@ -38,10 +38,10 @@ SerialPortHandler::~SerialPortHandler() {
     Stop();
 }
 
-void SerialPortHandler::AddClientHandler(std::shared_ptr<ClientHandler> a_ClientHandler) {
-    assert(a_ClientHandler->GetBufferType() < BUFFER_TYPE_ARITHMETIC_ENDMARKER);
-    ++(m_BufferTypeSubscribers[a_ClientHandler->GetBufferType()]);
-    m_ClientHandlerList.push_back(a_ClientHandler);
+void SerialPortHandler::AddHdlcdServerHandler(std::shared_ptr<HdlcdServerHandler> a_HdlcdServerHandler) {
+    assert(a_HdlcdServerHandler->GetBufferType() < BUFFER_TYPE_ARITHMETIC_ENDMARKER);
+    ++(m_BufferTypeSubscribers[a_HdlcdServerHandler->GetBufferType()]);
+    m_HdlcdServerHandlerList.push_back(a_HdlcdServerHandler);
     if ((m_ProtocolState) && (m_ProtocolState->IsRunning())) {
         // Trigger state update messages, to inform the freshly added client
         PropagateSerialPortState();
@@ -77,8 +77,8 @@ void SerialPortHandler::ResumeSerialPort() {
 }
 
 void SerialPortHandler::PropagateSerialPortState() {
-    ForEachClient([this](std::shared_ptr<ClientHandler> a_ClientHandler) {
-        a_ClientHandler->UpdateSerialPortState(m_ProtocolState->IsAlive(), m_SerialPortLock.GetLockHolders());
+    ForEachHdlcdServerHandler([this](std::shared_ptr<HdlcdServerHandler> a_HdlcdServerHandler) {
+        a_HdlcdServerHandler->UpdateSerialPortState(m_ProtocolState->IsAlive(), m_SerialPortLock.GetLockHolders());
     });
 }
 
@@ -92,8 +92,8 @@ bool SerialPortHandler::RequiresBufferType(E_BUFFER_TYPE a_eBufferType) const {
 }
 
 void SerialPortHandler::DeliverBufferToClients(E_BUFFER_TYPE a_eBufferType, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bInvalid, bool a_bWasSent) {
-    ForEachClient([a_eBufferType, &a_Payload, a_bReliable, a_bInvalid, a_bWasSent](std::shared_ptr<ClientHandler> a_ClientHandler) {
-        a_ClientHandler->DeliverBufferToClient(a_eBufferType, a_Payload, a_bReliable, a_bInvalid, a_bWasSent);
+    ForEachHdlcdServerHandler([a_eBufferType, &a_Payload, a_bReliable, a_bInvalid, a_bWasSent](std::shared_ptr<HdlcdServerHandler> a_HdlcdServerHandler) {
+        a_HdlcdServerHandler->DeliverBufferToClient(a_eBufferType, a_Payload, a_bReliable, a_bInvalid, a_bWasSent);
     });
 }
 
@@ -115,8 +115,8 @@ void SerialPortHandler::Stop() {
             l_SerialPortHandlerCollection->DeregisterSerialPortHandler(self);
         } // if
         
-        ForEachClient([](std::shared_ptr<ClientHandler> a_ClientHandler) {
-            a_ClientHandler->Stop();
+        ForEachHdlcdServerHandler([](std::shared_ptr<HdlcdServerHandler> a_HdlcdServerHandler) {
+            a_HdlcdServerHandler->Stop();
         });
     } // if
 }
@@ -134,7 +134,7 @@ bool SerialPortHandler::OpenSerialPort() {
         
         // Start processing
         m_ProtocolState->Start();
-        do_read();
+        DoRead();
         
         // Trigger first state update message
         PropagateSerialPortState();
@@ -150,8 +150,8 @@ bool SerialPortHandler::OpenSerialPort() {
             l_SerialPortHandlerCollection->DeregisterSerialPortHandler(self);
         } // if
         
-        ForEachClient([](std::shared_ptr<ClientHandler> a_ClientHandler) {
-            a_ClientHandler->Stop();
+        ForEachHdlcdServerHandler([](std::shared_ptr<HdlcdServerHandler> a_HdlcdServerHandler) {
+            a_HdlcdServerHandler->Stop();
         });
     } // catch
 
@@ -172,22 +172,22 @@ void SerialPortHandler::TransmitHDLCFrame(const std::vector<unsigned char> &a_Pa
     m_SendBuffer = std::move(a_Payload);
     
     // Trigger transmission
-    do_write();
+    DoWrite();
 }
 
 void SerialPortHandler::QueryForPayload(bool a_bQueryReliable, bool a_bQueryUnreliable) {
-    ForEachClient([a_bQueryReliable, a_bQueryUnreliable](std::shared_ptr<ClientHandler> a_ClientHandler) {
-        a_ClientHandler->QueryForPayload(a_bQueryReliable, a_bQueryUnreliable);
+    ForEachHdlcdServerHandler([a_bQueryReliable, a_bQueryUnreliable](std::shared_ptr<HdlcdServerHandler> a_HdlcdServerHandler) {
+        a_HdlcdServerHandler->QueryForPayload(a_bQueryReliable, a_bQueryUnreliable);
     });
 }
 
-void SerialPortHandler::do_read() {
+void SerialPortHandler::DoRead() {
     auto self(shared_from_this());
     m_SerialPort.async_read_some(boost::asio::buffer(m_ReadBuffer, max_length),[this, self](boost::system::error_code a_ErrorCode, std::size_t a_BytesRead) {
         if (!a_ErrorCode) {
             m_ProtocolState->AddReceivedRawBytes(m_ReadBuffer, a_BytesRead);
             if (m_SerialPortLock.GetSerialPortState() == false) {
-                do_read();
+                DoRead();
             } // if
         } else {
             if (m_SerialPortLock.GetSerialPortState() == false) {
@@ -198,7 +198,7 @@ void SerialPortHandler::do_read() {
     });
 }
 
-void SerialPortHandler::do_write() {
+void SerialPortHandler::DoWrite() {
     auto self(shared_from_this());
     m_SerialPort.async_write_some(boost::asio::buffer(&m_SendBuffer[m_SendBufferOffset], (m_SendBuffer.size() - m_SendBufferOffset)),[this, self](boost::system::error_code a_ErrorCode, std::size_t a_BytesSent) {
         if (!a_ErrorCode) {
@@ -212,7 +212,7 @@ void SerialPortHandler::do_write() {
             } else {
                 // Only a partial transmission. We are not done yet.
                 if (m_SerialPortLock.GetSerialPortState() == false) {
-                    do_write();
+                    DoWrite();
                 } // if
             } // else
         } else {
@@ -224,10 +224,10 @@ void SerialPortHandler::do_write() {
     });
 }
 
-void SerialPortHandler::ForEachClient(std::function<void(std::shared_ptr<ClientHandler>)> a_Function) {
+void SerialPortHandler::ForEachHdlcdServerHandler(std::function<void(std::shared_ptr<HdlcdServerHandler>)> a_Function) {
     bool l_RebuildSubscriptions = false;
     static bool s_bCyclicCallGuard = false;
-    for (auto cur = m_ClientHandlerList.begin(); cur != m_ClientHandlerList.end();) {
+    for (auto cur = m_HdlcdServerHandlerList.begin(); cur != m_HdlcdServerHandlerList.end();) {
         auto next = cur;
         ++next;
         if (auto l_ClientHandler = cur->lock()) {
@@ -245,7 +245,7 @@ void SerialPortHandler::ForEachClient(std::function<void(std::shared_ptr<ClientH
         } else {
             // Outdated entry. Only remove it if this is not a cyclic call
             if (!s_bCyclicCallGuard) {
-                m_ClientHandlerList.erase(cur);
+                m_HdlcdServerHandlerList.erase(cur);
                 l_RebuildSubscriptions = true;
             } // if
         } // else
@@ -256,9 +256,9 @@ void SerialPortHandler::ForEachClient(std::function<void(std::shared_ptr<ClientH
     if (l_RebuildSubscriptions) {
         // Rebuild the subscription database
         ::memset(m_BufferTypeSubscribers, 0x00, sizeof(m_BufferTypeSubscribers));
-        ForEachClient([this](std::shared_ptr<ClientHandler> a_ClientHandler) {
-            assert(a_ClientHandler->GetBufferType() < BUFFER_TYPE_ARITHMETIC_ENDMARKER);
-            ++(m_BufferTypeSubscribers[a_ClientHandler->GetBufferType()]);
+        ForEachHdlcdServerHandler([this](std::shared_ptr<HdlcdServerHandler> a_HdlcdServerHandler) {
+            assert(a_HdlcdServerHandler->GetBufferType() < BUFFER_TYPE_ARITHMETIC_ENDMARKER);
+            ++(m_BufferTypeSubscribers[a_HdlcdServerHandler->GetBufferType()]);
         });
     } // if
 }

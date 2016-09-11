@@ -23,8 +23,8 @@
 #include <iostream>
 #include <boost/asio.hpp>
 #include <boost/program_options.hpp>
-#include "SerialPort/SerialPortHandlerCollection.h"
-#include "AccessProtocol/ClientAcceptor.h"
+#include "SerialPortHandlerCollection.h"
+#include "HdlcdServerHandlerCollection.h"
 
 int main(int argc, char **argv) {
     try {
@@ -63,12 +63,17 @@ int main(int argc, char **argv) {
         l_Signals.add(SIGTERM);
         l_Signals.async_wait([&l_IoService](boost::system::error_code, int){ l_IoService.stop(); });
         
-        // Create the HDLCd entity
-        auto l_SerialPortHandlerCollection = std::make_shared<SerialPortHandlerCollection>(l_IoService);
-        ClientAcceptor l_ClientAcceptor(l_IoService, l_VariablesMap["port"].as<uint16_t>(), l_SerialPortHandlerCollection);
+        // Create and initialize components
+        auto l_SerialPortHandlerCollection  = std::make_shared<SerialPortHandlerCollection> (l_IoService);
+        auto l_HdlcdServerHandlerCollection = std::make_shared<HdlcdServerHandlerCollection>(l_IoService, l_SerialPortHandlerCollection, l_VariablesMap["port"].as<uint16_t>());
         
         // Start event processing
         l_IoService.run();
+        
+        // Shutdown
+        l_HdlcdServerHandlerCollection->Shutdown();
+        l_SerialPortHandlerCollection->Shutdown();
+        
     } catch (std::exception& a_Error) {
         std::cerr << "Exception: " << a_Error.what() << "\n";
         return 1;

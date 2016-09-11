@@ -22,7 +22,7 @@
  */
 
 #include "LockGuard.h"
-#include "../SerialPort/SerialPortHandler.h"
+#include "SerialPortHandler.h"
 
 /*! \brief The constructor of LockGuard objects
  * 

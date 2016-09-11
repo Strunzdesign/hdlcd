@@ -1,5 +1,5 @@
 /**
- * \file ClientHandler.h
+ * \file HdlcdServerHandler.h
  * \brief 
  *
  * The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communications.
@@ -19,8 +19,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CLIENTHANDLER_H
-#define CLIENTHANDLER_H
+#ifndef HDLCD_SERVER_HANDLER_H
+#define HDLCD_SERVER_HANDLER_H
 
 #include <iostream>
 #include <memory>
@@ -30,17 +30,16 @@
 #include <boost/asio.hpp>
 #include "AliveGuard.h"
 #include "LockGuard.h"
-#include "../SerialPort/HDLC/BufferType.h"
+#include "HDLC/BufferType.h"
 #include "HdlcdPacketEndpoint.h"
-
-class ClientHandlerCollection;
+class HdlcdServerHandlerCollection;
 class SerialPortHandler;
 class SerialPortHandlerCollection;
 
-class ClientHandler: public std::enable_shared_from_this<ClientHandler> {
+class HdlcdServerHandler: public std::enable_shared_from_this<HdlcdServerHandler> {
 public:
-    ClientHandler(boost::asio::io_service& a_IOService, std::weak_ptr<ClientHandlerCollection> a_ClientHandlerCollection, boost::asio::ip::tcp::socket a_TCPSocket);
-    ~ClientHandler();
+    HdlcdServerHandler(boost::asio::io_service& a_IOService, std::weak_ptr<HdlcdServerHandlerCollection> a_HdlcdServerHandlerCollection, boost::asio::ip::tcp::socket a_TCPSocket);
+    ~HdlcdServerHandler();
     
     E_BUFFER_TYPE GetBufferType() const { return m_eBufferType; }
     void DeliverBufferToClient(E_BUFFER_TYPE a_eBufferType, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bInvalid, bool a_bWasSent);
@@ -62,7 +61,7 @@ private:
 
     // Members
     boost::asio::io_service& m_IOService;
-    std::weak_ptr<ClientHandlerCollection> m_ClientHandlerCollection;
+    std::weak_ptr<HdlcdServerHandlerCollection> m_HdlcdServerHandlerCollection;
     std::shared_ptr<HdlcdPacketEndpoint> m_PacketEndpoint;
     
     bool m_Registered;
@@ -89,4 +88,4 @@ private:
     bool m_bDeliverInvalidData;
 };
 
-#endif // CLIENTHANDLER_H
+#endif // HDLCD_SERVER_HANDLER_H

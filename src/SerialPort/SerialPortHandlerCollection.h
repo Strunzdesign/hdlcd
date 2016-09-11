@@ -26,13 +26,16 @@
 #include <string>
 #include <map>
 #include <boost/asio.hpp>
-class ClientHandler;
+class HdlcdServerHandler;
 class SerialPortHandler;
 
 class SerialPortHandlerCollection: public std::enable_shared_from_this<SerialPortHandlerCollection> {
 public:
+    // CTOR and resetter
     SerialPortHandlerCollection(boost::asio::io_service& a_IOService);
-    std::shared_ptr<std::shared_ptr<SerialPortHandler>> GetSerialPortHandler(const std::string &a_SerialPortName, std::shared_ptr<ClientHandler> a_ClientHandler);
+    void Shutdown();
+    
+    std::shared_ptr<std::shared_ptr<SerialPortHandler>> GetSerialPortHandler(const std::string &a_SerialPortName, std::shared_ptr<HdlcdServerHandler> a_HdlcdServerHandler);
     
     // To be called by a SerialPortHandler
     void DeregisterSerialPortHandler(std::shared_ptr<SerialPortHandler> a_SerialPortHandler);

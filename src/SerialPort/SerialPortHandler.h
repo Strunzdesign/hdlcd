@@ -27,11 +27,11 @@
 #include <vector>
 #include <list>
 #include <boost/asio.hpp>
-#include "HDLC/ISerialPortHandler.h"
+#include "ISerialPortHandler.h"
 #include "SerialPortLock.h"
 #include "BaudRate.h"
 class SerialPortHandlerCollection;
-class ClientHandler;
+class HdlcdServerHandler;
 class ProtocolState;
 
 class SerialPortHandler: public ISerialPortHandler, public std::enable_shared_from_this<SerialPortHandler> {
@@ -40,7 +40,7 @@ public:
     SerialPortHandler(const std::string &a_SerialPortName, std::shared_ptr<SerialPortHandlerCollection> a_SerialPortHandlerCollection, boost::asio::io_service& a_IOService);
     ~SerialPortHandler();
     
-    void AddClientHandler(std::shared_ptr<ClientHandler> a_ClientHandler);
+    void AddHdlcdServerHandler(std::shared_ptr<HdlcdServerHandler> a_HdlcdServerHandler);
     void DeliverPayloadToHDLC(const std::vector<unsigned char> &a_Payload, bool a_bReliable);
     
     bool Start();
@@ -62,9 +62,9 @@ private:
     void QueryForPayload(bool a_bQueryReliable, bool a_bQueryUnreliable);
 
     // Internal helpers
-    void do_read();
-    void do_write();
-    void ForEachClient(std::function<void(std::shared_ptr<ClientHandler>)> a_Function);
+    void DoRead();
+    void DoWrite();
+    void ForEachHdlcdServerHandler(std::function<void(std::shared_ptr<HdlcdServerHandler>)> a_Function);
     
     // Members
     bool m_Registered;
@@ -73,7 +73,7 @@ private:
     std::shared_ptr<ProtocolState> m_ProtocolState;
     std::string m_SerialPortName;
     std::weak_ptr<SerialPortHandlerCollection> m_SerialPortHandlerCollection;
-    std::list<std::weak_ptr<ClientHandler>> m_ClientHandlerList;
+    std::list<std::weak_ptr<HdlcdServerHandler>> m_HdlcdServerHandlerList;
     enum { max_length = 1024 };
     unsigned char m_ReadBuffer[max_length];
     

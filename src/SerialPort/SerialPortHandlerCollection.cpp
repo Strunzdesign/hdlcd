@@ -21,12 +21,16 @@
 
 #include "SerialPortHandlerCollection.h"
 #include "SerialPortHandler.h"
-#include "../AccessProtocol/ClientHandler.h"
+#include "HdlcdServerHandler.h"
 
 SerialPortHandlerCollection::SerialPortHandlerCollection(boost::asio::io_service& a_IOService): m_IOService(a_IOService) {
 }
 
-std::shared_ptr<std::shared_ptr<SerialPortHandler>> SerialPortHandlerCollection::GetSerialPortHandler(const std::string &a_SerialPortName, std::shared_ptr<ClientHandler> a_ClientHandler) {
+void SerialPortHandlerCollection::Shutdown() {
+    // No need to cleanup, this class possesses only weak pointers
+}
+
+std::shared_ptr<std::shared_ptr<SerialPortHandler>> SerialPortHandlerCollection::GetSerialPortHandler(const std::string &a_SerialPortName, std::shared_ptr<HdlcdServerHandler> a_HdlcdServerHandler) {
     std::shared_ptr<std::shared_ptr<SerialPortHandler>> l_SerialPortHandler;
     bool l_HasToBeStarted = false;
     {
@@ -42,7 +46,7 @@ std::shared_ptr<std::shared_ptr<SerialPortHandler>> SerialPortHandlerCollection:
         } // if
     }
     
-    l_SerialPortHandler.get()->get()->AddClientHandler(a_ClientHandler);
+    l_SerialPortHandler.get()->get()->AddHdlcdServerHandler(a_HdlcdServerHandler);
     if (l_HasToBeStarted) {
         if (l_SerialPortHandler.get()->get()->Start() == false) {
 		    l_SerialPortHandler.reset();
