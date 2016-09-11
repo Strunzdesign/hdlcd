@@ -48,6 +48,8 @@ int main(int argc, char **argv) {
 
         if (l_VariablesMap.count("help")) {
             std::cout << l_Description << std::endl;
+            std::cout << "The HDLC Daemon is Copyright (C) 2016, and GNU GPL'd, by Florian Evers." << std::endl;
+            std::cout << "Bug reports, feedback, admiration, abuse, etc, to: https://github.com/Strunzdesign/hdlcd" << std::endl;
             return 1;
         } // if
                         
