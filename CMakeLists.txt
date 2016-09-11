@@ -13,6 +13,10 @@ else()
     message(FATAL_ERROR "Compiler ${CMAKE_CXX_COMPILER} has no C++11 support.")
 endif()
 
+# Add custom cxx flags
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall")
+
 # Automatically set the version number
 set(HDLCD_VERSION_MAJOR  \"1\")
 set(HDLCD_VERSION_MINOR  \"3pre\")
