@@ -1,6 +1,6 @@
 var classHdlcdServerHandler =
 [
-    [ "HdlcdServerHandler", "classHdlcdServerHandler.html#a122e6c634e0d88c5fed3a93d2d7e413f", null ],
+    [ "HdlcdServerHandler", "classHdlcdServerHandler.html#acf72fb1dde9afd63eafb8dd9d5bf4e2b", null ],
     [ "~HdlcdServerHandler", "classHdlcdServerHandler.html#a678c8611f6dbe21e5421f254f3f17845", null ],
     [ "DeliverBufferToClient", "classHdlcdServerHandler.html#a2c1cb9629ac1c44ed08f6ca6838af45e", null ],
     [ "GetBufferType", "classHdlcdServerHandler.html#ac964d2c5ca38c68a4c3e0c5133c2c721", null ],
