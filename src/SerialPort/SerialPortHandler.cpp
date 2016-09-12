@@ -225,6 +225,7 @@ void SerialPortHandler::DoWrite() {
 }
 
 void SerialPortHandler::ForEachHdlcdServerHandler(std::function<void(std::shared_ptr<HdlcdServerHandler>)> a_Function) {
+    assert(a_Function);
     bool l_RebuildSubscriptions = false;
     static bool s_bCyclicCallGuard = false;
     for (auto cur = m_HdlcdServerHandlerList.begin(); cur != m_HdlcdServerHandlerList.end();) {
