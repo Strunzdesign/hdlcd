@@ -37,7 +37,7 @@ std::shared_ptr<std::shared_ptr<SerialPortHandler>> SerialPortHandlerCollection:
         // This is some magic here to implement automatic cleanup
         auto& l_SerialPortHandlerWeak(m_SerialPortHandlerMap[a_SerialPortName]);
         l_SerialPortHandler = l_SerialPortHandlerWeak.lock();
-        if (l_SerialPortHandler == NULL) {
+        if (!l_SerialPortHandler) {
             auto l_NewSerialPortHandler = std::make_shared<SerialPortHandler>(a_SerialPortName, shared_from_this(), m_IOService);
             std::shared_ptr<std::shared_ptr<SerialPortHandler>> l_NewSerialPortHandlerStopper(new std::shared_ptr<SerialPortHandler>(l_NewSerialPortHandler), [=](std::shared_ptr<SerialPortHandler>* todelete){ (*todelete)->Stop(); delete(todelete); });
             l_SerialPortHandler = l_NewSerialPortHandlerStopper;
