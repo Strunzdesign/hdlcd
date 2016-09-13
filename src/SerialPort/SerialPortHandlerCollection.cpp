@@ -49,8 +49,8 @@ std::shared_ptr<std::shared_ptr<SerialPortHandler>> SerialPortHandlerCollection:
     l_SerialPortHandler.get()->get()->AddHdlcdServerHandler(a_HdlcdServerHandler);
     if (l_HasToBeStarted) {
         if (l_SerialPortHandler.get()->get()->Start() == false) {
-		    l_SerialPortHandler.reset();
-		} // if
+            l_SerialPortHandler.reset();
+        } // if
     } // if
 
     return l_SerialPortHandler;

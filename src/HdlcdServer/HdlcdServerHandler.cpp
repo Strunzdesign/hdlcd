@@ -199,16 +199,16 @@ bool HdlcdServerHandler::OnFrame(const std::shared_ptr<Frame> a_Frame) {
         m_PacketEndpoint->SetOnCtrlCallback([this](const HdlcdPacketCtrl& a_PacketCtrl){ OnCtrlReceived(a_PacketCtrl); });
         m_PacketEndpoint->SetOnClosedCallback([this](){ OnClosed(); });
         m_FrameEndpoint.reset();
-        m_SerialPortHandlerStopper = m_SerialPortHandlerCollection->GetSerialPortHandler(l_HdlcdSessionHeader->GetSerialPortName(), shared_from_this());
-        if (m_SerialPortHandlerStopper) {
+        auto l_SerialPortHandlerStopper = m_SerialPortHandlerCollection->GetSerialPortHandler(l_HdlcdSessionHeader->GetSerialPortName(), shared_from_this());
+        if (l_SerialPortHandlerStopper) {
+            m_SerialPortHandlerStopper = l_SerialPortHandlerStopper;
             m_SerialPortHandler = (*m_SerialPortHandlerStopper.get());
             m_LockGuard.Init(m_SerialPortHandler);
             m_SerialPortHandler->PropagateSerialPortState(); // Sends initial port status message
             m_PacketEndpoint->Start();
         } else {
-            Stop();
+            // This object is dead now! -> Close() was already called by the SerialPortHandler
         } // else
-        
     } else {
         // Instead of a session header we received junk! This is impossible.
         assert(false);
