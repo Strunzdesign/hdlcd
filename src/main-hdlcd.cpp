@@ -54,7 +54,8 @@ int main(int argc, char **argv) {
         } // if
                         
         if (!l_VariablesMap.count("port")) {
-            std::cout << "you have to specify the TCP listener port" << std::endl;
+            std::cout << "hdlcd: you have to specify the TCP listener port" << std::endl;
+            std::cout << "hdlcd: Use --help for more information." << std::endl;
             return 1;
         } // if
 
