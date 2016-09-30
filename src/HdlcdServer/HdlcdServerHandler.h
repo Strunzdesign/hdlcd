@@ -43,7 +43,6 @@ class SerialPortHandlerCollection;
 class HdlcdServerHandler: public std::enable_shared_from_this<HdlcdServerHandler> {
 public:
     HdlcdServerHandler(boost::asio::io_service& a_IOService, std::weak_ptr<HdlcdServerHandlerCollection> a_HdlcdServerHandlerCollection, boost::asio::ip::tcp::socket& a_TcpSocket);
-    ~HdlcdServerHandler();
     
     E_BUFFER_TYPE GetBufferType() const { return m_eBufferType; }
     void DeliverBufferToClient(E_BUFFER_TYPE a_eBufferType, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bInvalid, bool a_bWasSent);

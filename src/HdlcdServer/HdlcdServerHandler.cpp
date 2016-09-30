@@ -47,10 +47,6 @@ HdlcdServerHandler::HdlcdServerHandler(boost::asio::io_service& a_IOService, std
     m_FrameEndpoint->SetOnClosedCallback ([this](){ OnClosed(); });
 }
 
-HdlcdServerHandler::~HdlcdServerHandler() {
-    Stop();
-}
-
 void HdlcdServerHandler::DeliverBufferToClient(E_BUFFER_TYPE a_eBufferType, const std::vector<unsigned char> &a_Payload, bool a_bReliable, bool a_bInvalid, bool a_bWasSent) {
     // Check whether this buffer is of interest to this specific client
     bool l_bDeliver = (a_eBufferType == m_eBufferType);
@@ -119,10 +115,10 @@ void HdlcdServerHandler::Start(std::shared_ptr<SerialPortHandlerCollection> a_Se
 }
 
 void HdlcdServerHandler::Stop() {
+    // Keep this object alive
+    auto self(shared_from_this());
     m_SerialPortHandler.reset();
     if (m_Registered) {
-        // Keep this object alive
-        auto self(shared_from_this());
         m_Registered = false;
         m_bSerialPortHandlerAwaitsPacket = false;
         if (m_PacketEndpoint) {
@@ -136,7 +132,7 @@ void HdlcdServerHandler::Stop() {
         } // else
 
         if (auto lock = m_HdlcdServerHandlerCollection.lock()) {
-            lock->DeregisterHdlcdServerHandler(shared_from_this());
+            lock->DeregisterHdlcdServerHandler(self);
         } // if
     } // if
 }
