@@ -1,5 +1,4 @@
 <map id="LockGuard::AcquireLock" name="LockGuard::AcquireLock">
-<area shape="rect" id="node2" href="$classHdlcdServerHandler.html#a12342559d3c79c2b1d2605a107e459a4" title="HdlcdServerHandler\l::Stop" alt="" coords="228,39,379,80"/>
-<area shape="rect" id="node3" href="$classHdlcdServerHandler.html#a678c8611f6dbe21e5421f254f3f17845" title="HdlcdServerHandler\l::~HdlcdServerHandler" alt="" coords="427,5,591,47"/>
-<area shape="rect" id="node4" href="$classHdlcdServerHandler.html#ac964d2c5ca38c68a4c3e0c5133c2c721" title="HdlcdServerHandler\l::GetBufferType" alt="" coords="433,71,584,112"/>
+<area shape="rect" id="node2" href="$classHdlcdServerHandler.html#a12342559d3c79c2b1d2605a107e459a4" title="HdlcdServerHandler\l::Stop" alt="" coords="228,5,379,47"/>
+<area shape="rect" id="node3" href="$classHdlcdServerHandler.html#ac964d2c5ca38c68a4c3e0c5133c2c721" title="HdlcdServerHandler\l::GetBufferType" alt="" coords="427,5,577,47"/>
 </map>

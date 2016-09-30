@@ -1,5 +1,4 @@
 <map id="LockGuard::ReleaseLock" name="LockGuard::ReleaseLock">
-<area shape="rect" id="node2" href="$classHdlcdServerHandler.html#a12342559d3c79c2b1d2605a107e459a4" title="HdlcdServerHandler\l::Stop" alt="" coords="232,39,383,80"/>
-<area shape="rect" id="node3" href="$classHdlcdServerHandler.html#a678c8611f6dbe21e5421f254f3f17845" title="HdlcdServerHandler\l::~HdlcdServerHandler" alt="" coords="431,5,595,47"/>
-<area shape="rect" id="node4" href="$classHdlcdServerHandler.html#ac964d2c5ca38c68a4c3e0c5133c2c721" title="HdlcdServerHandler\l::GetBufferType" alt="" coords="437,71,588,112"/>
+<area shape="rect" id="node2" href="$classHdlcdServerHandler.html#a12342559d3c79c2b1d2605a107e459a4" title="HdlcdServerHandler\l::Stop" alt="" coords="232,5,383,47"/>
+<area shape="rect" id="node3" href="$classHdlcdServerHandler.html#ac964d2c5ca38c68a4c3e0c5133c2c721" title="HdlcdServerHandler\l::GetBufferType" alt="" coords="431,5,581,47"/>
 </map>
