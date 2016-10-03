@@ -44,11 +44,19 @@ ProtocolState::ProtocolState(std::shared_ptr<ISerialPortHandler> a_SerialPortHan
     m_AliveState = std::make_shared<AliveState>(a_IOService);
     m_AliveState->SetSendProbeCallback([this]() {
         m_bSendProbe = true;
-        OpportunityForTransmission();
+        if (m_SerialPortHandler) {
+            OpportunityForTransmission();
+        } else {
+            // Already closed or shutdown was called
+        } // else
     });
     m_AliveState->SetChangeBaudrateCallback([this]() {
-        m_SerialPortHandler->ChangeBaudRate();
-        m_SerialPortHandler->PropagateSerialPortState();
+        if (m_SerialPortHandler) {
+            m_SerialPortHandler->ChangeBaudRate();
+            m_SerialPortHandler->PropagateSerialPortState();
+        } else {
+            // Already closed or shutdown was called
+        } // else
     });
     
     Reset();
@@ -88,8 +96,11 @@ void ProtocolState::Stop() {
 }
 
 void ProtocolState::Shutdown() {
-    Reset();
-    m_SerialPortHandler.reset();
+    if (m_bStarted) {
+        // Stop the state machine, but do not emit any subsequent events
+        Reset();
+        m_SerialPortHandler.reset();
+    } // if
 }
 
 void ProtocolState::SendPayload(const std::vector<unsigned char> &a_Payload, bool a_bReliable) {
