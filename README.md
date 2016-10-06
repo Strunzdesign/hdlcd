@@ -14,6 +14,12 @@ Multiple client-like tools to access the HDLCd for multiple use-cases are availa
 - https://github.com/Strunzdesign/snet-tools
 
 Stable releases of the HDLCd:
+- v1.3 from 06.10.2016
+  - Multiple bug fixes and stability improvements
+  - The shared header files were moved to the hdlcd-devel repository at https://github.com/Strunzdesign/hdlcd-devel
+  - Requires the header files from https://github.com/Strunzdesign/hdlcd-devel for compilation!
+  - Makes use of git submodules for "externals"
+
 - v1.2 from 23.08.2016
   - Fixed installation issues on Microsoft Windows / MinGW
   - Documentation updates
@@ -30,9 +36,6 @@ Stable releases of the HDLCd:
 
 Current state:
 - v1.3pre (git master branch)
-  - The shared header files were moved to the hdlcd-devel repository at https://github.com/Strunzdesign/hdlcd-devel
-  - Requires the header files from https://github.com/Strunzdesign/hdlcd-devel for compilation!
-  - Makes use of git submodules for "externals"
 
 - Since 25.07.2016 the master branch is considered stable to be used for the s-net(r) devices of the Fraunhofer-Institute for Integrated Circuits IIS
 - HDLCd v1.1 works well with s-net(r) BASE release 3.6
