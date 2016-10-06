@@ -1,0 +1,6 @@
+[submodule "libs/framing"]
+	path = libs/framing
+	url = https://github.com/Strunzdesign/framing.git
+[submodule "libs/hdlcd-devel"]
+	path = libs/hdlcd-devel
+	url = https://github.com/Strunzdesign/hdlcd-devel.git
