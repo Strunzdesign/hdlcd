@@ -8,6 +8,7 @@ var NAVTREE =
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", null ],
         [ "Functions", "functions_func.html", null ],
+        [ "Variables", "functions_vars.html", null ],
         [ "Enumerations", "functions_enum.html", null ],
         [ "Enumerator", "functions_eval.html", null ]
       ] ]
@@ -28,7 +29,8 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"AliveGuard_8h.html"
+"AliveGuard_8h.html",
+"classHdlcdServerHandlerCollection.html#a705db409ab79f00fa462d0f520e32952"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

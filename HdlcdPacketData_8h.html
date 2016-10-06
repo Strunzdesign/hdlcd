@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>HDLC-Daemon: src/include/HdlcdPacketData.h File Reference</title>
+<title>HDLC-Daemon: libs/hdlcd-devel/src/HdlcdPacketData.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -112,28 +112,24 @@ $(document).ready(function(){initNavTree('HdlcdPacketData_8h.html','');});
 <p>Copyright (c) 2016, Florian Evers, <a href="#" onclick="location.href='mai'+'lto:'+'flo'+'ri'+'an-'+'ev'+'ers'+'@g'+'mx.'+'de'; return false;">flori<span style="display: none;">.nosp@m.</span>an-e<span style="display: none;">.nosp@m.</span>vers@<span style="display: none;">.nosp@m.</span>gmx.<span style="display: none;">.nosp@m.</span>de</a> All rights reserved.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="HdlcdPacket_8h_source.html">HdlcdPacket.h</a>&quot;</code><br />
+<code>#include &lt;memory&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for HdlcdPacketData.h:</div>
 <div class="dyncontent">
-<div class="center"><img src="HdlcdPacketData_8h__incl.png" border="0" usemap="#src_2include_2HdlcdPacketData_8h" alt=""/></div>
-<map name="src_2include_2HdlcdPacketData_8h" id="src_2include_2HdlcdPacketData_8h">
-<area shape="rect" id="node2" href="HdlcdPacket_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="56,80,168,107"/>
+<div class="center"><img src="HdlcdPacketData_8h__incl.png" border="0" usemap="#libs_2hdlcd-devel_2src_2HdlcdPacketData_8h" alt=""/></div>
+<map name="libs_2hdlcd-devel_2src_2HdlcdPacketData_8h" id="libs_2hdlcd-devel_2src_2HdlcdPacketData_8h">
+<area shape="rect" id="node2" href="HdlcdPacket_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="76,95,188,121"/>
+<area shape="rect" id="node3" href="Frame_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="95,169,169,196"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="HdlcdPacketData_8h__dep__incl.png" border="0" usemap="#src_2include_2HdlcdPacketData_8hdep" alt=""/></div>
-<map name="src_2include_2HdlcdPacketData_8hdep" id="src_2include_2HdlcdPacketData_8hdep">
-<area shape="rect" id="node2" href="ClientHandler_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="5,244,185,285"/>
-<area shape="rect" id="node3" href="HdlcdPacketEndpoint_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="304,80,543,107"/>
-<area shape="rect" id="node10" href="HdlcdAccessClient_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="521,162,742,189"/>
-<area shape="rect" id="node4" href="ClientHandler_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="316,155,496,196"/>
-<area shape="rect" id="node5" href="ClientAcceptor_8h.html" title="This file contains the header declaration of class ClientAcceptor. " alt="" coords="209,244,389,285"/>
-<area shape="rect" id="node7" href="ClientHandlerCollection_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="414,244,614,285"/>
-<area shape="rect" id="node8" href="SerialPortHandler_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="639,244,803,285"/>
-<area shape="rect" id="node9" href="SerialPortHandlerCollection_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="827,244,1054,285"/>
-<area shape="rect" id="node6" href="main_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="230,333,369,360"/>
+<div class="center"><img src="HdlcdPacketData_8h__dep__incl.png" border="0" usemap="#libs_2hdlcd-devel_2src_2HdlcdPacketData_8hdep" alt=""/></div>
+<map name="libs_2hdlcd-devel_2src_2HdlcdPacketData_8hdep" id="libs_2hdlcd-devel_2src_2HdlcdPacketData_8hdep">
+<area shape="rect" id="node2" href="HdlcdServerHandler_8cpp.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="5,184,211,225"/>
+<area shape="rect" id="node3" href="HdlcdPacketEndpoint_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="134,95,306,136"/>
+<area shape="rect" id="node4" href="HdlcdClient_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="260,184,401,225"/>
 </map>
 </div>
 </div>
@@ -165,7 +161,7 @@ specific prior written permission.
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_b0856f6b0d80ccb263b2f415c91f9e17.html">include</a></li><li class="navelem"><a class="el" href="HdlcdPacketData_8h.html">HdlcdPacketData.h</a></li>
+    <li class="navelem"><a class="el" href="dir_6719ab1f1f7655efc2fa43f7eb574fd1.html">libs</a></li><li class="navelem"><a class="el" href="dir_fc168228b67cfa6192b4c0158bda2935.html">hdlcd-devel</a></li><li class="navelem"><a class="el" href="dir_226fb30c057b05eac149bbd78b8ab1bc.html">src</a></li><li class="navelem"><a class="el" href="HdlcdPacketData_8h.html">HdlcdPacketData.h</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>

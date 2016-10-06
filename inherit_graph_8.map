@@ -1,3 +1,11 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classLockGuard.html" title="Class LockGuard. " alt="" coords="5,5,96,32"/>
+<area shape="rect" id="node2" href="$classAliveState.html" title="Class AliveState. " alt="" coords="299,5,385,32"/>
+<area shape="rect" id="node3" href="$classFrameEndpoint.html" title="FrameEndpoint" alt="" coords="283,56,401,83"/>
+<area shape="rect" id="node4" href="$classHdlcdPacketEndpoint.html" title="HdlcdPacketEndpoint" alt="" coords="263,107,421,133"/>
+<area shape="rect" id="node5" href="$classHdlcdServerHandler.html" title="HdlcdServerHandler" alt="" coords="267,157,417,184"/>
+<area shape="rect" id="node6" href="$classHdlcdServerHandlerCollection.html" title="HdlcdServerHandlerCollection" alt="" coords="236,208,448,235"/>
+<area shape="rect" id="node7" href="$classProtocolState.html" title="ProtocolState" alt="" coords="289,259,395,285"/>
+<area shape="rect" id="node8" href="$classSerialPortHandler.html" title="SerialPortHandler" alt="" coords="275,360,409,387"/>
+<area shape="rect" id="node9" href="$classSerialPortHandlerCollection.html" title="SerialPortHandlerCollection" alt="" coords="244,309,440,336"/>
+<area shape="rect" id="node10" href="$classISerialPortHandler.html" title="ISerialPortHandler" alt="" coords="27,360,166,387"/>
 </map>

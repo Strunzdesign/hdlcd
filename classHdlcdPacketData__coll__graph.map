@@ -1,3 +1,4 @@
 <map id="HdlcdPacketData" name="HdlcdPacketData">
-<area shape="rect" id="node2" href="$classHdlcdPacket.html" title="HdlcdPacket" alt="" coords="20,5,121,32"/>
+<area shape="rect" id="node2" href="$classHdlcdPacket.html" title="HdlcdPacket" alt="" coords="20,80,121,107"/>
+<area shape="rect" id="node3" href="$classFrame.html" title="Frame" alt="" coords="39,5,102,32"/>
 </map>

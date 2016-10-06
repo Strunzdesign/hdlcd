@@ -1,10 +1,4 @@
-<map id="src/include/HdlcdPacketEndpoint.h" name="src/include/HdlcdPacketEndpoint.h">
-<area shape="rect" id="node2" href="$ClientHandler_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="424,80,604,121"/>
-<area shape="rect" id="node9" href="$HdlcdAccessClient_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="629,87,850,114"/>
-<area shape="rect" id="node3" href="$ClientAcceptor_8h.html" title="This file contains the header declaration of class ClientAcceptor. " alt="" coords="5,169,185,211"/>
-<area shape="rect" id="node5" href="$ClientHandler_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="209,169,389,211"/>
-<area shape="rect" id="node6" href="$ClientHandlerCollection_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="414,169,614,211"/>
-<area shape="rect" id="node7" href="$SerialPortHandler_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="639,169,803,211"/>
-<area shape="rect" id="node8" href="$SerialPortHandlerCollection_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="827,169,1054,211"/>
-<area shape="rect" id="node4" href="$main_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="26,259,165,285"/>
+<map id="libs/hdlcd&#45;devel/src/HdlcdPacketEndpoint.h" name="libs/hdlcd&#45;devel/src/HdlcdPacketEndpoint.h">
+<area shape="rect" id="node2" href="$HdlcdServerHandler_8cpp.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="5,95,211,136"/>
+<area shape="rect" id="node3" href="$HdlcdClient_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="235,95,376,136"/>
 </map>

@@ -1,10 +1,10 @@
-<map id="src/SerialPort/HDLC/Frame.h" name="src/SerialPort/HDLC/Frame.h">
-<area shape="rect" id="node2" href="$Frame_8cpp.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="5,95,155,136"/>
-<area shape="rect" id="node3" href="$FrameGenerator_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="179,95,328,136"/>
-<area shape="rect" id="node6" href="$FrameParser_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="403,95,552,136"/>
-<area shape="rect" id="node8" href="$ProtocolState_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="327,184,476,225"/>
-<area shape="rect" id="node4" href="$FrameGenerator_8cpp.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="59,184,216,225"/>
-<area shape="rect" id="node5" href="$ProtocolState_8cpp.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="141,273,291,315"/>
-<area shape="rect" id="node7" href="$FrameParser_8cpp.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="512,273,661,315"/>
-<area shape="rect" id="node9" href="$SerialPortHandler_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="315,273,488,315"/>
+<map id="libs/framing/src/Frame.h" name="libs/framing/src/Frame.h">
+<area shape="rect" id="node2" href="$FrameEndpoint_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="127,177,353,203"/>
+<area shape="rect" id="node6" href="$HdlcdPacket_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="377,80,519,121"/>
+<area shape="rect" id="node9" href="$HdlcdSessionHeader_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="5,259,176,300"/>
+<area shape="rect" id="node3" href="$HdlcdServerHandler_8cpp.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="372,348,577,389"/>
+<area shape="rect" id="node4" href="$HdlcdPacketEndpoint_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="353,259,525,300"/>
+<area shape="rect" id="node5" href="$HdlcdClient_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="207,348,348,389"/>
+<area shape="rect" id="node7" href="$HdlcdPacketData_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="543,169,689,211"/>
+<area shape="rect" id="node8" href="$HdlcdPacketCtrl_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="377,169,519,211"/>
 </map>

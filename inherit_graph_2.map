@@ -1,3 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classFrameGenerator.html" title="FrameGenerator" alt="" coords="5,5,132,32"/>
+<area shape="rect" id="node1" href="$classFrame.html" title="Frame" alt="" coords="5,56,68,83"/>
+<area shape="rect" id="node2" href="$classHdlcdPacket.html" title="HdlcdPacket" alt="" coords="143,31,244,57"/>
+<area shape="rect" id="node5" href="$classHdlcdSessionHeader.html" title="HdlcdSessionHeader" alt="" coords="116,81,271,108"/>
+<area shape="rect" id="node3" href="$classHdlcdPacketCtrl.html" title="HdlcdPacketCtrl" alt="" coords="323,5,445,32"/>
+<area shape="rect" id="node4" href="$classHdlcdPacketData.html" title="HdlcdPacketData" alt="" coords="319,56,449,83"/>
 </map>

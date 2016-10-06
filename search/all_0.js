@@ -7,5 +7,6 @@ var searchData=
   ['aliveguard_2eh',['AliveGuard.h',['../AliveGuard_8h.html',1,'']]],
   ['alivestate',['AliveState',['../classAliveState.html',1,'AliveState'],['../classAliveState.html#ac7c6df647c0a18d4299da64c6621b453',1,'AliveState::AliveState()']]],
   ['alivestate_2ecpp',['AliveState.cpp',['../AliveState_8cpp.html',1,'']]],
-  ['alivestate_2eh',['AliveState.h',['../AliveState_8h.html',1,'']]]
+  ['alivestate_2eh',['AliveState.h',['../AliveState_8h.html',1,'']]],
+  ['asyncconnect',['AsyncConnect',['../classHdlcdClient.html#a485e29db5cb483d9c0ac45febd963bbf',1,'HdlcdClient']]]
 ];

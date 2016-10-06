@@ -1,5 +1,8 @@
 <map id="HdlcdServerHandler::Stop" name="HdlcdServerHandler::Stop">
-<area shape="rect" id="node2" href="$classLockGuard.html#abf473ba70cb354517bdb5b2100772f83" title="Initializer method to register subsequent objects. " alt="" coords="235,5,351,32"/>
-<area shape="rect" id="node3" href="$classLockGuard.html#a1b542624ed5a46ee455b3bdd95e23cf9" title="Method to aquire a lock. " alt="" coords="206,56,381,83"/>
-<area shape="rect" id="node4" href="$classLockGuard.html#a044e85555e2ec233c3610a09d0443b53" title="Method to release a lock. " alt="" coords="204,107,383,133"/>
+<area shape="rect" id="node2" href="$classHdlcdSessionHeader.html#a9d3e518746201d5fd66b2e3b2e7b0f27" title="HdlcdSessionHeader\l::GetServiceAccessPointSpecifier" alt="" coords="204,5,435,47"/>
+<area shape="rect" id="node3" href="$classLockGuard.html#abf473ba70cb354517bdb5b2100772f83" title="Initializer method to register subsequent objects. " alt="" coords="261,71,377,98"/>
+<area shape="rect" id="node4" href="$classHdlcdPacketCtrl.html#a8f4d35576f4ed5163ef49f8eb5f4d37d" title="HdlcdPacketCtrl::GetPacketType" alt="" coords="206,122,433,149"/>
+<area shape="rect" id="node5" href="$classHdlcdPacketCtrl.html#addd115864ff204e792b2a2ba705b614d" title="HdlcdPacketCtrl::GetDesired\lLockState" alt="" coords="219,173,420,215"/>
+<area shape="rect" id="node6" href="$classLockGuard.html#a1b542624ed5a46ee455b3bdd95e23cf9" title="Method to aquire a lock. " alt="" coords="232,239,407,266"/>
+<area shape="rect" id="node7" href="$classLockGuard.html#a044e85555e2ec233c3610a09d0443b53" title="Method to release a lock. " alt="" coords="230,290,409,317"/>
 </map>

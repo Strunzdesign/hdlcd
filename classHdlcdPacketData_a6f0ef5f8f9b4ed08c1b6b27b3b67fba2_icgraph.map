@@ -1,4 +1,4 @@
 <map id="HdlcdPacketData::CreatePacket" name="HdlcdPacketData::CreatePacket">
-<area shape="rect" id="node2" href="$classClientHandler.html#a4479c2ca60c1757df59e007f10c3858a" title="ClientHandler::DeliverBuffer\lToClient" alt="" coords="276,5,471,47"/>
-<area shape="rect" id="node3" href="$classClientHandler.html#acf0f0dc0d4991bfc7c2f1f280cd88440" title="ClientHandler::GetBufferType" alt="" coords="519,13,725,39"/>
+<area shape="rect" id="node2" href="$classHdlcdServerHandler.html#a2c1cb9629ac1c44ed08f6ca6838af45e" title="HdlcdServerHandler\l::DeliverBufferToClient" alt="" coords="276,5,439,47"/>
+<area shape="rect" id="node3" href="$classHdlcdServerHandler.html#ac964d2c5ca38c68a4c3e0c5133c2c721" title="HdlcdServerHandler\l::GetBufferType" alt="" coords="487,5,637,47"/>
 </map>

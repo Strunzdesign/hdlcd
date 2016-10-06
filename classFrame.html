@@ -105,140 +105,57 @@ $(document).ready(function(){initNavTree('classFrame.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classFrame-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">Frame Class Reference</div>  </div>
+<div class="title">Frame Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
 <p><code>#include &lt;<a class="el" href="Frame_8h_source.html">Frame.h</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for Frame:</div>
+<div class="dyncontent">
+<div class="center"><img src="classFrame__inherit__graph.png" border="0" usemap="#Frame_inherit__map" alt="Inheritance graph"/></div>
+<map name="Frame_inherit__map" id="Frame_inherit__map">
+<area shape="rect" id="node2" href="classHdlcdPacket.html" title="HdlcdPacket" alt="" coords="91,80,192,107"/>
+<area shape="rect" id="node5" href="classHdlcdSessionHeader.html" title="HdlcdSessionHeader" alt="" coords="216,80,371,107"/>
+<area shape="rect" id="node3" href="classHdlcdPacketCtrl.html" title="HdlcdPacketCtrl" alt="" coords="5,155,128,181"/>
+<area shape="rect" id="node4" href="classHdlcdPacketData.html" title="HdlcdPacketData" alt="" coords="152,155,283,181"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:afd71dec90d756bd8bf18a1edfd0cc815"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#afd71dec90d756bd8bf18a1edfd0cc815">E_HDLC_FRAMETYPE</a> { <br />
-&#160;&#160;<a class="el" href="classFrame.html#afd71dec90d756bd8bf18a1edfd0cc815a8def6896226bce6175fa397c73cf21cb">HDLC_FRAMETYPE_UNSET</a> = 0, 
-<a class="el" href="classFrame.html#afd71dec90d756bd8bf18a1edfd0cc815a89a52d0aace1942015c658cc2b050bc4">HDLC_FRAMETYPE_I</a>, 
-<a class="el" href="classFrame.html#afd71dec90d756bd8bf18a1edfd0cc815a6f4e1c9df94a075945a8f3785c0ba665">HDLC_FRAMETYPE_S_RR</a>, 
-<a class="el" href="classFrame.html#afd71dec90d756bd8bf18a1edfd0cc815a676d8be484b45e48364cb7dca5e1c313">HDLC_FRAMETYPE_S_RNR</a>, 
-<br />
-&#160;&#160;<a class="el" href="classFrame.html#afd71dec90d756bd8bf18a1edfd0cc815a24d31a4cc98daea71137b1075866e65f">HDLC_FRAMETYPE_S_REJ</a>, 
-<a class="el" href="classFrame.html#afd71dec90d756bd8bf18a1edfd0cc815aea2229f115a4a3c5c1a356a237a997da">HDLC_FRAMETYPE_S_SREJ</a>, 
-<a class="el" href="classFrame.html#afd71dec90d756bd8bf18a1edfd0cc815a796b866d60176601937e3664df8c1d52">HDLC_FRAMETYPE_U_UI</a>, 
-<a class="el" href="classFrame.html#afd71dec90d756bd8bf18a1edfd0cc815a4eebaf7dbfa4e2092e6d8a9bdab6fe5c">HDLC_FRAMETYPE_U_SIM</a>, 
-<br />
-&#160;&#160;<a class="el" href="classFrame.html#afd71dec90d756bd8bf18a1edfd0cc815a1ff7c978c4b0cd96e16c781ce822123f">HDLC_FRAMETYPE_U_SARM</a>, 
-<a class="el" href="classFrame.html#afd71dec90d756bd8bf18a1edfd0cc815abd665aedc3b4479dcd132265bc38ade0">HDLC_FRAMETYPE_U_UP</a>, 
-<a class="el" href="classFrame.html#afd71dec90d756bd8bf18a1edfd0cc815a69502f5c7a05f9a335519cb99148a52f">HDLC_FRAMETYPE_U_SABM</a>, 
-<a class="el" href="classFrame.html#afd71dec90d756bd8bf18a1edfd0cc815a2d35cf92425ce291c837b095aad30a13">HDLC_FRAMETYPE_U_DISC</a>, 
-<br />
-&#160;&#160;<a class="el" href="classFrame.html#afd71dec90d756bd8bf18a1edfd0cc815a6a649983b2460a4f90ed1d87b6219c99">HDLC_FRAMETYPE_U_UA</a>, 
-<a class="el" href="classFrame.html#afd71dec90d756bd8bf18a1edfd0cc815ad6258bef85c5c1d83b119eff3954838d">HDLC_FRAMETYPE_U_SNRM</a>, 
-<a class="el" href="classFrame.html#afd71dec90d756bd8bf18a1edfd0cc815a6153d6d77ddc236db8792201c1978aa9">HDLC_FRAMETYPE_U_CMDR</a>, 
-<a class="el" href="classFrame.html#afd71dec90d756bd8bf18a1edfd0cc815a502962ab406e847cdf9abef11b7716db">HDLC_FRAMETYPE_U_TEST</a>, 
-<br />
-&#160;&#160;<a class="el" href="classFrame.html#afd71dec90d756bd8bf18a1edfd0cc815a76bae2afc5efb1a3cb76bb185f6c4a1a">HDLC_FRAMETYPE_U_XID</a>
-<br />
- }</td></tr>
-<tr class="separator:afd71dec90d756bd8bf18a1edfd0cc815"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ad2e5946cf41d4817e750500acf05d02b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#ad2e5946cf41d4817e750500acf05d02b">Frame</a> ()</td></tr>
 <tr class="separator:ad2e5946cf41d4817e750500acf05d02b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6be2696299c5ef388cf7207c93719956"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#a6be2696299c5ef388cf7207c93719956">SetAddress</a> (unsigned char a_Address)</td></tr>
-<tr class="separator:a6be2696299c5ef388cf7207c93719956"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a58f2fc1e3ad0d33ee9dd6622ed38c968"><td class="memItemLeft" align="right" valign="top">unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#a58f2fc1e3ad0d33ee9dd6622ed38c968">GetAddress</a> () const </td></tr>
-<tr class="separator:a58f2fc1e3ad0d33ee9dd6622ed38c968"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1315c8f7f4b3ff734d52ba9916d31f07"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#a1315c8f7f4b3ff734d52ba9916d31f07">SetHDLCFrameType</a> (<a class="el" href="classFrame.html#afd71dec90d756bd8bf18a1edfd0cc815">E_HDLC_FRAMETYPE</a> a_eHDLCFrameType)</td></tr>
-<tr class="separator:a1315c8f7f4b3ff734d52ba9916d31f07"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf6b7db82f0c9d1b701c28e89f68607c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFrame.html#afd71dec90d756bd8bf18a1edfd0cc815">E_HDLC_FRAMETYPE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#abf6b7db82f0c9d1b701c28e89f68607c">GetHDLCFrameType</a> () const </td></tr>
-<tr class="separator:abf6b7db82f0c9d1b701c28e89f68607c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a5f62465222f252bf8c0098e453d133"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#a2a5f62465222f252bf8c0098e453d133">IsEmpty</a> () const </td></tr>
-<tr class="separator:a2a5f62465222f252bf8c0098e453d133"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac82e03633b6cd38ced564aa456e0f2d4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#ac82e03633b6cd38ced564aa456e0f2d4">IsIFrame</a> () const </td></tr>
-<tr class="separator:ac82e03633b6cd38ced564aa456e0f2d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13b12ad3561c2058344584ddd6b03470"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#a13b12ad3561c2058344584ddd6b03470">IsSFrame</a> () const </td></tr>
-<tr class="separator:a13b12ad3561c2058344584ddd6b03470"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a34fd3215c8b5cc61fe37f0a096048f32"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#a34fd3215c8b5cc61fe37f0a096048f32">IsUFrame</a> () const </td></tr>
-<tr class="separator:a34fd3215c8b5cc61fe37f0a096048f32"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a25fcede21f86b2cd32ae31c36bfad5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#a7a25fcede21f86b2cd32ae31c36bfad5">SetPF</a> (bool a_PF)</td></tr>
-<tr class="separator:a7a25fcede21f86b2cd32ae31c36bfad5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a498584c896fb9b1bcfb4d9feb07d3ce0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#a498584c896fb9b1bcfb4d9feb07d3ce0">IsPF</a> () const </td></tr>
-<tr class="separator:a498584c896fb9b1bcfb4d9feb07d3ce0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a549cb75253c36b4e6461b132de8416a2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#a549cb75253c36b4e6461b132de8416a2">SetRSeq</a> (unsigned char a_RSeq)</td></tr>
-<tr class="separator:a549cb75253c36b4e6461b132de8416a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef3e9688379b3f8db0c13371a576be47"><td class="memItemLeft" align="right" valign="top">unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#aef3e9688379b3f8db0c13371a576be47">GetRSeq</a> () const </td></tr>
-<tr class="separator:aef3e9688379b3f8db0c13371a576be47"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4060e97604cb4b8da35032e10ee3c895"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#a4060e97604cb4b8da35032e10ee3c895">SetSSeq</a> (unsigned char a_SSeq)</td></tr>
-<tr class="separator:a4060e97604cb4b8da35032e10ee3c895"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa32884d93ca3bfa40c9ee96f89d1e689"><td class="memItemLeft" align="right" valign="top">unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#aa32884d93ca3bfa40c9ee96f89d1e689">GetSSeq</a> () const </td></tr>
-<tr class="separator:aa32884d93ca3bfa40c9ee96f89d1e689"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae71f5145fcc08f58e383fb36c6382f69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#ae71f5145fcc08f58e383fb36c6382f69">SetPayload</a> (const std::vector&lt; unsigned char &gt; &amp;a_Payload)</td></tr>
-<tr class="separator:ae71f5145fcc08f58e383fb36c6382f69"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a177195746b4081ca1758603c1dae7ace"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; unsigned char &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#a177195746b4081ca1758603c1dae7ace">GetPayload</a> () const </td></tr>
-<tr class="separator:a177195746b4081ca1758603c1dae7ace"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13630eb08ee9c95f5102051d9dea1256"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#a13630eb08ee9c95f5102051d9dea1256">HasPayload</a> () const </td></tr>
-<tr class="separator:a13630eb08ee9c95f5102051d9dea1256"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1151c62bfba51f5e2fd979dd4b856829"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; unsigned char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#a1151c62bfba51f5e2fd979dd4b856829">Dissect</a> () const </td></tr>
-<tr class="separator:a1151c62bfba51f5e2fd979dd4b856829"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd1d3c822166a747d42edaf97c770a5c"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#acd1d3c822166a747d42edaf97c770a5c">~Frame</a> ()</td></tr>
+<tr class="separator:acd1d3c822166a747d42edaf97c770a5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad25373889d9cceacc902b98339456ee4"><td class="memItemLeft" align="right" valign="top">virtual const std::vector&lt; unsigned char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#ad25373889d9cceacc902b98339456ee4">Serialize</a> () const  =0</td></tr>
+<tr class="separator:ad25373889d9cceacc902b98339456ee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5d4b218c9e23d41b48a688bdf4c63e8"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#ae5d4b218c9e23d41b48a688bdf4c63e8">BytesNeeded</a> () const </td></tr>
+<tr class="separator:ae5d4b218c9e23d41b48a688bdf4c63e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a810569ed2d6c96aab5452c6fc4fef7f4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#a810569ed2d6c96aab5452c6fc4fef7f4">ParseBytes</a> (const unsigned char *a_ReadBuffer, size_t &amp;a_ReadBufferOffset, size_t &amp;a_BytesAvailable)</td></tr>
+<tr class="separator:a810569ed2d6c96aab5452c6fc4fef7f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:adb9ae2902f56b8df524bc5be8975293e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#adb9ae2902f56b8df524bc5be8975293e">Deserialize</a> ()=0</td></tr>
+<tr class="separator:adb9ae2902f56b8df524bc5be8975293e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:a2e811bd64b50c9c8f5afd3236a5325ca"><td class="memItemLeft" align="right" valign="top">std::vector&lt; unsigned char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#a2e811bd64b50c9c8f5afd3236a5325ca">m_Buffer</a></td></tr>
+<tr class="separator:a2e811bd64b50c9c8f5afd3236a5325ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17df3390173d38e71e3a69c5142ec5b3"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#a17df3390173d38e71e3a69c5142ec5b3">m_BytesRemaining</a></td></tr>
+<tr class="separator:a17df3390173d38e71e3a69c5142ec5b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="Frame_8h_source.html#l00043">43</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
-</div><h2 class="groupheader">Member Enumeration Documentation</h2>
-<a class="anchor" id="afd71dec90d756bd8bf18a1edfd0cc815"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="classFrame.html#afd71dec90d756bd8bf18a1edfd0cc815">Frame::E_HDLC_FRAMETYPE</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="afd71dec90d756bd8bf18a1edfd0cc815a8def6896226bce6175fa397c73cf21cb"></a>HDLC_FRAMETYPE_UNSET&#160;</td><td class="fielddoc">
-</td></tr>
-<tr><td class="fieldname"><a class="anchor" id="afd71dec90d756bd8bf18a1edfd0cc815a89a52d0aace1942015c658cc2b050bc4"></a>HDLC_FRAMETYPE_I&#160;</td><td class="fielddoc">
-</td></tr>
-<tr><td class="fieldname"><a class="anchor" id="afd71dec90d756bd8bf18a1edfd0cc815a6f4e1c9df94a075945a8f3785c0ba665"></a>HDLC_FRAMETYPE_S_RR&#160;</td><td class="fielddoc">
-</td></tr>
-<tr><td class="fieldname"><a class="anchor" id="afd71dec90d756bd8bf18a1edfd0cc815a676d8be484b45e48364cb7dca5e1c313"></a>HDLC_FRAMETYPE_S_RNR&#160;</td><td class="fielddoc">
-</td></tr>
-<tr><td class="fieldname"><a class="anchor" id="afd71dec90d756bd8bf18a1edfd0cc815a24d31a4cc98daea71137b1075866e65f"></a>HDLC_FRAMETYPE_S_REJ&#160;</td><td class="fielddoc">
-</td></tr>
-<tr><td class="fieldname"><a class="anchor" id="afd71dec90d756bd8bf18a1edfd0cc815aea2229f115a4a3c5c1a356a237a997da"></a>HDLC_FRAMETYPE_S_SREJ&#160;</td><td class="fielddoc">
-</td></tr>
-<tr><td class="fieldname"><a class="anchor" id="afd71dec90d756bd8bf18a1edfd0cc815a796b866d60176601937e3664df8c1d52"></a>HDLC_FRAMETYPE_U_UI&#160;</td><td class="fielddoc">
-</td></tr>
-<tr><td class="fieldname"><a class="anchor" id="afd71dec90d756bd8bf18a1edfd0cc815a4eebaf7dbfa4e2092e6d8a9bdab6fe5c"></a>HDLC_FRAMETYPE_U_SIM&#160;</td><td class="fielddoc">
-</td></tr>
-<tr><td class="fieldname"><a class="anchor" id="afd71dec90d756bd8bf18a1edfd0cc815a1ff7c978c4b0cd96e16c781ce822123f"></a>HDLC_FRAMETYPE_U_SARM&#160;</td><td class="fielddoc">
-</td></tr>
-<tr><td class="fieldname"><a class="anchor" id="afd71dec90d756bd8bf18a1edfd0cc815abd665aedc3b4479dcd132265bc38ade0"></a>HDLC_FRAMETYPE_U_UP&#160;</td><td class="fielddoc">
-</td></tr>
-<tr><td class="fieldname"><a class="anchor" id="afd71dec90d756bd8bf18a1edfd0cc815a69502f5c7a05f9a335519cb99148a52f"></a>HDLC_FRAMETYPE_U_SABM&#160;</td><td class="fielddoc">
-</td></tr>
-<tr><td class="fieldname"><a class="anchor" id="afd71dec90d756bd8bf18a1edfd0cc815a2d35cf92425ce291c837b095aad30a13"></a>HDLC_FRAMETYPE_U_DISC&#160;</td><td class="fielddoc">
-</td></tr>
-<tr><td class="fieldname"><a class="anchor" id="afd71dec90d756bd8bf18a1edfd0cc815a6a649983b2460a4f90ed1d87b6219c99"></a>HDLC_FRAMETYPE_U_UA&#160;</td><td class="fielddoc">
-</td></tr>
-<tr><td class="fieldname"><a class="anchor" id="afd71dec90d756bd8bf18a1edfd0cc815ad6258bef85c5c1d83b119eff3954838d"></a>HDLC_FRAMETYPE_U_SNRM&#160;</td><td class="fielddoc">
-</td></tr>
-<tr><td class="fieldname"><a class="anchor" id="afd71dec90d756bd8bf18a1edfd0cc815a6153d6d77ddc236db8792201c1978aa9"></a>HDLC_FRAMETYPE_U_CMDR&#160;</td><td class="fielddoc">
-</td></tr>
-<tr><td class="fieldname"><a class="anchor" id="afd71dec90d756bd8bf18a1edfd0cc815a502962ab406e847cdf9abef11b7716db"></a>HDLC_FRAMETYPE_U_TEST&#160;</td><td class="fielddoc">
-</td></tr>
-<tr><td class="fieldname"><a class="anchor" id="afd71dec90d756bd8bf18a1edfd0cc815a76bae2afc5efb1a3cb76bb185f6c4a1a"></a>HDLC_FRAMETYPE_U_XID&#160;</td><td class="fielddoc">
-</td></tr>
-</table>
-
-<p>Definition at line <a class="el" href="Frame_8h_source.html#l00050">50</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<p>Definition at line <a class="el" href="Frame_8h_source.html#l00044">44</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ad2e5946cf41d4817e750500acf05d02b"></a>
 <div class="memitem">
 <div class="memproto">
@@ -260,59 +177,11 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Frame_8h_source.html#l00045">45</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
+<p>Definition at line <a class="el" href="Frame_8h_source.html#l00047">47</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
 
 </div>
 </div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a1151c62bfba51f5e2fd979dd4b856829"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt; unsigned char &gt; Frame::Dissect </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="Frame_8cpp_source.html#l00041">41</a> of file <a class="el" href="Frame_8cpp_source.html">Frame.cpp</a>.</p>
-
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classFrame_a1151c62bfba51f5e2fd979dd4b856829_cgraph.png" border="0" usemap="#classFrame_a1151c62bfba51f5e2fd979dd4b856829_cgraph" alt=""/></div>
-<map name="classFrame_a1151c62bfba51f5e2fd979dd4b856829_cgraph" id="classFrame_a1151c62bfba51f5e2fd979dd4b856829_cgraph">
-<area shape="rect" id="node2" href="classFrame.html#ac82e03633b6cd38ced564aa456e0f2d4" title="Frame::IsIFrame" alt="" coords="207,5,330,32"/>
-<area shape="rect" id="node3" href="classFrame.html#a58f2fc1e3ad0d33ee9dd6622ed38c968" title="Frame::GetAddress" alt="" coords="197,56,340,83"/>
-<area shape="rect" id="node4" href="classFrame.html#a498584c896fb9b1bcfb4d9feb07d3ce0" title="Frame::IsPF" alt="" coords="221,107,317,133"/>
-<area shape="rect" id="node5" href="classFrame.html#aa32884d93ca3bfa40c9ee96f89d1e689" title="Frame::GetSSeq" alt="" coords="206,157,331,184"/>
-<area shape="rect" id="node6" href="classFrame.html#aef3e9688379b3f8db0c13371a576be47" title="Frame::GetRSeq" alt="" coords="205,208,332,235"/>
-<area shape="rect" id="node7" href="classFrame.html#a13b12ad3561c2058344584ddd6b03470" title="Frame::IsSFrame" alt="" coords="205,259,333,285"/>
-<area shape="rect" id="node8" href="classFrame.html#abf6b7db82f0c9d1b701c28e89f68607c" title="Frame::GetHDLCFrameType" alt="" coords="168,309,369,336"/>
-<area shape="rect" id="node9" href="classFrame.html#a34fd3215c8b5cc61fe37f0a096048f32" title="Frame::IsUFrame" alt="" coords="204,360,333,387"/>
-</map>
-</div>
-</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classFrame_a1151c62bfba51f5e2fd979dd4b856829_icgraph.png" border="0" usemap="#classFrame_a1151c62bfba51f5e2fd979dd4b856829_icgraph" alt=""/></div>
-<map name="classFrame_a1151c62bfba51f5e2fd979dd4b856829_icgraph" id="classFrame_a1151c62bfba51f5e2fd979dd4b856829_icgraph">
-<area shape="rect" id="node2" href="classFrame.html#a13630eb08ee9c95f5102051d9dea1256" title="Frame::HasPayload" alt="" coords="168,5,312,32"/>
-<area shape="rect" id="node3" href="classProtocolState.html#a444c95c26410e631068fa56012d342fe" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="360,23,527,65"/>
-<area shape="rect" id="node4" href="classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="575,23,769,65"/>
-<area shape="rect" id="node5" href="classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c" title="ProtocolState::AddReceived\lRawBytes" alt="" coords="817,23,1015,65"/>
-</map>
-</div>
-</p>
-
-</div>
-</div>
-<a class="anchor" id="a58f2fc1e3ad0d33ee9dd6622ed38c968"></a>
+<a class="anchor" id="acd1d3c822166a747d42edaf97c770a5c"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -320,15 +189,15 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">unsigned char Frame::GetAddress </td>
+          <td class="memname">virtual Frame::~Frame </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -336,23 +205,19 @@ Here is the caller graph for this function:</div>
 <p>Definition at line <a class="el" href="Frame_8h_source.html#l00048">48</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
 
 <p><div class="dynheader">
-Here is the caller graph for this function:</div>
+Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classFrame_a58f2fc1e3ad0d33ee9dd6622ed38c968_icgraph.png" border="0" usemap="#classFrame_a58f2fc1e3ad0d33ee9dd6622ed38c968_icgraph" alt=""/></div>
-<map name="classFrame_a58f2fc1e3ad0d33ee9dd6622ed38c968_icgraph" id="classFrame_a58f2fc1e3ad0d33ee9dd6622ed38c968_icgraph">
-<area shape="rect" id="node2" href="classFrame.html#a1151c62bfba51f5e2fd979dd4b856829" title="Frame::Dissect" alt="" coords="196,56,311,83"/>
-<area shape="rect" id="node7" href="classFrameGenerator.html#a412b0e1431b1deebda54481be60f9ade" title="FrameGenerator::Serialize\lFrame" alt="" coords="359,107,545,149"/>
-<area shape="rect" id="node3" href="classFrame.html#a13630eb08ee9c95f5102051d9dea1256" title="Frame::HasPayload" alt="" coords="380,5,524,32"/>
-<area shape="rect" id="node4" href="classProtocolState.html#a444c95c26410e631068fa56012d342fe" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="593,49,760,90"/>
-<area shape="rect" id="node5" href="classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="808,49,1003,90"/>
-<area shape="rect" id="node6" href="classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c" title="ProtocolState::AddReceived\lRawBytes" alt="" coords="1051,49,1248,90"/>
+<div class="center"><img src="classFrame_acd1d3c822166a747d42edaf97c770a5c_cgraph.png" border="0" usemap="#classFrame_acd1d3c822166a747d42edaf97c770a5c_cgraph" alt=""/></div>
+<map name="classFrame_acd1d3c822166a747d42edaf97c770a5c_cgraph" id="classFrame_acd1d3c822166a747d42edaf97c770a5c_cgraph">
+<area shape="rect" id="node2" href="classFrame.html#ad25373889d9cceacc902b98339456ee4" title="Frame::Serialize" alt="" coords="169,5,292,32"/>
 </map>
 </div>
 </p>
 
 </div>
 </div>
-<a class="anchor" id="abf6b7db82f0c9d1b701c28e89f68607c"></a>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="ae5d4b218c9e23d41b48a688bdf4c63e8"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -360,7 +225,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classFrame.html#afd71dec90d756bd8bf18a1edfd0cc815">E_HDLC_FRAMETYPE</a> Frame::GetHDLCFrameType </td>
+          <td class="memname">size_t Frame::BytesNeeded </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -373,26 +238,44 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Frame_8h_source.html#l00070">70</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
+<p>Definition at line <a class="el" href="Frame_8h_source.html#l00052">52</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="adb9ae2902f56b8df524bc5be8975293e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool Frame::Deserialize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classFrame_abf6b7db82f0c9d1b701c28e89f68607c_icgraph.png" border="0" usemap="#classFrame_abf6b7db82f0c9d1b701c28e89f68607c_icgraph" alt=""/></div>
-<map name="classFrame_abf6b7db82f0c9d1b701c28e89f68607c_icgraph" id="classFrame_abf6b7db82f0c9d1b701c28e89f68607c_icgraph">
-<area shape="rect" id="node2" href="classFrame.html#a1151c62bfba51f5e2fd979dd4b856829" title="Frame::Dissect" alt="" coords="255,56,369,83"/>
-<area shape="rect" id="node4" href="classProtocolState.html#a444c95c26410e631068fa56012d342fe" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="652,74,819,115"/>
-<area shape="rect" id="node7" href="classFrameGenerator.html#a412b0e1431b1deebda54481be60f9ade" title="FrameGenerator::Serialize\lFrame" alt="" coords="417,158,604,199"/>
-<area shape="rect" id="node3" href="classFrame.html#a13630eb08ee9c95f5102051d9dea1256" title="Frame::HasPayload" alt="" coords="439,5,583,32"/>
-<area shape="rect" id="node5" href="classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="867,74,1061,115"/>
-<area shape="rect" id="node6" href="classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c" title="ProtocolState::AddReceived\lRawBytes" alt="" coords="1109,74,1307,115"/>
+<div class="center"><img src="classFrame_adb9ae2902f56b8df524bc5be8975293e_icgraph.png" border="0" usemap="#classFrame_adb9ae2902f56b8df524bc5be8975293e_icgraph" alt=""/></div>
+<map name="classFrame_adb9ae2902f56b8df524bc5be8975293e_icgraph" id="classFrame_adb9ae2902f56b8df524bc5be8975293e_icgraph">
+<area shape="rect" id="node2" href="classFrame.html#a810569ed2d6c96aab5452c6fc4fef7f4" title="Frame::ParseBytes" alt="" coords="192,5,332,32"/>
 </map>
 </div>
 </p>
 
 </div>
 </div>
-<a class="anchor" id="a177195746b4081ca1758603c1dae7ace"></a>
+<a class="anchor" id="a810569ed2d6c96aab5452c6fc4fef7f4"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -400,10 +283,27 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::vector&lt;unsigned char&gt;&amp; Frame::GetPayload </td>
+          <td class="memname">bool Frame::ParseBytes </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td class="paramtype">const unsigned char *&#160;</td>
+          <td class="paramname"><em>a_ReadBuffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t &amp;&#160;</td>
+          <td class="paramname"><em>a_ReadBufferOffset</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t &amp;&#160;</td>
+          <td class="paramname"><em>a_BytesAvailable</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -413,159 +313,21 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Frame_8h_source.html#l00086">86</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classFrame_a177195746b4081ca1758603c1dae7ace_icgraph.png" border="0" usemap="#classFrame_a177195746b4081ca1758603c1dae7ace_icgraph" alt=""/></div>
-<map name="classFrame_a177195746b4081ca1758603c1dae7ace_icgraph" id="classFrame_a177195746b4081ca1758603c1dae7ace_icgraph">
-<area shape="rect" id="node2" href="classFrameGenerator.html#a412b0e1431b1deebda54481be60f9ade" title="FrameGenerator::Serialize\lFrame" alt="" coords="196,5,383,47"/>
-<area shape="rect" id="node3" href="classProtocolState.html#a444c95c26410e631068fa56012d342fe" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="431,35,597,76"/>
-<area shape="rect" id="node4" href="classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="645,35,840,76"/>
-<area shape="rect" id="node5" href="classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c" title="ProtocolState::AddReceived\lRawBytes" alt="" coords="888,35,1085,76"/>
-</map>
-</div>
-</p>
-
-</div>
-</div>
-<a class="anchor" id="aef3e9688379b3f8db0c13371a576be47"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">unsigned char Frame::GetRSeq </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="Frame_8h_source.html#l00080">80</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classFrame_aef3e9688379b3f8db0c13371a576be47_icgraph.png" border="0" usemap="#classFrame_aef3e9688379b3f8db0c13371a576be47_icgraph" alt=""/></div>
-<map name="classFrame_aef3e9688379b3f8db0c13371a576be47_icgraph" id="classFrame_aef3e9688379b3f8db0c13371a576be47_icgraph">
-<area shape="rect" id="node2" href="classFrame.html#a1151c62bfba51f5e2fd979dd4b856829" title="Frame::Dissect" alt="" coords="180,56,295,83"/>
-<area shape="rect" id="node4" href="classProtocolState.html#a444c95c26410e631068fa56012d342fe" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="577,74,744,115"/>
-<area shape="rect" id="node7" href="classFrameGenerator.html#a412b0e1431b1deebda54481be60f9ade" title="FrameGenerator::Serialize\lFrame" alt="" coords="343,158,529,199"/>
-<area shape="rect" id="node3" href="classFrame.html#a13630eb08ee9c95f5102051d9dea1256" title="Frame::HasPayload" alt="" coords="364,5,508,32"/>
-<area shape="rect" id="node5" href="classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="792,74,987,115"/>
-<area shape="rect" id="node6" href="classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c" title="ProtocolState::AddReceived\lRawBytes" alt="" coords="1035,74,1232,115"/>
-</map>
-</div>
-</p>
-
-</div>
-</div>
-<a class="anchor" id="aa32884d93ca3bfa40c9ee96f89d1e689"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">unsigned char Frame::GetSSeq </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="Frame_8h_source.html#l00083">83</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classFrame_aa32884d93ca3bfa40c9ee96f89d1e689_icgraph.png" border="0" usemap="#classFrame_aa32884d93ca3bfa40c9ee96f89d1e689_icgraph" alt=""/></div>
-<map name="classFrame_aa32884d93ca3bfa40c9ee96f89d1e689_icgraph" id="classFrame_aa32884d93ca3bfa40c9ee96f89d1e689_icgraph">
-<area shape="rect" id="node2" href="classFrame.html#a1151c62bfba51f5e2fd979dd4b856829" title="Frame::Dissect" alt="" coords="179,56,293,83"/>
-<area shape="rect" id="node4" href="classProtocolState.html#a444c95c26410e631068fa56012d342fe" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="576,74,743,115"/>
-<area shape="rect" id="node7" href="classFrameGenerator.html#a412b0e1431b1deebda54481be60f9ade" title="FrameGenerator::Serialize\lFrame" alt="" coords="341,158,528,199"/>
-<area shape="rect" id="node3" href="classFrame.html#a13630eb08ee9c95f5102051d9dea1256" title="Frame::HasPayload" alt="" coords="363,5,507,32"/>
-<area shape="rect" id="node5" href="classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="791,74,985,115"/>
-<area shape="rect" id="node6" href="classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c" title="ProtocolState::AddReceived\lRawBytes" alt="" coords="1033,74,1231,115"/>
-</map>
-</div>
-</p>
-
-</div>
-</div>
-<a class="anchor" id="a13630eb08ee9c95f5102051d9dea1256"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Frame::HasPayload </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="Frame_8h_source.html#l00087">87</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
+<p>Definition at line <a class="el" href="Frame_8h_source.html#l00055">55</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classFrame_a13630eb08ee9c95f5102051d9dea1256_cgraph.png" border="0" usemap="#classFrame_a13630eb08ee9c95f5102051d9dea1256_cgraph" alt=""/></div>
-<map name="classFrame_a13630eb08ee9c95f5102051d9dea1256_cgraph" id="classFrame_a13630eb08ee9c95f5102051d9dea1256_cgraph">
-<area shape="rect" id="node2" href="classFrame.html#a1151c62bfba51f5e2fd979dd4b856829" title="Frame::Dissect" alt="" coords="197,183,312,209"/>
-<area shape="rect" id="node3" href="classFrame.html#ac82e03633b6cd38ced564aa456e0f2d4" title="Frame::IsIFrame" alt="" coords="399,5,522,32"/>
-<area shape="rect" id="node4" href="classFrame.html#a58f2fc1e3ad0d33ee9dd6622ed38c968" title="Frame::GetAddress" alt="" coords="389,56,532,83"/>
-<area shape="rect" id="node5" href="classFrame.html#a498584c896fb9b1bcfb4d9feb07d3ce0" title="Frame::IsPF" alt="" coords="413,107,509,133"/>
-<area shape="rect" id="node6" href="classFrame.html#aa32884d93ca3bfa40c9ee96f89d1e689" title="Frame::GetSSeq" alt="" coords="398,157,523,184"/>
-<area shape="rect" id="node7" href="classFrame.html#aef3e9688379b3f8db0c13371a576be47" title="Frame::GetRSeq" alt="" coords="397,208,524,235"/>
-<area shape="rect" id="node8" href="classFrame.html#a13b12ad3561c2058344584ddd6b03470" title="Frame::IsSFrame" alt="" coords="397,259,525,285"/>
-<area shape="rect" id="node9" href="classFrame.html#abf6b7db82f0c9d1b701c28e89f68607c" title="Frame::GetHDLCFrameType" alt="" coords="360,309,561,336"/>
-<area shape="rect" id="node10" href="classFrame.html#a34fd3215c8b5cc61fe37f0a096048f32" title="Frame::IsUFrame" alt="" coords="396,360,525,387"/>
-</map>
-</div>
-</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classFrame_a13630eb08ee9c95f5102051d9dea1256_icgraph.png" border="0" usemap="#classFrame_a13630eb08ee9c95f5102051d9dea1256_icgraph" alt=""/></div>
-<map name="classFrame_a13630eb08ee9c95f5102051d9dea1256_icgraph" id="classFrame_a13630eb08ee9c95f5102051d9dea1256_icgraph">
-<area shape="rect" id="node2" href="classProtocolState.html#a444c95c26410e631068fa56012d342fe" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="197,5,364,47"/>
-<area shape="rect" id="node3" href="classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="412,5,607,47"/>
-<area shape="rect" id="node4" href="classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c" title="ProtocolState::AddReceived\lRawBytes" alt="" coords="655,5,852,47"/>
+<div class="center"><img src="classFrame_a810569ed2d6c96aab5452c6fc4fef7f4_cgraph.png" border="0" usemap="#classFrame_a810569ed2d6c96aab5452c6fc4fef7f4_cgraph" alt=""/></div>
+<map name="classFrame_a810569ed2d6c96aab5452c6fc4fef7f4_cgraph" id="classFrame_a810569ed2d6c96aab5452c6fc4fef7f4_cgraph">
+<area shape="rect" id="node2" href="classFrame.html#adb9ae2902f56b8df524bc5be8975293e" title="Frame::Deserialize" alt="" coords="193,5,332,32"/>
 </map>
 </div>
 </p>
 
 </div>
 </div>
-<a class="anchor" id="a2a5f62465222f252bf8c0098e453d133"></a>
+<a class="anchor" id="ad25373889d9cceacc902b98339456ee4"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -573,7 +335,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool Frame::IsEmpty </td>
+          <td class="memname">virtual const std::vector&lt;unsigned char&gt; Frame::Serialize </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -581,28 +343,26 @@ Here is the caller graph for this function:</div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Frame_8h_source.html#l00071">71</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
-
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classFrame_a2a5f62465222f252bf8c0098e453d133_icgraph.png" border="0" usemap="#classFrame_a2a5f62465222f252bf8c0098e453d133_icgraph" alt=""/></div>
-<map name="classFrame_a2a5f62465222f252bf8c0098e453d133_icgraph" id="classFrame_a2a5f62465222f252bf8c0098e453d133_icgraph">
-<area shape="rect" id="node2" href="classProtocolState.html#a444c95c26410e631068fa56012d342fe" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="172,5,339,47"/>
-<area shape="rect" id="node3" href="classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="387,5,581,47"/>
-<area shape="rect" id="node4" href="classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c" title="ProtocolState::AddReceived\lRawBytes" alt="" coords="629,5,827,47"/>
+<div class="center"><img src="classFrame_ad25373889d9cceacc902b98339456ee4_icgraph.png" border="0" usemap="#classFrame_ad25373889d9cceacc902b98339456ee4_icgraph" alt=""/></div>
+<map name="classFrame_ad25373889d9cceacc902b98339456ee4_icgraph" id="classFrame_ad25373889d9cceacc902b98339456ee4_icgraph">
+<area shape="rect" id="node2" href="classFrame.html#acd1d3c822166a747d42edaf97c770a5c" title="Frame::~Frame" alt="" coords="217,5,333,32"/>
+<area shape="rect" id="node3" href="classFrameEndpoint.html#aa672b6a8a3444735ee233f9dc7c55d41" title="FrameEndpoint::SendFrame" alt="" coords="176,56,373,83"/>
 </map>
 </div>
 </p>
 
 </div>
 </div>
-<a class="anchor" id="ac82e03633b6cd38ced564aa456e0f2d4"></a>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a2e811bd64b50c9c8f5afd3236a5325ca"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -610,38 +370,21 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool Frame::IsIFrame </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td class="memname">std::vector&lt;unsigned char&gt; Frame::m_Buffer</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Frame_8h_source.html#l00072">72</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classFrame_ac82e03633b6cd38ced564aa456e0f2d4_icgraph.png" border="0" usemap="#classFrame_ac82e03633b6cd38ced564aa456e0f2d4_icgraph" alt=""/></div>
-<map name="classFrame_ac82e03633b6cd38ced564aa456e0f2d4_icgraph" id="classFrame_ac82e03633b6cd38ced564aa456e0f2d4_icgraph">
-<area shape="rect" id="node2" href="classFrame.html#a1151c62bfba51f5e2fd979dd4b856829" title="Frame::Dissect" alt="" coords="176,56,291,83"/>
-<area shape="rect" id="node4" href="classProtocolState.html#a444c95c26410e631068fa56012d342fe" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="531,49,697,90"/>
-<area shape="rect" id="node3" href="classFrame.html#a13630eb08ee9c95f5102051d9dea1256" title="Frame::HasPayload" alt="" coords="339,5,483,32"/>
-<area shape="rect" id="node5" href="classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="745,49,940,90"/>
-<area shape="rect" id="node6" href="classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c" title="ProtocolState::AddReceived\lRawBytes" alt="" coords="988,49,1185,90"/>
-</map>
-</div>
-</p>
+<p>Definition at line <a class="el" href="Frame_8h_source.html#l00093">93</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a498584c896fb9b1bcfb4d9feb07d3ce0"></a>
+<a class="anchor" id="a17df3390173d38e71e3a69c5142ec5b3"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -649,347 +392,22 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool Frame::IsPF </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td class="memname">size_t Frame::m_BytesRemaining</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Frame_8h_source.html#l00077">77</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classFrame_a498584c896fb9b1bcfb4d9feb07d3ce0_icgraph.png" border="0" usemap="#classFrame_a498584c896fb9b1bcfb4d9feb07d3ce0_icgraph" alt=""/></div>
-<map name="classFrame_a498584c896fb9b1bcfb4d9feb07d3ce0_icgraph" id="classFrame_a498584c896fb9b1bcfb4d9feb07d3ce0_icgraph">
-<area shape="rect" id="node2" href="classFrame.html#a1151c62bfba51f5e2fd979dd4b856829" title="Frame::Dissect" alt="" coords="149,56,264,83"/>
-<area shape="rect" id="node7" href="classFrameGenerator.html#a412b0e1431b1deebda54481be60f9ade" title="FrameGenerator::Serialize\lFrame" alt="" coords="312,107,499,149"/>
-<area shape="rect" id="node3" href="classFrame.html#a13630eb08ee9c95f5102051d9dea1256" title="Frame::HasPayload" alt="" coords="333,5,477,32"/>
-<area shape="rect" id="node4" href="classProtocolState.html#a444c95c26410e631068fa56012d342fe" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="547,49,713,90"/>
-<area shape="rect" id="node5" href="classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="761,49,956,90"/>
-<area shape="rect" id="node6" href="classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c" title="ProtocolState::AddReceived\lRawBytes" alt="" coords="1004,49,1201,90"/>
-</map>
-</div>
-</p>
+<p>Definition at line <a class="el" href="Frame_8h_source.html#l00094">94</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a13b12ad3561c2058344584ddd6b03470"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Frame::IsSFrame </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="Frame_8h_source.html#l00073">73</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classFrame_a13b12ad3561c2058344584ddd6b03470_icgraph.png" border="0" usemap="#classFrame_a13b12ad3561c2058344584ddd6b03470_icgraph" alt=""/></div>
-<map name="classFrame_a13b12ad3561c2058344584ddd6b03470_icgraph" id="classFrame_a13b12ad3561c2058344584ddd6b03470_icgraph">
-<area shape="rect" id="node2" href="classFrame.html#a1151c62bfba51f5e2fd979dd4b856829" title="Frame::Dissect" alt="" coords="181,56,296,83"/>
-<area shape="rect" id="node4" href="classProtocolState.html#a444c95c26410e631068fa56012d342fe" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="536,49,703,90"/>
-<area shape="rect" id="node3" href="classFrame.html#a13630eb08ee9c95f5102051d9dea1256" title="Frame::HasPayload" alt="" coords="344,5,488,32"/>
-<area shape="rect" id="node5" href="classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="751,49,945,90"/>
-<area shape="rect" id="node6" href="classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c" title="ProtocolState::AddReceived\lRawBytes" alt="" coords="993,49,1191,90"/>
-</map>
-</div>
-</p>
-
-</div>
-</div>
-<a class="anchor" id="a34fd3215c8b5cc61fe37f0a096048f32"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Frame::IsUFrame </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="Frame_8h_source.html#l00074">74</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classFrame_a34fd3215c8b5cc61fe37f0a096048f32_icgraph.png" border="0" usemap="#classFrame_a34fd3215c8b5cc61fe37f0a096048f32_icgraph" alt=""/></div>
-<map name="classFrame_a34fd3215c8b5cc61fe37f0a096048f32_icgraph" id="classFrame_a34fd3215c8b5cc61fe37f0a096048f32_icgraph">
-<area shape="rect" id="node2" href="classFrame.html#a1151c62bfba51f5e2fd979dd4b856829" title="Frame::Dissect" alt="" coords="183,31,297,57"/>
-<area shape="rect" id="node3" href="classFrame.html#a13630eb08ee9c95f5102051d9dea1256" title="Frame::HasPayload" alt="" coords="345,5,489,32"/>
-<area shape="rect" id="node4" href="classProtocolState.html#a444c95c26410e631068fa56012d342fe" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="537,23,704,65"/>
-<area shape="rect" id="node5" href="classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="752,23,947,65"/>
-<area shape="rect" id="node6" href="classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c" title="ProtocolState::AddReceived\lRawBytes" alt="" coords="995,23,1192,65"/>
-</map>
-</div>
-</p>
-
-</div>
-</div>
-<a class="anchor" id="a6be2696299c5ef388cf7207c93719956"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Frame::SetAddress </td>
-          <td>(</td>
-          <td class="paramtype">unsigned char&#160;</td>
-          <td class="paramname"><em>a_Address</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="Frame_8h_source.html#l00047">47</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classFrame_a6be2696299c5ef388cf7207c93719956_icgraph.png" border="0" usemap="#classFrame_a6be2696299c5ef388cf7207c93719956_icgraph" alt=""/></div>
-<map name="classFrame_a6be2696299c5ef388cf7207c93719956_icgraph" id="classFrame_a6be2696299c5ef388cf7207c93719956_icgraph">
-<area shape="rect" id="node2" href="classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="409,5,604,47"/>
-<area shape="rect" id="node4" href="classProtocolState.html#a444c95c26410e631068fa56012d342fe" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="195,35,361,76"/>
-<area shape="rect" id="node3" href="classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c" title="ProtocolState::AddReceived\lRawBytes" alt="" coords="652,5,849,47"/>
-</map>
-</div>
-</p>
-
-</div>
-</div>
-<a class="anchor" id="a1315c8f7f4b3ff734d52ba9916d31f07"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Frame::SetHDLCFrameType </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classFrame.html#afd71dec90d756bd8bf18a1edfd0cc815">E_HDLC_FRAMETYPE</a>&#160;</td>
-          <td class="paramname"><em>a_eHDLCFrameType</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="Frame_8h_source.html#l00069">69</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classFrame_a1315c8f7f4b3ff734d52ba9916d31f07_icgraph.png" border="0" usemap="#classFrame_a1315c8f7f4b3ff734d52ba9916d31f07_icgraph" alt=""/></div>
-<map name="classFrame_a1315c8f7f4b3ff734d52ba9916d31f07_icgraph" id="classFrame_a1315c8f7f4b3ff734d52ba9916d31f07_icgraph">
-<area shape="rect" id="node2" href="classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="467,5,661,47"/>
-<area shape="rect" id="node4" href="classProtocolState.html#a444c95c26410e631068fa56012d342fe" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="252,35,419,76"/>
-<area shape="rect" id="node3" href="classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c" title="ProtocolState::AddReceived\lRawBytes" alt="" coords="709,5,907,47"/>
-</map>
-</div>
-</p>
-
-</div>
-</div>
-<a class="anchor" id="ae71f5145fcc08f58e383fb36c6382f69"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Frame::SetPayload </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; unsigned char &gt; &amp;&#160;</td>
-          <td class="paramname"><em>a_Payload</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="Frame_8h_source.html#l00085">85</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classFrame_ae71f5145fcc08f58e383fb36c6382f69_icgraph.png" border="0" usemap="#classFrame_ae71f5145fcc08f58e383fb36c6382f69_icgraph" alt=""/></div>
-<map name="classFrame_ae71f5145fcc08f58e383fb36c6382f69_icgraph" id="classFrame_ae71f5145fcc08f58e383fb36c6382f69_icgraph">
-<area shape="rect" id="node2" href="classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="408,5,603,47"/>
-<area shape="rect" id="node4" href="classProtocolState.html#a444c95c26410e631068fa56012d342fe" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="193,35,360,76"/>
-<area shape="rect" id="node3" href="classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c" title="ProtocolState::AddReceived\lRawBytes" alt="" coords="651,5,848,47"/>
-</map>
-</div>
-</p>
-
-</div>
-</div>
-<a class="anchor" id="a7a25fcede21f86b2cd32ae31c36bfad5"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Frame::SetPF </td>
-          <td>(</td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>a_PF</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="Frame_8h_source.html#l00076">76</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classFrame_a7a25fcede21f86b2cd32ae31c36bfad5_icgraph.png" border="0" usemap="#classFrame_a7a25fcede21f86b2cd32ae31c36bfad5_icgraph" alt=""/></div>
-<map name="classFrame_a7a25fcede21f86b2cd32ae31c36bfad5_icgraph" id="classFrame_a7a25fcede21f86b2cd32ae31c36bfad5_icgraph">
-<area shape="rect" id="node2" href="classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="375,5,569,47"/>
-<area shape="rect" id="node4" href="classProtocolState.html#a444c95c26410e631068fa56012d342fe" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="160,35,327,76"/>
-<area shape="rect" id="node3" href="classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c" title="ProtocolState::AddReceived\lRawBytes" alt="" coords="617,5,815,47"/>
-</map>
-</div>
-</p>
-
-</div>
-</div>
-<a class="anchor" id="a549cb75253c36b4e6461b132de8416a2"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Frame::SetRSeq </td>
-          <td>(</td>
-          <td class="paramtype">unsigned char&#160;</td>
-          <td class="paramname"><em>a_RSeq</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="Frame_8h_source.html#l00079">79</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classFrame_a549cb75253c36b4e6461b132de8416a2_icgraph.png" border="0" usemap="#classFrame_a549cb75253c36b4e6461b132de8416a2_icgraph" alt=""/></div>
-<map name="classFrame_a549cb75253c36b4e6461b132de8416a2_icgraph" id="classFrame_a549cb75253c36b4e6461b132de8416a2_icgraph">
-<area shape="rect" id="node2" href="classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="392,5,587,47"/>
-<area shape="rect" id="node4" href="classProtocolState.html#a444c95c26410e631068fa56012d342fe" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="177,35,344,76"/>
-<area shape="rect" id="node3" href="classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c" title="ProtocolState::AddReceived\lRawBytes" alt="" coords="635,5,832,47"/>
-</map>
-</div>
-</p>
-
-</div>
-</div>
-<a class="anchor" id="a4060e97604cb4b8da35032e10ee3c895"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Frame::SetSSeq </td>
-          <td>(</td>
-          <td class="paramtype">unsigned char&#160;</td>
-          <td class="paramname"><em>a_SSeq</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="Frame_8h_source.html#l00082">82</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classFrame_a4060e97604cb4b8da35032e10ee3c895_icgraph.png" border="0" usemap="#classFrame_a4060e97604cb4b8da35032e10ee3c895_icgraph" alt=""/></div>
-<map name="classFrame_a4060e97604cb4b8da35032e10ee3c895_icgraph" id="classFrame_a4060e97604cb4b8da35032e10ee3c895_icgraph">
-<area shape="rect" id="node2" href="classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="391,5,585,47"/>
-<area shape="rect" id="node4" href="classProtocolState.html#a444c95c26410e631068fa56012d342fe" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="176,35,343,76"/>
-<area shape="rect" id="node3" href="classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c" title="ProtocolState::AddReceived\lRawBytes" alt="" coords="633,5,831,47"/>
-</map>
-</div>
-</p>
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following files:<ul>
-<li>src/SerialPort/HDLC/<a class="el" href="Frame_8h_source.html">Frame.h</a></li>
-<li>src/SerialPort/HDLC/<a class="el" href="Frame_8cpp_source.html">Frame.cpp</a></li>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li>libs/framing/src/<a class="el" href="Frame_8h_source.html">Frame.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
