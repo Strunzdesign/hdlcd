@@ -20,17 +20,14 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -Wextra")
 # Automatically set the version number
 set(HDLCD_VERSION_MAJOR  \"1\")
 set(HDLCD_VERSION_MINOR  \"3pre\")
-include_directories("${PROJECT_BINARY_DIR}/src")
+include_directories(
+    "${PROJECT_BINARY_DIR}/src"
+    "${PROJECT_SOURCE_DIR}/libs/framing/src"
+    "${PROJECT_SOURCE_DIR}/libs/hdlcd-devel/src"
+)
 configure_file (
     "${PROJECT_SOURCE_DIR}/src/Config.h.in"
     "${PROJECT_BINARY_DIR}/src/Config.h"
 )
-
-# Add include path for Microsoft Windows
-set(HDLCD_DEVEL_INCLUDE_DIR "/usr/local/include" CACHE FILEPATH "/usr/local/include")
-if (NOT EXISTS ${HDLCD_DEVEL_INCLUDE_DIR}/HdlcdConfig.h)
-    message(SEND_ERROR "Can't find the HDLC daemon header files in ${HDLCD_DEVEL_INCLUDE_DIR}")
-endif()
-include_directories(${HDLCD_DEVEL_INCLUDE_DIR})
 
 add_subdirectory(src)
