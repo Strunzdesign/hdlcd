@@ -4,19 +4,14 @@ The HDLC Daemon (HDLCd) implement the HDLC protocol to easily talk to devices co
 This package offers the "HDLC Daemon" (HDLCd) that implements the "High-level Data Link Control" protocol (HDLC).
 The purpose of this deamon is to easily use serial devices that make use of the HDLC protocol for communication.
 Currently it is tailored to the stripped-down flavor of HDLC offered by the s-net(r) sensor tags by the Fraunhofer-Institute
-for Integrated Circuits (IIS).
+for Integrated Circuits (IIS). The HDLCd itself offers simple TCP-based connectivity using a simple command- and framing structure. 
 
 This software is intended to be portable and makes use of the boost libraries. It was tested on GNU/Linux (GCC toolchain)
 and Microsoft Windows (nuwen MinGW).
 
-The HDLCd itself offers simple TCP-based connectivity using a simple command- and framing structure. Before being able
-to compile it from the provided sources, you have to install the shared header files from this repository:
-- https://github.com/Strunzdesign/hdlcd-devel
-
 Multiple client-like tools to access the HDLCd for multiple use-cases are available in seperate repositories:
 - https://github.com/Strunzdesign/hdlcd-tools
 - https://github.com/Strunzdesign/snet-tools
-- You must install the header files from the hdlcd-devel first to be able to compile the software from these repositories!
 
 Stable releases of the HDLCd:
 - v1.2 from 23.08.2016
@@ -37,6 +32,7 @@ Current state:
 - v1.3pre (git master branch)
   - The shared header files were moved to the hdlcd-devel repository at https://github.com/Strunzdesign/hdlcd-devel
   - Requires the header files from https://github.com/Strunzdesign/hdlcd-devel for compilation!
+  - Makes use of git submodules for "externals"
 
 - Since 25.07.2016 the master branch is considered stable to be used for the s-net(r) devices of the Fraunhofer-Institute for Integrated Circuits IIS
 - HDLCd v1.1 works well with s-net(r) BASE release 3.6
