@@ -17,7 +17,6 @@ Stable releases of the HDLCd:
 - v1.3 from 06.10.2016
   - Multiple bug fixes and stability improvements
   - The shared header files were moved to the hdlcd-devel repository at https://github.com/Strunzdesign/hdlcd-devel
-  - Requires the header files from https://github.com/Strunzdesign/hdlcd-devel for compilation!
   - Makes use of git submodules for "externals"
 
 - v1.2 from 23.08.2016
