@@ -2,7 +2,7 @@
 How to install the HDLC Daemon "hdlcd" and the header files
 ===
 
-For GNU/Linux:
+Initial download and setup on GNU/Linux:
 ---
 On GNU/Linux systems, installation is easy, as long as the required tools are available.
 
@@ -12,7 +12,7 @@ Preparations:
 - Install the "CMake" build system
 
 To compile and to install the HDLC daemon, just follow these steps:
-1.) git clone https://github.com/Strunzdesign/hdlcd.git
+1.) git clone --recursive https://github.com/Strunzdesign/hdlcd.git
 2.) cd hdlcd
 3.) mkdir build
 4.) cd build
@@ -24,7 +24,7 @@ The "hdlcd" binary will be installed to "/usr/local/bin/"
 
 
 
-For Microsoft Windows 7:
+Initial download and setup on Microsoft Windows 7:
 ---
 For Microsoft Windows, one has to install the toolchain first.
 
@@ -37,7 +37,7 @@ Preparations:
 
 To compile and to install the HDLC daemon, just follow these steps:
 1.) Go to your projects' folder and open a shell there
-2.) git clone https://github.com/Strunzdesign/hdlcd.git
+2.) git clone --recursive https://github.com/Strunzdesign/hdlcd.git
 3.) cd hdlcd
 4.) mkdir build
 5.) cd build
@@ -48,5 +48,16 @@ To compile and to install the HDLC daemon, just follow these steps:
 10.) make install
 
 The "hdlcd" binary will be installed to "C:\hdlcd\bin\" if not specified differently.
+
+
+
+Update and reompile your local repository (same for all OS):
+---
+1.) cd snet-devel
+2.) git pull
+3.) git submodule update
+4.) cd build
+5.) make
+6.) make install
 
 Have fun :-)
