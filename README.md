@@ -34,7 +34,7 @@ Stable releases of the HDLCd:
   - First tested version without any open issues
 
 Current state:
-- v1.3pre (git master branch)
+- v1.4pre (git master branch)
 
 - Since 25.07.2016 the master branch is considered stable to be used for the s-net(r) devices of the Fraunhofer-Institute for Integrated Circuits IIS
 - HDLCd v1.1 works well with s-net(r) BASE release 3.6
