@@ -4,7 +4,7 @@ The HDLC Daemon (HDLCd) implement the HDLC protocol to easily talk to devices co
 This package offers the "HDLC Daemon" (HDLCd) that implements the "High-level Data Link Control" protocol (HDLC).
 The purpose of this deamon is to easily use serial devices that make use of the HDLC protocol for communication.
 Currently it is tailored to the stripped-down flavor of HDLC offered by the s-net(r) sensor tags by the Fraunhofer-Institute
-for Integrated Circuits (IIS). The HDLCd itself offers simple TCP-based connectivity using a simple command- and framing structure. 
+for Integrated Circuits (IIS). The HDLCd itself offers TCP-based connectivity using framing for the control- and user-plane.
 
 This software is intended to be portable and makes use of the boost libraries. It was tested on GNU/Linux (GCC toolchain)
 and Microsoft Windows (nuwen MinGW).
