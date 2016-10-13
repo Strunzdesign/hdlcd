@@ -9,11 +9,6 @@ for Integrated Circuits (IIS). The HDLCd itself offers TCP-based connectivity us
 This software is intended to be portable and makes use of the boost libraries. It was tested on GNU/Linux (GCC toolchain)
 and Microsoft Windows (nuwen MinGW).
 
-## Try multiple client-like tools to access the HDLCd for multiple use-cases:
-- https://github.com/Strunzdesign/hdlcd-tools
-- https://github.com/Strunzdesign/snet-tools
-- https://github.com/Strunzdesign/snet-gateway
-
 ## Latest stable release of the HDLCd:
 - v1.3 from 06.10.2016
   - Works well with s-net(r) BASE release 3.6
@@ -29,3 +24,8 @@ and Microsoft Windows (nuwen MinGW).
 - See online doxygen documentation at http://strunzdesign.github.io/hdlcd/
 - Check the change log at https://github.com/Strunzdesign/hdlcd/blob/master/CHANGELOG.md
 - Read the specification of the HDLCd access protocol at https://github.com/Strunzdesign/hdlcd/blob/master/doc/protocol.txt
+
+## Try multiple client-like tools to access the HDLCd for multiple use-cases:
+- https://github.com/Strunzdesign/hdlcd-tools
+- https://github.com/Strunzdesign/snet-tools
+- https://github.com/Strunzdesign/snet-gateway
