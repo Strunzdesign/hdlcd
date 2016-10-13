@@ -9,7 +9,7 @@ for Integrated Circuits (IIS). The HDLCd itself offers TCP-based connectivity us
 This software is intended to be portable and makes use of the boost libraries. It was tested on GNU/Linux (GCC toolchain)
 and Microsoft Windows (nuwen MinGW).
 
-## Multiple client-like tools to access the HDLCd for multiple use-cases are available in seperate repositories:
+## Try multiple client-like tools to access the HDLCd for multiple use-cases:
 - https://github.com/Strunzdesign/hdlcd-tools
 - https://github.com/Strunzdesign/snet-tools
 - https://github.com/Strunzdesign/snet-gateway
