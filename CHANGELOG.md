@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 - Added this Changelog
 
 ### Removed
-- Changelog information from file README.md
+- Removed changelog information from file README.md
 
 ### Fixed
 - Fixed minor issues in the documentation and messages
