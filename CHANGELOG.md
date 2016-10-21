@@ -53,6 +53,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 - First tested version without any open issues
 
+
 [Unreleased]: https://github.com/Strunzdesign/hdlcd/compare/v1.3...HEAD
 [1.3]: https://github.com/Strunzdesign/hdlcd/compare/v1.2...v1.3
 [1.2]: https://github.com/Strunzdesign/hdlcd/compare/v1.1...v1.2
