@@ -7,14 +7,14 @@
 <area shape="rect" id="node26" href="$HdlcdPacketCtrl_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="441,169,575,196"/>
 <area shape="rect" id="node27" href="$HdlcdPacketEndpoint_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="337,95,505,121"/>
 <area shape="rect" id="node29" href="$FrameEndpoint_8h.html" title="This file contains the header declaration of class FrameEndpoint. " alt="" coords="235,169,365,196"/>
-<area shape="rect" id="node30" href="$HdlcdSessionHeader_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="1457,169,1623,196"/>
+<area shape="rect" id="node30" href="$HdlcdSessionHeader_8h.html" title="This file contains the header declaration of class HdlcdSessionHeader. " alt="" coords="1457,169,1623,196"/>
 <area shape="rect" id="node9" href="$AliveGuard_8h.html" title="This file contains the header declaration of class AliveGuard. " alt="" coords="1278,169,1381,196"/>
 <area shape="rect" id="node10" href="$LockGuard_8h.html" title="This file contains the header declaration of class LockGuard. " alt="" coords="818,169,921,196"/>
 <area shape="rect" id="node11" href="$BufferType_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="1995,319,2098,345"/>
 <area shape="rect" id="node17" href="$ISerialPortHandler_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="2045,244,2195,271"/>
 <area shape="rect" id="node18" href="$SerialPortLock_8h.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="2339,244,2464,271"/>
 <area shape="rect" id="node20" href="$BaudRate_8h.html" title="This file contains the header declaration of class BaudRate. " alt="" coords="2219,244,2314,271"/>
-<area shape="rect" id="node22" href="$HdlcdPacket_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="643,244,755,271"/>
+<area shape="rect" id="node22" href="$HdlcdPacket_8h.html" title="This file contains the header declaration of class HdlcdPacket. " alt="" coords="643,244,755,271"/>
 <area shape="rect" id="node23" href="$Frame_8h.html" title="This file contains the header declaration of class Frame. " alt="" coords="662,319,735,345"/>
-<area shape="rect" id="node31" href="$HdlcdSessionDescriptor_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="1448,244,1632,271"/>
+<area shape="rect" id="node31" href="$HdlcdSessionDescriptor_8h.html" title="This file contains the header declaration of class HdlcdSessionDescriptor. " alt="" coords="1448,244,1632,271"/>
 </map>

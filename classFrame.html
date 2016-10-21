@@ -123,8 +123,8 @@ Inheritance diagram for Frame:</div>
 <div class="dyncontent">
 <div class="center"><img src="classFrame__inherit__graph.png" border="0" usemap="#Frame_inherit__map" alt="Inheritance graph"/></div>
 <map name="Frame_inherit__map" id="Frame_inherit__map">
-<area shape="rect" id="node2" href="classHdlcdPacket.html" title="HdlcdPacket" alt="" coords="91,80,192,107"/>
-<area shape="rect" id="node5" href="classHdlcdSessionHeader.html" title="HdlcdSessionHeader" alt="" coords="216,80,371,107"/>
+<area shape="rect" id="node2" href="classHdlcdPacket.html" title="Class HdlcdPacket. " alt="" coords="91,80,192,107"/>
+<area shape="rect" id="node5" href="classHdlcdSessionHeader.html" title="Class HdlcdSessionHeader. " alt="" coords="216,80,371,107"/>
 <area shape="rect" id="node3" href="classHdlcdPacketCtrl.html" title="HdlcdPacketCtrl" alt="" coords="5,155,128,181"/>
 <area shape="rect" id="node4" href="classHdlcdPacketData.html" title="HdlcdPacketData" alt="" coords="152,155,283,181"/>
 </map>
@@ -262,8 +262,8 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Query the amount of outstanding data during reception for frame assembly. </p>
-<p>This method is called by a <a class="el" href="classFrameEndpoint.html" title="Class FrameEndpoint. ">FrameEndpoint</a> entity in the phase of reception. It is used to query the amount of bytes that are still required to assemble a full frame of the specific type by reading from a TCP socket. Depending on the internal structure of a frame it is possible that it read in multiple stages, e.g., if at first a length field of a known length has to be read followed by the remainder containing a dynamic amount of bytes. Such a logic has to be implemented in the <a class="el" href="classFrame.html#adb9ae2902f56b8df524bc5be8975293e" title="The purely virtual deserializer method. ">Deserialize()</a> method.</p>
-<dl class="section return"><dt>Returns</dt><dd>size_t, the amount subsequent bytes required to assemble the frame </dd></dl>
+<p>This method is called by a <a class="el" href="classFrameEndpoint.html" title="Class FrameEndpoint. ">FrameEndpoint</a> entity in the phase of reception. It is used to query the amount of bytes that are required to assemble a full frame of the specific type by reading from a TCP socket. Depending on the internal structure of a frame it is possible that it read in multiple stages, e.g., if at first a length field of a known length has to be read followed by the remainder containing a dynamic amount of bytes. Such a logic has to be implemented in the <a class="el" href="classFrame.html#adb9ae2902f56b8df524bc5be8975293e" title="The purely virtual deserializer method. ">Deserialize()</a> method of the derived class.</p>
+<dl class="section return"><dt>Returns</dt><dd>size_t the amount subsequent bytes required to assemble the frame </dd></dl>
 
 <p>Definition at line <a class="el" href="Frame_8h_source.html#l00091">91</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
 
@@ -294,12 +294,12 @@ Here is the call graph for this function:</div>
 <p>This purely virtual deserializer method has to be implemented in the derived class. Here the user specifies the format of the frame's fields for frames that are received. This method is solely called by the <a class="el" href="classFrame.html#a810569ed2d6c96aab5452c6fc4fef7f4" title="Deliver a chunk of received bytes in the phase of deserialization. ">ParseBytes()</a> method after a specified amount of bytes was successfully received.</p>
 <dl class="retval"><dt>Return values</dt><dd>
   <table class="retval">
-    <tr><td class="paramname">true,if</td><td>no error occured </td></tr>
-    <tr><td class="paramname">false,if</td><td>a protocol violation was detected </td></tr>
+    <tr><td class="paramname">true</td><td>no error occured </td></tr>
+    <tr><td class="paramname">false</td><td>a protocol violation was detected </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>bool to indicate success or failure of parsing the provided chunk of bytes </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Indicates success or failure of parsing the provided chunk of bytes </dd></dl>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -363,12 +363,12 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="retval"><dt>Return values</dt><dd>
   <table class="retval">
-    <tr><td class="paramname">true,if</td><td>no error occured </td></tr>
-    <tr><td class="paramname">false,if</td><td>a protocol violation was detected. The stream is invalid now and the TCP socket must be closed </td></tr>
+    <tr><td class="paramname">true</td><td>no error occured </td></tr>
+    <tr><td class="paramname">false</td><td>a protocol violation was detected. The stream is invalid now and the TCP socket must be closed </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>bool, to indicate success or failure of parsing the provided chunk of bytes </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Indicates success or failure of parsing the provided chunk of bytes </dd></dl>
 
 <p>Definition at line <a class="el" href="Frame_8h_source.html#l00107">107</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
 
@@ -407,7 +407,7 @@ Here is the call graph for this function:</div>
 
 <p>The purely virtual serializer method. </p>
 <p>This purely virtual serializer method has to be implemented in the derived class. Here the user specifies the format of the frame's fields for frames that are transmitted. This method is solely called by an <a class="el" href="classFrameEndpoint.html" title="Class FrameEndpoint. ">FrameEndpoint</a> entity.</p>
-<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;unsigned char&gt;, the buffer containing the serialized frame ready for transmission </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A buffer containing the serialized frame ready for transmission </dd></dl>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>

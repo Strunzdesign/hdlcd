@@ -113,6 +113,9 @@ $(document).ready(function(){initNavTree('classHdlcdSessionHeader.html','');});
 </div><!--header-->
 <div class="contents">
 
+<p>Class <a class="el" href="classHdlcdSessionHeader.html" title="Class HdlcdSessionHeader. ">HdlcdSessionHeader</a>.  
+ <a href="classHdlcdSessionHeader.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="HdlcdSessionHeader_8h_source.html">HdlcdSessionHeader.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for HdlcdSessionHeader:</div>
@@ -134,8 +137,10 @@ Collaboration diagram for HdlcdSessionHeader:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a9d3e518746201d5fd66b2e3b2e7b0f27"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHdlcdSessionHeader.html#a9d3e518746201d5fd66b2e3b2e7b0f27">GetServiceAccessPointSpecifier</a> () const </td></tr>
+<tr class="memdesc:a9d3e518746201d5fd66b2e3b2e7b0f27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Query the service access point specifier octett.  <a href="#a9d3e518746201d5fd66b2e3b2e7b0f27">More...</a><br /></td></tr>
 <tr class="separator:a9d3e518746201d5fd66b2e3b2e7b0f27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe05e7c0fb98a83549d0210de5186bff"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHdlcdSessionHeader.html#abe05e7c0fb98a83549d0210de5186bff">GetSerialPortName</a> () const </td></tr>
+<tr class="memdesc:abe05e7c0fb98a83549d0210de5186bff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Query the file name of the serial port.  <a href="#abe05e7c0fb98a83549d0210de5186bff">More...</a><br /></td></tr>
 <tr class="separator:abe05e7c0fb98a83549d0210de5186bff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classFrame"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classFrame')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classFrame.html">Frame</a></td></tr>
 <tr class="memitem:ad2e5946cf41d4817e750500acf05d02b inherit pub_methods_classFrame"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#ad2e5946cf41d4817e750500acf05d02b">Frame</a> ()</td></tr>
@@ -154,8 +159,10 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:ac552cce3f56b8ff5ae6f9aa715b83396"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classHdlcdSessionHeader.html">HdlcdSessionHeader</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHdlcdSessionHeader.html#ac552cce3f56b8ff5ae6f9aa715b83396">Create</a> (<a class="el" href="classHdlcdSessionDescriptor.html">HdlcdSessionDescriptor</a> a_HdlcdSessionDescriptor, const std::string &amp;a_SerialPortName)</td></tr>
+<tr class="memdesc:ac552cce3f56b8ff5ae6f9aa715b83396"><td class="mdescLeft">&#160;</td><td class="mdescRight">Static creator to create an object in the process of transmission.  <a href="#ac552cce3f56b8ff5ae6f9aa715b83396">More...</a><br /></td></tr>
 <tr class="separator:ac552cce3f56b8ff5ae6f9aa715b83396"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae1d1128bf1236d60a043255ffc9fc98e"><td class="memItemLeft" align="right" valign="top">static std::shared_ptr&lt; <a class="el" href="classHdlcdSessionHeader.html">HdlcdSessionHeader</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHdlcdSessionHeader.html#ae1d1128bf1236d60a043255ffc9fc98e">CreateDeserializedFrame</a> ()</td></tr>
+<tr class="memdesc:ae1d1128bf1236d60a043255ffc9fc98e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Static creator to create an object in the process of reception.  <a href="#ae1d1128bf1236d60a043255ffc9fc98e">More...</a><br /></td></tr>
 <tr class="separator:ae1d1128bf1236d60a043255ffc9fc98e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
@@ -169,8 +176,10 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:a17df3390173d38e71e3a69c5142ec5b3 inherit pro_attribs_classFrame"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="HdlcdSessionHeader_8h_source.html#l00045">45</a> of file <a class="el" href="HdlcdSessionHeader_8h_source.html">HdlcdSessionHeader.h</a>.</p>
+<div class="textblock"><p>Class <a class="el" href="classHdlcdSessionHeader.html" title="Class HdlcdSessionHeader. ">HdlcdSessionHeader</a>. </p>
+<p>This class implements the session header as specified in the HDLCd access protocol. It inherits from the <a class="el" href="classFrame.html" title="Class Frame. ">Frame</a> class and thus allows easy exchange via <a class="el" href="classFrameEndpoint.html" title="Class FrameEndpoint. ">FrameEndpoint</a> entities. </p>
+
+<p>Definition at line <a class="el" href="HdlcdSessionHeader_8h_source.html#l00053">53</a> of file <a class="el" href="HdlcdSessionHeader_8h_source.html">HdlcdSessionHeader.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="ac552cce3f56b8ff5ae6f9aa715b83396"></a>
 <div class="memitem">
@@ -204,7 +213,17 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="HdlcdSessionHeader_8h_source.html#l00047">47</a> of file <a class="el" href="HdlcdSessionHeader_8h_source.html">HdlcdSessionHeader.h</a>.</p>
+<p>Static creator to create an object in the process of transmission. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a_HdlcdSessionDescriptor</td><td>the service access point specifier octett </td></tr>
+    <tr><td class="paramname">a_SerialPortName</td><td>the file name of the serial port</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The created HDLCd session header object </dd></dl>
+
+<p>Definition at line <a class="el" href="HdlcdSessionHeader_8h_source.html#l00062">62</a> of file <a class="el" href="HdlcdSessionHeader_8h_source.html">HdlcdSessionHeader.h</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -239,7 +258,10 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="HdlcdSessionHeader_8h_source.html#l00055">55</a> of file <a class="el" href="HdlcdSessionHeader_8h_source.html">HdlcdSessionHeader.h</a>.</p>
+<p>Static creator to create an object in the process of reception. </p>
+<dl class="section return"><dt>Returns</dt><dd>The created but empty HDLCd session header object </dd></dl>
+
+<p>Definition at line <a class="el" href="HdlcdSessionHeader_8h_source.html#l00074">74</a> of file <a class="el" href="HdlcdSessionHeader_8h_source.html">HdlcdSessionHeader.h</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -274,7 +296,10 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="HdlcdSessionHeader_8h_source.html#l00069">69</a> of file <a class="el" href="HdlcdSessionHeader_8h_source.html">HdlcdSessionHeader.h</a>.</p>
+<p>Query the file name of the serial port. </p>
+<dl class="section return"><dt>Returns</dt><dd>The file name of the serial port </dd></dl>
+
+<p>Definition at line <a class="el" href="HdlcdSessionHeader_8h_source.html#l00095">95</a> of file <a class="el" href="HdlcdSessionHeader_8h_source.html">HdlcdSessionHeader.h</a>.</p>
 
 </div>
 </div>
@@ -299,7 +324,10 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="HdlcdSessionHeader_8h_source.html#l00064">64</a> of file <a class="el" href="HdlcdSessionHeader_8h_source.html">HdlcdSessionHeader.h</a>.</p>
+<p>Query the service access point specifier octett. </p>
+<dl class="section return"><dt>Returns</dt><dd>The service access point specifier octett </dd></dl>
+
+<p>Definition at line <a class="el" href="HdlcdSessionHeader_8h_source.html#l00086">86</a> of file <a class="el" href="HdlcdSessionHeader_8h_source.html">HdlcdSessionHeader.h</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>

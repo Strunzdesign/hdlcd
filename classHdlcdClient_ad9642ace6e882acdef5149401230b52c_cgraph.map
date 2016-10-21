@@ -1,4 +1,4 @@
 <map id="HdlcdClient::Send" name="HdlcdClient::Send">
-<area shape="rect" id="node2" href="$classHdlcdSessionHeader.html#ac552cce3f56b8ff5ae6f9aa715b83396" title="HdlcdSessionHeader\l::Create" alt="" coords="187,5,341,47"/>
+<area shape="rect" id="node2" href="$classHdlcdSessionHeader.html#ac552cce3f56b8ff5ae6f9aa715b83396" title="Static creator to create an object in the process of transmission. " alt="" coords="187,5,341,47"/>
 <area shape="rect" id="node3" href="$classHdlcdClient.html#a6432392d6eeb5321cb2d13e24e09f52d" title="Close the client entity. " alt="" coords="196,71,332,98"/>
 </map>

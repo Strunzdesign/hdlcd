@@ -3,5 +3,5 @@
 <area shape="rect" id="node6" href="$HdlcdPacketCtrl_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="76,95,217,136"/>
 <area shape="rect" id="node3" href="$HdlcdServerHandler_8cpp.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="5,273,211,315"/>
 <area shape="rect" id="node4" href="$HdlcdPacketEndpoint_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="59,184,231,225"/>
-<area shape="rect" id="node5" href="$HdlcdClient_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="235,273,376,315"/>
+<area shape="rect" id="node5" href="$HdlcdClient_8h.html" title="This file contains the header declaration of class HdlcdClient. " alt="" coords="235,273,376,315"/>
 </map>

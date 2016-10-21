@@ -1,5 +1,5 @@
 <map id="libs/hdlcd&#45;devel/src/HdlcdPacketCtrl.h" name="libs/hdlcd&#45;devel/src/HdlcdPacketCtrl.h">
 <area shape="rect" id="node2" href="$HdlcdServerHandler_8cpp.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="5,184,211,225"/>
 <area shape="rect" id="node3" href="$HdlcdPacketEndpoint_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="134,95,306,136"/>
-<area shape="rect" id="node4" href="$HdlcdClient_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="260,184,401,225"/>
+<area shape="rect" id="node4" href="$HdlcdClient_8h.html" title="This file contains the header declaration of class HdlcdClient. " alt="" coords="260,184,401,225"/>
 </map>

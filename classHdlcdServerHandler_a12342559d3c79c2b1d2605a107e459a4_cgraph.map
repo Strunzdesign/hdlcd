@@ -1,5 +1,5 @@
 <map id="HdlcdServerHandler::Stop" name="HdlcdServerHandler::Stop">
-<area shape="rect" id="node2" href="$classHdlcdSessionHeader.html#a9d3e518746201d5fd66b2e3b2e7b0f27" title="HdlcdSessionHeader\l::GetServiceAccessPointSpecifier" alt="" coords="204,5,435,47"/>
+<area shape="rect" id="node2" href="$classHdlcdSessionHeader.html#a9d3e518746201d5fd66b2e3b2e7b0f27" title="Query the service access point specifier octett. " alt="" coords="204,5,435,47"/>
 <area shape="rect" id="node3" href="$classLockGuard.html#abf473ba70cb354517bdb5b2100772f83" title="Initializer method to register subsequent objects. " alt="" coords="261,71,377,98"/>
 <area shape="rect" id="node4" href="$classHdlcdPacketCtrl.html#a8f4d35576f4ed5163ef49f8eb5f4d37d" title="HdlcdPacketCtrl::GetPacketType" alt="" coords="206,122,433,149"/>
 <area shape="rect" id="node5" href="$classHdlcdPacketCtrl.html#addd115864ff204e792b2a2ba705b614d" title="HdlcdPacketCtrl::GetDesired\lLockState" alt="" coords="219,173,420,215"/>
