@@ -1,5 +1,5 @@
 <map id="libs/framing/src/Frame.h" name="libs/framing/src/Frame.h">
-<area shape="rect" id="node2" href="$FrameEndpoint_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="127,177,353,203"/>
+<area shape="rect" id="node2" href="$FrameEndpoint_8h.html" title="This file contains the header declaration of class FrameEndpoint. " alt="" coords="127,177,353,203"/>
 <area shape="rect" id="node6" href="$HdlcdPacket_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="377,80,519,121"/>
 <area shape="rect" id="node9" href="$HdlcdSessionHeader_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="5,259,176,300"/>
 <area shape="rect" id="node3" href="$HdlcdServerHandler_8cpp.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="372,348,577,389"/>

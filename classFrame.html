@@ -114,6 +114,9 @@ $(document).ready(function(){initNavTree('classFrame.html','');});
 </div><!--header-->
 <div class="contents">
 
+<p>Class <a class="el" href="classFrame.html" title="Class Frame. ">Frame</a>.  
+ <a href="classFrame.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="Frame_8h_source.html">Frame.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for Frame:</div>
@@ -130,31 +133,46 @@ Inheritance diagram for Frame:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ad2e5946cf41d4817e750500acf05d02b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#ad2e5946cf41d4817e750500acf05d02b">Frame</a> ()</td></tr>
+<tr class="memdesc:ad2e5946cf41d4817e750500acf05d02b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The constructor of <a class="el" href="classFrame.html" title="Class Frame. ">Frame</a> objects.  <a href="#ad2e5946cf41d4817e750500acf05d02b">More...</a><br /></td></tr>
 <tr class="separator:ad2e5946cf41d4817e750500acf05d02b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd1d3c822166a747d42edaf97c770a5c"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#acd1d3c822166a747d42edaf97c770a5c">~Frame</a> ()</td></tr>
+<tr class="memdesc:acd1d3c822166a747d42edaf97c770a5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The destructor of <a class="el" href="classFrame.html" title="Class Frame. ">Frame</a> objects.  <a href="#acd1d3c822166a747d42edaf97c770a5c">More...</a><br /></td></tr>
 <tr class="separator:acd1d3c822166a747d42edaf97c770a5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad25373889d9cceacc902b98339456ee4"><td class="memItemLeft" align="right" valign="top">virtual const std::vector&lt; unsigned char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#ad25373889d9cceacc902b98339456ee4">Serialize</a> () const  =0</td></tr>
+<tr class="memdesc:ad25373889d9cceacc902b98339456ee4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The purely virtual serializer method.  <a href="#ad25373889d9cceacc902b98339456ee4">More...</a><br /></td></tr>
 <tr class="separator:ad25373889d9cceacc902b98339456ee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae5d4b218c9e23d41b48a688bdf4c63e8"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#ae5d4b218c9e23d41b48a688bdf4c63e8">BytesNeeded</a> () const </td></tr>
+<tr class="memdesc:ae5d4b218c9e23d41b48a688bdf4c63e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Query the amount of outstanding data during reception for frame assembly.  <a href="#ae5d4b218c9e23d41b48a688bdf4c63e8">More...</a><br /></td></tr>
 <tr class="separator:ae5d4b218c9e23d41b48a688bdf4c63e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a810569ed2d6c96aab5452c6fc4fef7f4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#a810569ed2d6c96aab5452c6fc4fef7f4">ParseBytes</a> (const unsigned char *a_ReadBuffer, size_t &amp;a_ReadBufferOffset, size_t &amp;a_BytesAvailable)</td></tr>
+<tr class="memdesc:a810569ed2d6c96aab5452c6fc4fef7f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deliver a chunk of received bytes in the phase of deserialization.  <a href="#a810569ed2d6c96aab5452c6fc4fef7f4">More...</a><br /></td></tr>
 <tr class="separator:a810569ed2d6c96aab5452c6fc4fef7f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:adb9ae2902f56b8df524bc5be8975293e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#adb9ae2902f56b8df524bc5be8975293e">Deserialize</a> ()=0</td></tr>
+<tr class="memdesc:adb9ae2902f56b8df524bc5be8975293e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The purely virtual deserializer method.  <a href="#adb9ae2902f56b8df524bc5be8975293e">More...</a><br /></td></tr>
 <tr class="separator:adb9ae2902f56b8df524bc5be8975293e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:a2e811bd64b50c9c8f5afd3236a5325ca"><td class="memItemLeft" align="right" valign="top">std::vector&lt; unsigned char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#a2e811bd64b50c9c8f5afd3236a5325ca">m_Buffer</a></td></tr>
+<tr class="memdesc:a2e811bd64b50c9c8f5afd3236a5325ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">The buffer containing partly received frames or higher-layer payload.  <a href="#a2e811bd64b50c9c8f5afd3236a5325ca">More...</a><br /></td></tr>
 <tr class="separator:a2e811bd64b50c9c8f5afd3236a5325ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17df3390173d38e71e3a69c5142ec5b3"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFrame.html#a17df3390173d38e71e3a69c5142ec5b3">m_BytesRemaining</a></td></tr>
+<tr class="memdesc:a17df3390173d38e71e3a69c5142ec5b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The amount of bytes required to finalize frame assembly during reception.  <a href="#a17df3390173d38e71e3a69c5142ec5b3">More...</a><br /></td></tr>
 <tr class="separator:a17df3390173d38e71e3a69c5142ec5b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="Frame_8h_source.html#l00044">44</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
+<div class="textblock"><p>Class <a class="el" href="classFrame.html" title="Class Frame. ">Frame</a>. </p>
+<p>This is the base class of arbitrary frames that can be easily sent and received with the help of <a class="el" href="classFrameEndpoint.html" title="Class FrameEndpoint. ">FrameEndpoint</a> entities. The serializer and deserializer methods are purely virtual and have to be implemented in the derived class. Besides that, all members, getters and setters related to the specific fields of a user-defined frame also have to be provided in the derived class.</p>
+<p>Thus, if creating a derived frame for a specific frame, one solely has to concentrate on the relevant stuff:</p><ul>
+<li>which data has to be communicated via this frame (members) and</li>
+<li>how are the data arranged in the frame, i.e., the frame format, by specifying the serializer and deserializer.</li>
+<li>All sending / receiving / creation of incoming frames entities is performed "under the hood" by a <a class="el" href="classFrameEndpoint.html" title="Class FrameEndpoint. ">FrameEndpoint</a> entity. </li>
+</ul>
+
+<p>Definition at line <a class="el" href="Frame_8h_source.html#l00059">59</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ad2e5946cf41d4817e750500acf05d02b"></a>
 <div class="memitem">
@@ -177,7 +195,10 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Frame_8h_source.html#l00047">47</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
+<p>The constructor of <a class="el" href="classFrame.html" title="Class Frame. ">Frame</a> objects. </p>
+<p>All internal members are initialized here. No need for the user of this class to adapt something here. </p>
+
+<p>Definition at line <a class="el" href="Frame_8h_source.html#l00065">65</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
 
 </div>
 </div>
@@ -202,14 +223,16 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Frame_8h_source.html#l00048">48</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
+<p>The destructor of <a class="el" href="classFrame.html" title="Class Frame. ">Frame</a> objects. </p>
+
+<p>Definition at line <a class="el" href="Frame_8h_source.html#l00069">69</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classFrame_acd1d3c822166a747d42edaf97c770a5c_cgraph.png" border="0" usemap="#classFrame_acd1d3c822166a747d42edaf97c770a5c_cgraph" alt=""/></div>
 <map name="classFrame_acd1d3c822166a747d42edaf97c770a5c_cgraph" id="classFrame_acd1d3c822166a747d42edaf97c770a5c_cgraph">
-<area shape="rect" id="node2" href="classFrame.html#ad25373889d9cceacc902b98339456ee4" title="Frame::Serialize" alt="" coords="169,5,292,32"/>
+<area shape="rect" id="node2" href="classFrame.html#ad25373889d9cceacc902b98339456ee4" title="The purely virtual serializer method. " alt="" coords="169,5,292,32"/>
 </map>
 </div>
 </p>
@@ -238,7 +261,11 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Frame_8h_source.html#l00052">52</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
+<p>Query the amount of outstanding data during reception for frame assembly. </p>
+<p>This method is called by a <a class="el" href="classFrameEndpoint.html" title="Class FrameEndpoint. ">FrameEndpoint</a> entity in the phase of reception. It is used to query the amount of bytes that are still required to assemble a full frame of the specific type by reading from a TCP socket. Depending on the internal structure of a frame it is possible that it read in multiple stages, e.g., if at first a length field of a known length has to be read followed by the remainder containing a dynamic amount of bytes. Such a logic has to be implemented in the <a class="el" href="classFrame.html#adb9ae2902f56b8df524bc5be8975293e" title="The purely virtual deserializer method. ">Deserialize()</a> method.</p>
+<dl class="section return"><dt>Returns</dt><dd>size_t, the amount subsequent bytes required to assemble the frame </dd></dl>
+
+<p>Definition at line <a class="el" href="Frame_8h_source.html#l00091">91</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
 
 </div>
 </div>
@@ -263,12 +290,23 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
+<p>The purely virtual deserializer method. </p>
+<p>This purely virtual deserializer method has to be implemented in the derived class. Here the user specifies the format of the frame's fields for frames that are received. This method is solely called by the <a class="el" href="classFrame.html#a810569ed2d6c96aab5452c6fc4fef7f4" title="Deliver a chunk of received bytes in the phase of deserialization. ">ParseBytes()</a> method after a specified amount of bytes was successfully received.</p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true,if</td><td>no error occured </td></tr>
+    <tr><td class="paramname">false,if</td><td>a protocol violation was detected </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>bool to indicate success or failure of parsing the provided chunk of bytes </dd></dl>
+
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classFrame_adb9ae2902f56b8df524bc5be8975293e_icgraph.png" border="0" usemap="#classFrame_adb9ae2902f56b8df524bc5be8975293e_icgraph" alt=""/></div>
 <map name="classFrame_adb9ae2902f56b8df524bc5be8975293e_icgraph" id="classFrame_adb9ae2902f56b8df524bc5be8975293e_icgraph">
-<area shape="rect" id="node2" href="classFrame.html#a810569ed2d6c96aab5452c6fc4fef7f4" title="Frame::ParseBytes" alt="" coords="192,5,332,32"/>
+<area shape="rect" id="node2" href="classFrame.html#a810569ed2d6c96aab5452c6fc4fef7f4" title="Deliver a chunk of received bytes in the phase of deserialization. " alt="" coords="192,5,332,32"/>
 </map>
 </div>
 </p>
@@ -313,14 +351,33 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Frame_8h_source.html#l00055">55</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
+<p>Deliver a chunk of received bytes in the phase of deserialization. </p>
+<p>This method is called by a <a class="el" href="classFrameEndpoint.html" title="Class FrameEndpoint. ">FrameEndpoint</a> entity in the phase of reception. Here, a chunk of data is copied to an internal buffer for later evaluation within the Deserialze() method. The <a class="el" href="classFrame.html#adb9ae2902f56b8df524bc5be8975293e" title="The purely virtual deserializer method. ">Deserialize()</a> method is called automatically if the required amount of bytes is available.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a_ReadBuffer</td><td>the incoming buffer of bytes containing the raw byte stream read from the TCP socket </td></tr>
+    <tr><td class="paramname">a_ReadBufferOffset</td><td>the read offset within the provided incoming byte buffer to start with </td></tr>
+    <tr><td class="paramname">a_BytesAvailable</td><td>the remaining amount of bytes in the read buffer to evaluate</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true,if</td><td>no error occured </td></tr>
+    <tr><td class="paramname">false,if</td><td>a protocol violation was detected. The stream is invalid now and the TCP socket must be closed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>bool, to indicate success or failure of parsing the provided chunk of bytes </dd></dl>
+
+<p>Definition at line <a class="el" href="Frame_8h_source.html#l00107">107</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classFrame_a810569ed2d6c96aab5452c6fc4fef7f4_cgraph.png" border="0" usemap="#classFrame_a810569ed2d6c96aab5452c6fc4fef7f4_cgraph" alt=""/></div>
 <map name="classFrame_a810569ed2d6c96aab5452c6fc4fef7f4_cgraph" id="classFrame_a810569ed2d6c96aab5452c6fc4fef7f4_cgraph">
-<area shape="rect" id="node2" href="classFrame.html#adb9ae2902f56b8df524bc5be8975293e" title="Frame::Deserialize" alt="" coords="193,5,332,32"/>
+<area shape="rect" id="node2" href="classFrame.html#adb9ae2902f56b8df524bc5be8975293e" title="The purely virtual deserializer method. " alt="" coords="193,5,332,32"/>
 </map>
 </div>
 </p>
@@ -348,13 +405,17 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
+<p>The purely virtual serializer method. </p>
+<p>This purely virtual serializer method has to be implemented in the derived class. Here the user specifies the format of the frame's fields for frames that are transmitted. This method is solely called by an <a class="el" href="classFrameEndpoint.html" title="Class FrameEndpoint. ">FrameEndpoint</a> entity.</p>
+<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;unsigned char&gt;, the buffer containing the serialized frame ready for transmission </dd></dl>
+
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classFrame_ad25373889d9cceacc902b98339456ee4_icgraph.png" border="0" usemap="#classFrame_ad25373889d9cceacc902b98339456ee4_icgraph" alt=""/></div>
 <map name="classFrame_ad25373889d9cceacc902b98339456ee4_icgraph" id="classFrame_ad25373889d9cceacc902b98339456ee4_icgraph">
-<area shape="rect" id="node2" href="classFrame.html#acd1d3c822166a747d42edaf97c770a5c" title="Frame::~Frame" alt="" coords="217,5,333,32"/>
-<area shape="rect" id="node3" href="classFrameEndpoint.html#aa672b6a8a3444735ee233f9dc7c55d41" title="FrameEndpoint::SendFrame" alt="" coords="176,56,373,83"/>
+<area shape="rect" id="node2" href="classFrame.html#acd1d3c822166a747d42edaf97c770a5c" title="The destructor of Frame objects. " alt="" coords="217,5,333,32"/>
+<area shape="rect" id="node3" href="classFrameEndpoint.html#aa672b6a8a3444735ee233f9dc7c55d41" title="Enqueue a frame for transmission. " alt="" coords="176,56,373,83"/>
 </map>
 </div>
 </p>
@@ -380,7 +441,9 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Frame_8h_source.html#l00093">93</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
+<p>The buffer containing partly received frames or higher-layer payload. </p>
+
+<p>Definition at line <a class="el" href="Frame_8h_source.html#l00154">154</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
 
 </div>
 </div>
@@ -402,7 +465,9 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="Frame_8h_source.html#l00094">94</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
+<p>The amount of bytes required to finalize frame assembly during reception. </p>
+
+<p>Definition at line <a class="el" href="Frame_8h_source.html#l00155">155</a> of file <a class="el" href="Frame_8h_source.html">Frame.h</a>.</p>
 
 </div>
 </div>

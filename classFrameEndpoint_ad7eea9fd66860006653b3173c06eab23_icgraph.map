@@ -1,4 +1,4 @@
 <map id="FrameEndpoint::Close" name="FrameEndpoint::Close">
-<area shape="rect" id="node2" href="$classFrameEndpoint.html#ab53760ef897d37e1e6aeade53b1c9766" title="FrameEndpoint::~FrameEndpoint" alt="" coords="213,5,441,32"/>
-<area shape="rect" id="node3" href="$classFrameEndpoint.html#aa1a5df936321813329b570c22b268c67" title="FrameEndpoint::SetOnClosed\lCallback" alt="" coords="223,57,431,98"/>
+<area shape="rect" id="node2" href="$classFrameEndpoint.html#ab53760ef897d37e1e6aeade53b1c9766" title="The destructor of FrameEndpoint objects. " alt="" coords="213,5,441,32"/>
+<area shape="rect" id="node3" href="$classFrameEndpoint.html#aa1a5df936321813329b570c22b268c67" title="Provide the callback method for handling of connection aborts. " alt="" coords="223,57,431,98"/>
 </map>

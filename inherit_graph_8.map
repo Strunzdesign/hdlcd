@@ -1,6 +1,6 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
 <area shape="rect" id="node2" href="$classAliveState.html" title="Class AliveState. " alt="" coords="299,5,385,32"/>
-<area shape="rect" id="node3" href="$classFrameEndpoint.html" title="FrameEndpoint" alt="" coords="283,56,401,83"/>
+<area shape="rect" id="node3" href="$classFrameEndpoint.html" title="Class FrameEndpoint. " alt="" coords="283,56,401,83"/>
 <area shape="rect" id="node4" href="$classHdlcdPacketEndpoint.html" title="HdlcdPacketEndpoint" alt="" coords="263,107,421,133"/>
 <area shape="rect" id="node5" href="$classHdlcdServerHandler.html" title="HdlcdServerHandler" alt="" coords="267,157,417,184"/>
 <area shape="rect" id="node6" href="$classHdlcdServerHandlerCollection.html" title="HdlcdServerHandlerCollection" alt="" coords="236,208,448,235"/>
