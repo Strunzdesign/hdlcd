@@ -1,6 +1,0 @@
-<map id="ClientHandler::~ClientHandler" name="ClientHandler::~ClientHandler">
-<area shape="rect" id="node2" href="$classClientHandler.html#af146dbab274fd18c3d2d4524ad900fa2" title="ClientHandler::Stop" alt="" coords="261,56,404,83"/>
-<area shape="rect" id="node3" href="$classLockGuard.html#abf473ba70cb354517bdb5b2100772f83" title="Initializer method to register subsequent objects. " alt="" coords="483,5,599,32"/>
-<area shape="rect" id="node4" href="$classLockGuard.html#a1b542624ed5a46ee455b3bdd95e23cf9" title="Method to aquire a lock. " alt="" coords="454,56,629,83"/>
-<area shape="rect" id="node5" href="$classLockGuard.html#a044e85555e2ec233c3610a09d0443b53" title="Method to release a lock. " alt="" coords="452,107,631,133"/>
-</map>

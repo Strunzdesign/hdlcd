@@ -1,6 +1,0 @@
-{
-  "name": "Hdlc-tools",
-  "tagline": "A deamon that implements the HDLC protocol to easily talk to devices connected via serial communications",
-  "body": "# hdlc-tools\r\nThe hdlc-tools implement the HDLC protocol to easily talk to devices connected via serial communications\r\n\r\nThis package offers the system deamon \"hdlcd\" that implements the \"high-Level data link\" protocol. The purpose of\r\nthis deamon is to easily use serial devices that make use of the HDLC protocol for communication.\r\n\r\nThe hdlcd itself offers simple TCP-based connectivity using a simple command- and praming structure.\r\n\r\nCurrent state:\r\n- As time of this writing, this software is not yet usable but work-in-progess.\r\n",
-  "note": "Don't delete this file! It's used internally to help with page regeneration."
-}

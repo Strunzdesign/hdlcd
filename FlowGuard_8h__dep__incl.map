@@ -1,9 +1,0 @@
-<map id="src/hdlcd/AccessProtocol/FlowGuard.h" name="src/hdlcd/AccessProtocol/FlowGuard.h">
-<area shape="rect" id="node2" href="$ClientHandler_8h.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="424,95,604,136"/>
-<area shape="rect" id="node3" href="$ClientAcceptor_8h.html" title="This file contains the header declaration of class ClientAcceptor. " alt="" coords="5,184,185,225"/>
-<area shape="rect" id="node5" href="$ClientHandler_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="209,184,389,225"/>
-<area shape="rect" id="node6" href="$ClientHandlerCollection_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="414,184,614,225"/>
-<area shape="rect" id="node7" href="$SerialPortHandler_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="639,184,803,225"/>
-<area shape="rect" id="node8" href="$SerialPortHandlerCollection_8cpp.html" title="The hdlc&#45;tools implement the HDLC protocol to easily talk to devices connected via serial communicati..." alt="" coords="827,184,1054,225"/>
-<area shape="rect" id="node4" href="$hdlcd_2main_8cpp.html" title="src/hdlcd/main.cpp" alt="" coords="26,273,165,300"/>
-</map>

@@ -1,8 +1,0 @@
-<map id="src/AccessProtocol/ClientAcceptor.h" name="src/AccessProtocol/ClientAcceptor.h">
-<area shape="rect" id="node3" href="$ClientHandler_8h.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="673,102,791,129"/>
-<area shape="rect" id="node13" href="$ClientHandlerCollection_8h.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="5,102,187,129"/>
-<area shape="rect" id="node15" href="$SerialPortHandlerCollection_8h.html" title="The HDLC Deamon implements the HDLC protocol to easily talk to devices connected via serial communica..." alt="" coords="211,95,371,136"/>
-<area shape="rect" id="node9" href="$AliveGuard_8h.html" title="This file contains the header declaration of class AliveGuard. " alt="" coords="1289,191,1391,218"/>
-<area shape="rect" id="node10" href="$LockGuard_8h.html" title="This file contains the header declaration of class LockGuard. " alt="" coords="537,191,639,218"/>
-<area shape="rect" id="node11" href="$BufferType_8h.html" title="Copyright (c) 2016, Florian Evers, florian&#45;evers@gmx.de All rights reserved. " alt="" coords="664,184,800,225"/>
-</map>

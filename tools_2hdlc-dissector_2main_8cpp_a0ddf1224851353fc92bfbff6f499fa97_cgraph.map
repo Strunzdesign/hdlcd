@@ -1,7 +1,0 @@
-<map id="main" name="main">
-<area shape="rect" id="node2" href="$classAccessClient.html#ad9ed3bdbcd397500c681b10ab6716c51" title="Provide a callback method to be called for received data packets. " alt="" coords="105,5,337,32"/>
-<area shape="rect" id="node3" href="$FramePrinter_8h.html#a300245650137d1383add8037cd95fdc4" title="PrintDissectedFrame" alt="" coords="145,56,298,83"/>
-<area shape="rect" id="node4" href="$classPacketData.html#a314927611e1995004c9d17cd29fea68e" title="PacketData::GetWasSent" alt="" coords="131,107,312,133"/>
-<area shape="rect" id="node5" href="$classPacketData.html#a7c210795b93653afc6aeb35a75f154b4" title="PacketData::GetData" alt="" coords="144,157,299,184"/>
-<area shape="rect" id="node6" href="$classAccessClient.html#afb844a12b189c8a787de2771d5a81c47" title="Provide a callback method to be called if this client entity is closing. " alt="" coords="125,209,318,250"/>
-</map>

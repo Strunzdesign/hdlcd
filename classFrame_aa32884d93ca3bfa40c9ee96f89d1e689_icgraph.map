@@ -1,8 +1,0 @@
-<map id="Frame::GetSSeq" name="Frame::GetSSeq">
-<area shape="rect" id="node2" href="$classFrame.html#a1151c62bfba51f5e2fd979dd4b856829" title="Frame::Dissect" alt="" coords="179,56,293,83"/>
-<area shape="rect" id="node4" href="$classProtocolState.html#a444c95c26410e631068fa56012d342fe" title="ProtocolState::Interpret\lDeserializedFrame" alt="" coords="576,74,743,115"/>
-<area shape="rect" id="node7" href="$classFrameGenerator.html#a412b0e1431b1deebda54481be60f9ade" title="FrameGenerator::Serialize\lFrame" alt="" coords="341,158,528,199"/>
-<area shape="rect" id="node3" href="$classFrame.html#a13630eb08ee9c95f5102051d9dea1256" title="Frame::HasPayload" alt="" coords="363,5,507,32"/>
-<area shape="rect" id="node5" href="$classFrameParser.html#a0464b6d96e67f06f92b484dd56fc9779" title="FrameParser::AddReceived\lRawBytes" alt="" coords="791,74,985,115"/>
-<area shape="rect" id="node6" href="$classProtocolState.html#a3f17bf029028c9d05fc88edb7b71e75c" title="ProtocolState::AddReceived\lRawBytes" alt="" coords="1033,74,1231,115"/>
-</map>

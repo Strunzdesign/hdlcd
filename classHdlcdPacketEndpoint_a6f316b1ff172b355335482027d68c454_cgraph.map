@@ -1,9 +1,0 @@
-<map id="HdlcdPacketEndpoint::Start" name="HdlcdPacketEndpoint::Start">
-<area shape="rect" id="node2" href="$classHdlcdPacketEndpoint.html#a3f035e49735765d15b7a4156f10062a1" title="HdlcdPacketEndpoint\l::TriggerNextDataPacket" alt="" coords="211,136,387,177"/>
-<area shape="rect" id="node3" href="$classHdlcdPacketCtrl.html#a5e97a81fa23440a2f5ca89353647bc96" title="HdlcdPacketCtrl::CreateKeep\lAliveRequest" alt="" coords="461,5,667,47"/>
-<area shape="rect" id="node4" href="$classHdlcdPacketEndpoint.html#a6e06062dc770293925634412a5a943a2" title="HdlcdPacketEndpoint\l::Send" alt="" coords="485,71,643,112"/>
-<area shape="rect" id="node6" href="$classHdlcdPacketEndpoint.html#a60e33a54cbd58a29fb22240688b91202" title="HdlcdPacketEndpoint\l::Close" alt="" coords="485,136,643,177"/>
-<area shape="rect" id="node7" href="$classHdlcdPacketData.html#a7db3a7af067f58bb64f496fb0fda35f8" title="HdlcdPacketData::CreateDeserialized\lPacket" alt="" coords="435,201,693,243"/>
-<area shape="rect" id="node8" href="$classHdlcdPacketCtrl.html#a53c84fc5ed816a1f691ca2624080ba7c" title="HdlcdPacketCtrl::CreateDeserialized\lPacket" alt="" coords="439,267,689,308"/>
-<area shape="rect" id="node5" href="$classHdlcdPacket.html#a0d414ab4fd3c1c963b7a0bf002a5f85e" title="HdlcdPacket::Serialize" alt="" coords="741,78,903,105"/>
-</map>

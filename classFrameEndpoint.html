@@ -120,11 +120,15 @@ $(document).ready(function(){initNavTree('classFrameEndpoint.html','');});
 Inheritance diagram for FrameEndpoint:</div>
 <div class="dyncontent">
 <div class="center"><img src="classFrameEndpoint__inherit__graph.png" border="0" usemap="#FrameEndpoint_inherit__map" alt="Inheritance graph"/></div>
+<map name="FrameEndpoint_inherit__map" id="FrameEndpoint_inherit__map">
+</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
 Collaboration diagram for FrameEndpoint:</div>
 <div class="dyncontent">
 <div class="center"><img src="classFrameEndpoint__coll__graph.png" border="0" usemap="#FrameEndpoint_coll__map" alt="Collaboration graph"/></div>
+<map name="FrameEndpoint_coll__map" id="FrameEndpoint_coll__map">
+</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -372,7 +376,7 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Register one subsequent frame factory callback. </p>
-<p>This method is use to clear the list of provided frame factory callbacks. After this, a new and completely different set of frame factory callbacks can be provided together with a changed frame type mask. This allows changing the user-defined protocol regarding a TCP socket for which a different protocol was specified earlier.</p>
+<p>With each call of this method one subsequent frame factory is registered to the set of active frame factories. Each provided frame factory has to be tagged with a frame type byte. The frame type byte corresponds to the first byte of the serialized frame and must allow a distict mapping to the correct frame type and thus the correct frame factory.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">a_FrameType</td><td>the frame type together with the frame type mask must match to activate the respective frame factory callback </td></tr>
@@ -408,7 +412,7 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Forget all provided frame factory callbacks. </p>
-<p>This method is use to clear the list of provided frame factory callbacks. After this, a new and completely different set of frame factory callbacks can be provided together with a changed frame type mask. This allows changing the user-defined protocol regarding a TCP socket for which a different protocol was specified earlier.</p>
+<p>This method is used to clear the list of provided frame factory callbacks. After this, a new and completely different set of frame factory callbacks can be provided together with a changed frame type mask. This allows changing the user-defined protocol regarding a TCP socket for which a different protocol was specified earlier.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">a_FrameTypeMask</td><td>the mask used while looking at the "first byte" of each frame to determine its type </td></tr>
