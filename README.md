@@ -10,7 +10,7 @@ This software is intended to be portable and makes use of the boost libraries. I
 and Microsoft Windows (nuwen MinGW).
 
 ## Latest stable release of the HDLCd:
-- v1.3 from 06.10.2016
+- v1.4 from 22.11.2016
   - Works well with s-net(r) BASE release 3.6
 
 ## Required libraries and tools:
