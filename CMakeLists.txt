@@ -21,6 +21,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -Wextra")
 else()
 set(BOOST_ROOT C:/Boost)
 set (Boost_USE_STATIC_LIBS ON)
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT hdlcd)
 endif()
 
 # Automatically set the version number
