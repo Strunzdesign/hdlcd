@@ -13,9 +13,16 @@ else()
     message(FATAL_ERROR "Compiler ${CMAKE_CXX_COMPILER} has no C++11 support.")
 endif()
 
+if(UNIX OR MINGW)
 # Add custom cxx flags
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -Wextra")
+
+else()
+#set(BOOST_ROOT C:/Boost) #specify coustom boost directory
+set (Boost_USE_STATIC_LIBS ON)
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT hdlcd)
+endif()
 
 # Automatically set the version number
 set(HDLCD_VERSION_MAJOR  \"1\")
